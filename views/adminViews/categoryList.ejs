@@ -27,6 +27,43 @@
     <link href="assets/css/plugins/slick.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/img/favicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
+        integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js"
+        integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- jQuery Validation plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Admin-Category</title>
 </head>
 
 <body>
@@ -462,6 +499,7 @@
                 </div>
             </div>
         </div>
+
         <script>
             $('#addCat').validate({
                 rules: {
@@ -503,6 +541,7 @@
                 }
             })
         </script>
+
         <table class="table">
             <thead class="thead-dark">
                 <tr>
@@ -569,7 +608,6 @@
                                         </div>
                                     </form>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -778,34 +816,38 @@
     <script src="assets/js/custom.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
-        async function fnBlock(userId) {
-            let response = await fetch(`/blockUser?id=${userId}`, {
+
+        async function fnList(catName) {
+            let response = await fetch(`/listCategory?id=${catName}`, {
                 method: 'GET',
             })
             let result = await response.json()
-            if (result.success) {
+            if (result.list) {
                 await Swal.fire({
-                    icon: "success",
-                    title: "User unblocked",
+                    icon: "error",
+                    title: "Category Unlisted",
                 });
             }
             window.location.reload();
         }
 
-        async function fnUnBlock(userId) {
-            let response = await fetch(`/unBlockUser?id=${userId}`, {
+        async function fnUnlist(catName) {
+            let response = await fetch(`/unListCategory?id=${catName}`, {
                 method: 'GET',
             })
             let result = await response.json()
-            if (result.success) {
+            if (result.unlist) {
                 await Swal.fire({
-                    icon: "error",
-                    title: "User blocked",
+                    icon: "success",
+                    title: "Category listed",
                     confirmButtonText: "OK",
                 });
             }
             window.location.reload();
         }
+
+
+
     </script>
 </body>
 

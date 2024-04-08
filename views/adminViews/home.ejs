@@ -105,24 +105,35 @@
                                 </a>
                             </li>
                             <li class="user">
-                                <a href="account.html">
-                                    <img src="assets/images/header/user.jpg" class="image-fit" alt="img">
-                                    <span>Jhon Deo</span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="login.html">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="register.html">SignUp</a>
-                                    </li>
-                                    <li>
-                                        <a href="account.html">My Account</a>
-                                    </li>
-                                    <li>
-                                        <a href="login.html">Logout</a>
-                                    </li>
-                                </ul>
+                                <% if (user) { %>
+                                    <a href="account.html">
+                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
+                                        <span>
+                                            <%= user.username %>
+                                        </span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="account.html">My Account</a>
+                                        </li>
+                                        <li>
+                                            <a href="/logout">Logout</a>
+                                        </li>
+                                    </ul>
+                                    <% } else { %>
+                                        <a href="account.html">
+                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
+                                            <span>New User</span>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li>
+                                                <a href="/logIn">Login</a>
+                                            </li>
+                                            <li>
+                                                <a href="/signUp">SignUp</a>
+                                            </li>
+                                        </ul>
+                                        <% } %>
                             </li>
                         </ul>
                     </div>
@@ -444,7 +455,7 @@
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-lg-4 col-sm-6 mb-4">
-                    <a href="#" class="card-link">
+                    <a href="/productList" class="card-link">
                         <div class="card h-100" style="min-width: 400px;">
                             <div class="icon d-flex align-items-center justify-content-center text-white p-4"
                                 style="background-color: #C7A379;">

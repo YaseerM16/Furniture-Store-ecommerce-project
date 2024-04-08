@@ -3,12 +3,17 @@ const userCollection = require("../models/userModel");
 
 const adminLoginPage = (req, res) => {
   try {
-    res.render("adminViews/login", {
-      invalid: req.session.invalidCredentials,
-      errors: false,
-    });
+    if (req.session.adminLog) {
+      res.render("adminViews/home", { user: req.session.adminUser });
+      req.session.adminUser = false;
+    } else {
+      res.render("adminViews/login", {
+        invalid: req.session.invalidCredentials,
+        errors: false,
+      });
 
-    req.session.invalidCredentials = false;
+      req.session.invalidCredentials = false;
+    }
   } catch (error) {
     console.log("Error in showing the Admin login Page" + error);
   }
@@ -24,6 +29,8 @@ const adminLoginSubmit = async (req, res) => {
         adminData.email == req.session.loginEmail &&
         adminData.password == req.session.loginPass
       ) {
+        req.session.adminLog = true;
+        req.session.adminUser = adminData;
         res.redirect("/adimDashBoard");
       } else {
         req.session.invalidCredentials = true;
@@ -40,7 +47,7 @@ const adminLoginSubmit = async (req, res) => {
 
 const dashBoard = (req, res) => {
   try {
-    res.render("adminViews/home");
+    res.render("adminViews/home", { user: req.session.adminUser });
   } catch (error) {
     console.error("Error in Renderind the Admin Home page" + error);
   }
@@ -78,6 +85,15 @@ const unBlockUser = async (req, res) => {
   }
 };
 
+const logout = (req, res) => {
+  try {
+    req.session.adminLog = false;
+    res.redirect("/adimDashBoard");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   adminLoginPage,
   adminLoginSubmit,
@@ -85,4 +101,5 @@ module.exports = {
   userListing,
   blockUser,
   unBlockUser,
+  logout,
 };

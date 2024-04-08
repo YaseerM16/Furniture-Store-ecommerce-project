@@ -96,24 +96,35 @@
                                 </a>
                             </li>
                             <li class="user">
-                                <a href="account.html">
-                                    <img src="assets/images/header/user.jpg" class="image-fit" alt="img">
-                                    <span>Jhon Deo</span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="logIn">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="signUp">SignUp</a>
-                                    </li>
-                                    <li>
-                                        <a href="account.html">My Account</a>
-                                    </li>
-                                    <li>
-                                        <a href="login.html">Logout</a>
-                                    </li>
-                                </ul>
+                                <% if (user) { %>
+                                    <a href="account.html">
+                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
+                                        <span>
+                                            <%= user.username %>
+                                        </span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="account.html">My Account</a>
+                                        </li>
+                                        <li>
+                                            <a href="/logout">Logout</a>
+                                        </li>
+                                    </ul>
+                                    <% } else { %>
+                                        <a href="account.html">
+                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
+                                            <span>New User</span>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li>
+                                                <a href="/logIn">Login</a>
+                                            </li>
+                                            <li>
+                                                <a href="/signUp">SignUp</a>
+                                            </li>
+                                        </ul>
+                                        <% } %>
                             </li>
                         </ul>
                     </div>
@@ -278,6 +289,54 @@
         </div>
     </section>
     <!-- How To works End -->
+    <!-- Discount Banner Start -->
+    <section class="section-padding pt-0">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="discount_box" style="background-image: url(assets/images/discount_banner/11.jpg);">
+                        <div class="discount_text">
+                            <h6 class="mb-0 subtitle">Discount 50%</h6>
+                            <h4 class="title mb-2">Curabitur Non Sofa</h4>
+                            <p class="mb-3">Lorem ipsum dolor sit amet, consectetur.</p>
+                            <a href="/products" class="thm-btn btn-rounded thm-bg-color-one">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="discount_box" style="background-image: url(assets/images/discount_banner/21.jpg);">
+                        <div class="discount_text">
+                            <h6 class="mb-0 subtitle">Discount 30%</h6>
+                            <h4 class="title mb-2">Crescent ArmChair</h4>
+                            <p class="mb-3">Lorem ipsum dolor sit amet, consectetur.</p>
+                            <a href="/products" class="thm-btn btn-rounded thm-bg-color-one">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="discount_box" style="background-image: url(assets/images/banner/12.jpg);">
+                        <div class="discount_text">
+                            <h6 class="mb-0 subtitle">Discount 25%</h6>
+                            <h4 class="title mb-2">Complete Dining</h4>
+                            <p class="mb-3">Lorem ipsum dolor sit amet, consectetur.</p>
+                            <a href="/products" class="thm-btn btn-rounded thm-bg-color-one">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="discount_box" style="background-image: url(assets/images/banner/13.jpg);">
+                        <div class="discount_text">
+                            <h6 class="mb-0 subtitle">Discount 40%</h6>
+                            <h4 class="title mb-2">Curvature Sofa</h4>
+                            <p class="mb-3">Lorem ipsum dolor sit amet, consectetur.</p>
+                            <a href="/products" class="thm-btn btn-rounded thm-bg-color-one">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Discount Banner End -->
     <!-- Fruits Start -->
     <section class="section-padding pt-0">
         <div class="container-fluid">
@@ -832,619 +891,8 @@
         </div>
     </section>
     <!-- Vegetables End -->
-    <!-- Discount Banner Start -->
-    <section class="section-padding pt-0">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="discount_box" style="background-image: url(assets/images/discount_banner/11.jpg);">
-                        <div class="discount_text">
-                            <h6 class="mb-0 subtitle">Discount 50%</h6>
-                            <h4 class="title mb-2">Curabitur Non Sofa</h4>
-                            <p class="mb-3">Lorem ipsum dolor sit amet, consectetur.</p>
-                            <a href="shop.html" class="thm-btn btn-rounded thm-bg-color-one">Shop Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="discount_box" style="background-image: url(assets/images/discount_banner/21.jpg);">
-                        <div class="discount_text">
-                            <h6 class="mb-0 subtitle">Discount 30%</h6>
-                            <h4 class="title mb-2">Crescent ArmChair</h4>
-                            <p class="mb-3">Lorem ipsum dolor sit amet, consectetur.</p>
-                            <a href="shop.html" class="thm-btn btn-rounded thm-bg-color-one">Shop Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Discount Banner End -->
     <!-- Best Offers Start -->
-    <section class="section-padding pt-0">
-        <div class="container-fluid">
-            <div class="section-header">
-                <h3 class="title">Best Offers on Products</h3>
-                <p class="text">Lorem ipsum dolor sit amet, consectetur.</p>
-            </div>
-            <div class="row" id="accordion">
-                <div class="col-xl-6">
-                    <div class="row">
-                        <!-- Item -->
-                        <div class="col-lg-12">
-                            <div class="card product_list">
-                                <div class="card-header">
-                                    <div class="btn btn-link" data-toggle="collapse" data-target="#itemone">
-                                        <div class="list_block">
-                                            <div class="list_image">
-                                                <img src="assets/images/offers/11.png" class="image-fit-contain"
-                                                    alt="img">
-                                            </div>
-                                            <div class="list_text">
-                                                <p class="subtitle">Up to 68% OFF</p>
-                                                <h5 class="title">Chair & Sofa</h5>
-                                                <p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="itemone" class="collapse show" data-parent="#accordion">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/11.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/21.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/31.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/41.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/51.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/61.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item -->
-                        <div class="col-lg-12">
-                            <div class="card product_list">
-                                <div class="card-header">
-                                    <div class="btn btn-link collapsed" data-toggle="collapse" data-target="#itemtwo">
-                                        <div class="list_block">
-                                            <div class="list_image">
-                                                <img src="assets/images/offers/21.png" class="image-fit-contain"
-                                                    alt="img">
-                                            </div>
-                                            <div class="list_text">
-                                                <p class="subtitle">Up to 68% OFF</p>
-                                                <h5 class="title">Chair & Sofa</h5>
-                                                <p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="itemtwo" class="collapse" data-parent="#accordion">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/11.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/21.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/31.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/41.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/51.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/61.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item -->
-                    </div>
-                </div>
-                <div class="col-xl-6">
-                    <div class="row">
-                        <!-- Item -->
-                        <div class="col-lg-12">
-                            <div class="card product_list">
-                                <div class="card-header">
-                                    <div class="btn btn-link collapsed" data-toggle="collapse" data-target="#itemthree">
-                                        <div class="list_block">
-                                            <div class="list_image">
-                                                <img src="assets/images/offers/31.png" class="image-fit-contain"
-                                                    alt="img">
-                                            </div>
-                                            <div class="list_text">
-                                                <p class="subtitle">Up to 68% OFF</p>
-                                                <h5 class="title">Chair & sofa</h5>
-                                                <p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="itemthree" class="collapse" data-parent="#accordion">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/11.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/21.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/31.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/41.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/51.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/61.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item -->
-                        <div class="col-lg-12">
-                            <div class="card product_list">
-                                <div class="card-header">
-                                    <div class="btn btn-link collapsed" data-toggle="collapse" data-target="#itemfour">
-                                        <div class="list_block">
-                                            <div class="list_image">
-                                                <img src="assets/images/offers/41.png" class="image-fit-contain"
-                                                    alt="img">
-                                            </div>
-                                            <div class="list_text">
-                                                <p class="subtitle">Up to 68% OFF</p>
-                                                <h5 class="title">Chair & Sofa</h5>
-                                                <p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="itemfour" class="collapse" data-parent="#accordion">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/11.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/21.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/31.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/41.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/51.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/61.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item -->
-                        <div class="col-lg-12">
-                            <div class="card product_list">
-                                <div class="card-header">
-                                    <div class="btn btn-link collapsed" data-toggle="collapse" data-target="#itemfive">
-                                        <div class="list_block">
-                                            <div class="list_image">
-                                                <img src="assets/images/offers/51.png" class="image-fit-contain"
-                                                    alt="img">
-                                            </div>
-                                            <div class="list_text">
-                                                <p class="subtitle">Up to 68% OFF</p>
-                                                <h5 class="title">Chair & Sofa</h5>
-                                                <p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="itemfive" class="collapse" data-parent="#accordion">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/11.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/21.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/31.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/41.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/51.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/61.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item -->
-                        <div class="col-lg-12">
-                            <div class="card product_list">
-                                <div class="card-header">
-                                    <div class="btn btn-link collapsed" data-toggle="collapse" data-target="#itemsix">
-                                        <div class="list_block">
-                                            <div class="list_image">
-                                                <img src="assets/images/offers/61.png" class="image-fit-contain"
-                                                    alt="img">
-                                            </div>
-                                            <div class="list_text">
-                                                <p class="subtitle">Up to 68% OFF</p>
-                                                <h5 class="title">Chair & Sofa</h5>
-                                                <p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="itemsix" class="collapse" data-parent="#accordion">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/11.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/21.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/31.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Chair</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/41.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/51.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                            <div class="col-sm-4 col-6">
-                                                <div class="list_block_item">
-                                                    <a href="shop-details.html">
-                                                        <img src="assets/images/offers/items/61.png"
-                                                            class="image-fit-contain" alt="img">
-                                                        <p class="category">Sofa</p>
-                                                        <h6 class="title">Up to <strong>65%</strong> OFF</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!-- Item -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
     <!-- Best Offers End -->
     <!-- Drinks Start -->
     <section class="section-padding pt-0">
@@ -2001,101 +1449,7 @@
     </section>
     <!-- Bakery End -->
     <!-- Testimonial Start -->
-    <section class="section-padding pt-0">
-        <div class="container-fluid">
-            <div class="section-header">
-                <h3 class="title">What Clients Say</h3>
-                <p class="text">Lorem ipsum dolor sit amet, consectetur.</p>
-            </div>
-            <div class="testimonial-slider row">
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="testimonial_block">
-                        <div class="testimonial_image">
-                            <img src="assets/images/testimonials/1.jpg" class="image-fit rounded-circle" alt="img">
-                        </div>
-                        <div class="testimonial_comment">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
-                        </div>
-                        <div class="testimonial_footer">
-                            <div class="quote_icon">
-                                <i class="fal fa-quote-left"></i>
-                            </div>
-                            <div class="testimonial_author">
-                                <h5 class="name mb-0">Jhon Deo</h5>
-                                <p class="mb-0">Manager</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="testimonial_block">
-                        <div class="testimonial_image">
-                            <img src="assets/images/testimonials/2.jpg" class="image-fit rounded-circle" alt="img">
-                        </div>
-                        <div class="testimonial_comment">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
-                        </div>
-                        <div class="testimonial_footer">
-                            <div class="quote_icon">
-                                <i class="fal fa-quote-left"></i>
-                            </div>
-                            <div class="testimonial_author">
-                                <h5 class="name mb-0">Anna Wright</h5>
-                                <p class="mb-0">CEO</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="testimonial_block">
-                        <div class="testimonial_image">
-                            <img src="assets/images/testimonials/1.jpg" class="image-fit rounded-circle" alt="img">
-                        </div>
-                        <div class="testimonial_comment">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
-                        </div>
-                        <div class="testimonial_footer">
-                            <div class="quote_icon">
-                                <i class="fal fa-quote-left"></i>
-                            </div>
-                            <div class="testimonial_author">
-                                <h5 class="name mb-0">Jhon Deo</h5>
-                                <p class="mb-0">Manager</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="testimonial_block">
-                        <div class="testimonial_image">
-                            <img src="assets/images/testimonials/2.jpg" class="image-fit rounded-circle" alt="img">
-                        </div>
-                        <div class="testimonial_comment">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
-                        </div>
-                        <div class="testimonial_footer">
-                            <div class="quote_icon">
-                                <i class="fal fa-quote-left"></i>
-                            </div>
-                            <div class="testimonial_author">
-                                <h5 class="name mb-0">Anna Wright</h5>
-                                <p class="mb-0">CEO</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-            </div>
-        </div>
-    </section>
+
     <!-- Testimonial End -->
     <!-- Newsletter Start -->
     <section class="section section-bg relative newsletter_bg"

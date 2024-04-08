@@ -3,12 +3,13 @@ const app = express();
 const port = 3000;
 const dotenv = require("dotenv").config();
 const session = require("express-session");
-const morgan = require("morgan");
+const nocache = require("nocache");
 const dbConnect = require("./config/config");
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 dbConnect();
 
+app.use(nocache());
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(

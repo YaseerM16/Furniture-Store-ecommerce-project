@@ -1,6 +1,12 @@
 const userRouter = require("express").Router();
 const userController = require("../controller/userController");
-const { resendOTP, verifyOTP } = require("../helpers/helper");
+const {
+  resendOTP,
+  verifyOTP,
+  retryOTP,
+  sendOTP,
+  otpSucessPage,
+} = require("../helpers/helper");
 const {
   signupValidationRules,
   signupValidation,
@@ -17,8 +23,11 @@ userRouter.post(
   signupValidation,
   userController.signUpSubmit
 );
+userRouter.get("/sendOTP", sendOTP);
 userRouter.get("/resend-otp", resendOTP);
 userRouter.post("/verify-otp", verifyOTP);
+userRouter.get("/retry-otp", retryOTP);
+userRouter.get("/otpSuccess", otpSucessPage);
 
 //LogIn Routes
 userRouter.get("/logIn", userController.loginPage);
@@ -28,9 +37,11 @@ userRouter.post(
   loginValidation,
   userController.loginSubmit
 );
+userRouter.get("/logout", userController.logout);
 userRouter.get("/forget-password");
-//OTP Routes
-// userRouter.post("/sent-otp", userController.sendOTP);
-// userRouter.post("/verify-otp", userController.verifyOTP);
+
+//Product
+userRouter.get("/products", userController.products);
+userRouter.get("/singleProduct", userController.productDetail);
 
 module.exports = userRouter;

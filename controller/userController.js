@@ -1,5 +1,6 @@
 const userCollection = require("../models/userModel");
-const jwt = require("jsonwebtoken");
+const productCollection = require("../models/productModel");
+
 const bcrypt = require("bcrypt");
 
 const {
@@ -17,26 +18,46 @@ const {
 // });
 
 const landingPage = (req, res) => {
-  res.render("userViews/home");
+  try {
+    if (req.session.logged) {
+      res.render("userViews/home", { user: req.session.currentUser });
+    } else {
+      res.render("userViews/home", { user: null });
+    }
+  } catch (error) {
+    console.log("Error While Rendering the Home Page" + error);
+  }
 };
+
 const signUpPage = (req, res) => {
-  res.render("userViews/signup", {
-    errors: false,
-    userExist: req.session.userExist,
-    passwordMismatch: req.session.passwordMismatch,
-  });
-  req.session.userExist = false;
-  req.session.passwordMismatch = false;
+  try {
+    if (req.session.logged) {
+      res.redirect("/");
+    } else {
+      res.render("userViews/signup", {
+        errors: false,
+        userExist: req.session.userExist,
+        passwordMismatch: req.session.passwordMismatch,
+      });
+      req.session.userExist = false;
+      req.session.passwordMismatch = false;
+    }
+  } catch (error) {
+    console.log("Error in showing Signup page" + error);
+  }
 };
 
 const loginPage = (req, res) => {
   try {
-    console.log(req.session.invalidCredentials);
-    res.render("userViews/login", {
-      invalid: req.session.invalidCredentials,
-      errors: false,
-    });
-
+    console.log(req.session.logged);
+    if (req.session.logged) {
+      res.redirect("/");
+    } else {
+      res.render("userViews/login", {
+        invalid: req.session.invalidCredentials,
+        errors: false,
+      });
+    }
     req.session.invalidCredentials = false;
   } catch (error) {
     console.log("Error in Viewing the Login Page" + error);
@@ -67,9 +88,9 @@ const signUpSubmit = async (req, res) => {
         isBlocked: false,
       };
       req.session.newUser = addUser;
-      sendOTP(addUser);
-
-      res.render("userViews/otpPage");
+      req.session.save();
+      req.session.passed = true;
+      res.redirect("/sendOTP");
     }
   } catch (err) {
     console.log(`Error in SignUp Registering : ${err}`);
@@ -82,14 +103,14 @@ const loginSubmit = async (req, res) => {
       email: req.body.email,
     });
     if (exisitingUser) {
-      console.log("User Exist");
       let passwordMatch = bcrypt.compareSync(
         req.body.password,
         exisitingUser.password
       );
-      console.log(passwordMatch);
       if (passwordMatch) {
         req.session.currentUser = exisitingUser;
+        req.session.logged = true;
+        req.session.save();
         res.redirect("/");
       } else {
         console.log("Password does not match");
@@ -107,10 +128,91 @@ const loginSubmit = async (req, res) => {
   }
 };
 
+// const produects = async (req, res) => {
+//   try {
+//     const productDetails = await productCollection.find({ isListed: true });
+//     res.render("userViews/products", {
+//       userLogged: req.session.logged,
+//       productDet: productDetails,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+
+const products = async (req, res) => {
+  const page = Number(req.query.page) || 1;
+  const limit = 9;
+  const skip = (page - 1) * limit;
+
+  try {
+    const products = await productCollection
+      .find({ isListed: true })
+      .populate("parentCategory")
+      .skip(skip)
+      .limit(limit);
+
+    let pages;
+
+    await productCollection
+      .countDocuments()
+      .then((count) => {
+        pages = count;
+      })
+      .catch((err) => console.log("Error while counting the docment" + err));
+
+    // pages: Math.ceil(productCollection.countDocuments() / limit)
+
+    res.render("userViews/products", {
+      title: "Products",
+      userLogged: req.session.logged,
+      productDet: products,
+      page: page,
+      pages: Math.ceil(pages / limit),
+    });
+  } catch (error) {
+    // res.status(500).send(error);
+    console.log(error);
+  }
+};
+
+const productDetail = async (req, res) => {
+  try {
+    const currentProduct = await productCollection
+      .findOne({
+        _id: req.query.id,
+      })
+      .populate("parentCategory");
+
+    console.log(currentProduct);
+
+    res.render("userViews/productDetails", {
+      _id: req.body.user_id,
+      user: req.session.logged,
+      currentProduct,
+      productQtyLimit: 0,
+    });
+  } catch (error) {
+    console.log("Error while showing the Product Detail" + error);
+  }
+};
+
+const logout = (req, res) => {
+  try {
+    req.session.logged = false;
+    res.redirect("/");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   landingPage,
   signUpPage,
   signUpSubmit,
   loginPage,
   loginSubmit,
+  products,
+  productDetail,
+  logout,
 };

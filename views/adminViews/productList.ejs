@@ -1,0 +1,766 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Wuud - Furniture Store Website HTML5 Template | Cart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Description website">
+    <meta name="author" content="Maksym Blank">
+    <meta name="keywords" content="website, with, meta, tags">
+    <meta name="robots" content="noindex, follow">
+    <meta name="revisit-after" content="5 month">
+    <meta name="image" content="../../../../mywebsite.com/image.html">
+    <meta name="og:title" content="Title website">
+    <meta name="og:description" content="Description website">
+    <meta name="og:image" content="../../../../mywebsite.com/image.html">
+    <meta name="og:site_name" content="My Website">
+    <meta name="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Title website">
+    <meta name="twitter:description" content="Description website">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
+    <!-- Css -->
+    <link href="assets/css/plugins/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/fonts/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/plugins/magnific-popup.css" rel="stylesheet">
+    <link href="assets/css/plugins/slick.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/responsive.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/img/favicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
+        integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js"
+        integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- jQuery Validation plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Admin-Category</title>
+</head>
+
+<body>
+    <!-- Preloader Start -->
+    <div class="preloader">
+        <img src="assets/images/preloader.svg" alt="preloader">
+    </div>
+    <!-- Preloader End -->
+    <!-- Header Start -->
+    <header class="header">
+        <!-- Topbar -->
+        <div class="topbar">
+            <div class="container-fluid">
+                <div class="inner">
+                    <!-- Logo -->
+                    <div class="logo">
+                        <a href="index-2.html">
+                            <img src="assets/images/logo.png" class="image-fit" alt="logo">
+                        </a>
+                    </div>
+                    <!-- Logo -->
+                    <!-- Search Form -->
+                    <div class="search-form">
+                        <form>
+                            <!-- Location -->
+                            <div class="location">
+                                <label>Your Location</label>
+                                <select>
+                                    <option selected>Select A Location</option>
+                                    <option value="New Delhi">New Delhi</option>
+                                    <option value="Mumbai">Mumbai</option>
+                                    <option value="Kolkata">Kolkata</option>
+                                    <option value="Chennai">Chennai</option>
+                                </select>
+                            </div>
+                            <!-- Location -->
+                            <!-- Search -->
+                            <div class="input-group">
+                                <input type="text" name="#" class="form-control" placeholder="Search for products..."
+                                    autocomplete="off" required>
+                                <div class="input-group-append input-group-text">
+                                    <button type="submit">
+                                        <i class="fal fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Search -->
+                        </form>
+                    </div>
+                    <!-- Search Form -->
+                    <!-- Header Action -->
+                    <div class="header_action">
+                        <ul>
+                            <li>
+                                <a href="wishlist.html">
+                                    <i class="far fa-heart"></i>
+                                </a>
+                            </li>
+                            <li class="cart">
+                                <a href="cart.html">
+                                    <span class="cart_value">0</span>
+                                    <i class="far fa-shopping-cart"></i>
+                                    <div class="cart_text">
+                                        My Cart
+                                        <span class="amount">$150.00</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="user">
+                                <a href="account.html">
+                                    <img src="assets/images/header/user.jpg" class="image-fit" alt="img">
+                                    <span>Jhon Deo</span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a href="login.html">Login</a>
+                                    </li>
+                                    <li>
+                                        <a href="register.html">SignUp</a>
+                                    </li>
+                                    <li>
+                                        <a href="account.html">My Account</a>
+                                    </li>
+                                    <li>
+                                        <a href="login.html">Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Header Action -->
+                </div>
+            </div>
+        </div>
+        <!-- Topbar -->
+    </header>
+    <!-- Header End -->
+    <!-- Category Nav Start -->
+    <div class="main_navigation hide_cat">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col-6">
+                    <div class="main-collapse-wrap custom-accordion">
+                        <button type="button">All Category</button>
+                        <div id="cataccordion" class="accordion_wrap accordion">
+                            <div class="card accordion-item">
+                                <div class="card-header accordion-header">
+                                    <button class="btn btn-link accordion-button" data-bs-toggle="collapse"
+                                        data-bs-target="#catOne">
+                                        <i class="fal fa-heart"></i>
+                                        Chair
+                                    </button>
+                                </div>
+                                <div id="catOne" class="accordion-collapse collapse show"
+                                    data-bs-parent="#cataccordion">
+                                    <div class="card-body accordion-body">
+                                        <ul class="sub-category">
+                                            <li>
+                                                <a href="#">Category 1</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 3</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 4</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 5</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 6</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <div class="card-header accordion-header">
+                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#catTwo">
+                                        <i class="fal fa-heart"></i>
+                                        Sofa
+                                    </button>
+                                </div>
+                                <div id="catTwo" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
+                                    <div class="card-body accordion-body">
+                                        <ul class="sub-category">
+                                            <li>
+                                                <a href="#">Category 1</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 3</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 4</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 5</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 6</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <div class="card-header accordion-header">
+                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#catThree">
+                                        <i class="fal fa-heart"></i>
+                                        Table Lamp
+                                    </button>
+                                </div>
+                                <div id="catThree" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
+                                    <div class="card-body accordion-body">
+                                        <ul class="sub-category">
+                                            <li>
+                                                <a href="#">Category 1</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 3</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 4</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 5</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 6</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <div class="card-header accordion-header">
+                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#catFour">
+                                        <i class="fal fa-heart"></i>
+                                        Tables
+                                    </button>
+                                </div>
+                                <div id="catFour" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
+                                    <div class="card-body accordion-body">
+                                        <ul class="sub-category">
+                                            <li>
+                                                <a href="#">Category 1</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 3</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 4</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 5</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 6</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <div class="card-header accordion-header">
+                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#catFive">
+                                        <i class="fal fa-heart"></i>
+                                        Swing
+                                    </button>
+                                </div>
+                                <div id="catFive" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
+                                    <div class="card-body accordion-body">
+                                        <ul class="sub-category">
+                                            <li>
+                                                <a href="#">Category 1</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 3</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 4</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 5</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 6</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <div class="card-header accordion-header">
+                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#catSix">
+                                        <i class="fal fa-heart"></i>
+                                        Cabinets
+                                    </button>
+                                </div>
+                                <div id="catSix" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
+                                    <div class="card-body accordion-body">
+                                        <ul class="sub-category">
+                                            <li>
+                                                <a href="#">Category 1</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 3</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 4</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 5</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 6</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-6">
+                    <div class="nav_inner">
+                        <ul class="main-menu">
+                            <li class="menu-item">
+                                <a href="index-2.html" class="active">Home</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="about.html">About Us</a>
+                            </li>
+                            <li class="menu-item menu-item-has-children"><a href="#">Blog</a>
+                                <ul class="sub-menu custom">
+                                    <li class="menu-item menu-item-has-children"><a href="#">Blog Grid</a>
+                                        <ul class="sub-menu custom">
+                                            <li class="menu-item"><a href="blog.html">Full Width</a></li>
+                                            <li class="menu-item"><a href="blog-left.html">Left Sidebar</a></li>
+                                            <li class="menu-item"><a href="blog-right.html">Right Sidebar</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="blog-details.html">Blog Details</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item menu-item-has-children"><a href="#">Pages</a>
+                                <ul class="sub-menu custom">
+                                    <li class="menu-item menu-item-has-children"><a href="#">Account</a>
+                                        <ul class="sub-menu custom">
+                                            <li class="menu-item"><a href="account.html">My Account</a></li>
+                                            <li class="menu-item"><a href="login.html">Login</a></li>
+                                            <li class="menu-item"><a href="register.html">Register</a></li>
+                                            <li class="menu-item"><a href="payment.html">Payment</a></li>
+                                            <li class="menu-item"><a href="thankyou.html">Thank You</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="faqs.html">Faq's</a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="terms-conditions.html">Terms &amp; Con.</a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="privacy.html">Policy</a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="error.html">Error 404</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item menu-item-has-children"><a href="#">Shop</a>
+                                <ul class="sub-menu custom">
+                                    <li class="menu-item">
+                                        <a href="shop.html">Shop</a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="shop-details.html">Shop Details</a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="wishlist.html">Wishlist</a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="cart.html">Cart</a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="checkout.html">Checkout</a>
+                                    </li>
+                                    <li class="menu-item menu-item-has-children"><a href="#">Orders</a>
+                                        <ul class="sub-menu custom">
+                                            <li class="menu-item"><a href="order-list.html">Order List</a></li>
+                                            <li class="menu-item"><a href="order-details.html">Order Details</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item">
+                                <a href="contact.html">Contact</a>
+                            </li>
+                        </ul>
+                        <div class="hamburger">
+                            <div class="hamburger_btn">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Category Nav End -->
+    <!-- Section Start -->
+    <a href="/addProduct"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Add Product
+        </button></a>
+    <section class="section-padding">
+        <div class="container-fluid">
+            <div class="section-header">
+                <h3 class="title">Product List</h3>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive cart_table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Product Category</th>
+                                    <th scope="col">Product Image</th>
+
+                                    <th scope="col">Price in INR</th>
+                                    <th scope="col">Instock</th>
+                                    <th scope="col">List/Unlist</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                <% for(let i=0;i<productDet.length;i++){ %>
+                                    <tr>
+                                        <th scope="row">
+                                            <%= productDet[i].productName %>
+                                        </th>
+                                        <td>
+                                            <%= productDet[i].parentCategory.categoryName%>
+                                        </td>
+
+
+                                        <td>
+                                            <% for(let j=0;j<productDet[i].productImage.length;j++){ %>
+
+
+                                                <img src="assets/uploadimages/uploads/<%=productDet[i].productImage[j]%>"
+                                                    style="height: 60px; width: 60px; border-radius: 0;">
+                                                <% } %>
+                                        </td>
+
+                                        <td>
+                                            <%= productDet[i].productPrice %>
+                                        </td>
+                                        <td>
+                                            <%= productDet[i].productStock %>
+                                        </td>
+                                        <% if(productDet[i].isListed){ %>
+                                            <td><button id="unblock<%i%>" onclick="fnBlock('<%=productDet[i]._id %>')"
+                                                    type="button" class="btn btn-danger">Block</button> </td>
+                                            <% }else{ %>
+                                                <td><button id="block<%i%>"
+                                                        onclick="fnUnBlock('<%=productDet[i]._id %>')" type="button"
+                                                        class="btn btn-success">Unblock</button> </td>
+                                                <% } %>
+                                                    <td>
+                                                        <a
+                                                            href="/editProduct?pid=<%= productDet[i]._id %>&cid=<%= productDet[i].parentCategory._id %>">
+
+                                                            <button id="unblock<%i%>" data-target="#categoryModal<%=i%>"
+                                                                data-toggle="modal" type="button"
+                                                                class="btn btn-info">Edit</button>
+
+                                                        </a>
+
+                                                    </td>
+                                    </tr>
+                                    <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <script>
+        async function fnBlock(productId) {
+            let response = await fetch(`/blockProduct?id=${productId}`, {
+                method: 'GET',
+            })
+            let result = await response.json()
+            if (result.block) {
+                await Swal.fire({
+                    icon: "error",
+                    title: "Product Blocked",
+                });
+            }
+            window.location.reload();
+        }
+
+        async function fnUnBlock(productId) {
+            let response = await fetch(`/unBlockProduct?id=${productId}`, {
+                method: 'GET',
+            })
+            let result = await response.json()
+            if (result.unBlock) {
+                await Swal.fire({
+                    icon: "success",
+                    title: "Product Unblocked",
+                    confirmButtonText: "OK",
+                });
+            }
+            window.location.reload();
+        }
+
+    </script>
+    <!-- Section End -->
+    <!-- Footer Start -->
+    <footer class="footer section-padding border-top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-2 col-sm-4">
+                    <div class="ft_widget border-sm-0 pl-sm-0">
+                        <h6 class="ft_title">Find a Store<br> Shop Gift Cards</h6>
+                        <p class="mb-2">Follow Us:</p>
+                        <ul class="ft_social">
+                            <li>
+                                <a href="#">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-4">
+                    <div class="ft_widget">
+                        <h6 class="ft_title">Help Center</h6>
+                        <ul class="ft_menu">
+                            <li>
+                                <a href="payment.html">Payments</a>
+                            </li>
+                            <li>
+                                <a href="#">Shipping</a>
+                            </li>
+                            <li>
+                                <a href="#">Product Returns</a>
+                            </li>
+                            <li>
+                                <a href="faqs.html">FAQ's</a>
+                            </li>
+                            <li>
+                                <a href="checkout.html">Checkout</a>
+                            </li>
+                            <li>
+                                <a href="blog.html">Blog</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-4">
+                    <div class="ft_widget">
+                        <h6 class="ft_title">Useful Links</h6>
+                        <ul class="ft_menu">
+                            <li>
+                                <a href="index-2.html">Home</a>
+                            </li>
+                            <li>
+                                <a href="contact.html">Contact</a>
+                            </li>
+                            <li>
+                                <a href="about.html">About</a>
+                            </li>
+                            <li>
+                                <a href="terms-conditions.html">Terms & Conditions</a>
+                            </li>
+                            <li>
+                                <a href="privacy.html">Policy</a>
+                            </li>
+                            <li>
+                                <a href="order-list.html">My Orders</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl col-sm-8">
+                    <div class="ft_widget">
+                        <h6 class="ft_title">Contact Us</h6>
+                        <p class="mb-3">Sed ut perspiciatis unde omnis iste natus error sit voluptatem </p>
+                        <ul class="ft_contact">
+                            <li>
+                                <a href="#">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    14 Prospect Row, Bury St. Edmunds
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tel:0002583745351">
+                                    <i class="fas fa-phone"></i>
+                                    000 2583 745 351
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:example@example.com">
+                                    <i class="fas fa-envelope"></i>
+                                    example@example.com
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-4">
+                    <div class="ft_widget">
+                        <h6 class="ft_title">Categories</h6>
+                        <ul class="ft_menu">
+                            <li>
+                                <a href="shop.html">Chair</a>
+                            </li>
+                            <li>
+                                <a href="shop.html">Sofa</a>
+                            </li>
+                            <li>
+                                <a href="shop.html">Dining Table</a>
+                            </li>
+                            <li>
+                                <a href="shop.html">Table Lamp</a>
+                            </li>
+                            <li>
+                                <a href="shop.html">Desk</a>
+                            </li>
+                            <li>
+                                <a href="shop.html">cabinets</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer End -->
+    <!-- Copyright Start -->
+    <div class="copyright">
+        <div class="container-fluid">
+            <p class="mb-0">@Copyright 2022. <a href="#" class="thm-color-one">Website.com</a> All Rights Reserved</p>
+        </div>
+    </div>
+    <!-- Copyright End -->
+    <!-- Scripts -->
+    <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/plugins/slick.min.js"></script>
+    <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
+    <script src="assets/js/plugins/jquery.counterup.min.js"></script>
+    <script src="assets/js/plugins/jquery.inview.min.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+
+        async function fnList(catName) {
+            let response = await fetch(`/listCategory?id=${catName}`, {
+                method: 'GET',
+            })
+            let result = await response.json()
+            if (result.list) {
+                await Swal.fire({
+                    icon: "error",
+                    title: "Category Unlisted",
+                });
+            }
+            window.location.reload();
+        }
+
+        async function fnUnlist(catName) {
+            let response = await fetch(`/unListCategory?id=${catName}`, {
+                method: 'GET',
+            })
+            let result = await response.json()
+            if (result.unlist) {
+                await Swal.fire({
+                    icon: "success",
+                    title: "Category listed",
+                    confirmButtonText: "OK",
+                });
+            }
+            window.location.reload();
+        }
+
+
+
+    </script>
+</body>
+
+</html>

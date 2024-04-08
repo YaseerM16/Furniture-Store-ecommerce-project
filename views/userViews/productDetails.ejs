@@ -1,0 +1,1045 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Wuud - Furniture Store Website HTML5 Template | Shop Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Description website">
+    <meta name="author" content="Maksym Blank">
+    <meta name="keywords" content="website, with, meta, tags">
+    <meta name="robots" content="noindex, follow">
+    <meta name="revisit-after" content="5 month">
+    <meta name="image" content="../../../../mywebsite.com/image.html">
+    <meta name="og:title" content="Title website">
+    <meta name="og:description" content="Description website">
+    <meta name="og:image" content="../../../../mywebsite.com/image.html">
+    <meta name="og:site_name" content="My Website">
+    <meta name="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Title website">
+    <meta name="twitter:description" content="Description website">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
+    <!-- Css -->
+    <link href="assets/css/plugins/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/fonts/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/plugins/magnific-popup.css" rel="stylesheet">
+    <link href="assets/css/plugins/slick.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/responsive.css" rel="stylesheet">
+    <style>
+        details {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .row .assets {
+            display: flex;
+            width: 100%;
+            justify-content: end;
+        }
+
+        .block-specs {
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            width: 100%;
+        }
+
+        .product_details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Preloader Start -->
+    <div class="preloader">
+        <img src="assets/images/preloader.svg" alt="preloader">
+    </div>
+    <!-- Preloader End -->
+    <!-- Header Start -->
+    <header class="header">
+        <!-- Topbar -->
+        <div class="topbar">
+            <div class="container-fluid">
+                <div class="inner">
+                    <!-- Logo -->
+                    <div class="logo">
+                        <a href="index-2.html">
+                            <img src="assets/images/logo.png" class="image-fit" alt="logo">
+                        </a>
+                    </div>
+                    <!-- Logo -->
+                    <!-- Search Form -->
+                    <div class="search-form">
+                        <form>
+                            <!-- Location -->
+                            <div class="location">
+                                <label>Your Location</label>
+                                <select>
+                                    <option selected>Select A Location</option>
+                                    <option value="New Delhi">New Delhi</option>
+                                    <option value="Mumbai">Mumbai</option>
+                                    <option value="Kolkata">Kolkata</option>
+                                    <option value="Chennai">Chennai</option>
+                                </select>
+                            </div>
+                            <!-- Location -->
+                            <!-- Search -->
+                            <div class="input-group">
+                                <input type="text" name="#" class="form-control" placeholder="Search for products..."
+                                    autocomplete="off" required>
+                                <div class="input-group-append input-group-text">
+                                    <button type="submit">
+                                        <i class="fal fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Search -->
+                        </form>
+                    </div>
+                    <!-- Search Form -->
+                    <!-- Header Action -->
+                    <div class="header_action">
+                        <ul>
+                            <li>
+                                <a href="wishlist.html">
+                                    <i class="far fa-heart"></i>
+                                </a>
+                            </li>
+                            <li class="cart">
+                                <a href="cart.html">
+                                    <span class="cart_value">0</span>
+                                    <i class="far fa-shopping-cart"></i>
+                                    <div class="cart_text">
+                                        My Cart
+                                        <span class="amount">$150.00</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="user">
+                                <a href="account.html">
+                                    <img src="assets/images/header/user.jpg" class="image-fit" alt="img">
+                                    <span>Jhon Deo</span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a href="login.html">Login</a>
+                                    </li>
+                                    <li>
+                                        <a href="register.html">SignUp</a>
+                                    </li>
+                                    <li>
+                                        <a href="account.html">My Account</a>
+                                    </li>
+                                    <li>
+                                        <a href="login.html">Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Header Action -->
+                </div>
+            </div>
+        </div>
+        <!-- Topbar -->
+    </header>
+    <!-- Header End -->
+    <!-- Category Nav Start -->
+    <div class="main_navigation hide_cat">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col-6">
+                    <div class="main-collapse-wrap custom-accordion">
+                        <button type="button">All Category</button>
+                        <div id="cataccordion" class="accordion_wrap accordion">
+                            <div class="card accordion-item">
+                                <div class="card-header accordion-header">
+                                    <button class="btn btn-link accordion-button" data-bs-toggle="collapse"
+                                        data-bs-target="#catOne">
+                                        <i class="fal fa-heart"></i>
+                                        Chair
+                                    </button>
+                                </div>
+                                <div id="catOne" class="accordion-collapse collapse show"
+                                    data-bs-parent="#cataccordion">
+                                    <div class="card-body accordion-body">
+                                        <ul class="sub-category">
+                                            <li>
+                                                <a href="#">Category 1</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 3</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 4</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 5</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 6</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <div class="card-header accordion-header">
+                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#catTwo">
+                                        <i class="fal fa-heart"></i>
+                                        Sofa
+                                    </button>
+                                </div>
+                                <div id="catTwo" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
+                                    <div class="card-body accordion-body">
+                                        <ul class="sub-category">
+                                            <li>
+                                                <a href="#">Category 1</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 3</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 4</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 5</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 6</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <div class="card-header accordion-header">
+                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#catThree">
+                                        <i class="fal fa-heart"></i>
+                                        Table Lamp
+                                    </button>
+                                </div>
+                                <div id="catThree" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
+                                    <div class="card-body accordion-body">
+                                        <ul class="sub-category">
+                                            <li>
+                                                <a href="#">Category 1</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 3</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 4</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 5</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 6</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <div class="card-header accordion-header">
+                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#catFour">
+                                        <i class="fal fa-heart"></i>
+                                        Tables
+                                    </button>
+                                </div>
+                                <div id="catFour" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
+                                    <div class="card-body accordion-body">
+                                        <ul class="sub-category">
+                                            <li>
+                                                <a href="#">Category 1</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 3</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 4</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 5</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 6</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <div class="card-header accordion-header">
+                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#catFive">
+                                        <i class="fal fa-heart"></i>
+                                        Swing
+                                    </button>
+                                </div>
+                                <div id="catFive" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
+                                    <div class="card-body accordion-body">
+                                        <ul class="sub-category">
+                                            <li>
+                                                <a href="#">Category 1</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 3</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 4</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 5</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 6</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <div class="card-header accordion-header">
+                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#catSix">
+                                        <i class="fal fa-heart"></i>
+                                        Cabinets
+                                    </button>
+                                </div>
+                                <div id="catSix" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
+                                    <div class="card-body accordion-body">
+                                        <ul class="sub-category">
+                                            <li>
+                                                <a href="#">Category 1</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 3</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 4</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 5</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Category 6</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-6">
+                    <div class="nav_inner">
+                        <ul class="main-menu">
+                            <li class="menu-item">
+                                <a href="index-2.html" class="active">Home</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="about.html">About Us</a>
+                            </li>
+                            <li class="menu-item menu-item-has-children"><a href="#">Blog</a>
+                                <ul class="sub-menu custom">
+                                    <li class="menu-item menu-item-has-children"><a href="#">Blog Grid</a>
+                                        <ul class="sub-menu custom">
+                                            <li class="menu-item"><a href="blog.html">Full Width</a></li>
+                                            <li class="menu-item"><a href="blog-left.html">Left Sidebar</a></li>
+                                            <li class="menu-item"><a href="blog-right.html">Right Sidebar</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="blog-details.html">Blog Details</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item menu-item-has-children"><a href="#">Pages</a>
+                                <ul class="sub-menu custom">
+                                    <li class="menu-item menu-item-has-children"><a href="#">Account</a>
+                                        <ul class="sub-menu custom">
+                                            <li class="menu-item"><a href="account.html">My Account</a></li>
+                                            <li class="menu-item"><a href="login.html">Login</a></li>
+                                            <li class="menu-item"><a href="register.html">Register</a></li>
+                                            <li class="menu-item"><a href="payment.html">Payment</a></li>
+                                            <li class="menu-item"><a href="thankyou.html">Thank You</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="faqs.html">Faq's</a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="terms-conditions.html">Terms &amp; Con.</a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="privacy.html">Policy</a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="error.html">Error 404</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item menu-item-has-children"><a href="#">Shop</a>
+                                <ul class="sub-menu custom">
+                                    <li class="menu-item">
+                                        <a href="shop.html">Shop</a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="shop-details.html">Shop Details</a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="wishlist.html">Wishlist</a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="cart.html">Cart</a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="checkout.html">Checkout</a>
+                                    </li>
+                                    <li class="menu-item menu-item-has-children"><a href="#">Orders</a>
+                                        <ul class="sub-menu custom">
+                                            <li class="menu-item"><a href="order-list.html">Order List</a></li>
+                                            <li class="menu-item"><a href="order-details.html">Order Details</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item">
+                                <a href="contact.html">Contact</a>
+                            </li>
+                        </ul>
+                        <div class="hamburger">
+                            <div class="hamburger_btn">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Category Nav End -->
+    <!-- Section Start -->
+    <div class="details">
+        <div>
+            <section class="section pb-0 ">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-8">
+                            <div class="shop_details_box">
+                                <!-- Details -->
+                                <div class="row assets">
+                                    <div class="col-lg-6">
+                                        <div class="product_slider_box">
+                                            <div class="product_slider">
+                                                <% for(let j=0;j<currentProduct.productImage.length;j++){ %>
+                                                    <div class="slide_item">
+                                                        <img src="assets/uploadimages/uploads/<%=currentProduct.productImage[j]%>"
+                                                            class="image-fit-contain" alt="img">
+                                                    </div>
+                                                    <% } %>
+                                            </div>
+                                            <div class="product_slider_nav row">
+                                                <% for(let j=0;j<currentProduct.productImage.length;j++){ %>
+                                                    <div class="slide_item px-3">
+                                                        <img src="assets/uploadimages/uploads/<%=currentProduct.productImage[j]%>"
+                                                            class="image-fit-contain" alt="img">
+                                                    </div>
+                                                    <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row assets">
+                                    <div class="col-lg-6">
+
+                                        <div class="product_details product_block">
+                                            <h2 class="product_title">
+                                                <%= currentProduct.productName%>
+                                            </h2>
+                                            <div class="ratings">
+                                                <i class="fal fa-star active"></i>
+                                                <i class="fal fa-star active"></i>
+                                                <i class="fal fa-star active"></i>
+                                                <i class="fal fa-star active"></i>
+                                                <i class="fal fa-star"></i>
+                                            </div>
+                                            <div class="price">
+                                                <span>₹<%= currentProduct.productPrice %></span>
+                                                <% if (currentProduct.productOfferId) { %>
+                                                    <span class="price-standard"></span>₹<%=
+                                                        currentProduct.priceBeforeOffer %>
+                                                        </span>
+                                                        <% } %>
+                                            </div>
+                                            <% if (currentProduct.productOfferId) { %>
+                                                <div class="promotion">
+                                                    <span class="text-danger text-decoration-line-through">
+                                                        <%= currentProduct.productOfferPercentage %>% OFF
+                                                    </span>
+                                                </div>
+                                                <% } %>
+                                                    <p class="text">
+                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                                        eiusmod
+                                                        tempor incididunt ut labore et dolore magna aliqua. Quis ipsum
+                                                        suspendisse ultrices gravida.
+                                                    </p>
+                                                    <div class="product_action">
+                                                        <div class="quantity">
+                                                            <button class="btn qty-mins" type="button"><i
+                                                                    class="fal fa-minus"></i></button>
+                                                            <input type="text" name="#" value="1" autocomplete="off"
+                                                                readonly>
+                                                            <button class="btn qty-add" type="button"><i
+                                                                    class="fal fa-plus"></i></button>
+                                                        </div>
+                                                        <!-- <button type="button" class="thm-btn btn-rounded thm-bg-color-one">Add To Cart</button> -->
+                                                        <a href="cart.html"
+                                                            class="thm-btn btn-rounded thm-bg-color-one">Add
+                                                            To
+                                                            Cart</a>
+                                                    </div>
+                                                    <strong>Category:</strong>
+                                                    <h5><strong>
+                                                            <%= currentProduct.parentCategory.categoryName%>
+                                                        </strong></h5>
+                                                    <ul class="product_meta">
+
+
+
+                                                        <!-- <a href="shop.html">Sofa</a> -->
+
+                                                        <li>
+
+
+                                                        </li>
+                                                        <!-- <li>
+                                                    <strong>Tags:</strong>
+                                                    <a href="shop.html">Chair</a>
+                                                    <a href="shop.html">Sofa</a>
+                                                    <a href="shop.html">Dining Table</a>
+                                                    <a href="shop.html">Table Lamp</a>
+                                                </li> -->
+                                                        <li>
+                                                            <strong>Seller:</strong>
+                                                            <p>Contrary to popular Private Limited</p>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="product_social">
+                                                        <button type="button" class="social_trigger">
+                                                            <i class="fas fa-share-alt"></i>
+                                                        </button>
+                                                        <ul class="social_media">
+                                                            <li>
+                                                                <a href="#">
+                                                                    <i class="fab fa-facebook-f"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <i class="fab fa-twitter"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <i class="fab fa-linkedin-in"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <i class="fab fa-pinterest-p"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Ratings -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h4>Ratings</h4>
+                                <div class="ratings_block">
+                                    <div class="total_rating">
+                                        <div class="value">
+                                            9.2
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <p class="mb-0">7.5k Verified Buyers</p>
+                                    </div>
+                                    <div class="rating_bar">
+                                        <ul>
+                                            <li>
+                                                <span class="rate">5 <i class="fas fa-star"></i></span>
+                                                <div class="rate_bar">
+                                                    <div data-valuenow="45" data-valuemin="0" data-valuemax="100">
+                                                    </div>
+                                                </div>
+                                                <div class="rate_value">4561</div>
+                                            </li>
+                                            <li>
+                                                <span class="rate">4 <i class="fas fa-star"></i></span>
+                                                <div class="rate_bar">
+                                                    <div data-valuenow="84" data-valuemin="0" data-valuemax="100">
+                                                    </div>
+                                                </div>
+                                                <div class="rate_value">8413</div>
+                                            </li>
+                                            <li>
+                                                <span class="rate">3 <i class="fas fa-star"></i></span>
+                                                <div class="rate_bar">
+                                                    <div data-valuenow="20" data-valuemin="0" data-valuemax="100">
+                                                    </div>
+                                                </div>
+                                                <div class="rate_value">2010</div>
+                                            </li>
+                                            <li>
+                                                <span class="rate">2 <i class="fas fa-star"></i></span>
+                                                <div class="rate_bar">
+                                                    <div data-valuenow="10" data-valuemin="0" data-valuemax="100">
+                                                    </div>
+                                                </div>
+                                                <div class="rate_value">1010</div>
+                                            </li>
+                                            <li>
+                                                <span class="rate">1 <i class="fas fa-star"></i></span>
+                                                <div class="rate_bar">
+                                                    <div data-valuenow="5" data-valuemin="0" data-valuemax="100">
+                                                    </div>
+                                                </div>
+                                                <div class="rate_value">561</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Customer Photos -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="customer_photos">
+                                    <h4>Customer Photos (159)</h4>
+                                    <div class="images">
+                                        <img src="assets/images/product/photos/11.png" class="image-fit-contain"
+                                            alt="img">
+                                        <img src="assets/images/product/photos/21.png" class="image-fit-contain"
+                                            alt="img">
+                                        <img src="assets/images/product/photos/31.png" class="image-fit-contain"
+                                            alt="img">
+                                        <img src="assets/images/product/photos/41.png" class="image-fit-contain"
+                                            alt="img">
+                                        <img src="assets/images/product/photos/51.png" class="image-fit-contain"
+                                            alt="img">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Reviews -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h4>Customer Reviews (601)</h4>
+                                <ul class="comments">
+                                    <li class="comment">
+                                        <span class="comment_rate">
+                                            4 <i class="fas fa-star"></i>
+                                        </span>
+                                        <p class="comment_text">
+                                            Lorem Ipsum is simply dummy text of the printing and typesetting
+                                            industry.
+                                            Lorem Ipsum has been the industry's standard dummy text ever since the
+                                            1500s, when an unknown printer took a galley of type and scrambled it to
+                                            make a type specimen book. It has survived not only five centuries
+                                        </p>
+                                        <div class="customer_photos">
+                                            <div class="images">
+                                                <img src="assets/images/product/photos/11.png" class="image-fit-contain"
+                                                    alt="img">
+                                                <img src="assets/images/product/photos/21.png" class="image-fit-contain"
+                                                    alt="img">
+                                                <img src="assets/images/product/photos/31.png" class="image-fit-contain"
+                                                    alt="img">
+                                            </div>
+                                        </div>
+                                        <div class="comment_meta">
+                                            <ul class="comment_author">
+                                                <li>Jhon Deo</li>
+                                                <li>11 Oct 2021</li>
+                                            </ul>
+                                            <ul class="comment_action">
+                                                <li>
+                                                    <button type="button">
+                                                        <i class="fal fa-thumbs-up"></i>
+                                                        5
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button type="button">
+                                                        <i class="fal fa-thumbs-down"></i>
+                                                        1
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="comment">
+                                        <span class="comment_rate">
+                                            4 <i class="fas fa-star"></i>
+                                        </span>
+                                        <p class="comment_text">
+                                            Lorem Ipsum is simply dummy text of the printing and typesetting
+                                            industry.
+                                            Lorem Ipsum has been the industry's standard dummy text ever since the
+                                            1500s, when an unknown printer took a galley of type and scrambled it to
+                                            make a type specimen book. It has survived not only five centuries
+                                        </p>
+                                        <div class="customer_photos">
+                                            <div class="images">
+                                                <img src="assets/images/product/photos/41.png" class="image-fit-contain"
+                                                    alt="img">
+                                                <img src="assets/images/product/photos/51.png" class="image-fit-contain"
+                                                    alt="img">
+                                            </div>
+                                        </div>
+                                        <div class="comment_meta">
+                                            <ul class="comment_author">
+                                                <li>Jhon Anderson</li>
+                                                <li>11 Oct 2021</li>
+                                            </ul>
+                                            <ul class="comment_action">
+                                                <li>
+                                                    <button type="button">
+                                                        <i class="fal fa-thumbs-up"></i>
+                                                        5
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button type="button">
+                                                        <i class="fal fa-thumbs-down"></i>
+                                                        1
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul class="product_bottom_info">
+                                    <li>
+                                        <a href="#">View All 601 reviews</a>
+                                    </li>
+                                    <li>Product Code: 25413654</li>
+                                    <li>Seller: <a href="#">Contrary to popular Private Limited</a></li>
+                                    <li>
+                                        <a href="#">View Supplier Information</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="col-xl-4">
+                    <div class="product_sidebar">
+                        <div class="product_sidebar_wrap">
+                            <div class="sidebar_widget">
+                                <h5 class="widget_title">Product Details</h5>
+                                <div class="product_info">
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                    </p>
+                                    <h6>Specifications</h6>
+                                    <ul>
+                                        <li>
+                                            <p class="mb-0">Concern</p>
+                                            <strong>Dry Scalp</strong>
+                                        </li>
+                                        <li>
+                                            <p class="mb-0">Fruits Thickness</p>
+                                            <strong>Normal</strong>
+                                        </li>
+                                        <li>
+                                            <p class="mb-0">Fruits Type</p>
+                                            <strong>Normal</strong>
+                                        </li>
+                                        <li>
+                                            <p class="mb-0">Key Ingredient</p>
+                                            <strong>Onion</strong>
+                                        </li>
+                                        <li>
+                                            <p class="mb-0">Preference</p>
+                                            <strong>Dermatologically Tested</strong>
+                                        </li>
+                                        <li>
+                                            <p class="mb-0">Sustainable</p>
+                                            <strong>Regular</strong>
+                                        </li>
+                                        <li>
+                                            <p class="mb-0">Type</p>
+                                            <strong>Regular</strong>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="sidebar_widget">
+                                <h5 class="widget_title">Similar Products</h5>
+                                <ul class="related_products">
+                                    <li>
+                                        <div class="product_thumb">
+                                            <a href="shop-details.html">
+                                                <img src="assets/images/product/grid/11.png" class="image-fit-contain"
+                                                    alt="img">
+                                            </a>
+                                        </div>
+                                        <div class="product_caption">
+                                            <h6 class="product_title mb-0"><a href="shop-details.html">Cabriole
+                                                    Sofa</a>
+                                            </h6>
+                                            <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+                                            <p class="price">
+                                                <span>$80.00</span>
+                                                <span>$90.00</span>
+                                            </p>
+                                            <button type="button"
+                                                class="thm-btn btn-rounded thm-bg-color-three small_btn">Add To
+                                                Cart</button>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="product_thumb">
+                                            <a href="shop-details.html">
+                                                <img src="assets/images/product/grid/21.png" class="image-fit-contain"
+                                                    alt="img">
+                                            </a>
+                                        </div>
+                                        <div class="product_caption">
+                                            <h6 class="product_title mb-0"><a href="shop-details.html">Desk
+                                                    Chair</a>
+                                            </h6>
+                                            <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+                                            <p class="price">
+                                                <span>$80.00</span>
+                                                <span>$90.00</span>
+                                            </p>
+                                            <button type="button"
+                                                class="thm-btn btn-rounded thm-bg-color-three small_btn">Add To
+                                                Cart</button>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="product_thumb">
+                                            <a href="shop-details.html">
+                                                <img src="assets/images/product/grid/31.png" class="image-fit-contain"
+                                                    alt="img">
+                                            </a>
+                                        </div>
+                                        <div class="product_caption">
+                                            <h6 class="product_title mb-0"><a href="shop-details.html">Camelback
+                                                    Sofa</a></h6>
+                                            <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+                                            <p class="price">
+                                                <span>$80.00</span>
+                                                <span>$90.00</span>
+                                            </p>
+                                            <button type="button"
+                                                class="thm-btn btn-rounded thm-bg-color-three small_btn">Add To
+                                                Cart</button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+        </div>
+        </section>
+    </div>
+    </div>
+
+
+    <!-- Section End -->
+    <!-- Footer Start -->
+    <footer class="footer section-padding border-top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-2 col-sm-4">
+                    <div class="ft_widget border-sm-0 pl-sm-0">
+                        <h6 class="ft_title">Find a Store<br> Shop Gift Cards</h6>
+                        <p class="mb-2">Follow Us:</p>
+                        <ul class="ft_social">
+                            <li>
+                                <a href="#">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-4">
+                    <div class="ft_widget">
+                        <h6 class="ft_title">Help Center</h6>
+                        <ul class="ft_menu">
+                            <li>
+                                <a href="payment.html">Payments</a>
+                            </li>
+                            <li>
+                                <a href="#">Shipping</a>
+                            </li>
+                            <li>
+                                <a href="#">Product Returns</a>
+                            </li>
+                            <li>
+                                <a href="faqs.html">FAQ's</a>
+                            </li>
+                            <li>
+                                <a href="checkout.html">Checkout</a>
+                            </li>
+                            <li>
+                                <a href="blog.html">Blog</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-4">
+                    <div class="ft_widget">
+                        <h6 class="ft_title">Useful Links</h6>
+                        <ul class="ft_menu">
+                            <li>
+                                <a href="index-2.html">Home</a>
+                            </li>
+                            <li>
+                                <a href="contact.html">Contact</a>
+                            </li>
+                            <li>
+                                <a href="about.html">About</a>
+                            </li>
+                            <li>
+                                <a href="terms-conditions.html">Terms & Conditions</a>
+                            </li>
+                            <li>
+                                <a href="privacy.html">Policy</a>
+                            </li>
+                            <li>
+                                <a href="order-list.html">My Orders</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl col-sm-8">
+                    <div class="ft_widget">
+                        <h6 class="ft_title">Contact Us</h6>
+                        <p class="mb-3">Sed ut perspiciatis unde omnis iste natus error sit voluptatem </p>
+                        <ul class="ft_contact">
+                            <li>
+                                <a href="#">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    14 Prospect Row, Bury St. Edmunds
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tel:0002583745351">
+                                    <i class="fas fa-phone"></i>
+                                    000 2583 745 351
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:example@example.com">
+                                    <i class="fas fa-envelope"></i>
+                                    example@example.com
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-4">
+                    <div class="ft_widget">
+                        <h6 class="ft_title">Categories</h6>
+                        <ul class="ft_menu">
+                            <li>
+                                <a href="shop.html">Chair</a>
+                            </li>
+                            <li>
+                                <a href="shop.html">Sofa</a>
+                            </li>
+                            <li>
+                                <a href="shop.html">Dining Table</a>
+                            </li>
+                            <li>
+                                <a href="shop.html">Table Lamp</a>
+                            </li>
+                            <li>
+                                <a href="shop.html">Desk</a>
+                            </li>
+                            <li>
+                                <a href="shop.html">Cabinets</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer End -->
+    <!-- Copyright Start -->
+    <div class="copyright">
+        <div class="container-fluid">
+            <p class="mb-0">@Copyright 2022. <a href="#" class="thm-color-one">Website.com</a> All Rights Reserved</p>
+        </div>
+    </div>
+    <!-- Copyright End -->
+    <!-- Scripts -->
+    <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/plugins/slick.min.js"></script>
+    <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
+    <script src="assets/js/plugins/jquery.counterup.min.js"></script>
+    <script src="assets/js/plugins/jquery.inview.min.js"></script>
+    <script src="assets/js/custom.js"></script>
+</body>
+
+</html>
