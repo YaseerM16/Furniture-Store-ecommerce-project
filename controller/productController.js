@@ -6,6 +6,7 @@ const productList = async (req, res) => {
     const proCollection = await productCollection
       .find()
       .populate("parentCategory");
+    // console.log(proCollection);
     res.render("adminViews/productList", { productDet: proCollection });
   } catch (err) {
     console.log(err);
@@ -14,7 +15,6 @@ const productList = async (req, res) => {
 
 const addProductPage = async (req, res) => {
   try {
-    console.log("add producct called");
     const categoryDetails = await categoryCollection.find();
     res.render("adminViews/addProduct", { categoryDet: categoryDetails });
   } catch (err) {
@@ -88,7 +88,7 @@ const editProductPage = async (req, res) => {
       _id: req.query.cid,
     });
     const productDet = await productCollection.findOne({ _id: req.query.pid });
-    console.log(productDet);
+
     res.render("adminViews/editProduct", {
       categoryDet,
       productDet,
@@ -143,6 +143,36 @@ const editProduct = async (req, res) => {
   }
 };
 
+const deleteImage = async (req, res) => {
+  try {
+    console.log(req.body.productId);
+    const updatedProduct = await productCollection.findOne({
+      _id: req.body.productId,
+    });
+    if (!updatedProduct) {
+      return res.status(404).json({ error: "Product not found" }); // Remove the first element
+    }
+    if (
+      req.body.index >= 0 &&
+      req.body.index < updatedProduct.productImage.length
+    ) {
+      updatedProduct.productImage[req.body.index] = null;
+      await updatedProduct.save();
+      res.status(200).json({
+        message: "Image deleted successfully",
+        product: updatedProduct,
+      });
+    } else {
+      res.status(400).json({ error: "Invalid image index" });
+    }
+  } catch (error) {
+    console.log(
+      "Error in deleteing the Image through the Edit product delete button " +
+        error
+    );
+  }
+};
+
 module.exports = {
   productList,
   addProductPage,
@@ -151,4 +181,5 @@ module.exports = {
   unBlockProduct,
   editProductPage,
   editProduct,
+  deleteImage,
 };

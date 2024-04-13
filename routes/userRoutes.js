@@ -1,4 +1,5 @@
 const userRouter = require("express").Router();
+const accountController = require("../controller/accountController");
 const userController = require("../controller/userController");
 const {
   resendOTP,
@@ -43,5 +44,9 @@ userRouter.get("/forget-password");
 //Product
 userRouter.get("/products", userController.products);
 userRouter.get("/singleProduct", userController.productDetail);
+
+//User Details
+userRouter.get("/userDetails", accountController.userDetailsPage);
+userRouter.post("/editProfile", accountController.profileEdit);
 
 module.exports = userRouter;

@@ -42,5 +42,6 @@ adminRouter.post(
   upload.any(),
   productController.editProduct
 );
+adminRouter.post("/delete-image", productController.deleteImage);
 
 module.exports = adminRouter;

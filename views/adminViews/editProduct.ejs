@@ -53,6 +53,24 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Admin-Category</title>
+    <style>
+        div .logoa {
+            height: 150px;
+            width: 136px;
+            padding: 0 0 0 0;
+        }
+
+        .inner {
+            height: 19vh;
+        }
+
+        .image-fit {
+            width: 100%;
+            object-fit: cover;
+            object-position: center;
+            height: 19vh;
+        }
+    </style>
 </head>
 
 <body>
@@ -68,7 +86,7 @@
             <div class="container-fluid">
                 <div class="inner">
                     <!-- Logo -->
-                    <div class="logo">
+                    <div class="logoa">
                         <a href="index-2.html">
                             <img src="assets/images/logo.png" class="image-fit" alt="logo">
                         </a>
@@ -463,7 +481,8 @@
                             <div class="form-group text-center d-flex justify-content-center">
                                 <label for="productName" class="my-2">Product Name</label>
                                 <input type="text" name="productName" class="form-control mx-2" id="productName"
-                                    placeholder="Enter product name" maxlength="50" style="max-width: 250px;">
+                                    value="<%= productDet.productName %>" placeholder=Enter product name" maxlength="50"
+                                    style="max-width: 250px;">
                             </div>
                             <br>
                             <div class="form-group text-center">
@@ -473,7 +492,9 @@
                                         style="max-width: 250px;">
                                         <option disabled selected>Select Parent Category</option>
                                         <% for(let i=0;i<categoryDetail.length;i++){ %>
-                                            <option value="<%=categoryDetail[i]._id%>">
+                                            <option value="<%=categoryDetail[i]._id%>"
+                                                <%=categoryDetail[i]._id===productDet.parentCategory._id? 'selected'
+                                                : '' %>>
                                                 <%=categoryDetail[i].categoryName%>
                                             </option>
                                             <% } %>
@@ -487,12 +508,24 @@
                                     <input type="file" name="images" class="form-control-file" id="images" multiple>
                                 </div>
                             </div>
+                            <div class="d-flex flex-wrap justify-content-center align-items-center">
+                                <% for(let i=0;i<productDet.productImage.length;i++){ %>
+                                    <div class="position-relative m-2">
+                                        <img src="assets/uploadimages/uploads/<%=productDet.productImage[i]%>"
+                                            style="height: 60px; width: 60px; border-radius: 0;" alt="">
+                                        <button type="button" class="btn btn-danger delete-image"
+                                            data-id="<%=productDet._id%>" data-index="<%=i%>">Delete</button>
+                                    </div>
+                                    <% } %>
+                            </div>
+
                             <br>
                             <div class="form-group text-center">
                                 <label for="productPrice" class="my-2">Product Price</label>
                                 <div class="d-flex justify-content-center">
                                     <input class="form-control" name="productPrice" type="text" id="productPrice"
-                                        placeholder="Enter product price" maxlength="50" style="max-width: 250px;">
+                                        value="<%= productDet.productPrice %>" placeholder="Enter product price"
+                                        maxlength="50" style="max-width: 250px;">
                                 </div>
                             </div>
                             <br>
@@ -500,7 +533,8 @@
                                 <label for="productStock" class="my-2">Product Stock</label>
                                 <div class="d-flex justify-content-center">
                                     <input class="form-control" name="productStock" type="text" id="productStock"
-                                        placeholder="Enter product stock" maxlength="50" style="max-width: 250px;">
+                                        value="<%= productDet.productStock %>" placeholder=Enter product stock"
+                                        maxlength="50" style="max-width: 250px;">
                                 </div>
                             </div>
                             <br>
@@ -567,6 +601,27 @@
                 }
             }
         })
+        // Handle delete button click event
+        $('.delete-image').click(function () {
+            // Get the product id and index of the image to be deleted
+            var productId = $(this).data('id');
+            var index = $(this).data('index');
+
+            // Send an AJAX request to delete the image
+            $.ajax({
+                url: '/delete-image',
+                method: 'POST',
+                data: {
+                    productId: productId,
+                    index: index
+                },
+                success: function (response) {
+                    // Remove the image element from the DOM
+                    $('.position-relative').eq(index).remove();
+                }
+            });
+        });
+
 
     </script>
     <!-- Section End -->
