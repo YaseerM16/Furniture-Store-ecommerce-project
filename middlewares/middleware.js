@@ -82,10 +82,23 @@ const signupValidation = (req, res, next) => {
   next();
 };
 
+const isLogged = (req, res, next) => {
+  try {
+    if (req.session.logged) {
+      next();
+    } else {
+      res.redirect("/logIn");
+    }
+  } catch (error) {
+    console.log("Error while checking the logged middleware " + error);
+  }
+};
+
 module.exports = {
   signupValidationRules,
   signupValidation,
   loginValidationRules,
   loginValidation,
   adminloginValidation,
+  isLogged,
 };

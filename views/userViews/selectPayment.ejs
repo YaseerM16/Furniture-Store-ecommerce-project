@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Wuud - Furniture Store Website HTML5 Template | Cart</title>
+    <title>Wuud - Furniture Store Website HTML5 Template | Payment</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Description website">
     <meta name="author" content="Maksym Blank">
@@ -27,50 +27,6 @@
     <link href="assets/css/plugins/slick.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="assets/img/favicon.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
-        integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js"
-        integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
-    <!-- Bootstrap JS -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Admin-Category</title>
-    <style>
-        div .logoa {
-            height: 150px;
-            width: 136px;
-            padding: 0 0 0 0;
-        }
-
-        .inner {
-            height: 19vh;
-        }
-
-        .image-fit {
-            width: 100%;
-            object-fit: cover;
-            object-position: center;
-            height: 19vh;
-        }
-    </style>
 </head>
 
 <body>
@@ -86,7 +42,7 @@
             <div class="container-fluid">
                 <div class="inner">
                     <!-- Logo -->
-                    <div class="logoa">
+                    <div class="logo">
                         <a href="index-2.html">
                             <img src="assets/images/logo.png" class="image-fit" alt="logo">
                         </a>
@@ -469,136 +425,96 @@
     </div>
     <!-- Category Nav End -->
     <!-- Section Start -->
-    <div class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-8">
-                <div class="card shadow-lg">
-                    <div class="card-header text-center text-white" style="background-color: #C7A379;">
-                        <h4>Add Product</h4>
+    <section class="section">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="section-header">
+                        <h3 class="title">Payment</h3>
+                        <p class="text">Lorem ipsum dolor sit amet, consectetur.</p>
                     </div>
-                    <div class="card-body">
-                        <form id="addProduct" enctype="multipart/form-data">
-                            <div class="form-group text-center d-flex justify-content-center">
-                                <label for="productName" class="my-2">Product Name</label>
-                                <input type="text" name="productName" class="form-control mx-2" id="productName"
-                                    placeholder="Enter product name" maxlength="50" style="max-width: 250px;">
-                            </div>
-                            <br>
-                            <div class="form-group text-center">
-                                <label for="parentCategory" class="my-2">Select Parent Category</label>
-                                <div class="d-flex justify-content-center">
-                                    <select name="parentCategory" class="form-control" id="parentCategory"
-                                        style="max-width: 250px;">
-                                        <option disabled selected>Select Parent Category</option>
-                                        <% for(let i=0;i<categoryDet.length;i++){ %>
-                                            <option value="<%=categoryDet[i]._id%>">
-                                                <%=categoryDet[i].categoryName%>
-                                            </option>
-                                            <% } %>
-                                    </select>
+                    <!--<div class="payment_box">
+                        <h5 class="title">Amount</h5>
+                        <ul class="address_list">
+                            <li>
+                                <div class="custom-control custom-radio form-check me-sm-2">
+                                    <input type="radio" class="custom-control-input form-check-input"
+                                        name="customamount" id="amountone" checked="">
+                                    <label class="custom-control-label" for="amountone">
+                                        <span class="top">
+                                            <span class="fw-500 thm-color-two">Enter Amount</span>
+                                        </span>
+                                    </label>
                                 </div>
-                            </div>
-                            <br>
-                            <div class="form-group text-center">
-                                <label for="images" class="my-2">Add Image</label>
-                                <div class="d-flex justify-content-center">
-                                    <input type="file" name="images" class="form-control-file" id="images" multiple>
+                                <div class="payment_value">
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="text" name="#" placeholder="0.00" autocomplete="off">
+                                    </div>
                                 </div>
-                            </div>
-                            <br>
-                            <div class="form-group text-center">
-                                <label for="productPrice" class="my-2">Product Price</label>
-                                <div class="d-flex justify-content-center">
-                                    <input class="form-control" name="productPrice" type="text" id="productPrice"
-                                        placeholder="Enter product price" maxlength="50" style="max-width: 250px;">
+                            </li>
+                            <li>
+                                <div class="custom-control custom-radio form-check me-sm-2">
+                                    <input type="radio" class="custom-control-input form-check-input"
+                                        name="customamount" id="amounttwo">
+                                    <label class="custom-control-label" for="amounttwo">
+                                        <span class="top">
+                                            <span class="fw-500 thm-color-two">Enter Amount</span>
+                                        </span>
+                                    </label>
                                 </div>
-                            </div>
-                            <br>
-                            <div class="form-group text-center">
-                                <label for="productStock" class="my-2">Product Stock</label>
-                                <div class="d-flex justify-content-center">
-                                    <input class="form-control" name="productStock" type="text" id="productStock"
-                                        placeholder="Enter product stock" maxlength="50" style="max-width: 250px;">
+                                <div class="payment_value">$435.00</div>
+                            </li>
+                        </ul>
+                    </div>-->
+                    <div class="payment_box">
+                        <h5 class="title">Payment Method</h5>
+                        <ul class="address_list">
+                            <li>
+                                <div class="custom-control custom-radio form-check me-sm-2">
+                                    <input type="radio" class="custom-control-input form-check-input"
+                                        name="paymentmethod" id="cod">
+                                    <label class="custom-control-label" for="cod">
+                                        <span class="top">
+                                            <span class="fw-500 thm-color-two">Cash On Delivery</span>
+                                        </span>
+                                        <span class="mb-0 p">Pay when you receive your order</span>
+                                    </label>
                                 </div>
-                            </div>
-                            <br>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-success">Add</button>
-                            </div>
-                        </form>
+                                <div class="payment_icon">
+                                    <!-- No icon needed for COD -->
+                                </div>
+                            </li>
+                        </ul>
                     </div>
+                    <button onclick="selectCOD()" class="thm-btn btn-rectangle thm-bg-color-one w-100">Proceed
+                        Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Section End -->
+    <!-- Modal -->
+    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Select Payment Method !</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Please select Payment Method to Proceed.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="close-btn" class="modal-btn btn-secondary"
+                        data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        $('#addProduct').validate({
-            rules: {
-                productName: {
-                    required: true,
-                },
-                productPrice: {
-                    required: true,
-                    pattern: "[1-9][0-9]*"
-                },
-                productStock: {
-                    required: true,
-                    pattern: "[1-9][0-9]*"
-                },
-                parentCategory: {
-                    required: true,
-                }
-            },
-
-            submitHandler: async (form, event) => {
-
-                event.preventDefault()
-                // Create a new FormData object
-                const formData = new FormData(form);
-
-                console.log(formData)
-
-                // const fileInputs = form.querySelectorAll('input[type="file"][name="images"]');
-                // fileInputs.forEach(input => {
-                //     const files = input.files;
-                //     for (let i = 0; i < files.length; i++) {
-                //         formData.append('images', files[i]);
-                //     }
-                // });
-                console.log("going to the post product")
-
-
-
-                let response = await fetch('/addProduct', {
-                    method: 'POST',
-                    body: formData
-                })
-                let result = await response.json()
-                if (result.exists) {
-                    await Swal.fire({
-                        icon: "error",
-                        title: "Product Already exists"
-                    })
-                }
-                if (result.success) {
-                    await Swal.fire({
-                        icon: "success",
-                        title: "Product Added"
-                    })
-                    window.location.href = '/productList'
-                }
-                if (result.noValue) {
-                    await Swal.fire({
-                        icon: "error",
-                        title: "No Value in Product Name"
-                    })
-                }
-            }
-        })
-
-    </script>
-    <!-- Section End -->
     <!-- Footer Start -->
     <footer class="footer section-padding border-top">
         <div class="container-fluid">
@@ -731,8 +647,6 @@
         </div>
     </footer>
     <!-- Footer End -->
-
-    </div>
     <!-- Copyright Start -->
     <div class="copyright">
         <div class="container-fluid">
@@ -741,6 +655,40 @@
     </div>
     <!-- Copyright End -->
     <!-- Scripts -->
+    <script>
+
+
+        function selectCOD() {
+            // Check if the Cash On Delivery radio button is checked
+            const isChecked = document.getElementById('cod').checked
+            if (isChecked) {
+                // If not, show the modal
+                const form = document.createElement('form');
+                form.method = 'get';
+                form.action = '/checkoutPage';
+
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'paymentmethod';
+                input.value = document.querySelector('input[name="paymentmethod"]:checked').value;
+                form.appendChild(input);
+
+                document.body.appendChild(form);
+                form.submit();
+            } else {
+                // If it is, select the radio button
+                const paymentModal = new bootstrap.Modal(
+                    document.getElementById("paymentModal")
+                )
+                paymentModal.show()
+                document
+                    .getElementById("close-btn")
+                    .addEventListener("click", () => {
+                        paymentModal.hide();
+                    });
+            }
+        }
+    </script>
     <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
     <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="assets/js/plugins/slick.min.js"></script>
@@ -748,8 +696,6 @@
     <script src="assets/js/plugins/jquery.counterup.min.js"></script>
     <script src="assets/js/plugins/jquery.inview.min.js"></script>
     <script src="assets/js/custom.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
 </body>
 
 </html>

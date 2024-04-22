@@ -474,7 +474,7 @@
                 </a>
               </li>
               <li>
-                <a href="/myOrdersPage">
+                <a href="order-list.html">
                   <i class="fal fa-luggage-cart"></i>
                   Order
                 </a>
@@ -523,43 +523,106 @@
               </div>
               <!-- User Details -->
               <div class="user_details">
-                <form class="user_form" action="/editProfile" method="post" enctype="application/x-www-form-urlencoded">
+                <form id="address-form" enctype="application/x-www-form-urlencoded">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label><strong>User Name</strong></label>
-                        <input type="text" name="username" class="form-control form-control-custom"
-                          placeholder="First Name" autocomplete="off" value="<%= user.username %>" required
-                          disabled="true" />
+                        <label><strong>First Name</strong></label>
+                        <input type="text" name="firstName" class="form-control form-control-custom"
+                          placeholder="First Name" autocomplete="off" required />
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label><strong>Email Address</strong></label>
-                        <input type="email" name="email" class="form-control form-control-custom"
-                          placeholder="Email I'd" autocomplete="off" value="<%= user.email %>" required
-                          disabled="true" />
+                        <label><strong>Last Name</strong></label>
+                        <input type="text" name="lastName" class="form-control form-control-custom"
+                          placeholder="Last Name" autocomplete="off" required />
                       </div>
                     </div>
                     <div class="col-md-6">
-                      <!-- <div class="form-group"> -->
-                      <label><strong>Phone No.</strong></label>
-                      <input type="number" name="phone" class="form-control form-control-custom" placeholder="Phone No."
-                        autocomplete="off" value="<%= user.phonenumber %>" required min="10" disabled="true" />
+                      <div class="form-group">
+                        <label><strong>Title</strong></label>
+                        <input type="text" name="addressTitle" class="form-control form-control-custom"
+                          placeholder="Home or Work" autocomplete="off" required />
+                      </div>
                     </div>
-                    <!-- </div> -->
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label><strong>Address Line 1</strong></label>
+                        <input type="text" name="addressLine1" class="form-control form-control-custom"
+                          placeholder="House No., Street" autocomplete="off" required />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label><strong>Address Line 2</strong></label>
+                        <input type="text" name="addressLine2" class="form-control form-control-custom"
+                          placeholder="Landmark" autocomplete="off" required />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label><strong>City</strong></label>
+                        <input type="text" name="city" class="form-control form-control-custom" placeholder="City"
+                          autocomplete="off" required />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label><strong>State</strong></label>
+                        <input type="text" name="state" class="form-control form-control-custom" placeholder="State"
+                          autocomplete="off" required />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label><strong>Pin Code</strong></label>
+                        <input type="number" name="pinCode" class="form-control form-control-custom"
+                          placeholder="Pin Code" autocomplete="off" min="6" required />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label><strong>Phone No.</strong></label>
+                        <input type="number" name="phone" class="form-control form-control-custom"
+                          placeholder="Phone No." autocomplete="off" required min="10" />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label><strong>Alternate No.</strong></label>
+                        <input type="number" name="alternateNumber" class="form-control form-control-custom"
+                          placeholder="Alternate No." autocomplete="off" required min="10" />
+                      </div>
+                    </div>
                   </div>
                   <div class="text-center">
-                    <button type="button" class="thm-btn btn-rectangle thm-bg-color-one lh-normal btn-small"
-                      id="edit_profile_btn">
-                      Edit Profile
-                    </button>
-                    <button type="submit" class="thm-btn btn-rectangle thm-bg-color-three save_changes_btn"
-                      style="display: none">
-                      Save Changes
+                    <button type="submit" class="thm-btn btn-rectangle thm-bg-color-one lh-normal btn-small">
+                      ADD ADDRESS
                     </button>
                   </div>
                 </form>
+              </div>
+              <!-- Modal -->
+              <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Success</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Your Address has been Added Successfully!.</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" id="okButton">
+                        OK
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -717,47 +780,62 @@
   <!-- Copyright End -->
   <!-- Scripts -->
   <script>
-    // const form = document.getElementById("my-form");
-    // form.addEventListener("submit", (event) => {
-    //     event.preventDefault();
-    //     const formData = new FormData(form);
-    //     const data = Object.fromEntries(formData.entries());
-    //     const jsonData = JSON.stringify(data);
-    //     fetch("/editProfile", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: jsonData
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log("Success:", data);
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error:", error);
-    //         });
-    // });
-    document
-      .getElementById("edit_profile_btn")
-      .addEventListener("click", function () {
-        let inputs = document.querySelectorAll(".user_form input");
-        for (let i = 0; i < inputs.length; i++) {
-          inputs[i].disabled = false;
-        }
-        document.querySelector("#edit_profile_btn").style.display = "none";
-        document.querySelector(".save_changes_btn").style.display = "block";
-      });
+    const form = document.getElementById("address-form");
+    form.addEventListener("submit", () => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      const urlEncodedData = new URLSearchParams(data);
+      fetch("/addAddress", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: urlEncodedData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            // Show the success message
+            const successModal = new bootstrap.Modal(
+              document.getElementById("successModal")
+            );
+            successModal.show();
+            document
+              .getElementById("okButton")
+              .addEventListener("click", () => {
+                window.location.href = "/addressPage";
+              });
+          } else {
+            // Handle the error
+            console.error(data.error);
+          }
+        })
+        .catch((error) => {
+          // Handle the error
+          console.error(error);
+        });
+    });
+    //   document
+    //     .getElementById("edit_profile_btn")
+    //     .addEventListener("click", function () {
+    //       let inputs = document.querySelectorAll(".user_form input");
+    //       for (let i = 0; i < inputs.length; i++) {
+    //         inputs[i].disabled = false;
+    //       }
+    //       document.querySelector("#edit_profile_btn").style.display = "none";
+    //       document.querySelector(".save_changes_btn").style.display = "block";
+    //     });
 
-    document
-      .querySelector(".save_changes_btn")
-      .addEventListener("click", function () {
-        // Handle form submission and save changes
-        // Disable inputs and show "Edit Profile" button
+    //   document
+    //     .querySelector(".save_changes_btn")
+    //     .addEventListener("click", function () {
+    //       // Handle form submission and save changes
+    //       // Disable inputs and show "Edit Profile" button
 
-        document.querySelector("#edit_profile_btn").style.display = "block";
-        document.querySelector(".save_changes_btn").style.display = "none";
-      });
+    //       document.querySelector("#edit_profile_btn").style.display = "block";
+    //       document.querySelector(".save_changes_btn").style.display = "none";
+    //     });
   </script>
   <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
   <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>

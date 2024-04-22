@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Wuud - Furniture Store Website HTML5 Template | Cart</title>
+    <title>Wuud - Furniture Store Website HTML5 Template | Checkout</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Description website">
     <meta name="author" content="Maksym Blank">
@@ -27,50 +27,6 @@
     <link href="assets/css/plugins/slick.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="assets/img/favicon.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
-        integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js"
-        integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
-    <!-- Bootstrap JS -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Admin-Category</title>
-    <style>
-        div .logoa {
-            height: 150px;
-            width: 136px;
-            padding: 0 0 0 0;
-        }
-
-        .inner {
-            height: 19vh;
-        }
-
-        .image-fit {
-            width: 100%;
-            object-fit: cover;
-            object-position: center;
-            height: 19vh;
-        }
-    </style>
 </head>
 
 <body>
@@ -86,7 +42,7 @@
             <div class="container-fluid">
                 <div class="inner">
                     <!-- Logo -->
-                    <div class="logoa">
+                    <div class="logo">
                         <a href="index-2.html">
                             <img src="assets/images/logo.png" class="image-fit" alt="logo">
                         </a>
@@ -469,135 +425,173 @@
     </div>
     <!-- Category Nav End -->
     <!-- Section Start -->
-    <div class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-8">
-                <div class="card shadow-lg">
-                    <div class="card-header text-center text-white" style="background-color: #C7A379;">
-                        <h4>Add Product</h4>
+    <section class="section-padding pb-0">
+        <div class="container-fluid">
+            <div class="section-header text-center mx-auto">
+                <h3 class="title justify-content-center">Checkout</h3>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-9">
+                    <ul class="process_bar">
+                        <li class="done">Cart</li>
+                        <li class="done">Shipping</li>
+                        <li class="done">Checkout</li>
+                    </ul>
+                </div>
+            </div>
+            <h4 class="c-out_title">Billing Information <a href="login.html" class="thm-color-one fw-500">Already
+                    Registered? Check Here To Login</a></h4>
+            <div class="row">
+                <div class="col-lg-6">
+                    <form action="#" method="POST" class="checkout_form">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="thm-color-two">First Name</label>
+                                    <input type="text" name="#" class="form-control form-control-custom"
+                                        value="<%= addressDet.firstName %>" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="thm-color-two">Last Name</label>
+                                    <input type="text" name="#" class="form-control form-control-custom"
+                                        value="<%= addressDet.lastName %>" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="thm-color-two">Phone No.</label>
+                                    <input type="text" name="#" class="form-control form-control-custom"
+                                        value="<%= addressDet.phone %>" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="thm-color-two">Alternate Phone No.</label>
+                                    <input type="text" name="#" class="form-control form-control-custom"
+                                        value="<%= addressDet.alternateNumber %>" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <ul class="address_list">
+                                        <li>
+                                            <span class="title">Delivers To</span>
+                                            <div class="custom-control form-check custom-radio me-sm-2 mb-2">
+                                                <input type="radio" class="custom-control-input form-check-input"
+                                                    name="addresslist" id="addressone" checked>
+                                                <label class="custom-control-label" for="addressone">
+                                                    <span class="top">
+                                                        <i class="fal fa-briefcase"></i>
+                                                        <span class="fw-500 thm-color-two">
+                                                            <%= addressDet.addressTitle %>
+                                                        </span>
+                                                    </span>
+                                                    <span class="mb-0 p">
+                                                        <%= addressDet.addressLine1 %>
+                                                    </span>
+                                                    <span class="mb-0 p">
+                                                        <%= addressDet.addressLine2 %>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="payment_box">
+                        <h5 class="title">Payment Method</h5>
+                        <ul class="address_list">
+                            <li>
+                                <div class="custom-control custom-radio form-check me-sm-2">
+                                    <input type="radio" class="custom-control-input form-check-input"
+                                        name="paymentmethod" id="cod" checked>
+                                    <label class="custom-control-label" for="cod">
+                                        <span class="top">
+                                            <span class="fw-500 thm-color-two">Cash On Delivery</span>
+                                        </span>
+                                        <span class="mb-0 p">Pay when you receive your order</span>
+                                    </label>
+                                </div>
+                                <div class="payment_icon">
+                                    <!-- No icon needed for COD -->
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="card-body">
-                        <form id="addProduct" enctype="multipart/form-data">
-                            <div class="form-group text-center d-flex justify-content-center">
-                                <label for="productName" class="my-2">Product Name</label>
-                                <input type="text" name="productName" class="form-control mx-2" id="productName"
-                                    placeholder="Enter product name" maxlength="50" style="max-width: 250px;">
-                            </div>
-                            <br>
-                            <div class="form-group text-center">
-                                <label for="parentCategory" class="my-2">Select Parent Category</label>
-                                <div class="d-flex justify-content-center">
-                                    <select name="parentCategory" class="form-control" id="parentCategory"
-                                        style="max-width: 250px;">
-                                        <option disabled selected>Select Parent Category</option>
-                                        <% for(let i=0;i<categoryDet.length;i++){ %>
-                                            <option value="<%=categoryDet[i]._id%>">
-                                                <%=categoryDet[i].categoryName%>
-                                            </option>
-                                            <% } %>
-                                    </select>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="form-group text-center">
-                                <label for="images" class="my-2">Add Image</label>
-                                <div class="d-flex justify-content-center">
-                                    <input type="file" name="images" class="form-control-file" id="images" multiple>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="form-group text-center">
-                                <label for="productPrice" class="my-2">Product Price</label>
-                                <div class="d-flex justify-content-center">
-                                    <input class="form-control" name="productPrice" type="text" id="productPrice"
-                                        placeholder="Enter product price" maxlength="50" style="max-width: 250px;">
-                                </div>
-                            </div>
-                            <br>
-                            <div class="form-group text-center">
-                                <label for="productStock" class="my-2">Product Stock</label>
-                                <div class="d-flex justify-content-center">
-                                    <input class="form-control" name="productStock" type="text" id="productStock"
-                                        placeholder="Enter product stock" maxlength="50" style="max-width: 250px;">
-                                </div>
-                            </div>
-                            <br>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-success">Add</button>
-                            </div>
-                        </form>
+                </div>
+                <div class="col-lg-6">
+                    <div class="checkout_items">
+                        <div class="items_box checkout_info">
+                            <p class="title">Shipping
+                            <h6 class="mb-0">
+                                <%= addressDet.firstName %>
+                                    <%= addressDet.lastName %>
+                            </h6>
+                            <p class="add">
+                                <%= addressDet.addressLine1 %>
+                            </p>
+                            <p class="add">
+                                <%= addressDet.addressLine2 %>
+                            </p>
+                            <p>Mobile: <strong class="thm-color-two">
+                                    <%= addressDet.phone %>
+                                </strong> </p>
+                        </div>
+                        <div class="items_box items table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Product</th>
+                                        <th>Qty</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for(let i=0;i<cartProducts.length;i++){ %>
+                                        <tr>
+                                            <td>
+                                                <span class="type veg"></span>
+                                            </td>
+                                            <td>
+                                                <%= cartProducts[i].productId.productName %>
+                                            </td>
+                                            <td>
+                                                <%= cartProducts[i].productQuantity %>
+                                            </td>
+                                            <td>$<%= cartProducts[i].productId.productPrice %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--<div class="items_box amount_info">
+                            <ul>
+                                <li>Item Total <span>$170</span></li>
+                                <li>Taxes & Charges <span>$25</span></li>
+                                <li>Delivery Fee <span>$15</span></li>
+                                <li>Discount <span>Apply Coupon</span></li>
+                            </ul>
+                        </div>-->
+                        <div class="items_box total_amount">
+                            <strong>Total</strong>
+                            <strong id="grand-total">$185.3</strong>
+                        </div>
+                        <div class="items_box">
+                            <a href="/placeOrder" class="thm-btn btn-rectangle thm-bg-color-one w-100 mb-4">Place The
+                                Order</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <script>
-        $('#addProduct').validate({
-            rules: {
-                productName: {
-                    required: true,
-                },
-                productPrice: {
-                    required: true,
-                    pattern: "[1-9][0-9]*"
-                },
-                productStock: {
-                    required: true,
-                    pattern: "[1-9][0-9]*"
-                },
-                parentCategory: {
-                    required: true,
-                }
-            },
-
-            submitHandler: async (form, event) => {
-
-                event.preventDefault()
-                // Create a new FormData object
-                const formData = new FormData(form);
-
-                console.log(formData)
-
-                // const fileInputs = form.querySelectorAll('input[type="file"][name="images"]');
-                // fileInputs.forEach(input => {
-                //     const files = input.files;
-                //     for (let i = 0; i < files.length; i++) {
-                //         formData.append('images', files[i]);
-                //     }
-                // });
-                console.log("going to the post product")
-
-
-
-                let response = await fetch('/addProduct', {
-                    method: 'POST',
-                    body: formData
-                })
-                let result = await response.json()
-                if (result.exists) {
-                    await Swal.fire({
-                        icon: "error",
-                        title: "Product Already exists"
-                    })
-                }
-                if (result.success) {
-                    await Swal.fire({
-                        icon: "success",
-                        title: "Product Added"
-                    })
-                    window.location.href = '/productList'
-                }
-                if (result.noValue) {
-                    await Swal.fire({
-                        icon: "error",
-                        title: "No Value in Product Name"
-                    })
-                }
-            }
-        })
-
-    </script>
+    </section>
     <!-- Section End -->
     <!-- Footer Start -->
     <footer class="footer section-padding border-top">
@@ -731,8 +725,6 @@
         </div>
     </footer>
     <!-- Footer End -->
-
-    </div>
     <!-- Copyright Start -->
     <div class="copyright">
         <div class="container-fluid">
@@ -741,6 +733,16 @@
     </div>
     <!-- Copyright End -->
     <!-- Scripts -->
+    <script>
+        const cartProducts = '<%- JSON.stringify(cartProducts) %>'
+        const cartPdArr = JSON.parse(cartProducts)
+        const grandSum = document.getElementById('grand-total')
+        let grandTotal = 0;
+        for (let i = 0; i < cartPdArr.length; i++) {
+            grandTotal += cartPdArr[i].totalCostPerProduct
+        }
+        grandSum.innerHTML = `<b>$${grandTotal.toFixed(2)}</b>`;
+    </script>
     <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
     <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="assets/js/plugins/slick.min.js"></script>
@@ -748,8 +750,6 @@
     <script src="assets/js/plugins/jquery.counterup.min.js"></script>
     <script src="assets/js/plugins/jquery.inview.min.js"></script>
     <script src="assets/js/custom.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
 </body>
 
 </html>

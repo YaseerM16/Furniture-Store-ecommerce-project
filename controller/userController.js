@@ -1,5 +1,6 @@
 const userCollection = require("../models/userModel");
 const productCollection = require("../models/productModel");
+const cartCollection = require("../models/cartModel");
 
 const bcrypt = require("bcrypt");
 
@@ -49,7 +50,6 @@ const signUpPage = (req, res) => {
 
 const loginPage = (req, res) => {
   try {
-    console.log(req.session.logged);
     if (req.session.logged) {
       res.redirect("/");
     } else {
@@ -178,20 +178,30 @@ const products = async (req, res) => {
 
 const productDetail = async (req, res) => {
   try {
+    const existInCart = await cartCollection.findOne({
+      productId: req.query.id,
+    });
     const currentProduct = await productCollection
       .findOne({
         _id: req.query.id,
       })
       .populate("parentCategory");
-
-    console.log(currentProduct);
-
-    res.render("userViews/productDetails", {
-      _id: req.body.user_id,
-      user: req.session.logged,
-      currentProduct,
-      productQtyLimit: 0,
-    });
+    if (existInCart) {
+      const availLimit = parseInt(existInCart.productQuantity);
+      res.render("userViews/productDetails", {
+        _id: req.body.user_id,
+        user: req.session.logged,
+        currentProduct,
+        productQtyLimit: availLimit,
+      });
+    } else {
+      res.render("userViews/productDetails", {
+        _id: req.body.user_id,
+        user: req.session.logged,
+        currentProduct,
+        productQtyLimit: 0,
+      });
+    }
   } catch (error) {
     console.log("Error while showing the Product Detail" + error);
   }
@@ -200,6 +210,7 @@ const productDetail = async (req, res) => {
 const logout = (req, res) => {
   try {
     req.session.logged = false;
+    req.session.currentUser = false;
     res.redirect("/");
   } catch (err) {
     console.log(err);

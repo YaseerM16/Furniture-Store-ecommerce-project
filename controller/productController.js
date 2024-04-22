@@ -105,10 +105,8 @@ const editProduct = async (req, res) => {
     for (let i = 0; i < req.files.length; i++) {
       imgFiles[i] = req.files[i].filename;
     }
-    const productDetails = await productCollection.find({
-      productName: {
-        $regex: new RegExp("^" + req.body.productName.toLowerCase() + "$", "i"),
-      },
+    const productDetails = await productCollection.findOne({
+      productName: req.body.productName,
     });
     if (
       /^\s*$/.test(req.body.productName) ||
@@ -118,10 +116,8 @@ const editProduct = async (req, res) => {
       res.send({ noValue: true });
     }
     // catDetails._id != req.body.categoryId
-    else if (
-      productDetails.length > 0 &&
-      req.body.productName != productDetails.productName
-    ) {
+    // (catDetails && catDetails._id != req.body.categoryId)
+    else if (productDetails && productDetails._id != req.params.id) {
       res.send({ exists: true });
     } else {
       await productCollection.updateOne(

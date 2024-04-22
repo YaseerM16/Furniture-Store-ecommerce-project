@@ -134,12 +134,12 @@
                                 </a>
                             </li>
                             <li class="cart">
-                                <a href="cart.html">
+                                <a href="/cartPage">
                                     <span class="cart_value">0</span>
                                     <i class="far fa-shopping-cart"></i>
                                     <div class="cart_text">
                                         My Cart
-                                        <span class="amount">$150.00</span>
+                                        <!-- <span class="amount">$150.00</span> -->
                                     </div>
                                 </a>
                             </li>
@@ -538,74 +538,89 @@
                                                         tempor incididunt ut labore et dolore magna aliqua. Quis ipsum
                                                         suspendisse ultrices gravida.
                                                     </p>
-                                                    <div class="product_action">
-                                                        <div class="quantity">
-                                                            <button class="btn qty-mins" type="button"><i
-                                                                    class="fal fa-minus"></i></button>
-                                                            <input type="text" name="#" value="1" autocomplete="off"
-                                                                readonly>
-                                                            <button class="btn qty-add" type="button"><i
-                                                                    class="fal fa-plus"></i></button>
+                                                    <% if (currentProduct.productStock===productQtyLimit) { %>
+                                                        <strong>Currently unavailable</strong>
+                                                        <div class="m-3 py-1 rounded text-center bg-danger-subtle">
+                                                            <h4 class="text-danger">Out of Stock!!</h4>
                                                         </div>
-                                                        <!-- <button type="button" class="thm-btn btn-rounded thm-bg-color-one">Add To Cart</button> -->
-                                                        <a href="cart.html"
-                                                            class="thm-btn btn-rounded thm-bg-color-one">Add
-                                                            To
-                                                            Cart</a>
-                                                    </div>
-                                                    <strong>Category:</strong>
-                                                    <h5><strong>
-                                                            <%= currentProduct.parentCategory.categoryName%>
-                                                        </strong></h5>
-                                                    <ul class="product_meta">
+                                                        <% } else { %>
+
+                                                            <div class="product_action">
+                                                                <div class="quantity">
+                                                                    <button class="btn qty-mins" type="button"><i
+                                                                            class="fal fa-minus"></i></button>
+                                                                    <input type="number" name="quantity" id="quantity"
+                                                                        value=1 autocomplete="off">
+                                                                    <button class="btn qty-add" type="button"><i
+                                                                            class="fal fa-plus"></i></button>
+                                                                </div>
+                                                                <!-- <button type="button" class="thm-btn btn-rounded thm-bg-color-one">Add To Cart</button> -->
+                                                                <% if (user) { %>
+                                                                    <button id="add-to-cart-btn"
+                                                                        class="thm-btn btn-rounded thm-bg-color-one">Add
+                                                                        To
+                                                                        Cart</button>
+                                                                    <% } else { %>
+                                                                        <a href="/logIn"
+                                                                            class="thm-btn btn-rounded thm-bg-color-one">Add
+                                                                            To
+                                                                            Cart</a>
+                                                                        <% } %>
+                                                            </div>
+                                                            <strong>Category:</strong>
+                                                            <h5><strong>
+                                                                    <%= currentProduct.parentCategory.categoryName%>
+                                                                </strong></h5>
+                                                            <% } %>
+                                                                <ul class="product_meta">
 
 
 
-                                                        <!-- <a href="shop.html">Sofa</a> -->
+                                                                    <!-- <a href="shop.html">Sofa</a> -->
 
-                                                        <li>
+                                                                    <li>
 
 
-                                                        </li>
-                                                        <!-- <li>
+                                                                    </li>
+                                                                    <!-- <li>
                                                     <strong>Tags:</strong>
                                                     <a href="shop.html">Chair</a>
                                                     <a href="shop.html">Sofa</a>
                                                     <a href="shop.html">Dining Table</a>
                                                     <a href="shop.html">Table Lamp</a>
                                                 </li> -->
-                                                        <li>
-                                                            <strong>Seller:</strong>
-                                                            <p>Contrary to popular Private Limited</p>
-                                                        </li>
-                                                    </ul>
-                                                    <div class="product_social">
-                                                        <button type="button" class="social_trigger">
-                                                            <i class="fas fa-share-alt"></i>
-                                                        </button>
-                                                        <ul class="social_media">
-                                                            <li>
-                                                                <a href="#">
-                                                                    <i class="fab fa-facebook-f"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <i class="fab fa-twitter"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <i class="fab fa-linkedin-in"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <i class="fab fa-pinterest-p"></i>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+                                                                    <li>
+                                                                        <strong>Seller:</strong>
+                                                                        <p>Contrary to popular Private Limited</p>
+                                                                    </li>
+                                                                </ul>
+                                                                <div class="product_social">
+                                                                    <button type="button" class="social_trigger">
+                                                                        <i class="fas fa-share-alt"></i>
+                                                                    </button>
+                                                                    <ul class="social_media">
+                                                                        <li>
+                                                                            <a href="#">
+                                                                                <i class="fab fa-facebook-f"></i>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="#">
+                                                                                <i class="fab fa-twitter"></i>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="#">
+                                                                                <i class="fab fa-linkedin-in"></i>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="#">
+                                                                                <i class="fab fa-pinterest-p"></i>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
                                         </div>
                                     </div>
                                 </div>
@@ -907,6 +922,48 @@
         </section>
     </div>
     </div>
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Success</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Your Product has been Added To Cart Successfully!.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="okButton">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Out of Stock Modal -->
+    <div class="modal fade" id="outOfStockModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Out of Stock</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>This Quantity is Reached the Available Limit.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="close-btn">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Section End -->
@@ -1050,6 +1107,94 @@
     </div>
     <!-- Copyright End -->
     <!-- Scripts -->
+    <script>
+        // productQtyLimit
+        const quantityInput = document.getElementById('quantity');
+        //plus-button
+        document.querySelectorAll('.qty-add').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                let quantityInputVal = parseInt(quantityInput.value)
+                e.preventDefault();
+                const productStock = '<%= currentProduct.productStock %>'
+                const presentQty = parseInt('<%= productQtyLimit %>');
+                const productStockVal = parseInt(productStock)
+                console.log(presentQty);
+                console.log(productStockVal);
+                if (quantityInputVal + 1 > productStockVal - presentQty - 1) {
+                    quantityInput.value = productStockVal - presentQty - 1
+                    const outOfStockModal = new bootstrap.Modal(
+                        document.getElementById("outOfStockModal")
+                    )
+                    outOfStockModal.show()
+                    document
+                        .getElementById("close-btn")
+                        .addEventListener("click", () => {
+                            outOfStockModal.hide();
+                        });
+                }
+            });
+        });
+
+
+        // const quantityInput = document.getElementById('quantity');
+        // let quantityInputVal = parseInt(quantityInput.value)
+        // const productStock = '<%= currentProduct.productStock %>';
+        // function quantityIncBtn() {
+        //     console.log("Plus button func is calling");
+        //     const currentPdStock = parseInt(productStock);
+        //     console.log(currentPdStock);
+        //     console.log(quantityInputVal);
+        //     if (quantityInputVal < currentPdStock) {
+        //         quantityInputVal++
+        //     } else {
+        //         quantityInput.value = currentPdStock - 1
+        //         const outOfStockModal = new bootstrap.Modal(
+        //             document.getElementById("outOfStockModal")
+        //         );
+        //         outOfStockModal.show();
+        //         document
+        //             .getElementById("okOutButton")
+        //             .addEventListener("click", () => {
+        //                 outOfStockModal.hide();
+        //             });
+        //         console.log('Operation was successful.');
+        //     }
+
+        // }
+
+        document.getElementById('add-to-cart-btn').addEventListener('click', () => {
+            const productId = '<%= currentProduct._id %>';
+            const productStock = '<%= currentProduct.productStock %>';
+            const productPrice = '<%= currentProduct.productPrice %>';
+            const quantityInput = document.getElementById('quantity').value
+
+
+            fetch(`/addToCart?pid=${productId}&stock=${productStock}&quantity=${quantityInput}&productPrice=${productPrice}`, {
+                method: 'POST',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const successModal = new bootstrap.Modal(
+                            document.getElementById("successModal")
+                        );
+                        successModal.show();
+                        document
+                            .getElementById("okButton")
+                            .addEventListener("click", () => {
+                                window.location.reload();
+                            });
+                    } else {
+                        throw new Error('Error adding product to cart.');
+                    }
+                })
+                .catch(error => {
+                    // show error message
+                    alert('Error adding product to cart.');
+                });
+        });
+    </script>
+
     <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
     <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="assets/js/plugins/slick.min.js"></script>
