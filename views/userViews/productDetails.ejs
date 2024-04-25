@@ -541,7 +541,8 @@
                                                     <% if (currentProduct.productStock===productQtyLimit) { %>
                                                         <strong>Currently unavailable</strong>
                                                         <div class="m-3 py-1 rounded text-center bg-danger-subtle">
-                                                            <h4 class="text-danger">Out of Stock!!</h4>
+                                                            <h4 class="text-danger">
+                                                                Out of Stock!!</h4>
                                                         </div>
                                                         <% } else { %>
 
@@ -550,7 +551,7 @@
                                                                     <button class="btn qty-mins" type="button"><i
                                                                             class="fal fa-minus"></i></button>
                                                                     <input type="number" name="quantity" id="quantity"
-                                                                        value=1 autocomplete="off">
+                                                                        value=1 autocomplete="off" disabled>
                                                                     <button class="btn qty-add" type="button"><i
                                                                             class="fal fa-plus"></i></button>
                                                                 </div>

@@ -545,18 +545,19 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Type</th>
+                                        <!-- <th>Type</th> -->
                                         <th>Product</th>
                                         <th>Qty</th>
                                         <th>Price</th>
+                                        <th>Subtotal</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <% for(let i=0;i<cartProducts.length;i++){ %>
                                         <tr>
-                                            <td>
-                                                <span class="type veg"></span>
-                                            </td>
+                                            <!-- <td> -->
+                                            <!-- <span class="type veg"></span> -->
+                                            <!-- </td> -->
                                             <td>
                                                 <%= cartProducts[i].productId.productName %>
                                             </td>
@@ -565,26 +566,23 @@
                                             </td>
                                             <td>$<%= cartProducts[i].productId.productPrice %>
                                             </td>
+                                            <td>$<%= cartProducts[i].totalCostPerProduct %>
+                                            </td>
                                         </tr>
                                         <% } %>
 
                                 </tbody>
                             </table>
                         </div>
-                        <!--<div class="items_box amount_info">
-                            <ul>
-                                <li>Item Total <span>$170</span></li>
-                                <li>Taxes & Charges <span>$25</span></li>
-                                <li>Delivery Fee <span>$15</span></li>
-                                <li>Discount <span>Apply Coupon</span></li>
-                            </ul>
-                        </div>-->
                         <div class="items_box total_amount">
                             <strong>Total</strong>
-                            <strong id="grand-total">$185.3</strong>
+                            <strong id="grand-total">$</strong>
                         </div>
+
+
                         <div class="items_box">
-                            <a href="/placeOrder" class="thm-btn btn-rectangle thm-bg-color-one w-100 mb-4">Place The
+                            <a href="/placeOrder" class="thm-btn btn-rectangle thm-bg-color-one w-100 mb-4">Place
+                                The
                                 Order</a>
                         </div>
                     </div>
@@ -736,6 +734,7 @@
     <script>
         const cartProducts = '<%- JSON.stringify(cartProducts) %>'
         const cartPdArr = JSON.parse(cartProducts)
+        console.log(cartPdArr);
         const grandSum = document.getElementById('grand-total')
         let grandTotal = 0;
         for (let i = 0; i < cartPdArr.length; i++) {

@@ -61,8 +61,7 @@ userRouter.delete("/deleteAddress", accountController.deleteAddress);
 //Cart
 userRouter.post("/addToCart", cartController.addToCart);
 userRouter.get("/cartPage", cartController.cartPage);
-userRouter.get("/increaseQty", cartController.quantityIncBtn);
-userRouter.get("/cartIncBtn", cartController.cartIncBtn);
+userRouter.get("/cartIncBtn", cartController.cartIncDecBtn);
 userRouter.post("/selectAddress", cartController.addressCheckOutPage);
 userRouter.get("/RedirectPaymentPage", cartController.redirecPaymentMethod);
 userRouter.get("/payMethodPage", cartController.paymentMethodPage);

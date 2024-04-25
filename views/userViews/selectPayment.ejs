@@ -473,22 +473,28 @@
                             <li>
                                 <div class="custom-control custom-radio form-check me-sm-2">
                                     <input type="radio" class="custom-control-input form-check-input"
-                                        name="paymentmethod" id="cod">
-                                    <label class="custom-control-label" for="cod">
+                                        name="paymentmethod" id="paymentmethod" checked>
+                                    <label class="custom-control-label" for="paymentmethod">
                                         <span class="top">
-                                            <span class="fw-500 thm-color-two">Cash On Delivery</span>
+                                            <span class="fw-500 thm-color-two" id="selectedPaymentMethod">Select Payment
+                                                Method</span>
                                         </span>
-                                        <span class="mb-0 p">Pay when you receive your order</span>
                                     </label>
                                 </div>
                                 <div class="payment_icon">
-                                    <!-- No icon needed for COD -->
+                                    <select id="paymentMethodSelect" class="form-select mt-2"
+                                        onchange="selectPaymentMethod()">
+                                        <option value="cod" selected>Cash On Delivery</option>
+                                        <option value="card">Credit/Debit Card</option>
+                                        <option value="wallet">E-Wallet</option>
+                                    </select>
                                 </div>
                             </li>
                         </ul>
                     </div>
-                    <button onclick="selectCOD()" class="thm-btn btn-rectangle thm-bg-color-one w-100">Proceed
+                    <button onclick="selectCOD()" class="thm-btn btn-rectangle thm-bg-color-one w-50">Proceed
                         Now</button>
+
                 </div>
             </div>
         </div>
@@ -656,37 +662,72 @@
     <!-- Copyright End -->
     <!-- Scripts -->
     <script>
+        function selectPaymentMethod() {
+            var paymentMethodSelect = document.getElementById("paymentMethodSelect");
+            var selectedPaymentMethod = paymentMethodSelect.options[paymentMethodSelect.selectedIndex].value;
+            document.getElementById("selectedPaymentMethod").innerHTML = selectedPaymentMethod;
+        }
 
+
+        // Set the initial selected payment method
+        selectPaymentMethod();
 
         function selectCOD() {
-            // Check if the Cash On Delivery radio button is checked
-            const isChecked = document.getElementById('cod').checked
-            if (isChecked) {
-                // If not, show the modal
-                const form = document.createElement('form');
-                form.method = 'get';
-                form.action = '/checkoutPage';
+            var paymentMethodSelect = document.getElementById("paymentMethodSelect");
+            var selectedPaymentMethod = paymentMethodSelect.options[paymentMethodSelect.selectedIndex].value;
 
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'paymentmethod';
-                input.value = document.querySelector('input[name="paymentmethod"]:checked').value;
-                form.appendChild(input);
-
-                document.body.appendChild(form);
-                form.submit();
-            } else {
-                // If it is, select the radio button
-                const paymentModal = new bootstrap.Modal(
-                    document.getElementById("paymentModal")
-                )
-                paymentModal.show()
-                document
-                    .getElementById("close-btn")
-                    .addEventListener("click", () => {
-                        paymentModal.hide();
-                    });
+            // Check if a payment method has been selected
+            if (selectedPaymentMethod === "") {
+                alert("Pleaseselect a payment method.");
+                return;
             }
+
+            // Check if the Cash On Delivery radio button is checked
+            if (selectedPaymentMethod !== "cod") {
+                alert("Please select Cash On Delivery as the payment method.");
+                return;
+            }
+
+            // If the Cash On Delivery radio button is checked, proceed with the form submission
+            console.log("Payment method is Cash On Delivery." + selectedPaymentMethod);
+            const form = document.createElement('form');
+            form.method = 'get';
+            form.action = '/checkoutPage';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'paymentmethod';
+            input.value = selectedPaymentMethod;
+            form.appendChild(input);
+
+            document.body.appendChild(form);
+            form.submit();
+            // if (isChecked) {
+            //     // If not, show the modal
+            //     const form = document.createElement('form');
+            //     form.method = 'get';
+            //     form.action = '/checkoutPage';
+
+            //     const input = document.createElement('input');
+            //     input.type = 'hidden';
+            //     input.name = 'paymentmethod';
+            //     input.value = document.querySelector('input[name="paymentmethod"]:checked').value;
+            //     form.appendChild(input);
+
+            //     document.body.appendChild(form);
+            //     form.submit();
+            // } else {
+            //     // If it is, select the radio button
+            //     const paymentModal = new bootstrap.Modal(
+            //         document.getElementById("paymentModal")
+            //     )
+            //     paymentModal.show()
+            //     document
+            //         .getElementById("close-btn")
+            //         .addEventListener("click", () => {
+            //             paymentModal.hide();
+            //         });
+            // }
         }
     </script>
     <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>

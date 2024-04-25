@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Wuud - Furniture Store Website HTML5 Template | Cart</title>
+    <title>Wuud - Furniture Store Website HTML5 Template | Thank You</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Description website">
     <meta name="author" content="Maksym Blank">
@@ -27,59 +27,6 @@
     <link href="assets/css/plugins/slick.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
-    <style>
-        .thm-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-            line-height: 1.5;
-            border-radius: 0.25rem;
-            transition: all 0.3s ease;
-        }
-
-        .thm-btn:hover {
-            background-color: #f5f5f5;
-            color: #333;
-        }
-
-        .thm-btn:focus {
-            box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.2);
-        }
-
-        .thm-btn:active {
-            background-color: #e9ecef;
-        }
-
-        .thm-btn-one {
-            background-color: #17a2b8;
-            color: #fff;
-            border: 1px solid #17a2b8;
-        }
-
-        .thm-btn-one:hover {
-            background-color: #13849e;
-            color: #fff;
-            border: 1px solid #13849e;
-        }
-
-        .thm-btn-danger {
-            background-color: #dc3545;
-            color: #fff;
-            border: 1px solid #dc3545;
-        }
-
-        .thm-btn-danger:hover {
-            background-color: #c82333;
-            color: #fff;
-            border: 1px solid #c82333;
-        }
-
-        .errors {
-            color: #c82333;
-        }
-    </style>
 </head>
 
 <body>
@@ -150,7 +97,7 @@
                             </li>
                             <li class="user">
                                 <a href="account.html">
-                                    <img src="assets/images/header/user.png" class="image-fit" alt="img">
+                                    <img src="assets/images/header/user.jpg" class="image-fit" alt="img">
                                     <span>Jhon Deo</span>
                                 </a>
                                 <ul class="sub-menu">
@@ -478,164 +425,22 @@
     </div>
     <!-- Category Nav End -->
     <!-- Section Start -->
-    <section>
-        <% if (cartProducts.length> 0) { %>
-            <section class="section-padding pb-0">
-                <div class="container-fluid">
-                    <div class="section-header">
-                        <h3 class="title">Cart</h3>
-                        <p class="text">Lorem ipsum dolor sit amet, consectetur.</p>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="table-responsive cart_table">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th class="remove-item"></th>
-                                            <th>Product</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        <% for(let i=0;i<cartProducts.length;i++){ %>
-                                            <tr>
-                                                <td class="remove">
-                                                    <button class="remove-from-cart" type="button">
-                                                        <span></span>
-                                                        <span></span>
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <div class="cart_product">
-                                                        <img src="assets/uploadimages/uploads/<%=cartProducts[i].productId.productImage[0]%>"
-                                                            class="image-fit-contain" alt="img">
-                                                        <div class="cart_product_text">
-                                                            <h6 class="title">
-                                                                <a href="shop-details.html">
-                                                                    <%= cartProducts[i].productId.productName %>
-                                                                </a>
-                                                            </h6>
-                                                            <p class="mb-0">1pc</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <strong>₹&nbsp;<%= cartProducts[i].productId.productPrice %>
-                                                    </strong>
-                                                </td>
-                                                <td class="product_block product_details">
-                                                    <div class="product_action">
-                                                        <div class="quantity m-0">
-                                                            <button class="btn qty-mins"
-                                                                onclick="cartQuantityUpdate('minus','<%= cartProducts[i].productId._id %>','<%= i %>')"
-                                                                index="<%= i %>" type="button"><i
-                                                                    class="fal fa-minus"></i></button>
-                                                            <input type="text" class="dataClass"
-                                                                id="productQuantity<%= cartProducts[i].productId._id %>"
-                                                                data-pid="<%= cartProducts[i].productId._id %>"
-                                                                value="<%= cartProducts[i].productQuantity %>"
-                                                                index="<%= i %>" autocomplete="off" disabled>
-                                                            <button class="btn qty-add"
-                                                                onclick="cartQuantityUpdate('plus','<%= cartProducts[i].productId._id %>','<%= i %>')">
-                                                                <i class="fal fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <strong>₹</strong>&nbsp;<strong
-                                                        id="totalCostPerProduct<%= cartProducts[i].productId._id %>"></strong>
-                                                </td>
-                                            </tr>
-                                            <% } %>
-                                    </tbody>
-                                </table>
-                            </div>
+    <div class="section">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <div class="error-page text-center">
+                        <div class="image mb-xl-30">
+                            <img src="assets/images/thankyou.jpg" class="img-fluid" style="width: 60%;" alt="img">
                         </div>
-
-                        <div class="col-lg-5">
-                            <div class="sidebar mb-xl-30">
-                                <div class="input-group">
-                                    <input type="text" name="#" class="form-control form-control-custom"
-                                        placeholder="Enter Coupon Code" autocomplete="off" required="">
-                                    <div class="input-group-append with_text">
-                                        <button type="submit">
-                                            Apply
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <h4>Check your all orders go your Account Page</h4>
+                        <a href="/userDetails" class="thm-btn btn-rounded thm-bg-color-one">My Account</a>
                     </div>
-                </div>
-            </section>
-            <!-- Section End -->
-            <!-- Section Start -->
-            <section class="section pt-0">
-                <div class="container-fluid">
-                    <div class="row justify-content-end">
-                        <div class="col-lg-6">
-                            <div class="section-header">
-                                <h3 class="title">Cart Total</h3>
-                            </div>
-                            <table>
-                                <tbody>
-                                    <th>Total</th>
-                                    <!-- <b>99.99$</b> -->
-                                    <td><b>₹</b>&nbsp;<strong id="grand-total">0</strong></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <button id="proceed-to-checkout"
-                                class="thm-btn btn-rectangle thm-bg-color-one w-100">Proceed To
-                                Checkout</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <% } else { %>
-                <div style="display: flex; justify-content: center; padding-top: 50px; padding-bottom:50px;">
-                    <div colspan="5">
-                        <div class="empty-cart-message"
-                            style="display: flex; justify-content: center; flex-direction: column;">
-                            <h4 style="display: flex; justify-content: center;">Your
-                                Cart is feeling a bit lonely...</h4>
-                            <p>Why not explore our amazing collection and add something
-                                exciting?</p>
-                            <a href="/products"
-                                class="btn btn-primary thm-btn btn-rectangle thm-bg-color-danger lh-normal btn-small mt-2">Explore
-                                Now</a>
-                        </div>
-                    </div>
-                </div>
-                <% } %>
-    </section>
-    <!-- Section End -->
-    <!-- Out of Stock Modal -->
-    <div class="modal fade" id="outOfStockModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Out of Stock</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>This Quantity is Reached the Available Limit.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="close-btn">
-                        OK
-                    </button>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Section End -->
     <!-- Footer Start -->
     <footer class="footer section-padding border-top">
         <div class="container-fluid">
@@ -771,220 +576,11 @@
     <!-- Copyright Start -->
     <div class="copyright">
         <div class="container-fluid">
-            <p class="mb-0">@Copyright 2022. <a href="#" class="thm-color-one">Website.com</a> All Rights
-                Reserved</p>
+            <p class="mb-0">@Copyright 2022. <a href="#" class="thm-color-one">Website.com</a> All Rights Reserved</p>
         </div>
     </div>
     <!-- Copyright End -->
     <!-- Scripts -->
-    <script>
-        const cartProducts = '<%- JSON.stringify(cartProducts) %>'
-        const cartPdArr = JSON.parse(cartProducts)
-        // const presentQty = cartPdArr[0].productQuantity
-
-        // console.log(presentQty);
-        // const parsedGrandSum = parseInt(grandSum.innerHTML)
-        // console.log(parsedGrandSum);
-        let grandTotal = 0;
-        for (let i = 0; i < cartPdArr.length; i++) {
-            let totalCostPer = document.getElementById(`totalCostPerProduct${cartPdArr[i].productId._id}`)
-            let quantity = document.getElementById(`productQuantity${cartPdArr[i].productId._id}`).value
-            let productPrice = cartPdArr[i].productId.productPrice
-            let totalCostPerVal = quantity * productPrice
-            grandTotal += cartPdArr[i].totalCostPerProduct
-            totalCostPer.innerHTML = totalCostPerVal
-            // console.log(grandTotal);
-        }
-
-        document.getElementById('grand-total').innerHTML = grandTotal
-        // grandTotal += cartPdArr[i].totalCostPerProduct
-        // grandSum.innerHTML = parsedGrandSum + grandTotal
-
-
-
-        document.getElementById('proceed-to-checkout').addEventListener("click", () => {
-            const cartData = [];
-            document.querySelectorAll(".dataClass").forEach(ele => {
-                const obj = {
-                    productId: ele.getAttribute('data-pid'),
-                    quantity: parseInt(ele.value)
-                };
-                cartData.push(obj);
-            })
-            const form = document.createElement('form');
-            const grndTt = parseInt(document.getElementById('grand-total').innerHTML);
-            form.method = 'POST';
-            form.action = `/selectAddress?grandTotal=${grndTt}`;
-
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'cartData';
-            input.value = JSON.stringify(cartData);
-
-            form.appendChild(input);
-            document.body.appendChild(form);
-            form.submit();
-        })
-
-
-        async function cartQuantityUpdate(action, productId, index) {
-            let totalCostPerProduct = document.getElementById(`totalCostPerProduct${productId}`);
-
-
-            let inputValue = document.getElementById(`productQuantity${productId}`).value;
-            const productPrice = cartPdArr[index].productId.productPrice
-
-            let originalValue = inputValue;
-            try {
-
-
-                const response = await fetch(`/cartIncBtn?action=${action}&productID=${productId}&quantity=${inputValue}`, {
-                    method: "GET",
-                });
-
-                const data = await response.json();
-                if (data.success) {
-
-                    // console.log(data.quantity);
-                    // console.log(data.success);
-                    // const c = parseInt(data.quantity)
-                    // console.log(c);
-                    // console.log(data.totalCostPerProduct);
-                    const grandSum = document.getElementById('grand-total')
-                    let grandSumVal = parseInt(grandSum.innerHTML)
-                    document.getElementById(`productQuantity${productId}`).value = data.quantity
-
-                    let totalCostPerProductVal = parseInt(data.quantity) * productPrice
-                    totalCostPerProduct.innerHTML = totalCostPerProductVal
-                    // console.log(totalCostPerProductVal)
-                    // console.log(data.totalCostPerProduct);
-                    if (data.action == "plus") {
-                        grandSumVal += productPrice
-                        grandSum.innerHTML = grandSumVal
-                    } else if (data.action == "minus") {
-                        grandSumVal -= productPrice
-                        grandSum.innerHTML = grandSumVal
-                    }
-                    console.log("Sending and coming");
-                }
-
-                if (data.exceed) {
-                    const outOfStockModal = new bootstrap.Modal(
-                        document.getElementById("outOfStockModal")
-                    )
-                    outOfStockModal.show()
-
-                    document.getElementById(`productQuantity${productId}`).value = originalValue
-                    document
-                        .getElementById("close-btn")
-                        .addEventListener("click", () => {
-                            outOfStockModal.hide();
-                        });
-                }
-            } catch (err) {
-                console.log("The /cartIncBtn interrupted with an error:", err);
-            }
-
-            // Your fetch request and logic here
-        }
-        // method 2 -- fetch- slow
-        // document.querySelectorAll('.qty-add').forEach(btn => {
-        //     btn.addEventListener('click', async (e) => {
-        //         const productId = e.target.getAttribute('data-pid');
-        //         console.log("Product ID:", productId); // Add this line for debugging
-
-        //         try {
-        //             const response = await fetch(`/cartIncBtn?productID=${productId}`, {
-        //                 method: "GET",
-        //             });
-        //             const data = await response.json();
-
-        //             console.log("Response:", data); // Add this line for debugging
-
-        //             if (data.success) {
-        //                 console.log("Sending and coming");
-        //             }
-        //         } catch (err) {
-        //             console.log("The /cartIncBtn interrupted with an error:", err);
-        //         }
-        //     });
-        // });
-
-
-
-        // Initialize grand total
-
-        //plus-button
-        // document.querySelectorAll('.qty-add').forEach(btn => {
-        //     btn.addEventListener('click', (e) => {
-        //         e.preventDefault();
-        //         const index = btn.getAttribute('index');
-        //         const pid = cartPdArr[index].productId._id;
-        //         const productQuantity = document.querySelector(`#productQuantity${pid}`);
-        //         let qtyVal = parseInt(productQuantity.value);
-        //         if (qtyVal > cartPdArr[index].productId.productStock - 1) {
-        //             const outOfStockModal = new bootstrap.Modal(
-        //                 document.getElementById("outOfStockModal")
-        //             )
-        //             outOfStockModal.show()
-        //             document
-        //                 .getElementById("close-btn")
-        //                 .addEventListener("click", () => {
-        //                     outOfStockModal.hide();
-        //                 });
-        //         } else {
-        //             const totalCostPerProduct = document.querySelector(`#totalCostPerProduct${pid}`);
-        //             const totalCostPerProductVal = parseInt(totalCostPerProduct.innerHTML);
-        //             qtyVal += 1;
-        //             console.log(qtyVal);
-        //             productQuantity.innerHTML = qtyVal
-        //             let parsedGrand = parseInt(grandSum.innerHTML)
-        //             totalCostPerProduct.innerHTML = qtyVal * cartPdArr[index].productId.productPrice;
-        //             grandSum.innerHTML = parsedGrand + cartPdArr[index].productId.productPrice
-        //         }
-        //         console.log(index);
-        //     });
-        // });
-
-        //minus-button
-        // document.querySelectorAll('.qty-mins').forEach(btn => {
-        //     btn.addEventListener('click', (e) => {
-        //         console.log("THis minus is per");
-        //         e.preventDefault();
-        //         const index = btn.getAttribute('index');
-        //         const pid = cartPdArr[index].productId._id;
-        //         const productQuantity = document.querySelector(`#productQuantity${pid}`);
-        //         const totalCostPerProduct = document.querySelector(`#totalCostPerProduct${pid}`);
-        //         const totalCostPerProductVal = parseInt(totalCostPerProduct.innerHTML);
-        //         let qtyVal = parseInt(productQuantity.value);
-        //         if (qtyVal > 1) {
-        //             productQuantity.value = qtyVal - 1;
-        //             let parsedGrand = parseInt(grandSum.innerHTML)
-        //             grandSum.innerHTML = parsedGrand - cartPdArr[index].productId.productPrice
-        //             totalCostPerProduct.innerHTML = totalCostPerProductVal - cartPdArr[index].productId.productPrice;
-        //         }
-        //     });
-        // });
-
-
-        // const proceedToCheckoutBtn = document.getElementById('proceed-to-checkout');
-        // proceedToCheckoutBtn.addEventListener('click', (e) => {
-        //     e.preventDefault();
-        //     const form = document.createElement('form');
-        //     form.method = 'GET';
-        //     form.action = '/selectAddress';
-
-        //     const input = document.createElement('input');
-        //     input.type = 'hidden';
-        //     input.name = 'grandTotal';
-        //     input.value = grandTotal;
-        //     console.log(grandTotal);
-
-        //     form.appendChild(input);
-        //     document.body.appendChild(form);
-        //     form.submit();
-        // });
-    </script>
     <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
     <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="assets/js/plugins/slick.min.js"></script>

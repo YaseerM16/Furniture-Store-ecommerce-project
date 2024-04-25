@@ -14,14 +14,13 @@ const addToCart = async (req, res) => {
       const presentQty = parseInt(productExist.productQuantity);
       const qty = parseInt(req.query.quantity);
       const productPrice = parseInt(req.query.productPrice);
-      console.log(qty);
 
       await cartCollection.updateOne(
         { productId: req.query.pid },
         {
           $set: {
             productQuantity: presentQty + qty,
-            totalCostPerProduct: presentQty + qty * productPrice,
+            totalCostPerProduct: (presentQty + qty) * productPrice,
           },
         }
       );
@@ -49,7 +48,6 @@ const cartPage = async (req, res) => {
         userId: req.session.currentUser._id,
       })
       .populate("productId");
-    console.log(cartProducts);
     if (!cartProducts || cartProducts.length === 0) {
       // Render the EJS page with an empty cartProducts array
       res.render("userViews/cart", { cartProducts: [] });
@@ -62,13 +60,15 @@ const cartPage = async (req, res) => {
   }
 };
 
-const cartIncBtn = async (req, res) => {
+const cartIncDecBtn = async (req, res) => {
   try {
     const productId = req.query.productID;
     const quantity = parseInt(req.query.quantity);
+    const action = req.query.action;
 
     // Retrieve the product from the database
     const product = await productCollection.findOne({ _id: productId });
+    const productPrice = parseInt(product.productPrice);
     if (!product) {
       return res
         .status(404)
@@ -76,21 +76,67 @@ const cartIncBtn = async (req, res) => {
     }
 
     const productStock = parseInt(product.productStock);
-    if (quantity < productStock) {
-      // If quantity is less than productStock, update the cart
-      const cartProduct = await cartCollection.findOneAndUpdate(
-        { productId },
-        { $inc: { productQuantity: 1 } },
-        { new: true } // Return the updated document
-      );
+    const updateTotalCostPerProduct = quantity * productPrice;
+    if (action === "minus") {
+      // If action is 'minus' and quantity > 0, decrement the cart
+      if (quantity > 1) {
+        const cartProduct = await cartCollection.findOneAndUpdate(
+          { productId },
+          {
+            $inc: { productQuantity: -1 },
+            $set: {
+              totalCostPerProduct: updateTotalCostPerProduct - productPrice,
+            },
+          },
+          { new: true } // Return the updated document
+        );
 
-      // Send success response with updated cart product
-      res.send({ success: true, cartProduct });
+        // Send success response with updated cart product
+        res.send({
+          success: true,
+          quantity: quantity - 1,
+          action: "minus",
+          totalCostPerProduct: updateTotalCostPerProduct - productPrice,
+        });
+      } else {
+        res.send({
+          success: false,
+          quantity: quantity + 1,
+          message: "Invalid quantity",
+        });
+      }
+    } else if (action === "plus") {
+      // If action is 'plus' and quantity < productStock, increment the cart
+      if (quantity < productStock) {
+        const cartProduct = await cartCollection.findOneAndUpdate(
+          { productId },
+          {
+            $inc: { productQuantity: 1 },
+            $set: {
+              totalCostPerProduct: updateTotalCostPerProduct + productPrice,
+            },
+          },
+          { new: true } // Return the updated document
+        );
+
+        // Send success response with updated cart product
+        res.send({
+          success: true,
+          quantity: quantity + 1,
+          action: "plus",
+          totalCostPerProduct: updateTotalCostPerProduct + productPrice,
+        });
+      } else {
+        res.status(400).send({ success: false, exceed: true });
+      }
     } else {
-      res.status(400).send({ success: false, exceed: true });
+      res.status(400).send({ success: false, message: "Invalid action" });
     }
   } catch (error) {
-    console.log("Error while clicking the Cart Increment Button:", error);
+    console.log(
+      "Error while clicking the Cart Increment/Decrement Button:",
+      error
+    );
     res.status(500).send({ success: false, message: "Internal server error" });
   }
 };
@@ -119,6 +165,7 @@ const addressCheckOutPage = async (req, res) => {
   try {
     req.session.cartData = req.body.cartData;
     req.session.cartTotal = req.query.grandTotal;
+
     req.session.save();
     const userId = req.session.currentUser._id;
     const userAddress = await addressCollection.find({
@@ -170,8 +217,6 @@ const checkoutPage = async (req, res) => {
     const addressDet = await addressCollection.findOne({
       _id: req.session.addressId,
     });
-    console.log(req.session.cartData);
-    console.log(req.session.cartTotal);
 
     if (!cartProducts && !addressDet) {
       console.log("The Cart product or Address is not getting");
@@ -192,6 +237,16 @@ const placeOrder = async (req, res) => {
     const cartDet = await cartCollection.find({
       userId: req.session.currentUser._id,
     });
+    for (let cart of cartDet) {
+      await productCollection.updateOne(
+        { _id: cart.productId },
+        { $inc: { productStock: -cart.productQuantity } }
+      );
+    }
+    await cartCollection.deleteMany({ userId: req.session.currentUser._id });
+
+    console.log(cartDet);
+
     await orderCollection.insertMany([
       {
         userId: req.session.currentUser._id,
@@ -199,20 +254,11 @@ const placeOrder = async (req, res) => {
         paymentType: req.session.paymentMethod,
         addressChosen: req.session.addressId,
         cartData: cartDet,
-        grandTotalCost: req.session.grandTotal,
+        grandTotalCost: req.session.cartTotal,
       },
     ]);
 
-    for (let cart of cartDet) {
-      await productCollection.updateOne(
-        { _id: cart.productId },
-        { $inc: { productStock: -cart.productQuantity } }
-      );
-    }
-
-    await cartCollection.deleteMany({ userId: req.session.currentUser._id });
-
-    res.send({ success: true });
+    res.render("userViews/orderSuccess");
   } catch (error) {
     console.log("Error while Placing the Order" + error);
   }
@@ -227,5 +273,5 @@ module.exports = {
   paymentMethodPage,
   checkoutPage,
   placeOrder,
-  cartIncBtn,
+  cartIncDecBtn,
 };
