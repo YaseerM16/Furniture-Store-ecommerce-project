@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
   phonenumber: { type: Number, required: true },
   password: { type: String, required: true },
   isBlocked: { type: Boolean, required: false },
+  referralCode: { type: String, required: true },
 });
 
 module.exports = mongoose.model("users", userSchema);

@@ -780,42 +780,42 @@
   <!-- Copyright End -->
   <!-- Scripts -->
   <script>
-    const form = document.getElementById("address-form");
-    form.addEventListener("submit", () => {
-      event.preventDefault();
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
-      const urlEncodedData = new URLSearchParams(data);
-      fetch("/addAddress", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: urlEncodedData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.success) {
-            // Show the success message
-            const successModal = new bootstrap.Modal(
-              document.getElementById("successModal")
-            );
-            successModal.show();
-            document
-              .getElementById("okButton")
-              .addEventListener("click", () => {
-                window.location.href = "/addressPage";
-              });
-          } else {
-            // Handle the error
-            console.error(data.error);
-          }
-        })
-        .catch((error) => {
-          // Handle the error
-          console.error(error);
-        });
-    });
+    // const form = document.getElementById("address-form");
+    // form.addEventListener("submit", () => {
+    //   event.preventDefault();
+    //   const formData = new FormData(form);
+    //   const data = Object.fromEntries(formData.entries());
+    //   const urlEncodedData = new URLSearchParams(data);
+    //   fetch("/addAddress", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/x-www-form-urlencoded",
+    //     },
+    //     body: urlEncodedData,
+    //   })
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       if (data.success) {
+    //         // Show the success message
+    //         const successModal = new bootstrap.Modal(
+    //           document.getElementById("successModal")
+    //         );
+    //         successModal.show();
+    //         document
+    //           .getElementById("okButton")
+    //           .addEventListener("click", () => {
+    //             window.location.href = "/addressPage";
+    //           });
+    //       } else {
+    //         // Handle the error
+    //         console.error(data.error);
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       // Handle the error
+    //       console.error(error);
+    //     });
+    // });
     //   document
     //     .getElementById("edit_profile_btn")
     //     .addEventListener("click", function () {
@@ -837,6 +837,10 @@
     //       document.querySelector(".save_changes_btn").style.display = "none";
     //     });
   </script>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
   <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
   <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
   <script src="assets/js/plugins/slick.min.js"></script>
@@ -844,6 +848,163 @@
   <script src="assets/js/plugins/jquery.counterup.min.js"></script>
   <script src="assets/js/plugins/jquery.inview.min.js"></script>
   <script src="assets/js/custom.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
+    integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js"
+    integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    $(document).ready(function () {
+      $("#address-form").validate({
+        rules: {
+          firstName: {
+            required: true,
+            minlength: 5,
+            pattern: /^[a-zA-Z]+$/
+          },
+          lastName: {
+            required: true,
+            minlength: 1,
+            pattern: /^[a-zA-Z]+$/
+          },
+          addressTitle: {
+            required: true,
+            minlength: 4,
+          },
+          addressLine1: {
+            required: true,
+            minlength: 5,
+          },
+          addressLine2: {
+            required: true,
+            minlength: 5,
+          },
+          city: {
+            required: true,
+            minlength: 4,
+            pattern: /^[a-zA-Z]+(?: [a-zA-Z]+)*$/,
+          },
+          state: {
+            required: true,
+            minlength: 4,
+            pattern: /^[a-zA-Z]+(?: [a-zA-Z]+)*$/,
+          },
+          pinCode: {
+            required: true,
+            minlength: 6,
+            maxlength: 6,
+            digits: true
+          },
+          phone: {
+            required: true,
+            minlength: 10,
+            maxlength: 10,
+            digits: true
+          },
+          alternateNumber: {
+            required: true,
+            minlength: 10,
+            maxlength: 10,
+            digits: true
+          }
+        },
+        messages: {
+          firstName: {
+            required: "Please enter your first name",
+            pattern: "Enter Only Caracters",
+            minlength: "First name must be at least 4 characters"
+          },
+          lastName: {
+            required: "Please enter your last name",
+            pattern: "Enter Only Caracters",
+            minlength: "Last name must be at least 1 characters"
+          },
+          addressTitle: {
+            required: "Please enter a title for your address",
+            minlength: "Title must be at least 4 characters",
+            pattern: "Enter Only Caracters",
+          },
+          addressLine1: {
+            required: "Please enter your address line 1",
+            minlength: "Address line 1 must be at least 5 characters",
+          },
+          addressLine2: {
+            required: "Please enter your address line 2",
+            minlength: "Address line 2 must be at least 5 characters",
+          },
+          city: {
+            required: "Please enter your city",
+            pattern: "Enter Only Caracters and Spaces",
+            minlength: "City must be at least 4 characters"
+          },
+          state: {
+            required: "Please enter your state",
+            pattern: "Enter Only Caracters and Spaces",
+            minlength: "State must be at least 4 characters"
+          },
+          pinCode: {
+            required: "Please enter your pin code",
+            minlength: "Pin code must be 6 digits",
+            maxlength: "Pin code must be 6 digits",
+            digits: "Pin code must be numeric"
+          },
+          phone: {
+            required: "Please enter your phone number",
+            minlength: "Phone number must be 10 digits",
+            maxlength: "Phone number must be 10 digits",
+            digits: "Phone number must be numeric"
+          },
+          alternateNumber: {
+            required: "Please enter your alternate phone number",
+            minlength: "Alternate phone number must be 10 digits",
+            maxlength: "Alternate phone number must be 10 digits",
+            digits: "Alternate phone number must be numeric"
+          }
+        },
+        submitHandler: function (form) {
+          // Call the JavaScript function to submit the form
+          form.addEventListener("submit", () => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            const urlEncodedData = new URLSearchParams(data);
+            fetch("/addAddress", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: urlEncodedData,
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.success) {
+                  // Show the success message
+                  const successModal = new bootstrap.Modal(
+                    document.getElementById("successModal")
+                  );
+                  successModal.show();
+                  document
+                    .getElementById("okButton")
+                    .addEventListener("click", () => {
+                      window.location.href = "/addressPage";
+                    });
+                } else {
+                  // Handle the error
+                  console.error(data.error);
+                }
+              })
+              .catch((error) => {
+                // Handle the error
+                console.error(error);
+              });
+          });
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>

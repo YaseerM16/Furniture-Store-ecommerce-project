@@ -21,7 +21,9 @@
     <meta name="twitter:description" content="Description website">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
     <!-- Css -->
-    <link href="assets/css/plugins/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- <link href="assets/css/plugins/bootstrap.min.css" rel="stylesheet"> -->
     <link href="assets/fonts/font-awesome.min.css" rel="stylesheet">
     <link href="assets/css/plugins/magnific-popup.css" rel="stylesheet">
     <link href="assets/css/plugins/slick.css" rel="stylesheet">
@@ -30,7 +32,20 @@
     <!-- Style -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
+
     <style>
+        #brand-name {
+            font-family: "Bungee Spice", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 30px;
+            background-color: #8a5d2a;
+        }
+
         .header .topbar .logo>a {
             display: block;
             height: 100px;
@@ -50,6 +65,76 @@
             object-position: center;
             height: 100%;
         }
+
+        @media (min-width: 992px) {
+            .navbar-expand-lg .navbar-nav {
+                flex-direction: row;
+                justify-content: space-around;
+            }
+        }
+
+        /* bodytr */
+        .custom-card {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            height: 300px;
+            /* Set a fixed height for the cards */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .custom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-card .icon {
+            background-color: #C7A379;
+            color: #ffffff;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 32px;
+            margin: 0 auto;
+            /* Center the icon horizontally */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            /* Add space between icon and text */
+        }
+
+        .custom-card:hover .icon {
+            background-color: #a8874d;
+        }
+
+        .custom-card .text {
+            font-size: 18px;
+            color: #333333;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .h-100 {
+            height: 100%;
+            /* Occupy full height of parent container */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            flex-grow: 1;
+            /* Allow the navbar to grow and occupy available space */
+        }
+
+        .navbar-nav {
+            flex-direction: column;
+            /* Align nav items vertically */
+        }
     </style>
 </head>
 
@@ -66,9 +151,10 @@
             <div class="container-fluid">
                 <div class="inner">
                     <!-- Logo -->
-                    <div class="logoa">
-                        <a href="index-2.html">
-                            <img src="assets/images/logo.png" class="image-fit" alt="logo">
+                    <div class="logo">
+                        <a href="#">
+                            <div id="brand-name">&nbsp;Y-FURNS</div>
+                            <!-- <img src="assets/images/logo.png" class="image-fi" alt="logo" height="100px" width="100px"> -->
                         </a>
                     </div>
                     <!-- Logo -->
@@ -76,16 +162,7 @@
                     <div class="search-form">
                         <form>
                             <!-- Location -->
-                            <div class="location">
-                                <label>Your Location</label>
-                                <select>
-                                    <option selected>Select A Location</option>
-                                    <option value="New Delhi">New Delhi</option>
-                                    <option value="Mumbai">Mumbai</option>
-                                    <option value="Kolkata">Kolkata</option>
-                                    <option value="Chennai">Chennai</option>
-                                </select>
-                            </div>
+
                             <!-- Location -->
                             <!-- Search -->
                             <div class="input-group">
@@ -104,35 +181,22 @@
                     <!-- Header Action -->
                     <div class="header_action">
                         <ul>
-                            <li>
-                                <a href="wishlist.html">
-                                    <i class="far fa-heart"></i>
-                                </a>
-                            </li>
-                            <li class="cart">
-                                <a href="cart.html">
-                                    <span class="cart_value">0</span>
-                                    <i class="far fa-shopping-cart"></i>
-                                    <div class="cart_text">
-                                        My Cart
-                                        <span class="amount">$150.00</span>
-                                    </div>
-                                </a>
-                            </li>
+
                             <li class="user">
                                 <% if (user) { %>
-                                    <a href="account.html">
+                                    <a href="/userDetails">
                                         <img src="assets/images/header/user.png" class="image-fit" alt="img">
+                                        <div class="cart_text">
+                                            ADMIN
+                                        </div>
                                         <span>
                                             <%= user.username %>
                                         </span>
                                     </a>
                                     <ul class="sub-menu">
+
                                         <li>
-                                            <a href="account.html">My Account</a>
-                                        </li>
-                                        <li>
-                                            <a href="/logout">Logout</a>
+                                            <a href="/adminLogout">Logout</a>
                                         </li>
                                     </ul>
                                     <% } else { %>
@@ -142,11 +206,9 @@
                                         </a>
                                         <ul class="sub-menu">
                                             <li>
-                                                <a href="/logIn">Login</a>
+                                                <a href="/adminLogin">Login</a>
                                             </li>
-                                            <li>
-                                                <a href="/signUp">SignUp</a>
-                                            </li>
+
                                         </ul>
                                         <% } %>
                             </li>
@@ -159,534 +221,161 @@
         <!-- Topbar -->
     </header>
     <!-- Header End -->
-    <!-- Category Nav Start -->
-    <div class="main_navigation hide_cat">
-        <div class="container-fluid">
+    <section class="order-list">
+        <div class="container-fluid" style="padding: 0;">
             <div class="row">
-                <div class="col-lg-3 col-6">
-                    <div class="main-collapse-wrap custom-accordion">
-                        <button type="button">All Category</button>
-                        <div id="cataccordion" class="accordion_wrap accordion">
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button" data-bs-toggle="collapse"
-                                        data-bs-target="#catOne">
-                                        <i class="fal fa-heart"></i>
-                                        Chair
-                                    </button>
-                                </div>
-                                <div id="catOne" class="accordion-collapse collapse show"
-                                    data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#catTwo">
-                                        <i class="fal fa-heart"></i>
-                                        Sofa
-                                    </button>
-                                </div>
-                                <div id="catTwo" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                <div class="col-xl-3 col-lg-4">
+                    <div class="h-100">
+                        <!-- Category Nav Start -->
+                        <nav class="navbar navbar-expand-lg navbar-dark justify-content-around"
+                            style="background-color: #604220;">
+                            <div class="container-fluid d-flex justify-content-around">
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                                    aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarNav">
+                                    <ul class="navbar-nav w-100 d-flex flex-column">
+                                        <li class="nav-item my-3 fs-5">
+                                            <a class="nav-link" href="#">Home</a>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <a class="nav-link" href="/usersList">User Management</a>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <a class="nav-link" href="/productList">Product Management</a>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <a class="nav-link" href="/categoryList">Category Management</a>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <a class="nav-link" href="#">Order Management</a>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <a class="nav-link" href="/orderList">Sales Report</a>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <a class="nav-link" href="#">Banner Management</a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#catThree">
-                                        <i class="fal fa-heart"></i>
-                                        Table Lamp
-                                    </button>
-                                </div>
-                                <div id="catThree" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#catFour">
-                                        <i class="fal fa-heart"></i>
-                                        Tables
-                                    </button>
-                                </div>
-                                <div id="catFour" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#catFive">
-                                        <i class="fal fa-heart"></i>
-                                        Swing
-                                    </button>
-                                </div>
-                                <div id="catFive" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#catSix">
-                                        <i class="fal fa-heart"></i>
-                                        Cabinets
-                                    </button>
-                                </div>
-                                <div id="catSix" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </nav>
+                        <!-- Category Nav End -->
                     </div>
                 </div>
-                <div class="col-lg-9 col-6">
-                    <div class="nav_inner">
-                        <ul class="main-menu">
-                            <li class="menu-item">
-                                <a href="index-2.html" class="active">Home</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="about.html">About Us</a>
-                            </li>
-                            <li class="menu-item menu-item-has-children"><a href="#">Blog</a>
-                                <ul class="sub-menu custom">
-                                    <li class="menu-item menu-item-has-children"><a href="#">Blog Grid</a>
-                                        <ul class="sub-menu custom">
-                                            <li class="menu-item"><a href="blog.html">Full Width</a></li>
-                                            <li class="menu-item"><a href="blog-left.html">Left Sidebar</a></li>
-                                            <li class="menu-item"><a href="blog-right.html">Right Sidebar</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="blog-details.html">Blog Details</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item menu-item-has-children"><a href="#">Pages</a>
-                                <ul class="sub-menu custom">
-                                    <li class="menu-item menu-item-has-children"><a href="#">Account</a>
-                                        <ul class="sub-menu custom">
-                                            <li class="menu-item"><a href="account.html">My Account</a></li>
-                                            <li class="menu-item"><a href="login.html">Login</a></li>
-                                            <li class="menu-item"><a href="register.html">Register</a></li>
-                                            <li class="menu-item"><a href="payment.html">Payment</a></li>
-                                            <li class="menu-item"><a href="thankyou.html">Thank You</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="faqs.html">Faq's</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="terms-conditions.html">Terms &amp; Con.</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="privacy.html">Policy</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="error.html">Error 404</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item menu-item-has-children"><a href="#">Shop</a>
-                                <ul class="sub-menu custom">
-                                    <li class="menu-item">
-                                        <a href="shop.html">Shop</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="shop-details.html">Shop Details</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="wishlist.html">Wishlist</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="cart.html">Cart</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="checkout.html">Checkout</a>
-                                    </li>
-                                    <li class="menu-item menu-item-has-children"><a href="#">Orders</a>
-                                        <ul class="sub-menu custom">
-                                            <li class="menu-item"><a href="order-list.html">Order List</a></li>
-                                            <li class="menu-item"><a href="order-details.html">Order Details</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item">
-                                <a href="contact.html">Contact</a>
-                            </li>
-                        </ul>
-                        <div class="hamburger">
-                            <div class="hamburger_btn">
-                                <span></span>
-                                <span></span>
-                                <span></span>
+                <div class="col-xl-9 col-lg-8">
+                    <div class="section-padding mb-0">
+                        <div class="container-fluid">
+                            <h3 class="title">Hello Admin,</h3>
+                        </div>
+                    </div>
+
+                    <!-- Section Start -->
+                    <div class="section-padding mt-0">
+                        <div class="container-fluid">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-4 col-sm-6 mb-4">
+                                    <a href="/productList" class="card-link">
+                                        <div class="card h-100 custom-card">
+                                            <div class="icon d-flex align-items-center justify-content-center">
+                                                <i class="fas fa-box-open"></i>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <p class="text">PRODUCTS MANAGEMENT</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 mb-4">
+                                    <a href="/orderList" class="card-link">
+                                        <div class="card h-100 custom-card">
+                                            <div class="icon d-flex align-items-center justify-content-center">
+                                                <i class="fas fa-shopping-cart"></i>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <p class="text">ORDERS MANAGEMENT</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 mb-4">
+                                    <a href="/categoryList" class="card-link">
+                                        <div class="card h-100 custom-card">
+                                            <div class="icon d-flex align-items-center justify-content-center">
+                                                <i class="fas fa-list"></i>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <p class="text">CATEGORY MANAGEMENT</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 mb-4">
+                                    <a href="/usersList" class="card-link">
+                                        <div class="card h-100 custom-card">
+                                            <div class="icon d-flex align-items-center justify-content-center">
+                                                <i class="fas fa-users"></i>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <p class="text">USERS MANAGEMENT</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 mb-4">
+                                    <a href="/coupons" class="card-link" aria-label="Coupons Management">
+                                        <div class="card h-100 coupon-card">
+                                            <figure class="icon d-flex align-items-center justify-content-center">
+                                                <i class="fas fa-ticket-alt"></i>
+                                            </figure>
+                                            <figcaption class="card-body text-center">
+                                                <p class="card-text">COUPONS MANAGEMENT</p>
+                                            </figcaption>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 mb-4">
+                                    <a href="#" class="card-link">
+                                        <div class="card h-100 custom-card">
+                                            <div class="icon d-flex align-items-center justify-content-center">
+                                                <i class="fas fa-flag"></i>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <p class="text">BANNER MANAGEMENT</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 mb-4">
+                                    <a href="/salesReport" class="card-link">
+                                        <div class="card h-100 custom-card">
+                                            <div class="icon d-flex align-items-center justify-content-center">
+                                                <i class="fas fa-chart-line"></i>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <p class="text">SALES REPORT</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Category Nav End -->
-    <div class="section-padding mb-0">
-        <div class="container-fluid">
-            <h3 class="title">Hello Admin,</h3>
-        </div>
-    </div>
+    </section>
 
-    <!-- Section Start -->
-    <div class="section-padding mt-0">
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-lg-4 col-sm-6 mb-4">
-                    <a href="/productList" class="card-link">
-                        <div class="card h-100" style="min-width: 400px;">
-                            <div class="icon d-flex align-items-center justify-content-center text-white p-4"
-                                style="background-color: #C7A379;">
-                                <i class="fas fa-box-open"></i>
-                            </div>
-                            <div class="card-body text-center">
-                                <p class="text">PRODUCTS MANAGEMENT</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6 mb-4">
-                    <a href="#" class="card-link">
-                        <div class="card h-100" style="min-width: 400px;">
-                            <div class="icon d-flex align-items-center justify-content-center text-white p-4"
-                                style="background-color: #C7A379;">
-                                <i class="fas fa-shopping-cart"></i>
-                            </div>
-                            <div class="card-body text-center">
-                                <p class="text">ORDERS MANAGEMENT</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6 mb-4">
-                    <a href="/categoryList" class="card-link">
-                        <div class="card h-100" style="min-width: 400px;">
-                            <div class="icon d-flex align-items-center justify-content-center text-white p-4"
-                                style="background-color: #C7A379;">
-                                <i class="fas fa-list"></i>
-                            </div>
-                            <div class="card-body text-center">
-                                <p class="text">CATEGORY MANAGEMENT</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6 mb-4">
-                    <a href="/usersList" class="card-link">
-                        <div class="card h-100" style="min-width: 400px;">
-                            <div class="icon d-flex align-items-center justify-content-center text-white p-4"
-                                style="background-color: #C7A379;">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="card-body text-center">
-                                <p class="text">USERS MANAGEMENT</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6 mb-4">
-                    <a href="#" class="card-link">
-                        <div class="card h-100" style="min-width: 400px;">
-                            <div class="icon d-flex align-items-center justify-content-center text-white p-4"
-                                style="background-color: #C7A379;">
-                                <i class="fas fa-flag"></i>
-                            </div>
-                            <div class="card-body text-center">
-                                <p class="text">BANNER MANAGEMENT</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6 mb-4">
-                    <a href="#" class="card-link">
-                        <div class="card h-100" style="min-width: 400px;">
-                            <div class="icon d-flex align-items-center justify-content-center text-white p-4"
-                                style="background-color: #C7A379;">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="card-body text-center">
-                                <p class="text">SALES REPORT</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
 
-            </div>
-        </div>
-    </div>
+
     <!-- Section End -->
+
     <!-- Contact Form Start -->
 
     <!-- Contact Form End -->
-    <!-- Footer Start -->
-    <footer class="footer section-padding border-top">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget border-sm-0 pl-sm-0">
-                        <h6 class="ft_title">Find a Store<br> Shop Gift Cards</h6>
-                        <p class="mb-2">Follow Us:</p>
-                        <ul class="ft_social">
-                            <li>
-                                <a href="#">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Help Center</h6>
-                        <ul class="ft_menu">
-                            <li>
-                                <a href="payment.html">Payments</a>
-                            </li>
-                            <li>
-                                <a href="#">Shipping</a>
-                            </li>
-                            <li>
-                                <a href="#">Product Returns</a>
-                            </li>
-                            <li>
-                                <a href="faqs.html">FAQ's</a>
-                            </li>
-                            <li>
-                                <a href="checkout.html">Checkout</a>
-                            </li>
-                            <li>
-                                <a href="blog.html">Blog</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Useful Links</h6>
-                        <ul class="ft_menu">
-                            <li>
-                                <a href="index-2.html">Home</a>
-                            </li>
-                            <li>
-                                <a href="contact.html">Contact</a>
-                            </li>
-                            <li>
-                                <a href="about.html">About</a>
-                            </li>
-                            <li>
-                                <a href="terms-conditions.html">Terms & Conditions</a>
-                            </li>
-                            <li>
-                                <a href="privacy.html">Policy</a>
-                            </li>
-                            <li>
-                                <a href="order-list.html">My Orders</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl col-sm-8">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Contact Us</h6>
-                        <p class="mb-3">Sed ut perspiciatis unde omnis iste natus error sit voluptatem </p>
-                        <ul class="ft_contact">
-                            <li>
-                                <a href="#">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    14 Prospect Row, Bury St. Edmunds
-                                </a>
-                            </li>
-                            <li>
-                                <a href="tel:0002583745351">
-                                    <i class="fas fa-phone"></i>
-                                    000 2583 745 351
-                                </a>
-                            </li>
-                            <li>
-                                <a href="mailto:example@example.com">
-                                    <i class="fas fa-envelope"></i>
-                                    example@example.com
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Categories</h6>
-                        <ul class="ft_menu">
-                            <li>
-                                <a href="shop.html">Chair</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Sofa</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Dining Table</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Table Lamp</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Desk</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">cabinets</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- Footer End -->
+
     <!-- Copyright Start -->
     <div class="copyright">
         <div class="container-fluid">
@@ -695,8 +384,10 @@
     </div>
     <!-- Copyright End -->
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
+    <!-- <script src="assets/js/plugins/bootstrap.bundle.min.js"></script> -->
     <script src="assets/js/plugins/slick.min.js"></script>
     <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
     <script src="assets/js/plugins/jquery.counterup.min.js"></script>

@@ -9,6 +9,7 @@ const cartSchema = new mongoose.Schema({
   },
   productQuantity: { type: Number, required: true, default: 1, min: 1 },
   totalCostPerProduct: { type: Number },
+  productStatus: { type: String, required: true, default: "Pending" },
 });
 
 module.exports = mongoose.model("carts", cartSchema);

@@ -27,7 +27,23 @@
     <link href="assets/css/plugins/slick.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
     <style>
+        #brand-name {
+            font-family: "Bungee Spice", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 30px;
+            background-color: #8a5d2a;
+        }
+
+        .slick-initialized .slick-slide {
+            display: block;
+        }
+
         details {
             display: flex;
             justify-content: center;
@@ -58,6 +74,7 @@
 
         }
 
+        /* 
         div .logoa {
             height: 150px;
             width: 136px;
@@ -66,7 +83,7 @@
 
         .inner {
             height: 19vh;
-        }
+        } */
 
         .image-fit {
             width: 100%;
@@ -74,6 +91,21 @@
             object-position: center;
             height: 19vh;
         }
+
+        /* .slide_item {
+            height: 360px;
+            width: 400px;
+
+            background-position: center;
+            background-size: cover;
+            background-repeat: initial;
+        } */
+
+        /* .product_slider_box {
+            position: relative;
+            margin-bottom: 80px;
+            padding: 0 40px;
+        } */
     </style>
 </head>
 
@@ -90,9 +122,10 @@
             <div class="container-fluid">
                 <div class="inner">
                     <!-- Logo -->
-                    <div class="logoa">
-                        <a href="index-2.html">
-                            <img src="assets/images/logo.png" class="image-fit" alt="logo">
+                    <div class="logo">
+                        <a href="/">
+                            <div id="brand-name">&nbsp;Y-FURNS</div>
+                            <!-- <img src="assets/images/logo.png" class="image-fi" alt="logo" height="100px" width="100px"> -->
                         </a>
                     </div>
                     <!-- Logo -->
@@ -144,24 +177,35 @@
                                 </a>
                             </li>
                             <li class="user">
-                                <a href="account.html">
-                                    <img src="assets/images/header/user.jpg" class="image-fit" alt="img">
-                                    <span>Jhon Deo</span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="login.html">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="register.html">SignUp</a>
-                                    </li>
-                                    <li>
-                                        <a href="account.html">My Account</a>
-                                    </li>
-                                    <li>
-                                        <a href="login.html">Logout</a>
-                                    </li>
-                                </ul>
+                                <% if (user) { %>
+                                    <a href="/userDetails">
+                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
+                                        <span>
+                                            <%= user.username %>
+                                        </span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="/userDetails">My Account</a>
+                                        </li>
+                                        <li>
+                                            <a href="/logout">Logout</a>
+                                        </li>
+                                    </ul>
+                                    <% } else { %>
+                                        <a href="account.html">
+                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
+                                            <span>New User</span>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li>
+                                                <a href="/logIn">Login</a>
+                                            </li>
+                                            <li>
+                                                <a href="/signUp">SignUp</a>
+                                            </li>
+                                        </ul>
+                                        <% } %>
                             </li>
                         </ul>
                     </div>
@@ -433,7 +477,7 @@
                             <li class="menu-item menu-item-has-children"><a href="#">Shop</a>
                                 <ul class="sub-menu custom">
                                     <li class="menu-item">
-                                        <a href="shop.html">Shop</a>
+                                        <a href="/products">Shop</a>
                                     </li>
                                     <li class="menu-item">
                                         <a href="shop-details.html">Shop Details</a>
@@ -477,22 +521,23 @@
         <div>
             <section class="section pb-0 ">
                 <div class="container-fluid">
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <div class="col-xl-8">
-                            <div class="shop_details_box">
+                            <div class="shop_details_box justify-content-center">
                                 <!-- Details -->
-                                <div class="row assets">
-                                    <div class="col-lg-6">
-                                        <div class="product_slider_box">
+                                <div class="row assets d-flex justify-content-center">
+                                    <div class="col-lg-6" style="height: 500px;width: 500px;">
+                                        <div class="product_slider_box" style="margin: 0px;padding: 0px;">
                                             <div class="product_slider">
                                                 <% for(let j=0;j<currentProduct.productImage.length;j++){ %>
-                                                    <div class="slide_item">
-                                                        <img src="assets/uploadimages/uploads/<%=currentProduct.productImage[j]%>"
-                                                            class="image-fit-contain" alt="img">
+                                                    <div id="imgCnt" class="slide_item"
+                                                        style="background: url(assets/uploadimages/uploads/<%=currentProduct.productImage[j]%>) 0% 0% / 460px 460px no-repeat;">
                                                     </div>
+
                                                     <% } %>
                                             </div>
-                                            <div class="product_slider_nav row">
+                                            <div class="product_slider_nav row d-flex justify-content-center"
+                                                style="margin-top: 10px;">
                                                 <% for(let j=0;j<currentProduct.productImage.length;j++){ %>
                                                     <div class="slide_item px-3">
                                                         <img src="assets/uploadimages/uploads/<%=currentProduct.productImage[j]%>"
@@ -503,7 +548,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row assets">
+                                <div class="row assets d-flex justify-content-center" style="margin-top: 100px;">
                                     <div class="col-lg-6">
 
                                         <div class="product_details product_block">
@@ -518,16 +563,17 @@
                                                 <i class="fal fa-star"></i>
                                             </div>
                                             <div class="price">
-                                                <span>₹<%= currentProduct.productPrice %></span>
+                                                <span>₹&nbsp;<%= currentProduct.productPrice %></span>
                                                 <% if (currentProduct.productOfferId) { %>
-                                                    <span class="price-standard"></span>₹<%=
-                                                        currentProduct.priceBeforeOffer %>
-                                                        </span>
-                                                        <% } %>
+                                                    <span class="price-standard text-decoration-line-through">₹&nbsp;<%=
+                                                            currentProduct.priceBeforeOffer %></span>
+
+                                                    </span>
+                                                    <% } %>
                                             </div>
                                             <% if (currentProduct.productOfferId) { %>
                                                 <div class="promotion">
-                                                    <span class="text-danger text-decoration-line-through">
+                                                    <span class="product_tag">
                                                         <%= currentProduct.productOfferPercentage %>% OFF
                                                     </span>
                                                 </div>
@@ -927,7 +973,7 @@
     <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-success text-white">
                     <h5 class="modal-title">Success</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -1109,6 +1155,56 @@
     <!-- Copyright End -->
     <!-- Scripts -->
     <script>
+        // IMAGE ZOOM
+        // CREDITS : https://www.cssscript.com/image-zoom-pan-hover-detail-view/
+        const addZoom = container => {
+            // (A) GET IMAGE SOURCE
+            let initialBackgroundPosition = container.style.backgroundPosition;
+            let initialBackgroundSize = container.style.backgroundSize;
+            let imgsrc = container.style.backgroundImage.slice(4, -1).replace(/"/g, "");
+
+            // (B) LOAD IMAGE + ATTACH ZOOM
+            let img = new Image();
+            img.src = imgsrc;
+            img.onload = () => {
+                // (B1) SET CONTAINER WIDTH AND HEIGHT
+                container.style.width = "460px";
+                container.style.height = "460px";
+
+                // (B2) ADD CSS TRANSITION
+                container.style.transition = "background-position 0.2s, background-size 0.2s";
+
+                // (B2) ATTACH ZOOM ON MOUSE MOVE
+                container.onmousemove = e => {
+                    let rect = e.target.getBoundingClientRect(),
+                        xPos = e.clientX - rect.left,
+                        yPos = e.clientY - rect.top,
+                        xPercent = xPos / (container.clientWidth / 100) + "%",
+                        yPercent = yPos / ((container.clientHeight) / 100) + "%";
+
+                    Object.assign(container.style, {
+                        backgroundPosition: xPercent + " " + yPercent,
+                        backgroundSize: "920px 920px" // Set zoomed size here
+                    });
+                };
+
+                // (B3) RESET ZOOM ON MOUSE LEAVE
+                container.onmouseleave = e => {
+                    Object.assign(container.style, {
+                        backgroundPosition: initialBackgroundPosition,
+                        backgroundSize: "460px 460px" // Reset to original size
+                    });
+                };
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const imageContainers = document.querySelectorAll(".slide_item");
+            imageContainers.forEach(container => {
+                addZoom(container);
+            });
+        });
+
         // productQtyLimit
         const quantityInput = document.getElementById('quantity');
         //plus-button
@@ -1119,8 +1215,7 @@
                 const productStock = '<%= currentProduct.productStock %>'
                 const presentQty = parseInt('<%= productQtyLimit %>');
                 const productStockVal = parseInt(productStock)
-                console.log(presentQty);
-                console.log(productStockVal);
+
                 if (quantityInputVal + 1 > productStockVal - presentQty - 1) {
                     quantityInput.value = productStockVal - presentQty - 1
                     const outOfStockModal = new bootstrap.Modal(

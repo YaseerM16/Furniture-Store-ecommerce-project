@@ -2,6 +2,9 @@ const cartCollection = require("../models/cartModel");
 const productCollection = require("../models/productModel");
 const addressCollection = require("../models/addressModel");
 const orderCollection = require("../models/orderModel");
+const userCollection = require("../models/userModel");
+const couponCollection = require("../models/couponModel");
+const walletCollection = require("../models/walletModel");
 
 const addToCart = async (req, res) => {
   try {
@@ -41,8 +44,35 @@ const addToCart = async (req, res) => {
   }
 };
 
+const removeFromCart = async (req, res) => {
+  try {
+    const userId = req.query.userID;
+    const productId = req.query.productID;
+
+    const result = await cartCollection.deleteOne({
+      userId: userId,
+      productId: productId,
+    });
+
+    if (result.deletedCount > 0) {
+      res.send({ success: true, message: "Product removed from cart." });
+    } else {
+      res.status(404).send("Product not found in cart.");
+    }
+  } catch (error) {
+    console.log("Error while Remove the Product from the Cart Page :" + error);
+  }
+};
+
 const cartPage = async (req, res) => {
   try {
+    let user;
+    if (req.session.logged) {
+      const email = req.session.currentUser.email;
+      user = await userCollection.findOne({ email: email });
+    } else {
+      user = {};
+    }
     const cartProducts = await cartCollection
       .find({
         userId: req.session.currentUser._id,
@@ -50,10 +80,10 @@ const cartPage = async (req, res) => {
       .populate("productId");
     if (!cartProducts || cartProducts.length === 0) {
       // Render the EJS page with an empty cartProducts array
-      res.render("userViews/cart", { cartProducts: [] });
+      res.render("userViews/cart", { cartProducts: [], user: user });
     } else {
       // Render the EJS page with the cartProducts data
-      res.render("userViews/cart", { cartProducts: cartProducts });
+      res.render("userViews/cart", { cartProducts: cartProducts, user: user });
     }
   } catch (error) {
     console.log("Error while showing the Cart Page :" + error);
@@ -163,6 +193,13 @@ const quantityIncBtn = async (req, res) => {
 
 const addressCheckOutPage = async (req, res) => {
   try {
+    let user;
+    if (req.session.logged) {
+      const email = req.session.currentUser.email;
+      user = await userCollection.findOne({ email: email });
+    } else {
+      user = {};
+    }
     req.session.cartData = req.body.cartData;
     req.session.cartTotal = req.query.grandTotal;
 
@@ -174,6 +211,7 @@ const addressCheckOutPage = async (req, res) => {
     res.render("userViews/selectAddress", {
       user: req.session.currentUser,
       addresses: userAddress,
+      user: user,
     });
   } catch (error) {
     console.log("Error while showing the First CheckOUt page :" + error);
@@ -194,11 +232,19 @@ const redirecPaymentMethod = async (req, res) => {
   }
 };
 
-const paymentMethodPage = (req, res) => {
+const paymentMethodPage = async (req, res) => {
   try {
+    let user;
+    if (req.session.logged) {
+      const email = req.session.currentUser.email;
+      user = await userCollection.findOne({ email: email });
+    } else {
+      user = {};
+    }
     // console.log("address Id is retrieved in session:" + req.session.addressId);
-    req.session.paymentMethod = "COD";
-    res.render("userViews/selectPayment");
+    req.session.couponApplied = false;
+
+    res.render("userViews/selectPayment", { user: user });
   } catch (error) {
     console.log(
       "Error occur WHile rendering the Payment Method Page :" + error
@@ -208,6 +254,14 @@ const paymentMethodPage = (req, res) => {
 
 const checkoutPage = async (req, res) => {
   try {
+    let user;
+    if (req.session.logged) {
+      const email = req.session.currentUser.email;
+      user = await userCollection.findOne({ email: email });
+    } else {
+      user = {};
+    }
+    req.session.paymentMethod = req.query.paymentmethod;
     const cartProducts = await cartCollection
       .find({
         userId: req.session.currentUser._id,
@@ -218,17 +272,65 @@ const checkoutPage = async (req, res) => {
       _id: req.session.addressId,
     });
 
+    let inSufficienBalance = null;
+
+    /// Check for Wallet Balance
+    if (req.query.paymentmethod === "wallet") {
+      const userWallet = await walletCollection.findOne({
+        userId: req.session.currentUser._id,
+      });
+      const transactionAmount = req.session.cartTotal;
+      const walletBalance = userWallet.walletBalance;
+
+      if (walletBalance < transactionAmount) {
+        inSufficienBalance = "wallet";
+      }
+    }
+
+    const coupons = await couponCollection.find({ currentStatus: true });
+
     if (!cartProducts && !addressDet) {
       console.log("The Cart product or Address is not getting");
     } else {
       res.render("userViews/checkOutPage", {
         cartProducts: cartProducts,
         addressDet: addressDet,
+        user: user,
+        coupons,
+        grandTotal: req.session.cartTotal,
+        paymentMethod: req.query.paymentmethod,
+        inSufficienBalance,
       });
-      res.send({ success: true });
     }
   } catch (error) {
     console.log("Error while rendering the Final CheckOut Page: " + error);
+  }
+};
+
+const applyCoupon = async (req, res) => {
+  try {
+    const requestCoupon = await couponCollection.findOne({
+      _id: req.query.couponID,
+      currentStatus: true,
+    });
+    if (req.session.couponApplied) {
+      res.send({ couponCodeExists: true });
+    } else {
+      const minimumPurchase = requestCoupon.minimumPurchase;
+      const discountPercent = requestCoupon.discountPercentage;
+      const grandTotal = req.query.grandTotal;
+      let discountAmount;
+      let appliedDisCount;
+      if (req.query.grandTotal >= minimumPurchase) {
+        appliedDisCount = (grandTotal * discountPercent) / 100;
+        discountAmount = grandTotal - (grandTotal * discountPercent) / 100;
+        req.session.couponApplied = true;
+        req.session.cartTotal = discountAmount;
+      }
+      res.send({ couponCofirmed: true, discountAmount, appliedDisCount });
+    }
+  } catch (error) {
+    console.log("Error While applying the coupon in the server side: " + error);
   }
 };
 
@@ -243,9 +345,36 @@ const placeOrder = async (req, res) => {
         { $inc: { productStock: -cart.productQuantity } }
       );
     }
-    await cartCollection.deleteMany({ userId: req.session.currentUser._id });
 
-    console.log(cartDet);
+    const clonedCartDet = cartDet.map((cart) => ({ ...cart }));
+
+    if (req.session.paymentMethod == "wallet") {
+      const userWallet = await walletCollection.findOne({
+        userId: req.session.currentUser._id,
+      });
+      const availAmt = userWallet.walletBalance;
+      const transactionAmount = req.session.cartTotal;
+
+      const transactionDate = new Date();
+      const firstPer = await walletCollection.findOneAndUpdate(
+        { userId: req.session.currentUser._id },
+        {
+          $inc: { walletBalance: -transactionAmount },
+          $push: {
+            walletTransaction: {
+              transactionDate: transactionDate,
+              transactionAmount: transactionAmount,
+              transactionType: "Debited",
+              transactionMethod: req.session.paymentMethod,
+            },
+          },
+        },
+
+        { new: true }
+      );
+    }
+
+    await cartCollection.deleteMany({ userId: req.session.currentUser._id });
 
     await orderCollection.insertMany([
       {
@@ -253,10 +382,14 @@ const placeOrder = async (req, res) => {
         orderDate: new Date(),
         paymentType: req.session.paymentMethod,
         addressChosen: req.session.addressId,
-        cartData: cartDet,
+        cartData: clonedCartDet,
         grandTotalCost: req.session.cartTotal,
       },
     ]);
+
+    req.session.cartTotal = null;
+    req.session.couponApplied = false;
+    req.session.save();
 
     res.render("userViews/orderSuccess");
   } catch (error) {
@@ -272,6 +405,8 @@ module.exports = {
   redirecPaymentMethod,
   paymentMethodPage,
   checkoutPage,
+  applyCoupon,
   placeOrder,
   cartIncDecBtn,
+  removeFromCart,
 };

@@ -1,10 +1,11 @@
 const userCollection = require("../models/userModel");
 const addressCollection = require("../models/addressModel");
-const { Long } = require("mongodb");
 
 const userDetailsPage = async (req, res) => {
   try {
-    res.render("userViews/userDetails", { user: req.session.currentUser });
+    const email = req.session.currentUser.email;
+    const user = await userCollection.findOne({ email: email });
+    res.render("userViews/userDetails", { user: user });
   } catch (error) {
     console.log("Error while showing the Users Details Page " + error);
   }
@@ -13,21 +14,21 @@ const userDetailsPage = async (req, res) => {
 const profileEdit = async (req, res) => {
   try {
     const { username, email, phone } = req.body;
-    const userDet = await userCollection.findOne({ email });
+
+    const userDet = await userCollection.findOne({ email: email });
     if (!userDet) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).send({ error: true, message: "User not found" });
     } else {
       await userCollection.updateOne(
-        { _id: userDet._id },
+        { email: email },
         {
           $set: {
             username: username,
-            email: email,
-            phone: phone,
+            phonenumber: phone,
           },
         }
       );
-      res.send({ success: true });
+      res.send({ success: true, name: username, phone: phone });
     }
   } catch (error) {
     console.log("Error while Editing the Users' Profile " + error);
@@ -49,9 +50,16 @@ const addressPage = async (req, res) => {
   }
 };
 
-const addAddressPage = (req, res) => {
+const addAddressPage = async (req, res) => {
   try {
-    res.render("userViews/addAddress", { user: req.session.currentUser });
+    let user;
+    if (req.session.logged) {
+      const email = req.session.currentUser.email;
+      user = await userCollection.findOne({ email: email });
+    } else {
+      user = {};
+    }
+    res.render("userViews/addAddress", { user: user });
   } catch (error) {
     console.log("Error While showing the Add Address Page: " + error);
   }

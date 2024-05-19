@@ -1,13 +1,43 @@
 const productCollection = require("../models/productModel");
 const categoryCollection = require("../models/categoryModel");
+const { default: mongoose } = require("mongoose");
+const adminCollection = require("../models/adminModel");
 
 const productList = async (req, res) => {
   try {
+    let user;
+    if (req.session.adminLog) {
+      user = await adminCollection.findOne({ _id: req.session.adminUser._id });
+    } else {
+      user = {};
+    }
+
+    const page = Number(req.query.page) || 1;
+    const limit = 9;
+    const skip = (page - 1) * limit;
+
     const proCollection = await productCollection
       .find()
+      .skip(skip)
+      .limit(limit)
       .populate("parentCategory");
+
+    let pages;
+
+    await productCollection
+      .countDocuments()
+      .then((count) => {
+        pages = count;
+      })
+      .catch((err) => console.log("Error while counting the docment" + err));
+
     // console.log(proCollection);
-    res.render("adminViews/productList", { productDet: proCollection });
+    res.render("adminViews/productList", {
+      productDet: proCollection,
+      page: page,
+      pages: Math.ceil(pages / limit),
+      user: user,
+    });
   } catch (err) {
     console.log(err);
   }
@@ -15,8 +45,17 @@ const productList = async (req, res) => {
 
 const addProductPage = async (req, res) => {
   try {
+    let user;
+    if (req.session.adminLog) {
+      user = await adminCollection.findOne({ _id: req.session.adminUser._id });
+    } else {
+      user = {};
+    }
     const categoryDetails = await categoryCollection.find();
-    res.render("adminViews/addProduct", { categoryDet: categoryDetails });
+    res.render("adminViews/addProduct", {
+      categoryDet: categoryDetails,
+      user: user,
+    });
   } catch (err) {
     console.log(err);
   }
@@ -35,6 +74,7 @@ const addProduct = async (req, res) => {
       productImage: imgFiles,
       productPrice: req.body.productPrice,
       productStock: req.body.productStock,
+      priceBeforeOffer: req.body.productPrice,
     });
     const productDetails = await productCollection.find({
       productName: {
@@ -83,6 +123,12 @@ const unBlockProduct = async (req, res) => {
 
 const editProductPage = async (req, res) => {
   try {
+    let user;
+    if (req.session.adminLog) {
+      user = await adminCollection.findOne({ _id: req.session.adminUser._id });
+    } else {
+      user = {};
+    }
     const categoryDetail = await categoryCollection.find();
     const categoryDet = await categoryCollection.findOne({
       _id: req.query.cid,
@@ -93,6 +139,7 @@ const editProductPage = async (req, res) => {
       categoryDet,
       productDet,
       categoryDetail,
+      user: user,
     });
   } catch (err) {
     console.log(err);
@@ -105,6 +152,7 @@ const editProduct = async (req, res) => {
     for (let i = 0; i < req.files.length; i++) {
       imgFiles[i] = req.files[i].filename;
     }
+
     const productDetails = await productCollection.findOne({
       productName: req.body.productName,
     });
@@ -126,10 +174,11 @@ const editProduct = async (req, res) => {
           $set: {
             productName: req.body.productName,
             parentCategory: req.body.parentCategory,
-            productImage: imgFiles,
             productPrice: req.body.productPrice,
             productStock: req.body.productStock,
+            priceBeforeOffer: req.body.productPrice,
           },
+          $push: { productImage: { $each: imgFiles } },
         }
       );
       res.send({ success: true });
@@ -141,7 +190,6 @@ const editProduct = async (req, res) => {
 
 const deleteImage = async (req, res) => {
   try {
-    console.log(req.body.productId);
     const updatedProduct = await productCollection.findOne({
       _id: req.body.productId,
     });
@@ -152,7 +200,7 @@ const deleteImage = async (req, res) => {
       req.body.index >= 0 &&
       req.body.index < updatedProduct.productImage.length
     ) {
-      updatedProduct.productImage[req.body.index] = null;
+      updatedProduct.productImage.splice(req.body.index, 1);
       await updatedProduct.save();
       res.status(200).json({
         message: "Image deleted successfully",

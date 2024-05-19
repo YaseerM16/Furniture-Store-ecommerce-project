@@ -1,3 +1,4 @@
+const userCollection = require("../models/userModel");
 const { check, validationResult } = require("express-validator");
 
 const signupValidationRules = () => [
@@ -79,7 +80,9 @@ const signupValidation = (req, res, next) => {
     });
     console.log("this is called after the render in signup error");
   }
-  next();
+  if (errorsObj.isEmpty()) {
+    next();
+  }
 };
 
 const isLogged = (req, res, next) => {
@@ -94,11 +97,46 @@ const isLogged = (req, res, next) => {
   }
 };
 
+const blockUserCheck = async (req, res, next) => {
+  try {
+    let currentUser = await userCollection.findOne({
+      _id: req.session?.currentUser?._id,
+    });
+    if (currentUser?.isBlocked) {
+      req.session.destroy();
+      res.redirect("/logout");
+    } else {
+      next();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const isAdmin = (req, res, next) => {
+  try {
+    if (req.session.adminLog) {
+      next();
+    } else {
+      res.redirect("/adminLogin");
+    }
+  } catch (error) {
+    console.log("Error while cheking the logged admin :" + error);
+  }
+};
+
+const isLoggedIn = (req, res, next) => {
+  req.user ? next() : res.sendStatus(401);
+};
+
 module.exports = {
   signupValidationRules,
   signupValidation,
   loginValidationRules,
   loginValidation,
   adminloginValidation,
+  blockUserCheck,
   isLogged,
+  isAdmin,
+  isLoggedIn,
 };

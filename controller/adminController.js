@@ -4,8 +4,7 @@ const userCollection = require("../models/userModel");
 const adminLoginPage = (req, res) => {
   try {
     if (req.session.adminLog) {
-      res.render("adminViews/home", { user: req.session.adminUser });
-      req.session.adminUser = false;
+      res.redirect("/adimDashBoard");
     } else {
       res.render("adminViews/login", {
         invalid: req.session.invalidCredentials,
@@ -13,6 +12,7 @@ const adminLoginPage = (req, res) => {
       });
 
       req.session.invalidCredentials = false;
+      req.session.save();
     }
   } catch (error) {
     console.log("Error in showing the Admin login Page" + error);
@@ -31,6 +31,7 @@ const adminLoginSubmit = async (req, res) => {
       ) {
         req.session.adminLog = true;
         req.session.adminUser = adminData;
+        req.session.save();
         res.redirect("/adimDashBoard");
       } else {
         req.session.invalidCredentials = true;
@@ -45,9 +46,15 @@ const adminLoginSubmit = async (req, res) => {
   }
 };
 
-const dashBoard = (req, res) => {
+const dashBoard = async (req, res) => {
   try {
-    res.render("adminViews/home", { user: req.session.adminUser });
+    let user;
+    if (req.session.adminLog) {
+      user = await adminCollection.findOne({ _id: req.session.adminUser._id });
+    } else {
+      user = {};
+    }
+    res.render("adminViews/home", { user: user });
   } catch (error) {
     console.error("Error in Renderind the Admin Home page" + error);
   }
@@ -55,8 +62,34 @@ const dashBoard = (req, res) => {
 
 const userListing = async (req, res) => {
   try {
-    const userDetail = await userCollection.find();
-    res.render("adminViews/userList", { userDet: userDetail });
+    let user;
+    if (req.session.adminLog) {
+      user = await adminCollection.findOne({ _id: req.session.adminUser._id });
+    } else {
+      user = {};
+    }
+
+    const page = Number(req.query.page) || 1;
+    const limit = 9;
+    const skip = (page - 1) * limit;
+
+    const userDetail = await userCollection.find().skip(skip).limit(limit);
+
+    let pages;
+
+    await userCollection
+      .countDocuments()
+      .then((count) => {
+        pages = count;
+      })
+      .catch((err) => console.log("Error while counting the docment" + err));
+
+    res.render("adminViews/userList", {
+      userDet: userDetail,
+      page: page,
+      pages: Math.ceil(pages / limit),
+      user: user,
+    });
   } catch (err) {
     console.log("Error in User Listing Page" + err);
   }
@@ -88,7 +121,9 @@ const unBlockUser = async (req, res) => {
 const logout = (req, res) => {
   try {
     req.session.adminLog = false;
-    res.redirect("/adimDashBoard");
+    req.session.save();
+
+    res.redirect("/adminLogin");
   } catch (err) {
     console.log(err);
   }

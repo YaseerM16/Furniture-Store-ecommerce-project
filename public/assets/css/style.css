@@ -1335,20 +1335,7 @@ textarea.form-control-custom+i {
     margin-bottom: 30px;
 }
 
-.product_block .product_top .icon {
-    line-height: 1;
-    font-size: 24px;
-}
 
-.product_block .product_top .icon.active,
-.product_block .product_top .icon:hover {
-    color: var(--thm-color-four);
-}
-
-.product_block .product_top .icon.active i,
-.product_block .product_top .icon:hover i {
-    font-weight: 900;
-}
 
 .product_tag {
     font-size: 14px;

@@ -1,9 +1,39 @@
 const categoryCollection = require("../models/categoryModel");
+const adminCollection = require("../models/adminModel");
 
 const categoryList = async (req, res) => {
   try {
-    const catCollection = await categoryCollection.find();
-    res.render("adminViews/categoryList", { categoryDet: catCollection });
+    let user;
+    if (req.session.adminLog) {
+      user = await adminCollection.findOne({ _id: req.session.adminUser._id });
+    } else {
+      user = {};
+    }
+
+    const page = Number(req.query.page) || 1;
+    const limit = 9;
+    const skip = (page - 1) * limit;
+
+    const catCollection = await categoryCollection
+      .find()
+      .skip(skip)
+      .limit(limit);
+
+    let pages;
+
+    await categoryCollection
+      .countDocuments()
+      .then((count) => {
+        pages = count;
+      })
+      .catch((err) => console.log("Error while counting the docment" + err));
+
+    res.render("adminViews/categoryList", {
+      categoryDet: catCollection,
+      page: page,
+      pages: Math.ceil(pages / limit),
+      user: user,
+    });
   } catch (err) {
     console.log(err);
   }

@@ -27,6 +27,39 @@
     <link href="assets/css/plugins/slick.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
+    <style>
+        #brand-name {
+            font-family: "Bungee Spice", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 30px;
+            background-color: #8a5d2a;
+        }
+
+        .alert-vibrant {
+            background-color: #ff7675;
+            color: white;
+            border: 2px solid #d63031;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-contact-support {
+            background-color: #676767;
+            border-color: #ff7675;
+            color: white;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .btn-contact-support:hover {
+            background-color: #d63031;
+            border-color: #d63031;
+        }
+    </style>
 </head>
 
 <body>
@@ -43,8 +76,9 @@
                 <div class="inner">
                     <!-- Logo -->
                     <div class="logo">
-                        <a href="index-2.html">
-                            <img src="assets/images/logo.png" class="image-fit" alt="logo">
+                        <a href="/">
+                            <div id="brand-name">&nbsp;Y-FURNS</div>
+                            <!-- <img src="assets/images/logo.png" class="image-fi" alt="logo" height="100px" width="100px"> -->
                         </a>
                     </div>
                     <!-- Logo -->
@@ -86,34 +120,45 @@
                                 </a>
                             </li>
                             <li class="cart">
-                                <a href="cart.html">
+                                <a href="/cartPage">
                                     <span class="cart_value">0</span>
                                     <i class="far fa-shopping-cart"></i>
                                     <div class="cart_text">
                                         My Cart
-                                        <span class="amount">$150.00</span>
+                                        <!-- <span class="amount">$150.00</span> -->
                                     </div>
                                 </a>
                             </li>
                             <li class="user">
-                                <a href="account.html">
-                                    <img src="assets/images/header/user.jpg" class="image-fit" alt="img">
-                                    <span>Jhon Deo</span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="login.html">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="register.html">SignUp</a>
-                                    </li>
-                                    <li>
-                                        <a href="account.html">My Account</a>
-                                    </li>
-                                    <li>
-                                        <a href="login.html">Logout</a>
-                                    </li>
-                                </ul>
+                                <% if (user) { %>
+                                    <a href="/userDetails">
+                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
+                                        <span>
+                                            <%= user.username %>
+                                        </span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="/userDetails">My Account</a>
+                                        </li>
+                                        <li>
+                                            <a href="/logout">Logout</a>
+                                        </li>
+                                    </ul>
+                                    <% } else { %>
+                                        <a href="account.html">
+                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
+                                            <span>New User</span>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li>
+                                                <a href="/logIn">Login</a>
+                                            </li>
+                                            <li>
+                                                <a href="/signUp">SignUp</a>
+                                            </li>
+                                        </ul>
+                                        <% } %>
                             </li>
                         </ul>
                     </div>
@@ -425,330 +470,455 @@
     </div>
     <!-- Category Nav End -->
     <!-- Section Start -->
-    <section class="section-padding pb-0">
-        <div class="container-fluid">
-            <div class="section-header text-center mx-auto">
-                <h3 class="title justify-content-center">Checkout</h3>
+    <% if (inSufficienBalance) { %>
+        <div class="container mt-5">
+            <div class="alert alert-vibrant text-center">
+                <h4 class="alert-heading">Insufficient Funds!</h4>
+                <p>You do not have enough money in your
+                <h4>
+                    <%= inSufficienBalance %>
+                </h4> to complete this transaction. Please add more funds and
+                try
+                again.</p>
+                <hr>
+                <a href="/payMethodPage" class="btn btn-contact-support" style="text-decoration-color: black;">Return to
+                    the Payment Select page</a>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-xl-8 col-lg-9">
-                    <ul class="process_bar">
-                        <li class="done">Cart</li>
-                        <li class="done">Shipping</li>
-                        <li class="done">Checkout</li>
-                    </ul>
-                </div>
-            </div>
-            <h4 class="c-out_title">Billing Information <a href="login.html" class="thm-color-one fw-500">Already
-                    Registered? Check Here To Login</a></h4>
-            <div class="row">
-                <div class="col-lg-6">
-                    <form action="#" method="POST" class="checkout_form">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="thm-color-two">First Name</label>
-                                    <input type="text" name="#" class="form-control form-control-custom"
-                                        value="<%= addressDet.firstName %>" disabled>
+        </div>
+        <% } else { %>
+
+            <section class="section-padding pb-0">
+                <div class="container-fluid">
+                    <div class="section-header text-center mx-auto">
+                        <h3 class="title justify-content-center">Checkout</h3>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-xl-8 col-lg-9">
+                            <ul class="process_bar">
+                                <li class="done">Cart</li>
+                                <li class="done">Shipping</li>
+                                <li class="done">Checkout</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h4 class="c-out_title">Billing Information <a href="login.html"
+                            class="thm-color-one fw-500">Already
+                            Registered? Check Here To Login</a></h4>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="checkout_form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="thm-color-two">First Name</label>
+                                            <input type="text" name="#" class="form-control form-control-custom"
+                                                value="<%= addressDet.firstName %>" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="thm-color-two">Last Name</label>
+                                            <input type="text" name="#" class="form-control form-control-custom"
+                                                value="<%= addressDet.lastName %>" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="thm-color-two">Phone No.</label>
+                                            <input type="text" name="#" class="form-control form-control-custom"
+                                                value="<%= addressDet.phone %>" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="thm-color-two">Alternate Phone No.</label>
+                                            <input type="text" name="#" class="form-control form-control-custom"
+                                                value="<%= addressDet.alternateNumber %>" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <ul class="address_list">
+                                                <li>
+                                                    <span class="thm-color-two fw-500">Delivers To</span>
+                                                    <div class="custom-control form-check custom-radio me-sm-2 mb-2">
+                                                        <input type="radio"
+                                                            class="custom-control-input form-check-input"
+                                                            name="addresslist" id="addressone" checked>
+                                                        <label class="custom-control-label" for="addressone">
+                                                            <span class="top">
+                                                                <i class="fal fa-briefcase"></i>
+                                                                <span class="fw-500 thm-color-two">
+                                                                    <%= addressDet.addressTitle %>
+                                                                </span>
+                                                            </span>
+                                                            <span class="mb-0 p">
+                                                                <%= addressDet.addressLine1 %>
+                                                            </span>
+                                                            <span class="mb-0 p">
+                                                                <%= addressDet.addressLine2 %>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="payment_box" style="margin-top: 0px;">
+                                        <h5 class="title">Availble Coupons</h5>
+                                        <% coupons.forEach(function(coupon, index) { %>
+                                            <ul class="address_list" style="padding-bottom: 10px;">
+
+                                                <li>
+                                                    <button onclick="couponFunc('<%= coupon._id %>')">
+                                                        <div class="custom-control custom-radio form-check me-sm-2">
+                                                            <span class="custom-control-label" for="cod">
+                                                                <span class="top">
+                                                                    <span class="fw-500 thm-color-two">
+                                                                        <%= coupon.couponCode %>
+                                                                    </span>&nbsp;
+                                                                    <span class="product_tag">
+                                                                        <%= coupon.discountPercentage %>% Off
+                                                                    </span>
+                                                                </span><br>
+                                                                <span class="mb-0 p">This Coupon is Applicable for the
+                                                                    Minimum
+                                                                    Purchase
+                                                                    of &nbsp; <strong>
+                                                                        ₹&nbsp;<%= coupon.minimumPurchase %>
+                                                                    </strong> </span>
+                                                            </span>
+                                                        </div>
+                                                    </button>
+                                                    <div class="payment_icon">
+                                                        <!-- No icon needed for COD -->
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <% }); %>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="thm-color-two">Last Name</label>
-                                    <input type="text" name="#" class="form-control form-control-custom"
-                                        value="<%= addressDet.lastName %>" disabled>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="thm-color-two">Phone No.</label>
-                                    <input type="text" name="#" class="form-control form-control-custom"
-                                        value="<%= addressDet.phone %>" disabled>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="thm-color-two">Alternate Phone No.</label>
-                                    <input type="text" name="#" class="form-control form-control-custom"
-                                        value="<%= addressDet.alternateNumber %>" disabled>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
+
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="checkout_items">
+                                <div style="padding: 30px 0px 0px 30px;">
+                                    <h5 class="title">Payment Method
+                                    </h5>
                                     <ul class="address_list">
                                         <li>
-                                            <span class="title">Delivers To</span>
-                                            <div class="custom-control form-check custom-radio me-sm-2 mb-2">
+                                            <div class="custom-control custom-radio form-check me-sm-2">
                                                 <input type="radio" class="custom-control-input form-check-input"
-                                                    name="addresslist" id="addressone" checked>
-                                                <label class="custom-control-label" for="addressone">
+                                                    name="paymentmethod" id="cod" checked>
+                                                <label class="custom-control-label" for="cod">
                                                     <span class="top">
-                                                        <i class="fal fa-briefcase"></i>
                                                         <span class="fw-500 thm-color-two">
-                                                            <%= addressDet.addressTitle %>
+                                                            <%= paymentMethod %>
                                                         </span>
-                                                    </span>
-                                                    <span class="mb-0 p">
-                                                        <%= addressDet.addressLine1 %>
-                                                    </span>
-                                                    <span class="mb-0 p">
-                                                        <%= addressDet.addressLine2 %>
                                                     </span>
                                                 </label>
                                             </div>
+                                            <div class="payment_icon">
+                                                <!-- No icon needed for COD -->
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="items_box checkout_info">
+                                    <p class="title">Shipping
+                                    <h6 class="mb-0">
+                                        <%= addressDet.firstName %>
+                                            <%= addressDet.lastName %>
+                                    </h6>
+                                    <p class="add">
+                                        <%= addressDet.addressLine1 %>
+                                    </p>
+                                    <p class="add">
+                                        <%= addressDet.addressLine2 %>
+                                    </p>
+                                    <p>Mobile: <strong class="thm-color-two">
+                                            <%= addressDet.phone %>
+                                        </strong> </p>
+                                </div>
+                                <div class="items_box items table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <!-- <th>Type</th> -->
+                                                <th>Product</th>
+                                                <th>Qty</th>
+                                                <th>Price</th>
+                                                <th>Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% for(let i=0;i<cartProducts.length;i++){ %>
+                                                <tr>
+                                                    <!-- <td> -->
+                                                    <!-- <span class="type veg"></span> -->
+                                                    <!-- </td> -->
+                                                    <td>
+                                                        <%= cartProducts[i].productId.productName %>
+                                                    </td>
+                                                    <td>
+                                                        <%= cartProducts[i].productQuantity %>
+                                                    </td>
+                                                    <td>₹&nbsp;<%= cartProducts[i].productId.productPrice %>
+                                                    </td>
+                                                    <td>₹&nbsp;<%= cartProducts[i].totalCostPerProduct %>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="applyCoupon items_box total_amount d-none"
+                                    style="padding: 0px 0px 0px 0px;">
+                                    <span
+                                        class="items_box product_tag d-flex  justify-content-center align-items-center"
+                                        style="width:150px; height: 20px;padding: 25px 25px 25px 25px;">
+                                        <div>
+                                            Coupon Applied
+                                        </div>
+                                    </span>
+                                    <strong id="discountAmt"></strong>
+                                </div>
+
+                                <div class="items_box total_amount">
+                                    <strong>Total</strong>
+
+                                    <strong id="grand-total">₹&nbsp;<%= grandTotal %></strong>
+                                </div>
+
+
+                                <div class="items_box">
+                                    <a href="/placeOrder"
+                                        class="thm-btn btn-rectangle thm-bg-color-one w-100 mb-4">Place
+                                        The
+                                        Order</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <% } %>
+
+                <!-- Section End -->
+                <!-- Footer Start -->
+                <footer class="footer section-padding border-top">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xl-2 col-sm-4">
+                                <div class="ft_widget border-sm-0 pl-sm-0">
+                                    <h6 class="ft_title">Find a Store<br> Shop Gift Cards</h6>
+                                    <p class="mb-2">Follow Us:</p>
+                                    <ul class="ft_social">
+                                        <li>
+                                            <a href="#">
+                                                <i class="fab fa-facebook-f"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fab fa-instagram"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-sm-4">
+                                <div class="ft_widget">
+                                    <h6 class="ft_title">Help Center</h6>
+                                    <ul class="ft_menu">
+                                        <li>
+                                            <a href="payment.html">Payments</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Shipping</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Product Returns</a>
+                                        </li>
+                                        <li>
+                                            <a href="faqs.html">FAQ's</a>
+                                        </li>
+                                        <li>
+                                            <a href="checkout.html">Checkout</a>
+                                        </li>
+                                        <li>
+                                            <a href="blog.html">Blog</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-sm-4">
+                                <div class="ft_widget">
+                                    <h6 class="ft_title">Useful Links</h6>
+                                    <ul class="ft_menu">
+                                        <li>
+                                            <a href="index-2.html">Home</a>
+                                        </li>
+                                        <li>
+                                            <a href="contact.html">Contact</a>
+                                        </li>
+                                        <li>
+                                            <a href="about.html">About</a>
+                                        </li>
+                                        <li>
+                                            <a href="terms-conditions.html">Terms & Conditions</a>
+                                        </li>
+                                        <li>
+                                            <a href="privacy.html">Policy</a>
+                                        </li>
+                                        <li>
+                                            <a href="order-list.html">My Orders</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-xl col-sm-8">
+                                <div class="ft_widget">
+                                    <h6 class="ft_title">Contact Us</h6>
+                                    <p class="mb-3">Sed ut perspiciatis unde omnis iste natus error sit voluptatem </p>
+                                    <ul class="ft_contact">
+                                        <li>
+                                            <a href="#">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                                14 Prospect Row, Bury St. Edmunds
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="tel:0002583745351">
+                                                <i class="fas fa-phone"></i>
+                                                000 2583 745 351
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="mailto:example@example.com">
+                                                <i class="fas fa-envelope"></i>
+                                                example@example.com
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-sm-4">
+                                <div class="ft_widget">
+                                    <h6 class="ft_title">Categories</h6>
+                                    <ul class="ft_menu">
+                                        <li>
+                                            <a href="shop.html">Chair</a>
+                                        </li>
+                                        <li>
+                                            <a href="shop.html">Sofa</a>
+                                        </li>
+                                        <li>
+                                            <a href="shop.html">Dining Table</a>
+                                        </li>
+                                        <li>
+                                            <a href="shop.html">Table Lamp</a>
+                                        </li>
+                                        <li>
+                                            <a href="shop.html">Desk</a>
+                                        </li>
+                                        <li>
+                                            <a href="shop.html">cabinets</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                    <div class="payment_box">
-                        <h5 class="title">Payment Method</h5>
-                        <ul class="address_list">
-                            <li>
-                                <div class="custom-control custom-radio form-check me-sm-2">
-                                    <input type="radio" class="custom-control-input form-check-input"
-                                        name="paymentmethod" id="cod" checked>
-                                    <label class="custom-control-label" for="cod">
-                                        <span class="top">
-                                            <span class="fw-500 thm-color-two">Cash On Delivery</span>
-                                        </span>
-                                        <span class="mb-0 p">Pay when you receive your order</span>
-                                    </label>
-                                </div>
-                                <div class="payment_icon">
-                                    <!-- No icon needed for COD -->
-                                </div>
-                            </li>
-                        </ul>
+                    </div>
+                </footer>
+                <!-- Footer End -->
+                <!-- Copyright Start -->
+                <div class="copyright">
+                    <div class="container-fluid">
+                        <p class="mb-0">@Copyright 2022. <a href="#" class="thm-color-one">Website.com</a> All Rights
+                            Reserved
+                        </p>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="checkout_items">
-                        <div class="items_box checkout_info">
-                            <p class="title">Shipping
-                            <h6 class="mb-0">
-                                <%= addressDet.firstName %>
-                                    <%= addressDet.lastName %>
-                            </h6>
-                            <p class="add">
-                                <%= addressDet.addressLine1 %>
-                            </p>
-                            <p class="add">
-                                <%= addressDet.addressLine2 %>
-                            </p>
-                            <p>Mobile: <strong class="thm-color-two">
-                                    <%= addressDet.phone %>
-                                </strong> </p>
-                        </div>
-                        <div class="items_box items table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <!-- <th>Type</th> -->
-                                        <th>Product</th>
-                                        <th>Qty</th>
-                                        <th>Price</th>
-                                        <th>Subtotal</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% for(let i=0;i<cartProducts.length;i++){ %>
-                                        <tr>
-                                            <!-- <td> -->
-                                            <!-- <span class="type veg"></span> -->
-                                            <!-- </td> -->
-                                            <td>
-                                                <%= cartProducts[i].productId.productName %>
-                                            </td>
-                                            <td>
-                                                <%= cartProducts[i].productQuantity %>
-                                            </td>
-                                            <td>$<%= cartProducts[i].productId.productPrice %>
-                                            </td>
-                                            <td>$<%= cartProducts[i].totalCostPerProduct %>
-                                            </td>
-                                        </tr>
-                                        <% } %>
+                <!-- Copyright End -->
+                <!-- Scripts -->
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="items_box total_amount">
-                            <strong>Total</strong>
-                            <strong id="grand-total">$</strong>
-                        </div>
+                <script>
+                    const cartProducts = '<%- JSON.stringify(cartProducts) %>'
+                    const cartTotalVal = '<%- JSON.stringify(grandTotal) %>'
+                    const cartTotal = JSON.parse(cartTotalVal)
+                    const parsedCartTot = parseInt(cartTotal)
+                    const cartPdArr = JSON.parse(cartProducts)
+                    console.log(cartPdArr);
+                    // var discountAvail = 0;
+                    // let grandTotal = 0;
+                    // console.log(discountAvail);
+                    const grandSum = document.getElementById('grand-total')
 
 
-                        <div class="items_box">
-                            <a href="/placeOrder" class="thm-btn btn-rectangle thm-bg-color-one w-100 mb-4">Place
-                                The
-                                Order</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Section End -->
-    <!-- Footer Start -->
-    <footer class="footer section-padding border-top">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget border-sm-0 pl-sm-0">
-                        <h6 class="ft_title">Find a Store<br> Shop Gift Cards</h6>
-                        <p class="mb-2">Follow Us:</p>
-                        <ul class="ft_social">
-                            <li>
-                                <a href="#">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Help Center</h6>
-                        <ul class="ft_menu">
-                            <li>
-                                <a href="payment.html">Payments</a>
-                            </li>
-                            <li>
-                                <a href="#">Shipping</a>
-                            </li>
-                            <li>
-                                <a href="#">Product Returns</a>
-                            </li>
-                            <li>
-                                <a href="faqs.html">FAQ's</a>
-                            </li>
-                            <li>
-                                <a href="checkout.html">Checkout</a>
-                            </li>
-                            <li>
-                                <a href="blog.html">Blog</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Useful Links</h6>
-                        <ul class="ft_menu">
-                            <li>
-                                <a href="index-2.html">Home</a>
-                            </li>
-                            <li>
-                                <a href="contact.html">Contact</a>
-                            </li>
-                            <li>
-                                <a href="about.html">About</a>
-                            </li>
-                            <li>
-                                <a href="terms-conditions.html">Terms & Conditions</a>
-                            </li>
-                            <li>
-                                <a href="privacy.html">Policy</a>
-                            </li>
-                            <li>
-                                <a href="order-list.html">My Orders</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl col-sm-8">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Contact Us</h6>
-                        <p class="mb-3">Sed ut perspiciatis unde omnis iste natus error sit voluptatem </p>
-                        <ul class="ft_contact">
-                            <li>
-                                <a href="#">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    14 Prospect Row, Bury St. Edmunds
-                                </a>
-                            </li>
-                            <li>
-                                <a href="tel:0002583745351">
-                                    <i class="fas fa-phone"></i>
-                                    000 2583 745 351
-                                </a>
-                            </li>
-                            <li>
-                                <a href="mailto:example@example.com">
-                                    <i class="fas fa-envelope"></i>
-                                    example@example.com
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Categories</h6>
-                        <ul class="ft_menu">
-                            <li>
-                                <a href="shop.html">Chair</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Sofa</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Dining Table</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Table Lamp</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Desk</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">cabinets</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- Footer End -->
-    <!-- Copyright Start -->
-    <div class="copyright">
-        <div class="container-fluid">
-            <p class="mb-0">@Copyright 2022. <a href="#" class="thm-color-one">Website.com</a> All Rights Reserved</p>
-        </div>
-    </div>
-    <!-- Copyright End -->
-    <!-- Scripts -->
-    <script>
-        const cartProducts = '<%- JSON.stringify(cartProducts) %>'
-        const cartPdArr = JSON.parse(cartProducts)
-        console.log(cartPdArr);
-        const grandSum = document.getElementById('grand-total')
-        let grandTotal = 0;
-        for (let i = 0; i < cartPdArr.length; i++) {
-            grandTotal += cartPdArr[i].totalCostPerProduct
-        }
-        grandSum.innerHTML = `<b>$${grandTotal.toFixed(2)}</b>`;
-    </script>
-    <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/plugins/slick.min.js"></script>
-    <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/plugins/jquery.counterup.min.js"></script>
-    <script src="assets/js/plugins/jquery.inview.min.js"></script>
-    <script src="assets/js/custom.js"></script>
+
+                    // if (discountAvail) {
+                    //     grandSum.innerHTML = `<b>₹&nbsp;${discountAvail.toFixed(2)}</b>`;
+                    // } else {
+                    //     for (let i = 0; i < cartPdArr.length; i++) {
+                    //         grandTotal += cartPdArr[i].totalCostPerProduct
+                    //     }
+                    //     grandSum.innerHTML = `<b>₹&nbsp;${grandTotal.toFixed(2)}</b>`;
+                    // }
+
+
+                    async function couponFunc(couponId) {
+                        try {
+                            const response = await fetch(`/applyCoupon?couponID=${couponId}&grandTotal=${parsedCartTot}`, {
+                                method: 'GET',
+                            });
+                            const result = await response.json();
+
+                            if (result.couponCofirmed) {
+                                const appliedDiscount = document.querySelector('.appliedDisCount')
+                                const discAmt = document.getElementById('discountAmt')
+                                if (appliedDiscount) {
+                                    appliedDiscount.classList.remove('d-none');
+                                } else {
+                                    console.log("Element with class 'appliedDisCount' not found");
+                                }
+                                discAmt.innerHTML = `<b>₹&nbsp;${result.appliedDisCount.toFixed(2)}</b>`;
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Your coupon has been Applied",
+                                    showConfirmButton: true,
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.reload() // Reload the page after user confirms
+                                    }
+                                })
+                            } else if (result.couponCodeExists) {
+                                await Swal.fire({
+                                    icon: "error",
+                                    title: "Coupon Code Applied Already",
+                                    text: "Coupon Code must be Added Once"
+                                });
+                            }
+                        } catch (error) {
+                            console.log("Error while sending the apply coupon request :" + error);
+                        }
+                    }
+                </script>
+                <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
+                <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
+                <script src="assets/js/plugins/slick.min.js"></script>
+                <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
+                <script src="assets/js/plugins/jquery.counterup.min.js"></script>
+                <script src="assets/js/plugins/jquery.inview.min.js"></script>
+                <script src="assets/js/custom.js"></script>
 </body>
 
 </html>

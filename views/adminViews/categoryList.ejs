@@ -20,6 +20,8 @@
     <meta name="twitter:title" content="Title website">
     <meta name="twitter:description" content="Description website">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Css -->
     <link href="assets/css/plugins/bootstrap.min.css" rel="stylesheet">
     <link href="assets/fonts/font-awesome.min.css" rel="stylesheet">
@@ -27,8 +29,9 @@
     <link href="assets/css/plugins/slick.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="assets/img/favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -63,8 +66,17 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>Admin-Category</title>
     <style>
+        #brand-name {
+            font-family: "Bungee Spice", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 30px;
+            background-color: #8a5d2a;
+        }
+
         div .logoa {
             height: 150px;
             width: 136px;
@@ -80,6 +92,48 @@
             object-fit: cover;
             object-position: center;
             height: 19vh;
+        }
+
+        @media (min-width: 992px) {
+            .navbar-expand-lg .navbar-nav {
+                flex-direction: row;
+                justify-content: space-around;
+            }
+        }
+
+        .h-100 {
+            height: 100%;
+            /* Occupy full height of parent container */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            flex-grow: 1;
+            /* Allow the navbar to grow and occupy available space */
+        }
+
+        .navbar-nav {
+            flex-direction: column;
+            /* Align nav items vertically */
+        }
+
+        .category-offers-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: large;
+            background-color: #8a5d2a;
+            color: #ffffff;
+            padding: 8px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .category-offers-button:hover {
+            background-color: #ff564e;
         }
     </style>
 </head>
@@ -97,9 +151,10 @@
             <div class="container-fluid">
                 <div class="inner">
                     <!-- Logo -->
-                    <div class="logoa">
-                        <a href="index-2.html">
-                            <img src="assets/images/logo.png" class="image-fit" alt="logo">
+                    <div class="logo">
+                        <a href="#">
+                            <div id="brand-name">&nbsp;Y-FURNS</div>
+                            <!-- <img src="assets/images/logo.png" class="image-fi" alt="logo" height="100px" width="100px"> -->
                         </a>
                     </div>
                     <!-- Logo -->
@@ -107,16 +162,7 @@
                     <div class="search-form">
                         <form>
                             <!-- Location -->
-                            <div class="location">
-                                <label>Your Location</label>
-                                <select>
-                                    <option selected>Select A Location</option>
-                                    <option value="New Delhi">New Delhi</option>
-                                    <option value="Mumbai">Mumbai</option>
-                                    <option value="Kolkata">Kolkata</option>
-                                    <option value="Chennai">Chennai</option>
-                                </select>
-                            </div>
+
                             <!-- Location -->
                             <!-- Search -->
                             <div class="input-group">
@@ -135,40 +181,36 @@
                     <!-- Header Action -->
                     <div class="header_action">
                         <ul>
-                            <li>
-                                <a href="wishlist.html">
-                                    <i class="far fa-heart"></i>
-                                </a>
-                            </li>
-                            <li class="cart">
-                                <a href="cart.html">
-                                    <span class="cart_value">0</span>
-                                    <i class="far fa-shopping-cart"></i>
-                                    <div class="cart_text">
-                                        My Cart
-                                        <span class="amount">$150.00</span>
-                                    </div>
-                                </a>
-                            </li>
+
                             <li class="user">
-                                <a href="account.html">
-                                    <img src="assets/images/header/user.jpg" class="image-fit" alt="img">
-                                    <span>Jhon Deo</span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="login.html">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="register.html">SignUp</a>
-                                    </li>
-                                    <li>
-                                        <a href="account.html">My Account</a>
-                                    </li>
-                                    <li>
-                                        <a href="login.html">Logout</a>
-                                    </li>
-                                </ul>
+                                <% if (user) { %>
+                                    <a href="/userDetails">
+                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
+                                        <div class="cart_text">
+                                            ADMIN
+                                        </div>
+                                        <span>
+                                            <%= user.username %>
+                                        </span>
+                                    </a>
+                                    <ul class="sub-menu">
+
+                                        <li>
+                                            <a href="/adminLogout">Logout</a>
+                                        </li>
+                                    </ul>
+                                    <% } else { %>
+                                        <a href="account.html">
+                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
+                                            <span>New User</span>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li>
+                                                <a href="/adminLogin">Login</a>
+                                            </li>
+
+                                        </ul>
+                                        <% } %>
                             </li>
                         </ul>
                     </div>
@@ -178,644 +220,323 @@
         </div>
         <!-- Topbar -->
     </header>
-    <!-- Header End -->
-    <!-- Category Nav Start -->
-    <div class="main_navigation hide_cat">
-        <div class="container-fluid">
+
+    <section class="order-list">
+        <div class="container-fluid" style="padding: 0;">
             <div class="row">
-                <div class="col-lg-3 col-6">
-                    <div class="main-collapse-wrap custom-accordion">
-                        <button type="button">All Category</button>
-                        <div id="cataccordion" class="accordion_wrap accordion">
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button" data-bs-toggle="collapse"
-                                        data-bs-target="#catOne">
-                                        <i class="fal fa-heart"></i>
-                                        Chair
-                                    </button>
-                                </div>
-                                <div id="catOne" class="accordion-collapse collapse show"
-                                    data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                <div class="col-xl-3 col-lg-4">
+                    <div class="h-100">
+                        <nav class="navbar navbar-expand-lg navbar-dark justify-content-around"
+                            style="background-color: #604220;align-items: baseline;">
+                            <div class="container-fluid d-flex justify-content-center">
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                                    aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarNav">
+                                    <ul class="navbar-nav w-100 d-flex flex-column align-items-start">
+                                        <li class="nav-item my-3 fs-5">
+                                            <a class="nav-link" href="/adimDashBoard">Home</a>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <a class="nav-link" href="/usersList">User Management</a>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <a class="nav-link" href="/productList">Product Management</a>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <a class="nav-link" href="/categoryList">Category Management</a>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <a class="nav-link" href="/orderList">Order Management</a>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <a class="nav-link" href="#">Sales Report</a>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <a class="nav-link" href="#">Banner Management</a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#catTwo">
-                                        <i class="fal fa-heart"></i>
-                                        Sofa
-                                    </button>
-                                </div>
-                                <div id="catTwo" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#catThree">
-                                        <i class="fal fa-heart"></i>
-                                        Table Lamp
-                                    </button>
-                                </div>
-                                <div id="catThree" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#catFour">
-                                        <i class="fal fa-heart"></i>
-                                        Tables
-                                    </button>
-                                </div>
-                                <div id="catFour" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#catFive">
-                                        <i class="fal fa-heart"></i>
-                                        Swing
-                                    </button>
-                                </div>
-                                <div id="catFive" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#catSix">
-                                        <i class="fal fa-heart"></i>
-                                        Cabinets
-                                    </button>
-                                </div>
-                                <div id="catSix" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </nav>
+
                     </div>
                 </div>
-                <div class="col-lg-9 col-6">
-                    <div class="nav_inner">
-                        <ul class="main-menu">
-                            <li class="menu-item">
-                                <a href="index-2.html" class="active">Home</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="about.html">About Us</a>
-                            </li>
-                            <li class="menu-item menu-item-has-children"><a href="#">Blog</a>
-                                <ul class="sub-menu custom">
-                                    <li class="menu-item menu-item-has-children"><a href="#">Blog Grid</a>
-                                        <ul class="sub-menu custom">
-                                            <li class="menu-item"><a href="blog.html">Full Width</a></li>
-                                            <li class="menu-item"><a href="blog-left.html">Left Sidebar</a></li>
-                                            <li class="menu-item"><a href="blog-right.html">Right Sidebar</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="blog-details.html">Blog Details</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item menu-item-has-children"><a href="#">Pages</a>
-                                <ul class="sub-menu custom">
-                                    <li class="menu-item menu-item-has-children"><a href="#">Account</a>
-                                        <ul class="sub-menu custom">
-                                            <li class="menu-item"><a href="account.html">My Account</a></li>
-                                            <li class="menu-item"><a href="login.html">Login</a></li>
-                                            <li class="menu-item"><a href="register.html">Register</a></li>
-                                            <li class="menu-item"><a href="payment.html">Payment</a></li>
-                                            <li class="menu-item"><a href="thankyou.html">Thank You</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="faqs.html">Faq's</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="terms-conditions.html">Terms &amp; Con.</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="privacy.html">Policy</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="error.html">Error 404</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item menu-item-has-children"><a href="#">Shop</a>
-                                <ul class="sub-menu custom">
-                                    <li class="menu-item">
-                                        <a href="shop.html">Shop</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="shop-details.html">Shop Details</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="wishlist.html">Wishlist</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="cart.html">Cart</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="checkout.html">Checkout</a>
-                                    </li>
-                                    <li class="menu-item menu-item-has-children"><a href="#">Orders</a>
-                                        <ul class="sub-menu custom">
-                                            <li class="menu-item"><a href="order-list.html">Order List</a></li>
-                                            <li class="menu-item"><a href="order-details.html">Order Details</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item">
-                                <a href="contact.html">Contact</a>
-                            </li>
-                        </ul>
-                        <div class="hamburger">
-                            <div class="hamburger_btn">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
+                <!-- <div class="col-xl-9 col-lg-8">
+                    <div class="d-flex w-100 justify-content-between">
+                        <div class="section-header">
+                            <h3 class="title">Product List</h3>
+                        </div>
+                        <div style="padding: 0 30px 0 0;margin: 0;">
+                            <button class="title flex-end product-offers-button">
+                                <h3>Product Offer
+                                    Management</h3>
+                            </button>
                         </div>
                     </div>
+                </div> -->
+                <div class="col-xl-9 col-lg-8">
+                    <section class="section-padding pb-0">
+                        <div class="d-flex w-100 justify-content-between">
+                            <div class="section-header">
+                                <h3 class="title">Category List</h3>
+                            </div>
+                            <div style="padding: 0 30px 0 0;margin: 0;">
+                                <button class="title flex-end category-offers-button">
+                                    <h3>Category Offer
+                                        Management</h3>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                            style="margin-bottom: 10px;">
+                            Add Category
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="addCat">
+                                            <div class="form-outline mb-4">
+                                                <input type="text" placeholder="Category" name="category" id="category"
+                                                    class="form-control" />
+                                            </div>
+
+                                            <div class="form-outline mb-4">
+                                                <input type="text" placeholder="Category Description" name="categorydes"
+                                                    id="categorydes" class="form-control pb-5" />
+
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save
+                                                    changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            $('#addCat').validate({
+                                rules: {
+                                    category: {
+                                        required: true
+                                    },
+                                    categorydes: {
+                                        required: true
+                                    }
+                                },
+                                submitHandler: async (form, event) => {
+                                    event.preventDefault()
+
+                                    let formData = {
+                                        categoryName: form.category.value,
+                                        categoryDes: form.categorydes.value
+                                    }
+                                    let response = await fetch('/addCategory', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify(formData)
+                                    })
+                                    let result = await response.json()
+                                    if (result.success) {
+                                        await Swal.fire({
+                                            icon: "success",
+                                            title: "Category Added"
+
+                                        });
+                                        window.location.reload();
+                                    } else {
+                                        await Swal.fire({
+                                            icon: "error",
+                                            title: "Category Already Exists"
+
+                                        });
+                                        window.location.reload();
+                                    }
+                                }
+                            })
+                        </script>
+
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Category Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">List/Unlist</th>
+                                    <th scope="col">Actions </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for(let i=0;i<categoryDet.length;i++){ %>
+                                    <tr>
+                                        <th scope="row">
+                                            <%= categoryDet[i].categoryName %>
+                                        </th>
+                                        <td>
+                                            <%= categoryDet[i].categoryDescription %>
+                                        </td>
+                                        <% if(categoryDet[i].isListed){ %>
+                                            <td><button id="unList<%i%>" type="button"
+                                                    onclick="fnList('<%=categoryDet[i].categoryName %>')"
+                                                    class="btn btn-danger">Unlist</button> </td>
+                                            <% }else{ %>
+                                                <td><button id="list<%i%>" type="button"
+                                                        onclick="fnUnlist('<%=categoryDet[i].categoryName %>')"
+                                                        class="btn btn-success">List</button> </td>
+                                                <% } %>
+                                                    <td>
+                                                        <button id="unblock<%i%>" data-target="#categoryModal<%=i%>"
+                                                            data-toggle="modal" type="button"
+                                                            class="btn btn-info">Edit</button>
+                                                    </td>
+                                    </tr>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="categoryModal<%=i%>" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form id="categoryEdit<%=i%>">
+                                                        <div class="form-outline mb-4">
+                                                            <input type="text" placeholder="Category"
+                                                                value="<%=categoryDet[i].categoryName %>"
+                                                                name="categoryNameEdit<%=i%>" id="categoryNameEdit"
+                                                                class="form-control" />
+                                                        </div>
+
+                                                        <div class="form-outline mb-4">
+                                                            <input type="text" placeholder="Category Description"
+                                                                value="<%=categoryDet[i].categoryDescription %>"
+                                                                name="categorydesEdit<%=i%>" id="categorydesEdit"
+                                                                class="form-control pb-5" />
+
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close</button>
+
+                                                            <button type="submit" class="btn btn-primary">Save
+                                                                changes</button>
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <script>
+
+                                        $('#categoryEdit<%=i%>').validate({
+                                            rules: {
+                                                'categoryNameEdit<%=i%>': {
+                                                    required: true,
+                                                },
+                                                'categorydesEdit<%=i%>': {
+                                                    required: true
+                                                }
+                                            },
+                                            submitHandler: async (form, event) => {
+                                                event.preventDefault()
+
+                                                let formData = {
+                                                    categoryName: form.categoryNameEdit.value,
+                                                    categoryDes: form.categorydesEdit.value,
+                                                    categoryId: '<%=categoryDet[i]._id%>'
+                                                }
+                                                let response = await fetch('/editCategory', {
+                                                    method: 'POST',
+                                                    headers: { 'Content-Type': 'application/json' },
+                                                    body: JSON.stringify(formData)
+                                                })
+                                                let result = await response.json()
+                                                if (result.success) {
+                                                    await Swal.fire({
+                                                        icon: "success",
+                                                        title: "Category Edited"
+
+                                                    });
+                                                    window.location.reload();
+                                                } if (result.exists) {
+                                                    await Swal.fire({
+                                                        icon: "error",
+                                                        title: "Category Already Exists"
+
+                                                    });
+                                                    window.location.reload();
+                                                } if (result.noValue) {
+                                                    await Swal.fire({
+                                                        icon: "error",
+                                                        title: "Give any value"
+
+                                                    });
+                                                    window.location.reload();
+                                                }
+                                            }
+                                        })
+                                    </script>
+                                    <% } %>
+
+                            </tbody>
+                        </table>
+                    </section>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
     <!-- Category Nav End -->
     <!-- Section Start -->
-    <section class="section-padding pb-0">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-            Add Category
-        </button>
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
-                    </div>
-                    <div class="modal-body">
-                        <form id="addCat">
-                            <div class="form-outline mb-4">
-                                <input type="text" placeholder="Category" name="category" id="category"
-                                    class="form-control" />
-                            </div>
-
-                            <div class="form-outline mb-4">
-                                <input type="text" placeholder="Category Description" name="categorydes"
-                                    id="categorydes" class="form-control pb-5" />
-
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save
-                                    changes</button>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <script>
-            $('#addCat').validate({
-                rules: {
-                    category: {
-                        required: true
-                    },
-                    categorydes: {
-                        required: true
-                    }
-                },
-                submitHandler: async (form, event) => {
-                    event.preventDefault()
-
-                    let formData = {
-                        categoryName: form.category.value,
-                        categoryDes: form.categorydes.value
-                    }
-                    let response = await fetch('/addCategory', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(formData)
-                    })
-                    let result = await response.json()
-                    if (result.success) {
-                        await Swal.fire({
-                            icon: "success",
-                            title: "Category Added"
-
-                        });
-                        window.location.reload();
-                    } else {
-                        await Swal.fire({
-                            icon: "error",
-                            title: "Category Already Exists"
-
-                        });
-                        window.location.reload();
-                    }
-                }
-            })
-        </script>
-
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Category Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">List/Unlist</th>
-                    <th scope="col">Actions </th>
-                </tr>
-            </thead>
-            <tbody>
-                <% for(let i=0;i<categoryDet.length;i++){ %>
-                    <tr>
-                        <th scope="row">
-                            <%= categoryDet[i].categoryName %>
-                        </th>
-                        <td>
-                            <%= categoryDet[i].categoryDescription %>
-                        </td>
-                        <% if(categoryDet[i].isListed){ %>
-                            <td><button id="unList<%i%>" type="button"
-                                    onclick="fnList('<%=categoryDet[i].categoryName %>')"
-                                    class="btn btn-danger">Unlist</button> </td>
-                            <% }else{ %>
-                                <td><button id="list<%i%>" type="button"
-                                        onclick="fnUnlist('<%=categoryDet[i].categoryName %>')"
-                                        class="btn btn-success">List</button> </td>
-                                <% } %>
-                                    <td>
-                                        <button id="unblock<%i%>" data-target="#categoryModal<%=i%>" data-toggle="modal"
-                                            type="button" class="btn btn-info">Edit</button>
-                                    </td>
-                    </tr>
-                    <!-- Modal -->
-                    <div class="modal fade" id="categoryModal<%=i%>" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
-                                </div>
-                                <div class="modal-body">
-                                    <form id="categoryEdit<%=i%>">
-                                        <div class="form-outline mb-4">
-                                            <input type="text" placeholder="Category"
-                                                value="<%=categoryDet[i].categoryName %>" name="categoryNameEdit<%=i%>"
-                                                id="categoryNameEdit" class="form-control" />
-                                        </div>
-
-                                        <div class="form-outline mb-4">
-                                            <input type="text" placeholder="Category Description"
-                                                value="<%=categoryDet[i].categoryDescription %>"
-                                                name="categorydesEdit<%=i%>" id="categorydesEdit"
-                                                class="form-control pb-5" />
-
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close</button>
-
-                                            <button type="submit" class="btn btn-primary">Save
-                                                changes</button>
-
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-
-                        $('#categoryEdit<%=i%>').validate({
-                            rules: {
-                                'categoryNameEdit<%=i%>': {
-                                    required: true,
-                                },
-                                'categorydesEdit<%=i%>': {
-                                    required: true
-                                }
-                            },
-                            submitHandler: async (form, event) => {
-                                event.preventDefault()
-
-                                let formData = {
-                                    categoryName: form.categoryNameEdit.value,
-                                    categoryDes: form.categorydesEdit.value,
-                                    categoryId: '<%=categoryDet[i]._id%>'
-                                }
-                                let response = await fetch('/editCategory', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify(formData)
-                                })
-                                let result = await response.json()
-                                if (result.success) {
-                                    await Swal.fire({
-                                        icon: "success",
-                                        title: "Category Edited"
-
-                                    });
-                                    window.location.reload();
-                                } if (result.exists) {
-                                    await Swal.fire({
-                                        icon: "error",
-                                        title: "Category Already Exists"
-
-                                    });
-                                    window.location.reload();
-                                } if (result.noValue) {
-                                    await Swal.fire({
-                                        icon: "error",
-                                        title: "Give any value"
-
-                                    });
-                                    window.location.reload();
-                                }
-                            }
-                        })
-                    </script>
-                    <% } %>
-
-            </tbody>
-        </table>
-    </section>
     <!-- Section End -->
     <!-- Footer Start -->
-    <footer class="footer section-padding border-top">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget border-sm-0 pl-sm-0">
-                        <h6 class="ft_title">Find a Store<br> Shop Gift Cards</h6>
-                        <p class="mb-2">Follow Us:</p>
-                        <ul class="ft_social">
-                            <li>
-                                <a href="#">
-                                    <i class="fab fa-facebook-f"></i>
+    <div class="row">
+        <div class="col-12">
+
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<%= page - 1 %>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <% for(let i=1; i <=pages; i++){ %>
+                        <li class="page-item <%= page == i? 'active' : '' %>"><a class="page-link"
+                                href="?page=<%= i %>">
+                                <%= i %>
+                            </a></li>
+                        <!-- <% if(i < pages){ %> -->
+                        <!-- <li class="page-item disabled"><a class="page-link"
+                                                                                                        href="#">&hellip;</a></li>
+                                                                                                <% } %> -->
+                        <% } %>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<%= page + 1 %>" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Help Center</h6>
-                        <ul class="ft_menu">
-                            <li>
-                                <a href="payment.html">Payments</a>
-                            </li>
-                            <li>
-                                <a href="#">Shipping</a>
-                            </li>
-                            <li>
-                                <a href="#">Product Returns</a>
-                            </li>
-                            <li>
-                                <a href="faqs.html">FAQ's</a>
-                            </li>
-                            <li>
-                                <a href="checkout.html">Checkout</a>
-                            </li>
-                            <li>
-                                <a href="blog.html">Blog</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Useful Links</h6>
-                        <ul class="ft_menu">
-                            <li>
-                                <a href="index-2.html">Home</a>
-                            </li>
-                            <li>
-                                <a href="contact.html">Contact</a>
-                            </li>
-                            <li>
-                                <a href="about.html">About</a>
-                            </li>
-                            <li>
-                                <a href="terms-conditions.html">Terms & Conditions</a>
-                            </li>
-                            <li>
-                                <a href="privacy.html">Policy</a>
-                            </li>
-                            <li>
-                                <a href="order-list.html">My Orders</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl col-sm-8">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Contact Us</h6>
-                        <p class="mb-3">Sed ut perspiciatis unde omnis iste natus error sit voluptatem </p>
-                        <ul class="ft_contact">
-                            <li>
-                                <a href="#">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    14 Prospect Row, Bury St. Edmunds
-                                </a>
-                            </li>
-                            <li>
-                                <a href="tel:0002583745351">
-                                    <i class="fas fa-phone"></i>
-                                    000 2583 745 351
-                                </a>
-                            </li>
-                            <li>
-                                <a href="mailto:example@example.com">
-                                    <i class="fas fa-envelope"></i>
-                                    example@example.com
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Categories</h6>
-                        <ul class="ft_menu">
-                            <li>
-                                <a href="shop.html">Chair</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Sofa</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Dining Table</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Table Lamp</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Desk</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">cabinets</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+                </ul>
+            </nav>
         </div>
-    </footer>
+    </div>
     <!-- Footer End -->
     <!-- Copyright Start -->
     <div class="copyright">
@@ -864,8 +585,9 @@
             window.location.reload();
         }
 
-
-
+        document.querySelector('.category-offers-button').addEventListener("click", () => {
+            window.location.href = '/category-offers-page'
+        })
     </script>
 </body>
 

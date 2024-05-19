@@ -27,6 +27,19 @@
     <link href="assets/css/plugins/slick.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
+    <style>
+        #brand-name {
+            font-family: "Bungee Spice", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 30px;
+            background-color: #8a5d2a;
+        }
+    </style>
 </head>
 
 <body>
@@ -43,8 +56,9 @@
                 <div class="inner">
                     <!-- Logo -->
                     <div class="logo">
-                        <a href="index-2.html">
-                            <img src="assets/images/logo.png" class="image-fit" alt="logo">
+                        <a href="/">
+                            <div id="brand-name">&nbsp;Y-FURNS</div>
+                            <!-- <img src="assets/images/logo.png" class="image-fi" alt="logo" height="100px" width="100px"> -->
                         </a>
                     </div>
                     <!-- Logo -->
@@ -86,34 +100,45 @@
                                 </a>
                             </li>
                             <li class="cart">
-                                <a href="cart.html">
+                                <a href="/cartPage">
                                     <span class="cart_value">0</span>
                                     <i class="far fa-shopping-cart"></i>
                                     <div class="cart_text">
                                         My Cart
-                                        <span class="amount">$150.00</span>
+                                        <!-- <span class="amount">$150.00</span> -->
                                     </div>
                                 </a>
                             </li>
                             <li class="user">
-                                <a href="account.html">
-                                    <img src="assets/images/header/user.jpg" class="image-fit" alt="img">
-                                    <span>Jhon Deo</span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="login.html">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="register.html">SignUp</a>
-                                    </li>
-                                    <li>
-                                        <a href="account.html">My Account</a>
-                                    </li>
-                                    <li>
-                                        <a href="login.html">Logout</a>
-                                    </li>
-                                </ul>
+                                <% if (user) { %>
+                                    <a href="/userDetails">
+                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
+                                        <span>
+                                            <%= user.username %>
+                                        </span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="/userDetails">My Account</a>
+                                        </li>
+                                        <li>
+                                            <a href="/logout">Logout</a>
+                                        </li>
+                                    </ul>
+                                    <% } else { %>
+                                        <a href="account.html">
+                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
+                                            <span>New User</span>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li>
+                                                <a href="/logIn">Login</a>
+                                            </li>
+                                            <li>
+                                                <a href="/signUp">SignUp</a>
+                                            </li>
+                                        </ul>
+                                        <% } %>
                             </li>
                         </ul>
                     </div>
@@ -683,25 +708,24 @@
             }
 
             // Check if the Cash On Delivery radio button is checked
-            if (selectedPaymentMethod !== "cod") {
-                alert("Please select Cash On Delivery as the payment method.");
-                return;
-            }
+            console.log(selectedPaymentMethod);
+            window.location.href = `/checkoutPage?paymentmethod=${selectedPaymentMethod}`
+
 
             // If the Cash On Delivery radio button is checked, proceed with the form submission
-            console.log("Payment method is Cash On Delivery." + selectedPaymentMethod);
-            const form = document.createElement('form');
-            form.method = 'get';
-            form.action = '/checkoutPage';
+            // console.log("Payment method is Cash On Delivery." + selectedPaymentMethod);
+            // const form = document.createElement('form');
+            // form.method = 'get';
+            // form.action = '/checkoutPage';
 
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'paymentmethod';
-            input.value = selectedPaymentMethod;
-            form.appendChild(input);
+            // const input = document.createElement('input');
+            // input.type = 'hidden';
+            // input.name = 'paymentmethod';
+            // input.value = selectedPaymentMethod;
+            // form.appendChild(input);
 
-            document.body.appendChild(form);
-            form.submit();
+            // document.body.appendChild(form);
+            // form.submit();
             // if (isChecked) {
             //     // If not, show the modal
             //     const form = document.createElement('form');
