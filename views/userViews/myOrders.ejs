@@ -466,78 +466,61 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-3 col-lg-4">
-                    <div class="account_sidebar style_2 section pb-0 h-100">
-                        <h4 class="title">Filter</h4>
+                    <div class="account_sidebar section pb-0 h-100">
+                        <h4 class="title">My Account</h4>
                         <ul>
                             <li class="active">
-                                <a href="#">
-                                    Order Status
+                                <a href="/userDetails">
+                                    <i class="fal fa-user"></i>
+                                    User Info
                                 </a>
-                                <form action="#" method="POST">
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox me-sm-2 form-check">
-                                            <input type="checkbox" class="custom-control-input form-check-input"
-                                                id="filter_os_1">
-                                            <label class="custom-control-label" for="filter_os_1">On The Way</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox me-sm-2 form-check">
-                                            <input type="checkbox" class="custom-control-input form-check-input"
-                                                id="filter_os_2">
-                                            <label class="custom-control-label" for="filter_os_2">Delivered</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox me-sm-2 form-check">
-                                            <input type="checkbox" class="custom-control-input form-check-input"
-                                                id="filter_os_3">
-                                            <label class="custom-control-label" for="filter_os_3">Cancelled</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox me-sm-2 form-check">
-                                            <input type="checkbox" class="custom-control-input form-check-input"
-                                                id="filter_os_4">
-                                            <label class="custom-control-label" for="filter_os_4">Returned</label>
-                                        </div>
-                                    </div>
-                                </form>
+                            </li>
+                            <li>
+                                <a href="/addressPage">
+                                    <i class="fal fa-book"></i>
+                                    Address
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/myOrdersPage">
+                                    <i class="fal fa-luggage-cart"></i>
+                                    Order
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/walletPage">
+                                    <i class="fas fa-wallet"></i>
+                                    Wallet
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/wishListPage">
+                                    <i class="fal fa-star"></i>
+                                    Wishlist
+                                </a>
                             </li>
                             <li>
                                 <a href="#">
-                                    Order Time
+                                    <i class="fal fa-cog"></i>
+                                    Settings
                                 </a>
-                                <form action="#" method="POST">
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox me-sm-2 form-check">
-                                            <input type="checkbox" class="custom-control-input form-check-input"
-                                                id="filter_ot_1">
-                                            <label class="custom-control-label" for="filter_ot_1">Last 30 Days</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox me-sm-2 form-check">
-                                            <input type="checkbox" class="custom-control-input form-check-input"
-                                                id="filter_ot_2">
-                                            <label class="custom-control-label" for="filter_ot_2">2020</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox me-sm-2 form-check">
-                                            <input type="checkbox" class="custom-control-input form-check-input"
-                                                id="filter_ot_3">
-                                            <label class="custom-control-label" for="filter_ot_3">2019</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox me-sm-2 form-check">
-                                            <input type="checkbox" class="custom-control-input form-check-input"
-                                                id="filter_ot_4">
-                                            <label class="custom-control-label" for="filter_ot_4">Older</label>
-                                        </div>
-                                    </div>
-                                </form>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fal fa-bell"></i>
+                                    Notifications
+                                </a>
+                            </li>
+                            <li>
+
+                                <div class="row mt-3">
+                                    <input type="hidden" id="ReferalCode"
+                                        value="http://localhost:3000/signUp?referral=<%= user.referralCode %>" readonly>
+                                    <a onclick="copyReferralCode()"
+                                        style=" cursor: pointer; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; padding: 25px 50px;width: 280px;">
+                                        <b class="text-success fw-700">Click here to get the referral link</b>
+                                    </a>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -587,7 +570,7 @@
                                         <div class="order_info">
                                             <p class="mb-0 d-flex justify-content-center">Amount</p>
                                             <div class="price">
-                                                <%= orders[i].grandTotalCost%>
+                                                &#8377&nbsp;<%= orders[i].grandTotalCost%>
                                             </div>
                                         </div>
 

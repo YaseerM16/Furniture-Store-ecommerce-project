@@ -365,13 +365,17 @@ const placeOrder = async (req, res) => {
               transactionDate: transactionDate,
               transactionAmount: transactionAmount,
               transactionType: "Debited",
-              transactionMethod: req.session.paymentMethod,
+              transactionMethod: "Purchased Products",
             },
           },
         },
 
         { new: true }
       );
+    }
+
+    if (req.session.paymentMethod == "paypal") {
+      res.redirect(`/payPalPaymentPage?total=${req.session.cartTotal}`);
     }
 
     await cartCollection.deleteMany({ userId: req.session.currentUser._id });

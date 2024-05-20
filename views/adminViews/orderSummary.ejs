@@ -103,40 +103,38 @@
                     <!-- Header Action -->
                     <div class="header_action">
                         <ul>
-                            <li>
-                                <a href="wishlist.html">
-                                    <i class="far fa-heart"></i>
-                                </a>
-                            </li>
-                            <li class="cart">
-                                <a href="cart.html">
-                                    <span class="cart_value">0</span>
-                                    <i class="far fa-shopping-cart"></i>
-                                    <div class="cart_text">
-                                        My Cart
-                                        <span class="amount">$150.00</span>
-                                    </div>
-                                </a>
-                            </li>
+
                             <li class="user">
-                                <a href="account.html">
-                                    <img src="assets/images/header/user.jpg" class="image-fit" alt="img">
-                                    <span>Jhon Deo</span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="login.html">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="register.html">SignUp</a>
-                                    </li>
-                                    <li>
-                                        <a href="account.html">My Account</a>
-                                    </li>
-                                    <li>
-                                        <a href="login.html">Logout</a>
-                                    </li>
-                                </ul>
+                                <% if (user) { %>
+                                    <a href="#">
+                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
+                                        <div class="cart_text">
+                                            ADMIN
+                                        </div>
+                                        <span>
+                                            <%= user.username %>
+                                        </span>
+                                    </a>
+                                    <ul class="sub-menu">
+
+                                        <li>
+                                            <a href="/logout">Logout</a>
+                                        </li>
+                                    </ul>
+                                    <% } else { %>
+                                        <a href="account.html">
+                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
+                                            <span>New User</span>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li>
+                                                <a href="/logIn">Login</a>
+                                            </li>
+                                            <li>
+                                                <a href="/signUp">SignUp</a>
+                                            </li>
+                                        </ul>
+                                        <% } %>
                             </li>
                         </ul>
                     </div>

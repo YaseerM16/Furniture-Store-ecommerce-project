@@ -12,7 +12,13 @@ const {
 } = require("../middlewares/middleware");
 const offersController = require("../controller/offersController.js");
 const couponController = require("../controller/couponController.js");
-const { salesReportPage } = require("../controller/salesReportController.js");
+const {
+  SalesReportGet,
+  salesReportDownloadPDF,
+  salesReportDownload,
+  filterDate,
+  removeAllFillters,
+} = require("../controller/salesReportController.js");
 
 adminRouter.get("/adminLogin", adminController.adminLoginPage);
 adminRouter.post(
@@ -98,6 +104,10 @@ adminRouter.put(
 
 /// Sales Report
 
-adminRouter.get("/salesReport", salesReportPage);
+adminRouter.get("/salesReport", SalesReportGet);
+adminRouter.get("/salesReport/download/pdf", salesReportDownloadPDF);
+adminRouter.get("/salesReport/download/xlsx", salesReportDownload);
+adminRouter.post("/filterdate", filterDate);
+adminRouter.get("/removefilter", removeAllFillters);
 
 module.exports = adminRouter;

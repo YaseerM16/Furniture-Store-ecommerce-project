@@ -25,6 +25,10 @@ const {
   isLoggedIn,
 } = require("../middlewares/middleware");
 const passport = require("passport");
+const {
+  doPayment,
+  paymentSucessPage,
+} = require("../controller/paymentController");
 
 //sign-up Routes
 userRouter.get("/", blockUserCheck, userController.landingPage);
@@ -160,5 +164,9 @@ userRouter.get("/wishListPage", userController.wishListPage);
 
 //Wallet page
 userRouter.get("/walletPage", userController.walletPage);
+
+//Payment Page
+userRouter.get("/payPalPaymentPage", doPayment);
+userRouter.get("/paymentSucess", paymentSucessPage);
 
 module.exports = userRouter;
