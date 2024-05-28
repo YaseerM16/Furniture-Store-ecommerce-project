@@ -3,6 +3,7 @@ const orderCollection = require("../models/orderModel");
 const productCollection = require("../models/productModel");
 const userCollection = require("../models/userModel");
 const { ObjectId } = require("mongodb");
+const walletCollection = require("../models/walletModel");
 
 const orderData = async (req) => {
   const id = req.session.currentUser._id;
@@ -251,6 +252,24 @@ const singleProdCancel = async (req, res) => {
     const productId = matchedCartData.productId;
     const prodQty = matchedCartData.productQuantity;
     const totalCostOfProd = matchedCartData.totalCostPerProduct;
+
+    if (order.paymentType == "wallet" || order.paymentType == "paypal") {
+      await walletCollection.findOneAndUpdate(
+        { userId: req.session.currentUser._id },
+        {
+          $inc: { walletBalance: +totalCostOfProd },
+          $push: {
+            walletTransaction: {
+              transactionDate: new Date(),
+              transactionAmount: totalCostOfProd,
+              transactionType: "credited",
+              transactionMethod: "Cancelled Order",
+            },
+          },
+        },
+        { new: true }
+      );
+    }
 
     const updateResult = await orderCollection.updateOne(
       {

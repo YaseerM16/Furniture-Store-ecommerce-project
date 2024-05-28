@@ -46,6 +46,9 @@ const orderListPage = async (req, res) => {
 
 const orderSummaryDetails = async (req, res) => {
   try {
+    let user = await adminCollection.findOne({
+      _id: req.session.adminUser._id,
+    });
     const orderId = new ObjectId(req.query.orderID);
     const orderTot = await orderCollection.findOne({ _id: req.query.orderID });
 
@@ -141,6 +144,7 @@ const orderSummaryDetails = async (req, res) => {
       grandTotal: grandTotal,
       orderID: req.query.orderID,
       orderStatus: orderStatus,
+      user,
     });
   } catch (error) {
     console.log(

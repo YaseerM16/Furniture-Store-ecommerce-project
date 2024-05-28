@@ -343,7 +343,7 @@
                                     event.preventDefault()
 
                                     let formData = {
-                                        categoryName: form.category.value,
+                                        categoryName: $(form.category).val().trim(),
                                         categoryDes: form.categorydes.value
                                     }
                                     let response = await fetch('/addCategory', {
@@ -457,7 +457,7 @@
                                                 event.preventDefault()
 
                                                 let formData = {
-                                                    categoryName: form.categoryNameEdit.value,
+                                                    categoryName: $(form.categoryNameEdit).val().trim(),
                                                     categoryDes: form.categorydesEdit.value,
                                                     categoryId: '<%=categoryDet[i]._id%>'
                                                 }

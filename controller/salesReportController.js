@@ -14,14 +14,41 @@ const SalesReportGet = async (req, res) => {
       _id: req.session.adminUser._id,
     });
 
+    let startDate, endDate;
+    if (req.session.startDate && req.session.endDate) {
+      startDate = req.session.startDate;
+      endDate = req.session.endDate;
+    } else {
+      startDate = new Date();
+      startDate.setDate(startDate.getDate() - 7);
+      endDate = new Date();
+    }
+
     var salesDetails =
       req.session.salesDetails ||
       (await orderCollection
-        .find({ orderStatus: "Delivered" })
-        .populate("userId")
-        .sort({ _id: -1 }));
+        .find({
+          orderDate: { $gte: startDate, $lte: endDate },
+          orderStatus: "Delivered",
+        })
+        .sort({ orderDate: -1 })
+        .populate({
+          path: "cartData.productId",
+          model: "products",
+          as: "productDetails",
+        })
+        .populate({
+          path: "userId",
+          model: "users",
+          as: "userDetails",
+        })
+        .populate({
+          path: "couponApplied",
+          model: "coupons",
+          as: "couponDetails",
+        }));
 
-    const productsPerPage = 7;
+    const productsPerPage = 15;
     const totalPages = salesDetails.length / productsPerPage;
     const pageNo = req.query.pages || 1;
     const start = (pageNo - 1) * productsPerPage;
@@ -44,20 +71,35 @@ const SalesReportGet = async (req, res) => {
 const salesReportDownloadPDF = async (req, res) => {
   try {
     let startDate, endDate;
-
-    if (req.body.startDate && req.body.endDate) {
-      startDate = new Date(req.body.startDate);
-      endDate = new Date(req.body.endDate);
+    if (req.session.startDate && req.session.endDate) {
+      startDate = req.session.startDate;
+      endDate = req.session.endDate;
     } else {
       startDate = new Date();
       startDate.setDate(startDate.getDate() - 7);
       endDate = new Date();
     }
 
-    const salesData = await orderCollection.find({
-      orderDate: { $gte: startDate, $lte: endDate },
-      orderStatus: "Delivered",
-    });
+    const salesData = await orderCollection
+      .find({
+        orderDate: { $gte: startDate, $lte: endDate },
+        orderStatus: "Delivered",
+      })
+      .populate({
+        path: "cartData.productId",
+        model: "products",
+        as: "productDetails",
+      })
+      .populate({
+        path: "userId",
+        model: "users",
+        as: "userDetails",
+      })
+      .populate({
+        path: "couponApplied",
+        model: "coupons",
+        as: "couponDetails",
+      });
 
     const browser = await puppeteer.launch({
       channel: "chrome",
@@ -66,35 +108,90 @@ const salesReportDownloadPDF = async (req, res) => {
     const page = await browser.newPage();
 
     let htmlContent = `
-            <h1 style="text-align: center;">Sales Report</h1>
-            <table style="width:100%; border-collapse: collapse;" border="1">
-              <tr>
-                <th>Order Number</th>
-                <th>UserName</th>
-                <th>Order Date</th>
-                <th>Products</th>
-                <th>Quantity</th>
-                <th>Total Cost</th>
-                <th>Payment Method</th>
-                <th>Status</th>
-              </tr>`;
+
+    <h1 style="text-align: center;">Sales Report</h1>
+    <table style="width:100%; border-collapse: collapse;" border="1">
+
+  <tr>
+    <th>Order Number</th>
+    <th>UserName</th>
+    <th>Order Date</th>
+    <th>Products</th>
+    <th>Product Offer</th>
+    <th>Quantity</th>
+    <th>Before Offer</th>
+    <th>Total Cost</th>
+    <th>Payment Method</th>
+    <th>Status</th>
+    <th>Coupons</th>
+    <th>Before Coupon</th>
+    <th>Ordered Price</th>
+  </tr>`;
 
     salesData.forEach((order) => {
+      let i = 0;
       htmlContent += `
-              <tr>
-                <td>${order.OrderId}</td>
-                <td>${order.UserName}</td>
-                <td>${formatDate(order.orderDate)}</td>
-                <td>${order.cartData
-                  .map((item) => item.productName)
-                  .join(", ")}</td>
-                <td>${order.cartData
-                  .map((item) => item.productQuantity)
-                  .join(", ")}</td>
-                <td>Rs.${order.grandTotalCost}</td>
-                <td>${order.paymentType}</td>
-                <td>${order.orderStatus}</td>
-              </tr>`;
+    <tr>
+      <td rowspan="${order.cartData.length}" style="text-align: center;">${
+        order._id
+      }</td>
+      <td rowspan="${order.cartData.length}" style="text-align: center;">${
+        order.userId.username
+      }</td>
+      <td rowspan="${
+        order.cartData.length
+      }" style="text-align: center;">${formatDate(order.orderDate)}</td>
+  `;
+
+      order.cartData.forEach((cartItem) => {
+        htmlContent += `
+      <td style="text-align: center;">${cartItem.productId.productName}</td>
+      <td style="text-align: center;">${
+        cartItem.productId.productOfferPercentage
+          ? `${cartItem.productId.productOfferPercentage}%`
+          : "Nil"
+      }</td>
+      <td style="text-align: center;">${cartItem.productQuantity}</td>
+      <td style="text-align: center;">Rs.${
+        cartItem.totalCostPerProduct +
+        (cartItem.productId.priceBeforeOffer * cartItem.productQuantity -
+          cartItem.totalCostPerProduct)
+      }</td>
+      <td style="text-align: center;">Rs.${cartItem.totalCostPerProduct}</td>
+    `;
+
+        if (i === 0) {
+          htmlContent += `
+        <td rowspan="${order.cartData.length}" style="text-align: center;">${
+            order.paymentType
+          }</td>
+        <td rowspan="${order.cartData.length}" style="text-align: center;">${
+            order.orderStatus
+          }</td>
+        <td rowspan="${order.cartData.length}" style="text-align: center;">${
+            order.couponApplied
+              ? `${order.couponApplied.discountPercentage}%`
+              : "Nil"
+          }</td>
+        <td rowspan="${order.cartData.length}" style="text-align: center;">${
+            order.couponApplied
+              ? `Rs.${Math.round(
+                  order.grandTotalCost /
+                    (1 - order.couponApplied.discountPercentage / 100)
+                )}`
+              : "Nil"
+          }</td>
+          <td rowspan="${
+            order.cartData.length
+          }" style="text-align: center;">Rs.${order.grandTotalCost}</td>
+      `;
+        }
+
+        htmlContent += `
+    </tr>
+  `;
+        i++;
+      });
     });
 
     htmlContent += "</table>";
@@ -128,7 +225,7 @@ const filterDate = async (req, res) => {
         date.getFullYear(),
         date.getMonth(),
         date.getDate(),
-        0,
+        6,
         0,
         0,
         0
@@ -147,8 +244,8 @@ const filterDate = async (req, res) => {
       );
     };
     if (req.body.filterDateFrom && req.body.filterDateTo) {
-      startDate = new Date(req.body.filterDateFrom);
-      endDate = new Date(req.body.filterDateTo);
+      let startDate = new Date(req.body.filterDateFrom);
+      let endDate = new Date(req.body.filterDateTo);
       startDate = startOfDay(new Date(startDate));
       endDate = endOfDay(new Date(endDate));
       const salesData = await orderCollection
@@ -156,8 +253,27 @@ const filterDate = async (req, res) => {
           orderDate: { $gte: startDate, $lte: endDate },
           orderStatus: "Delivered",
         })
-        .populate("userId");
+        .sort({ orderDate: -1 })
+        .populate({
+          path: "cartData.productId",
+          model: "products",
+          as: "productDetails",
+        })
+        .populate({
+          path: "userId",
+          model: "users",
+          as: "userDetails",
+        })
+        .populate({
+          path: "couponApplied",
+          model: "coupons",
+          as: "couponDetails",
+        });
       req.session.salesDetails = salesData;
+      req.session.filterDates = { datevalues: {} };
+      req.session.startDate = startDate;
+      req.session.endDate = endDate;
+      req.session.filterDates.datevalues = { startDate, endDate };
       res.send({ success: true });
     }
   } catch (error) {
@@ -166,36 +282,189 @@ const filterDate = async (req, res) => {
 };
 const salesReportDownload = async (req, res) => {
   try {
-    const workBook = new exceljs.Workbook();
-    const sheet = workBook.addWorksheet("book");
-    sheet.columns = [
-      { header: "Order No", key: "no", width: 10 },
-      { header: "Order Date", key: "orderDate", width: 25 },
-      { header: "Products", key: "products", width: 35 },
-      { header: "No of items", key: "noOfItems", width: 35 },
-      { header: "Total Cost", key: "totalCost", width: 25 },
-      { header: "Payment Method", key: "paymentMethod", width: 25 },
-      { header: "Status", key: "status", width: 20 },
-    ];
+    let startDate, endDate;
+    if (
+      req.session.filterDates.datevalues.startDate &&
+      req.session.filterDates.datevalues.endDate
+    ) {
+      startDate = req.session.filterDates.datevalues.startDate;
+      endDate = req.session.filterDates.datevalues.endDate;
+    } else {
+      startDate = new Date();
+      startDate.setDate(startDate.getDate() - 7);
+      endDate = new Date();
+    }
 
-    let salesData = await orderCollection.find({ orderStatus: "Delivered" });
+    let salesData = await orderCollection
+      .find({
+        orderDate: { $gte: startDate, $lte: endDate },
+        orderStatus: "Delivered",
+      })
+      .populate({
+        path: "cartData.productId",
+        model: "products",
+        as: "productDetails",
+      })
+      .populate({
+        path: "userId",
+        model: "users",
+        as: "userDetails",
+      })
+      .populate({
+        path: "couponApplied",
+        model: "coupons",
+        as: "couponDetails",
+      });
+    console.log("Data Length ", salesData.length);
+    if (!salesData || !Array.isArray(salesData)) {
+      console.error("salesData is undefined or not an array");
+    }
 
     salesData = salesData.map((v) => {
       v.orderDateFormatted = formatDate(v.orderDate);
       return v;
     });
+    const workBook = new exceljs.Workbook();
+    const sheet = workBook.addWorksheet("book");
+    sheet.columns = [
+      {
+        header: "Order Number",
+        key: "orderNumber",
+        width: 15,
+        style: { alignment: { horizontal: "center", vertical: "middle" } },
+      },
+      {
+        header: "UserName",
+        key: "userName",
+        width: 20,
+        style: { alignment: { horizontal: "center", vertical: "middle" } },
+      },
+      {
+        header: "Order Date",
+        key: "orderDate",
+        width: 20,
+        style: { alignment: { horizontal: "center", vertical: "middle" } },
+      },
+      {
+        header: "Products",
+        key: "products",
+        width: 30,
+        style: { alignment: { horizontal: "center", vertical: "middle" } },
+      },
+      {
+        header: "Product Offer",
+        key: "productOffer",
+        width: 20,
+        style: { alignment: { horizontal: "center", vertical: "middle" } },
+      },
+      {
+        header: "Quantity",
+        key: "quantity",
+        width: 15,
+        style: { alignment: { horizontal: "center", vertical: "middle" } },
+      },
+      {
+        header: "Before Offer",
+        key: "beforeOffer",
+        width: 20,
+        style: { alignment: { horizontal: "center", vertical: "middle" } },
+      },
+      {
+        header: "Total Cost",
+        key: "totalCost",
+        width: 20,
+        style: { alignment: { horizontal: "center", vertical: "middle" } },
+      },
+      {
+        header: "Payment Method",
+        key: "paymentMethod",
+        width: 20,
+        style: { alignment: { horizontal: "center", vertical: "middle" } },
+      },
+      {
+        header: "Status",
+        key: "status",
+        width: 15,
+        style: { alignment: { horizontal: "center", vertical: "middle" } },
+      },
+      {
+        header: "Coupons",
+        key: "coupons",
+        width: 20,
+        style: { alignment: { horizontal: "center", vertical: "middle" } },
+      },
+      {
+        header: "Before Coupon",
+        key: "beforeCoupon",
+        width: 20,
+        style: { alignment: { horizontal: "center", vertical: "middle" } },
+      },
+      {
+        header: "Ordered Price",
+        key: "orderedPrice",
+        width: 20,
+        style: { alignment: { horizontal: "center", vertical: "middle" } },
+      },
+    ];
 
-    salesData.forEach((v) => {
-      sheet.addRow({
-        no: v.OrderId,
-        username: v.UserName,
-        orderDate: v.orderDateFormatted,
-        products: v.cartData.map((v) => v.productName).join(", "),
-        noOfItems: v.cartData.map((v) => v.productQuantity).join(", "),
-        totalCost: "₹" + v.grandTotalCost,
-        paymentMethod: v.paymentType,
-        status: v.orderStatus,
+    let currentRow = 1;
+
+    salesData.forEach((order) => {
+      order.cartData.forEach((cartItem, index) => {
+        const row = sheet.addRow([
+          index === 0 ? order._id : "",
+          index === 0 ? order.userId.username : "",
+          index === 0 ? order.orderDateFormatted : "",
+          cartItem.productId.productName,
+          cartItem.productId.productOfferPercentage
+            ? `${cartItem.productId.productOfferPercentage}%`
+            : "Nil",
+          cartItem.productQuantity,
+          `Rs.${
+            cartItem.totalCostPerProduct +
+            (cartItem.productId.priceBeforeOffer * cartItem.productQuantity -
+              cartItem.totalCostPerProduct)
+          }`,
+          `Rs.${cartItem.totalCostPerProduct}`,
+          index === 0 ? order.paymentType : "",
+          index === 0 ? order.orderStatus : "",
+          index === 0
+            ? order.couponApplied
+              ? `${order.couponApplied.discountPercentage}%`
+              : "Nil"
+            : "",
+          index === 0
+            ? order.couponApplied
+              ? `Rs.${Math.round(
+                  order.grandTotalCost /
+                    (1 - order.couponApplied.discountPercentage / 100)
+                )}`
+              : "Nil"
+            : "",
+          index === 0 ? `Rs.${order.grandTotalCost}` : "",
+        ]);
       });
+    });
+    let startIndex = 1;
+    let endIndex;
+    salesData.forEach((order, orderIndex) => {
+      startIndex += 1;
+      endIndex = startIndex + order.cartData.length - 1;
+      sheet.mergeCells(`A${startIndex}:A${endIndex}`);
+      sheet.mergeCells(`B${startIndex}:B${endIndex}`);
+      sheet.mergeCells(`C${startIndex}:C${endIndex}`);
+      sheet.mergeCells(`I${startIndex}:I${endIndex}`);
+      sheet.mergeCells(`J${startIndex}:J${endIndex}`);
+      sheet.mergeCells(`K${startIndex}:K${endIndex}`);
+      sheet.mergeCells(`L${startIndex}:L${endIndex}`);
+      sheet.mergeCells(`M${startIndex}:M${endIndex}`);
+
+      sheet.getCell(`A${startIndex}:M${endIndex}`).style.alignment = {
+        vertical: "middle",
+        horizontal: "center",
+      };
+
+      startIndex += order.cartData.length - 1;
     });
 
     const totalOrders = salesData.length;

@@ -506,6 +506,7 @@
 
                 croppedImages.forEach((imageBase64, index) => {
                     const blob = dataURItoBlob(imageBase64);
+
                     formData.append(`croppedImage_${index}`, blob, `image_${index}.jpg`);
                 });
 

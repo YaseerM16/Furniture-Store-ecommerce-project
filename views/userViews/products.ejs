@@ -179,7 +179,7 @@
                     <!-- Logo -->
                     <!-- Search Form -->
                     <div class="search-form">
-                        <form>
+                        <form onsubmit="redirectToSearch(event)">
                             <!-- Location -->
                             <div class="location">
                                 <label>Your Location</label>
@@ -194,8 +194,8 @@
                             <!-- Location -->
                             <!-- Search -->
                             <div class="input-group">
-                                <input type="text" name="#" class="form-control" placeholder="Search for products..."
-                                    autocomplete="off" required>
+                                <input type="text" name="searchQuery" class="form-control"
+                                    placeholder="Search for products..." autocomplete="off" required>
                                 <div class="input-group-append input-group-text">
                                     <button type="submit">
                                         <i class="fal fa-search"></i>
@@ -849,15 +849,15 @@
 
             const selectedFiltersArray = Object.entries(selectedFilters).map(([key, value]) => value);
 
-            const filterBy = applyFiltersButton.dataset.filterBy;
-            selectedFilters.filterBy = filterBy;
+            // const filterBy = applyFiltersButton.dataset.filterBy;
+            // selectedFilters.filterBy = filterBy;
 
 
             Object.keys(selectedFilters).forEach((filterType, index) => {
                 url += `${filterType}=${selectedFilters[filterType]}${index < Object.keys(selectedFilters).length - 1 ? '&' : ''}`;
             });
             console.log(url);
-            window.location.href = url
+            // window.location.href = url
             console.log("Heolloe");
         });
 
@@ -875,6 +875,18 @@
                 urlParams.append('page', currentPage);
             }
             window.location.search = urlParams.toString();
+        }
+
+
+
+        function redirectToSearch(event) {
+            event.preventDefault();
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = document.querySelector('input[name="searchQuery"]').value;
+            urlParams.append('bySearch', searchQuery);
+            console.log(searchQuery);
+            url += `bySearch=${searchQuery}`
+            window.location.href = url
         }
 
         const whisListIcons = document.querySelectorAll('.whisListIcon')

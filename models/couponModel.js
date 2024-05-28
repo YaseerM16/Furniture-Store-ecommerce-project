@@ -12,6 +12,7 @@ const couponSchema = new mongoose.Schema({
   minimumPurchase: { type: Number, required: true },
   maximumDiscount: { type: Number, required: true },
   currentStatus: { type: Boolean, required: false, default: true },
+  isDelete: { type: Boolean, required: false, default: false },
 });
 
 module.exports = mongoose.model("coupons", couponSchema);

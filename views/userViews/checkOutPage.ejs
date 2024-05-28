@@ -31,6 +31,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
     <style>
         #brand-name {
             font-family: "Bungee Spice", sans-serif;
@@ -58,6 +61,57 @@
         .btn-contact-support:hover {
             background-color: #d63031;
             border-color: #d63031;
+        }
+
+        .applied-coupon {
+            background-color: #048e016d;
+            /* Bootstrap warning color */
+            border: 2px solid #343a40;
+            /* Bootstrap dark color */
+            border-radius: .25rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+
+        }
+
+        .applied-coupon .coupon-code {
+            font-weight: bold;
+            color: #007bff;
+            /* Bootstrap primary color */
+        }
+
+        .applied-coupon .discount-badge {
+            background-color: #28a745;
+            /* Bootstrap success color */
+            color: #0c0c0c;
+            padding: .25em .5em;
+            border-radius: .25rem;
+        }
+
+        .applied-coupon .minimum-purchase {
+            color: #6c757d;
+            /* Bootstrap secondary color */
+            display: block;
+            margin-top: .5rem;
+        }
+
+        .applied-coupon .minimum-purchase strong {
+            color: #343a40;
+            /* Bootstrap dark color */
+        }
+
+        .applied-coupon .remove-btn {
+            position: absolute;
+            top: .5rem;
+            right: .5rem;
+            background-color: #dc3545;
+            /* Bootstrap danger color */
+            color: #fff;
+            border: none;
+            padding: .25rem .5rem;
+            font-size: .875rem;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -564,41 +618,213 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="payment_box" style="margin-top: 0px;">
-                                        <h5 class="title">Availble Coupons</h5>
-                                        <% coupons.forEach(function(coupon, index) { %>
-                                            <ul class="address_list" style="padding-bottom: 10px;">
+                                    <!-- <div class="payment_box" style="margin-top: 0px;">
+                                        <h5 class="title">Availble Coupons</h5> -->
+                                    <!-- <% coupons.forEach(function(coupon, index) { %> -->
 
+                                    <!-- <ul style="padding-bottom: 10px;">
                                                 <li>
-                                                    <button onclick="couponFunc('<%= coupon._id %>')">
-                                                        <div class="custom-control custom-radio form-check me-sm-2">
+                                                    <% if (coupon._id==couponDet.couponId) { %>
+                                                        <div class="custom-control d-flex flex-column custom-radio form-check me-sm-2 applied-coupon"
+                                                            id="coupon<%= coupon._id %>" style="width: 60%;">
+
                                                             <span class="custom-control-label" for="cod">
-                                                                <span class="top">
-                                                                    <span class="fw-500 thm-color-two">
+                                                                <span
+                                                                    class="d-flex justify-content-between align-items-center mb-2">
+                                                                    <span class="fw-bold text-primary">
                                                                         <%= coupon.couponCode %>
-                                                                    </span>&nbsp;
-                                                                    <span class="product_tag">
+                                                                    </span>
+                                                                    <span class="badge bg-success text-white">
                                                                         <%= coupon.discountPercentage %>% Off
                                                                     </span>
-                                                                </span><br>
-                                                                <span class="mb-0 p">This Coupon is Applicable for the
-                                                                    Minimum
+                                                                    <a class="btn btn-danger btn-sm mt-2"
+                                                                        onclick="removeCoupon(event, '<%= coupon._id %>')">
+                                                                        Remove
+                                                                    </a>
+
+                                                                </span>
+                                                                <span class="d-block text-white">
+                                                                    This Coupon is Applicable for the Minimum
                                                                     Purchase
-                                                                    of &nbsp; <strong>
-                                                                        ₹&nbsp;<%= coupon.minimumPurchase %>
-                                                                    </strong> </span>
+                                                                    of
+                                                                    <strong class="text-dark">₹&nbsp;<%=
+                                                                            coupon.minimumPurchase %></strong>
+                                                                </span>
                                                             </span>
+
                                                         </div>
-                                                    </button>
-                                                    <div class="payment_icon">
-                                                        <!-- No icon needed for COD -->
-                                                    </div>
+                                                        <div class="card coupon-card border-0 shadow-sm">
+                                                            <div class="card-body text-start">
+                                                                <div
+                                                                    class="d-flex justify-content-between align-items-center mb-3">
+                                                                    <span class="fw-bold text-primary">
+                                                                        <%= coupon.couponCode %>
+                                                                    </span>
+                                                                    <span class="badge bg-success text-white">
+                                                                        <%= coupon.discountPercentage %>% Off
+                                                                    </span>
+                                                                </div>
+                                                                <span class="d-block text-dark">
+                                                                    This Coupon is Applicable for the Minimum Purchase
+                                                                    of
+                                                                    <strong class="text-dark">₹&nbsp;<%=
+                                                                            coupon.minimumPurchase %></strong>
+                                                                </span>
+                                                                <div class="mt-3">
+                                                                    <button class="btn btn-danger btn-sm me-2"
+                                                                        onclick="removeCoupon(event, '<%= coupon._id %>')">
+                                                                        Remove
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <% } else { %>
+                                                            <div class="custom-control custom-radio form-check me-sm-2 bg-light border rounded p-3 mb-3 applied-coupon"
+                                                                id="coupon<%= coupon._id %>" style="width: 60%;">
+                                                                <button class="fw-bold text-primary"
+                                                                    onclick="couponFunc('<%= coupon._id %>')"
+                                                                    style="width: 60%;">
+
+                                                                    <span class="custom-control-label" for="cod">
+                                                                        <span
+                                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                                            <span class="fw-bold text-primary">
+                                                                                <%= coupon.couponCode %>
+                                                                            </span>
+                                                                            <span class="badge bg-success text-white">
+                                                                                <%= coupon.discountPercentage %>% Off
+                                                                            </span>
+                                                                        </span>
+                                                                        <span class="d-block text-secondary">
+                                                                            This Coupon is Applicable for the Minimum
+                                                                            Purchase
+                                                                            of
+                                                                            <strong class="text-dark">₹&nbsp;<%=
+                                                                                    coupon.minimumPurchase %></strong>
+                                                                        </span>
+                                                                    </span>
+                                                                </button>
+                                                            </div>
+                                                            <% } %>
+                                                                
+
+                                                                <div class="payment_icon">
+                                                                </div>
                                                 </li>
-                                            </ul>
-                                            <% }); %>
-                                    </div>
+                                            </ul> -->
+                                    <!-- <% }); %> -->
+                                    <!-- </div> -->
+
                                 </div>
                             </div>
+                            <section class="section-padding pt-0">
+                                <div class="container-fluid">
+                                    <div class="section-header">
+                                        <h3 class="title">Availble Coupons</h3>
+                                    </div>
+                                    <div class="fruits-slider row">
+                                        <% coupons.forEach(function(coupon, index) { %>
+                                            <% if (coupon._id==couponDet.couponId) { %>
+                                                <!-- Coupon -->
+                                                <div class="slide-item col-12 mx-2">
+                                                    <div class="product_block" style="background-color: #d0ffda;">
+                                                        <div class="product_top d-flex justify-content-center">
+                                                            <span class="product_tag"
+                                                                style="background: #10571f;color: #E0FFFF; padding: 5px; border-radius: 24px;">
+                                                                <div class="d-flex align-items-center fs-4"
+                                                                    style="padding: 10px;">
+                                                                    Applied</div>
+                                                            </span>
+                                                        </div>
+                                                        <div class="d-flex justify-content-center">
+                                                            <span class="product_tag"
+                                                                style="background-color: #10571f;">
+                                                                <%= coupon.discountPercentage %>&nbsp;%off
+                                                            </span>
+                                                        </div>
+                                                        <div class="product_categories">
+                                                            Coupon Code
+                                                        </div>
+                                                        <div class="d-flex justify-content-center">
+                                                            <div class="title d-flex justify-content-center align-items-center"
+                                                                style="width: 180px;height: 63px; background: #a07a13;color: #E0FFFF; padding: 5px; border-radius: 24px;">
+                                                                <%= coupon.couponCode %>
+                                                            </div>
+                                                        </div>
+                                                        <h4 class="title">This Coupon is Applicable for
+                                                            the Minimum Purchase of&nbsp;<div class="price">
+                                                                <span>₹&nbsp;<%= coupon.minimumPurchase %></span>
+                                                            </div>
+
+                                                        </h4>
+
+                                                        <div class="product_action">
+                                                            <button type="button" class="product_btn bg-danger"
+                                                                onclick="removeCoupon(event, '<%= coupon._id %>')">Remove
+                                                                Coupon</button>
+                                                            <!-- <div class="quantity">
+                                                                                                            <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
+                                                                                                            <input type="text" name="#" value="1" autocomplete="off" readonly>
+                                                                                                            <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
+                                                                                                        </div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Coupon -->
+                                                <% } else { %>
+                                                    <div class="slide-item col-12 mx-2">
+                                                        <div class="product_block">
+                                                            <div class="product_top d-flex justify-content-center">
+                                                                <span class="product_tag"
+                                                                    style="background: #571055;color: #E0FFFF; padding: 5px; border-radius: 24px;">
+                                                                    <div class="d-flex align-items-center fs-4"
+                                                                        style="padding: 10px;">
+                                                                        <%= coupon.discountPercentage %>% Off
+                                                                    </div>
+                                                                </span>
+                                                            </div>
+
+                                                            <div class="product_categories">
+                                                                Coupon Code
+                                                            </div>
+                                                            <div class="d-flex justify-content-center">
+
+                                                                <div class="title d-flex justify-content-center"
+                                                                    style="width: 180px; background: #a07a13;color: #E0FFFF; padding: 10px; border-radius: 24px;">
+                                                                    <%= coupon.couponCode %>
+                                                                </div>
+                                                            </div>
+                                                            <h4 class="title">This Coupon is Applicable for
+                                                                the Minimum Purchase of
+                                                                <div class="price"><span>₹&nbsp;<%=
+                                                                            coupon.minimumPurchase %></span>
+                                                                </div>
+                                                            </h4>
+
+                                                            <div class="product_action">
+                                                                <button type="button" class="product_btn"
+                                                                    onclick="couponFunc('<%= coupon._id %>')">Apply
+                                                                    Coupon
+                                                                    <i class="fal fa-plus"></i></button>
+                                                                <!-- <div class="quantity">
+                                                                                                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
+                                                                                                                <input type="text" name="#" value="1" autocomplete="off" readonly>
+                                                                                                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
+                                                                                                            </div> -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
+                                                        <!-- Couopn -->
+                                                        <% }); %>
+
+
+
+
+                                    </div>
+                                </div>
+                            </section>
+
 
                         </div>
                         <div class="col-lg-4">
@@ -674,37 +900,41 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="applyCoupon items_box total_amount d-none"
-                                    style="padding: 0px 0px 0px 0px;">
-                                    <span
-                                        class="items_box product_tag d-flex  justify-content-center align-items-center"
-                                        style="width:150px; height: 20px;padding: 25px 25px 25px 25px;">
-                                        <div>
-                                            Coupon Applied
+                                <% if (couponDet.isApplied) { %>
+                                    <div class="appliedDisCount items_box total_amount"
+                                        style="padding: 0px 0px 0px 0px;">
+                                        <span
+                                            class="items_box product_tag d-flex  justify-content-center align-items-center"
+                                            style="width:150px; height: 20px;padding: 25px 25px 25px 25px;">
+                                            <div>
+                                                Coupon Applied
+                                            </div>
+                                        </span>
+                                        <strong id="discountAmt">-&nbsp;₹&nbsp;<%= couponDet.providedDisc %>
+                                        </strong>
+                                    </div>
+                                    <% } %>
+
+                                        <div class="items_box total_amount">
+                                            <strong>Total</strong>
+
+                                            <strong id="grand-total">₹&nbsp;<%= grandTotal %></strong>
                                         </div>
-                                    </span>
-                                    <strong id="discountAmt"></strong>
-                                </div>
-
-                                <div class="items_box total_amount">
-                                    <strong>Total</strong>
-
-                                    <strong id="grand-total">₹&nbsp;<%= grandTotal %></strong>
-                                </div>
 
 
-                                <div class="items_box">
-                                    <a href="/placeOrder"
-                                        class="thm-btn btn-rectangle thm-bg-color-one w-100 mb-4">Place
-                                        The
-                                        Order</a>
-                                </div>
+                                        <div class="items_box">
+                                            <a href="/placeOrder"
+                                                class="thm-btn btn-rectangle thm-bg-color-one w-100 mb-4">Place
+                                                The
+                                                Order</a>
+                                        </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
             <% } %>
+
 
                 <!-- Section End -->
                 <!-- Footer Start -->
@@ -854,63 +1084,106 @@
                 <script>
                     const cartProducts = '<%- JSON.stringify(cartProducts) %>'
                     const cartTotalVal = '<%- JSON.stringify(grandTotal) %>'
+                    const couponData = '<%- JSON.stringify(couponDet) %>'
+                    const couponsData = '<%- JSON.stringify(coupons) %>'
                     const cartTotal = JSON.parse(cartTotalVal)
+                    const couponDet = JSON.parse(couponData)
+                    const couponsDet = JSON.parse(couponsData)
                     const parsedCartTot = parseInt(cartTotal)
                     const cartPdArr = JSON.parse(cartProducts)
                     console.log(cartPdArr);
-                    // var discountAvail = 0;
-                    // let grandTotal = 0;
-                    // console.log(discountAvail);
-                    const grandSum = document.getElementById('grand-total')
-
-
-
-                    // if (discountAvail) {
-                    //     grandSum.innerHTML = `<b>₹&nbsp;${discountAvail.toFixed(2)}</b>`;
-                    // } else {
-                    //     for (let i = 0; i < cartPdArr.length; i++) {
-                    //         grandTotal += cartPdArr[i].totalCostPerProduct
-                    //     }
-                    //     grandSum.innerHTML = `<b>₹&nbsp;${grandTotal.toFixed(2)}</b>`;
-                    // }
-
+                    console.log(couponDet);
 
                     async function couponFunc(couponId) {
                         try {
+
                             const response = await fetch(`/applyCoupon?couponID=${couponId}&grandTotal=${parsedCartTot}`, {
                                 method: 'GET',
                             });
                             const result = await response.json();
+                            console.log(result);
 
                             if (result.couponCofirmed) {
-                                const appliedDiscount = document.querySelector('.appliedDisCount')
-                                const discAmt = document.getElementById('discountAmt')
-                                if (appliedDiscount) {
-                                    appliedDiscount.classList.remove('d-none');
-                                } else {
-                                    console.log("Element with class 'appliedDisCount' not found");
-                                }
-                                discAmt.innerHTML = `<b>₹&nbsp;${result.appliedDisCount.toFixed(2)}</b>`;
                                 Swal.fire({
                                     icon: "success",
                                     title: "Your coupon has been Applied",
                                     showConfirmButton: true,
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        window.location.reload() // Reload the page after user confirms
-                                    }
                                 })
+                                    .then((result) => {
+                                        if (result.isConfirmed) {
+                                            window.location.reload()
+                                        }
+                                    })
                             } else if (result.couponCodeExists) {
                                 await Swal.fire({
                                     icon: "error",
                                     title: "Coupon Code Applied Already",
                                     text: "Coupon Code must be Added Once"
                                 });
+                            } else if (result.notEligible) {
+                                await Swal.fire({
+                                    icon: "warning",
+                                    iconHtml: '<i class="fas fa-exclamation-triangle"></i>',
+                                    title: "Insufficient Purchase Amount",
+                                    text: "Your purchase amount is less than the minimum required to apply the coupon.",
+                                    customClass: {
+                                        icon: 'swal2-warning-icon'
+                                    }
+                                });
                             }
                         } catch (error) {
                             console.log("Error while sending the apply coupon request :" + error);
                         }
+
+
+
                     }
+                    async function removeCoupon(event, couponId) {
+                        try {
+                            event.stopImmediatePropagation();
+                            event.preventDefault();
+                            await Swal.fire({
+                                icon: "Confirmation",
+                                title: "Are you sure to Remove Coupon",
+                                showConfirmButton: true,
+                                showCancelButton: true,
+                                confirmButtonText: 'OK',
+                                cancelButtonText: 'Dismiss'
+                            })
+                                .then(async (result) => {
+                                    if (result.isConfirmed) {
+                                        const response = await fetch(`/removeCoupon?couponID=${couponId}`, {
+                                            method: 'GET',
+                                        });
+                                        const result = await response.json();
+
+                                        if (result.isRemoved) {
+                                            Swal.fire({
+                                                icon: "success",
+                                                title: "Your coupon has been Removed",
+                                                showConfirmButton: true,
+                                            })
+                                                .then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        window.location.reload()
+                                                    }
+                                                })
+                                        }
+
+                                    } else if (result.couponNotFound) {
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "The coupon trying to Remove is not found",
+                                            showConfirmButton: true,
+                                        })
+                                    }
+                                })
+                        }
+                        catch (error) {
+                            console.log("Error while sending the apply coupon request :" + error);
+                        }
+                    }
+
                 </script>
                 <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
                 <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>

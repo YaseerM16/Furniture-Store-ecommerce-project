@@ -101,6 +101,7 @@ adminRouter.put(
   "/couponManagement/editCoupon/:id",
   couponController.editCoupon
 );
+adminRouter.patch("/deleteCoupon", couponController.deleteCounpon);
 
 /// Sales Report
 

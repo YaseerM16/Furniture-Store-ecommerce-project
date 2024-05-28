@@ -5,6 +5,9 @@ const orderCollection = require("../models/orderModel");
 const userCollection = require("../models/userModel");
 const couponCollection = require("../models/couponModel");
 const walletCollection = require("../models/walletModel");
+const couponController = require("../controller/couponController");
+const paymentController = require("../controller/paymentController");
+const crypto = require("crypto");
 
 const addToCart = async (req, res) => {
   try {
@@ -241,8 +244,14 @@ const paymentMethodPage = async (req, res) => {
     } else {
       user = {};
     }
-    // console.log("address Id is retrieved in session:" + req.session.addressId);
     req.session.couponApplied = false;
+    req.session.appliedCouponId = null;
+    req.session.discountAmout ??= 0;
+    req.session.couponID = null;
+    req.session.cartTotal =
+      parseInt(req.session.cartTotal) + parseInt(req.session.discountAmout);
+
+    // console.log("address Id is retrieved in session:" + req.session.addressId);
 
     res.render("userViews/selectPayment", { user: user });
   } catch (error) {
@@ -261,6 +270,7 @@ const checkoutPage = async (req, res) => {
     } else {
       user = {};
     }
+
     req.session.paymentMethod = req.query.paymentmethod;
     const cartProducts = await cartCollection
       .find({
@@ -287,6 +297,7 @@ const checkoutPage = async (req, res) => {
       }
     }
 
+    await couponController.updateCouponsStatus();
     const coupons = await couponCollection.find({ currentStatus: true });
 
     if (!cartProducts && !addressDet) {
@@ -300,6 +311,11 @@ const checkoutPage = async (req, res) => {
         grandTotal: req.session.cartTotal,
         paymentMethod: req.query.paymentmethod,
         inSufficienBalance,
+        couponDet: {
+          isApplied: req.session.couponApplied,
+          providedDisc: req.session.discountAmout,
+          couponId: req.session.couponID,
+        },
       });
     }
   } catch (error) {
@@ -326,11 +342,44 @@ const applyCoupon = async (req, res) => {
         discountAmount = grandTotal - (grandTotal * discountPercent) / 100;
         req.session.couponApplied = true;
         req.session.cartTotal = discountAmount;
+        req.session.discountAmout = appliedDisCount;
+        req.session.appliedCouponId = requestCoupon._id;
+        req.session.couponID = req.query.couponID;
+      } else if (req.query.grandTotal < minimumPurchase) {
+        res.send({ notEligible: true });
       }
       res.send({ couponCofirmed: true, discountAmount, appliedDisCount });
     }
   } catch (error) {
     console.log("Error While applying the coupon in the server side: " + error);
+  }
+};
+
+const removeCoupon = async (req, res) => {
+  try {
+    const removeCoupon = await couponCollection.findOne({
+      _id: req.query.couponID,
+      currentStatus: true,
+    });
+
+    if (!removeCoupon) {
+      res.send({ couponNotFound: true });
+      return;
+    } else {
+      req.session.cartTotal =
+        parseInt(req.session.cartTotal) + parseInt(req.session.discountAmout);
+      req.session.discountAmout = 0;
+
+      req.session.couponApplied = false;
+      req.session.discountAmout ??= 0;
+      req.session.couponID = null;
+
+      res.send({ isRemoved: true });
+    }
+  } catch (error) {
+    console.log(
+      "Error while Remove the coupon from the checkout Page :" + error
+    );
   }
 };
 
@@ -373,21 +422,26 @@ const placeOrder = async (req, res) => {
         { new: true }
       );
     }
+    req.session.paymentId = null;
 
     if (req.session.paymentMethod == "paypal") {
-      res.redirect(`/payPalPaymentPage?total=${req.session.cartTotal}`);
+      // res.redirect(`/payPalPaymentPage?total=${req.session.cartTotal}`);
+      return await paymentController.doPayment(req, res);
+      // console.log(req.session.paymentId);
     }
 
     await cartCollection.deleteMany({ userId: req.session.currentUser._id });
 
     await orderCollection.insertMany([
       {
+        orderId: crypto.randomBytes(6).toString("hex"),
         userId: req.session.currentUser._id,
         orderDate: new Date(),
         paymentType: req.session.paymentMethod,
         addressChosen: req.session.addressId,
         cartData: clonedCartDet,
         grandTotalCost: req.session.cartTotal,
+        couponApplied: req.session.appliedCouponId,
       },
     ]);
 
@@ -410,6 +464,7 @@ module.exports = {
   paymentMethodPage,
   checkoutPage,
   applyCoupon,
+  removeCoupon,
   placeOrder,
   cartIncDecBtn,
   removeFromCart,

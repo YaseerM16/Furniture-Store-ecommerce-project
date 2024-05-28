@@ -345,44 +345,102 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>OrderID</th>
-                                        <th>Name</th>
+                                        <th>Order Number</th>
+                                        <th>UserName</th>
                                         <th>Order Date</th>
-                                        <th>No of Items </th>
-                                        <th>TotalCostperProduct</th>
-                                        <th>PaymentMethod</th>
+                                        <th>Products</th>
+                                        <th>Product Offer</th>
+                                        <th>Quantity</th>
+                                        <th>Before Offer</th>
+                                        <th>Total Cost</th>
+                                        <th>Payment Method</th>
                                         <th>Status</th>
-
+                                        <th>Coupons</th>
+                                        <th>Before Coupon</th>
+                                        <th>Ordered Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <%for(i=0;i<Sreports.length;i++){%>
-                                        <tr>
-                                            <td>
-                                                <%=Sreports[i]?._id%>
-                                            </td>
-                                            <td>
-                                                <%=Sreports[i]?.userId.username%>
-                                            </td>
-                                            <td>
-                                                <%= new Date(Sreports[i]?.orderDate).toLocaleDateString('en-GB', {
-                                                    day: '2-digit' , month: '2-digit' , year: 'numeric'
-                                                    }).replace(/\//g, '-' ) %>
-                                            </td>
-                                            <td>
-                                                <%=Sreports[i]?.cartData[0].productQuantity%>
-                                            </td>
-                                            <td>
-                                                <%=Sreports[i]?.grandTotalCost%>
-                                            </td>
-                                            <td>
-                                                <%=Sreports[i]?.paymentType%>
-                                            </td>
-                                            <td>
-                                                <%=Sreports[i]?.orderStatus%>
-                                            </td>
-                                        </tr>
-                                        <%}%>
+                                    <% for (let i=0; i < Sreports.length; i++) { %>
+                                        <% let order=Sreports[i]; %>
+                                            <% let j=0; %>
+                                                <tr>
+                                                    <td rowspan="<%= order.cartData.length %>"
+                                                        style="text-align: center;">
+                                                        <%= order._id %>
+                                                    </td>
+                                                    <td rowspan="<%= order.cartData.length %>"
+                                                        style="text-align: center;">
+                                                        <%= order.userId.username %>
+                                                    </td>
+                                                    <td rowspan="<%= order.cartData.length %>"
+                                                        style="text-align: center;">
+                                                        <%= new Date(order.orderDate).toLocaleDateString('en-GB', {
+                                                            day: '2-digit' , month: '2-digit' , year: 'numeric'
+                                                            }).replace(/\//g, '-' ) %>
+                                                    </td>
+                                                    <% for (let cartItem of order.cartData) { %>
+                                                        <td style="text-align: center;">
+                                                            <%= cartItem.productId.productName %>
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <% if (cartItem.productId.productOfferPercentage) { %>
+                                                                <%= `${cartItem.productId.productOfferPercentage}%` %>
+                                                                    <% } else { %>
+                                                                        Nil
+                                                                        <% } %>
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <%= cartItem.productQuantity %>
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <span>
+                                                                Rs.<%= cartItem.productId.priceBeforeOffer *
+                                                                    cartItem.productQuantity %>
+                                                            </span>
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <span>
+                                                                Rs.<%= cartItem.totalCostPerProduct %>
+                                                            </span>
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <%= order.paymentType %>
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <%= order.orderStatus %>
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <% if (order.couponApplied) { %>
+                                                                <%= `${order.couponApplied.discountPercentage}%` %>
+                                                                    <% } else { %>
+                                                                        Nil
+                                                                        <% } %>
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <% if (order.couponApplied) { %>
+                                                                <span>
+                                                                    Rs.<%= Math.round(order.grandTotalCost / (1 -
+                                                                        order.couponApplied.discountPercentage / 100))
+                                                                        %>
+                                                                </span>
+                                                                <% } else { %>
+                                                                    <span>
+                                                                        Rs.<%= order.grandTotalCost %>
+                                                                    </span>
+                                                                    <% } %>
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <span>
+                                                                Rs.<%= order.grandTotalCost %>
+                                                            </span>
+                                                        </td>
+                                                        <% if (j===0) { %>
+                                                            <% } %>
+                                                </tr>
+                                                <% j++; %>
+                                                    <% } %>
+                                                        <% } %>
                                 </tbody>
                             </table>
                         </div>
@@ -485,8 +543,10 @@
     <script>
         document.getElementById('downloadPdf').addEventListener('click', async () => {
             console.log('hai')
+            const filterDateFrom = document.getElementById('filterDateFrom').value;
+            const filterDateTo = document.getElementById('filterDateTo').value;
             try {
-                const response = await fetch('/salesReport/download/pdf', {
+                const response = await fetch(`/salesReport/download/pdf?startDate=${filterDateFrom}&endDate=${filterDateTo}`, {
                     method: 'GET'
                 });
                 const blob = await response.blob();

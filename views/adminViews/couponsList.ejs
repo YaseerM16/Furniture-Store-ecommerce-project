@@ -335,7 +335,7 @@
                                         <form id="addCouponForm" role="form">
                                             <div class="modal-body">
 
-                                                <div class="couponCodeInput p-2">
+                                                <!-- <div class="couponCodeInput p-2">
                                                     <label for="couponCode" class="mb-2">Coupon Code: </label>
                                                     <div class="input-group">
                                                         <input id="couponCode" name="couponCode"
@@ -345,7 +345,7 @@
                                                     </div>
                                                     <div class="form-text">Add a relevant coupon code eg: NEWYEAR2024,
                                                         PONGAL2024, VYZ548</div>
-                                                </div>
+                                                </div> -->
 
                                                 <div class="discountPercentageInput p-2">
                                                     <label for="expiryDate" class="mb-2">Discount Percentage: </label>
@@ -410,8 +410,8 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
                                                     data-bs-dismiss="modal">Close</button>
-                                                <button id="addCouponBtn" type="submit" class="btn btn-info">Save
-                                                    changes</button>
+                                                <button id="addCouponBtn" type="submit" class="btn btn-info">Add
+                                                    Coupon</button>
                                             </div>
                                         </form>
                                     </div>
@@ -467,11 +467,17 @@
                                                             <%= coupons[i].currentStatus %>
                                                         </td>
                                                         <td>
-                                                            <button type="button" class="btn btn-info"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#editModal<%= i %>">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
+                                                            <div class="d-flex justify-content-between">
+
+                                                                <button type="button" class="btn btn-info"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#editModal<%= i %>">
+                                                                    <i class="fas fa-edit"></i>
+                                                                </button>
+                                                                <button id="unblock<%i%>"
+                                                                    onclick="deleteCoupon(event, '<%=coupons[i]._id %>')"
+                                                                    type="button" class="btn btn-danger">Delete</button>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                     <% } %>
@@ -494,7 +500,7 @@
                                             <form id="editCouponForm<%= index %>">
                                                 <div class="modal-body">
 
-                                                    <div class="couponCodeInput p-2">
+                                                    <!-- <div class="couponCodeInput p-2">
                                                         <label for="couponCodeEdit<%= index %>" class="mb-2">Coupon
                                                             Code: </label>
                                                         <div class="input-group">
@@ -505,7 +511,7 @@
                                                         </div>
                                                         <div class="form-text">Add a relevant coupon code eg:
                                                             NEWYEAR2024, PONGAL2024, VYZ548</div>
-                                                    </div>
+                                                    </div> -->
 
                                                     <div class="discountPercentageInput p-2">
                                                         <label for="discountPercentageEdit<%= index %>"
@@ -640,12 +646,12 @@
 
 
                                         const formData = {
-                                            couponCode: $(form.couponCode).val(),
                                             discountPercentage: $(form.discountPercentage).val(),
                                             startDate: $(form.startDate).val(),
                                             expiryDate: $(form.expiryDate).val(),
                                             minimumPurchase: $(form.minimumPurchase).val(),
-                                            maximumDiscount: $(form.maximumDiscount).val()
+                                            maximumDiscount: $(form.maximumDiscount).val(),
+                                            couponId: coupon._id
                                         };
 
                                         try {
@@ -772,13 +778,13 @@
                     try {
                         event.preventDefault()
                         let formData = {
-                            couponCode: form.couponCode.value,
                             discountPercentage: form.discountPercentage.value,
                             startDate: form.startDate.value,
                             expiryDate: form.expiryDate.value,
                             minimumPurchase: form.minimumPurchase.value,
                             maximumDiscount: form.maximumDiscount.value
                         }
+                        console.log(formData);
 
                         let response = await fetch('/admin/couponManagement/addCoupon', {
                             method: 'POST',
@@ -843,6 +849,48 @@
             expiryDateInput.setAttribute('min', today);
         });
 
+        async function deleteCoupon(event, couponId) {
+            try {
+                event.preventDefault()
+                await Swal.fire({
+                    icon: "Confirmation",
+                    title: "Are you sure to Delete This Coupon",
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'OK',
+                    cancelButtonText: 'Dismiss'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        const response = await fetch(`/admin/deleteCoupon?couponID=${couponId}`, {
+                            method: 'PATCH',
+                        });
+                        const result = await response.json();
+
+                        if (result.isDeleted) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Your coupon has been Removed",
+                                showConfirmButton: true,
+                            })
+                                .then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.reload()
+                                    }
+                                })
+                        } else if (result.couponNotFound) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "The coupon trying to Delete is not found or deleted",
+                                showConfirmButton: true,
+                            })
+                        }
+                    }
+
+                })
+            } catch (error) {
+
+            }
+        }
 
     </script>
 </body>

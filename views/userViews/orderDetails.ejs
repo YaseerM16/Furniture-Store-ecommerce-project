@@ -317,8 +317,8 @@
                         </div>
                         <div class="order_info">
                             <% if (orders[i].cartData.productStatus==="Delivered" ) { %>
-                                <button type="button" id="singleProReturn"
-                                    class="thm-btn btn-rectangle thm-bg-color-one bg-success">Return
+                                <button type="button" id="singleProReturn" data-order-date="<%= orders[i].orderDate %>"
+                                    class="returnBtn thm-btn btn-rectangle thm-bg-color-one bg-success">Return
                                     Order</button>
                                 <% } else if (orders[i].cartData.productStatus==="Cancelled" ) { %>
                                     <div class="order_info d-flex justify-content-center">
@@ -587,6 +587,28 @@
         //     })
 
         // })
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const returnBtns = document.querySelectorAll('.returnBtn');
+            returnBtns.forEach(btn => {
+
+                const orderDateStr = btn.getAttribute('data-order-date');
+                console.log(orderDateStr);
+                const orderDate = new Date(orderDateStr);
+                const currentDate = new Date();
+                console.log(currentDate)
+                console.log(orderDate)
+                const timeDiff = currentDate - orderDate;
+                // Convert to days
+                const dayDiff = timeDiff / (1000 * 3600 * 24);
+                if (dayDiff > 14) {
+                    btn.style.display = 'none';
+                }
+            })
+            // Calculate the difference in milliseconds
+
+            // Hide the button if more than 14 days have passed
+        });
 
         document.querySelectorAll('#singleProCancel').forEach(btn => {
             btn.addEventListener("click", (event) => {

@@ -1,5 +1,6 @@
 const adminCollection = require("../models/adminModel");
 const couponCollection = require("../models/couponModel");
+const crypto = require("crypto");
 
 const couponsPage = async (req, res) => {
   try {
@@ -9,7 +10,7 @@ const couponsPage = async (req, res) => {
 
     await updateCouponsStatus();
 
-    const coupons = await couponCollection.find({ currentStatus: true });
+    const coupons = await couponCollection.find({ isDelete: false });
 
     res.render("adminViews/couponsList", {
       user,
@@ -27,13 +28,23 @@ const addCoupon = async (req, res) => {
     let existingCoupon = await couponCollection.findOne({
       couponCode: { $regex: new RegExp(req.body.couponCode, "i") },
     });
+    let couponCode;
+    let existinCoupon;
+    do {
+      couponCode = crypto.randomBytes(6).toString("hex"); // generate a random hex string
+      existingCoupon = await couponCollection.findOne({
+        couponCode: couponCode,
+      });
+    } while (existingCoupon);
     if (!existingCoupon) {
-      let currentStatusVal =
-        new Date(req.body.expiryDate) >= new Date() &&
-        new Date(req.body.startDate) <= new Date();
+      const currentDate = new Date();
+      const startDate = new Date(req.body.startDate);
+      const endDate = new Date(req.body.expiryDate);
+
+      let currentStatusVal = startDate <= currentDate && currentDate <= endDate;
       await couponCollection.insertMany([
         {
-          couponCode: req.body.couponCode,
+          couponCode,
           discountPercentage: req.body.discountPercentage,
           startDate: new Date(req.body.startDate),
           expiryDate: new Date(req.body.expiryDate),
@@ -53,10 +64,12 @@ const addCoupon = async (req, res) => {
 
 const editCoupon = async (req, res) => {
   try {
-    let existingCoupon = await couponCollection.findOne({
-      couponCode: { $regex: new RegExp(req.body.couponCode, "i") },
+    let existCoupon = await couponCollection.findOne({
+      _id: req.body.couponId,
     });
-    if (!existingCoupon || existingCoupon._id == req.params.id) {
+    if (existCoupon && existCoupon._id != req.body.couponId) {
+      res.json({ couponCodeExists: true });
+    } else {
       let updateFields = {
         couponCode: req.body.couponCode,
         discountPercentage: req.body.discountPercentage,
@@ -70,11 +83,30 @@ const editCoupon = async (req, res) => {
         { $set: updateFields }
       );
       res.json({ couponEdited: true });
-    } else {
-      res.json({ couponCodeExists: true });
     }
   } catch (error) {
     console.error(error);
+  }
+};
+
+const deleteCounpon = async (req, res) => {
+  try {
+    const deleteCoupon = await couponCollection.findByIdAndUpdate(
+      req.query.couponID,
+      {
+        $set: { isDelete: true },
+      },
+      {
+        new: true, // return the updated document
+      }
+    );
+    if (deleteCoupon.isDelete) {
+      res.send({ isDeleted: true });
+    } else {
+      res.send({ couponNotFound: true });
+    }
+  } catch (error) {
+    console.log("Error while Delete the coupon in the admin side: " + error);
   }
 };
 
@@ -102,4 +134,10 @@ const updateCouponsStatus = async () => {
   }
 };
 
-module.exports = { couponsPage, addCoupon, editCoupon };
+module.exports = {
+  couponsPage,
+  addCoupon,
+  editCoupon,
+  deleteCounpon,
+  updateCouponsStatus,
+};

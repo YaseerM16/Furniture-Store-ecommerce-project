@@ -14,6 +14,8 @@ const {
   verifyForgetOTP,
   updatePassword,
   forgetResendOTP,
+  otpPage,
+  retryOtp,
 } = require("../helpers/helper");
 const {
   signupValidationRules,
@@ -54,7 +56,10 @@ userRouter.post(
   signupValidation,
   userController.signUpSubmit
 );
+userRouter.get("/otpPage", otpPage);
 userRouter.get("/sendOTP", sendOTP);
+// userRouter.get("/sendOTP2",);
+// userRouter.get("/retryOtp", retryOtp);/retry-otp
 userRouter.get("/resend-otp", resendOTP);
 userRouter.post("/verify-otp", verifyOTP);
 userRouter.get("/retry-otp", retryOTP);
@@ -137,8 +142,24 @@ userRouter.get(
   blockUserCheck,
   cartController.placeOrder
 );
-userRouter.get("/removePdCart", cartController.removeFromCart);
-userRouter.get("/applyCoupon", cartController.applyCoupon);
+userRouter.get(
+  "/removePdCart",
+  isLogged,
+  blockUserCheck,
+  cartController.removeFromCart
+);
+userRouter.get(
+  "/applyCoupon",
+  isLogged,
+  blockUserCheck,
+  cartController.applyCoupon
+);
+userRouter.get(
+  "/removeCoupon",
+  isLogged,
+  blockUserCheck,
+  cartController.removeCoupon
+);
 
 //Orders
 userRouter.get(
@@ -153,8 +174,18 @@ userRouter.get(
   blockUserCheck,
   orderController.orderDetailsPage
 );
-userRouter.get("/cancelOrder", orderController.cancelOrder);
-userRouter.delete("/singleProdCancel", orderController.singleProdCancel);
+userRouter.get(
+  "/cancelOrder",
+  isLogged,
+  blockUserCheck,
+  orderController.cancelOrder
+);
+userRouter.delete(
+  "/singleProdCancel",
+  isLogged,
+  blockUserCheck,
+  orderController.singleProdCancel
+);
 
 ///WishList
 
@@ -163,10 +194,15 @@ userRouter.get("/removeWishList", userController.removeWishList);
 userRouter.get("/wishListPage", userController.wishListPage);
 
 //Wallet page
-userRouter.get("/walletPage", userController.walletPage);
+userRouter.get(
+  "/walletPage",
+  isLogged,
+  blockUserCheck,
+  userController.walletPage
+);
 
 //Payment Page
-userRouter.get("/payPalPaymentPage", doPayment);
+userRouter.get("/payPalPaymentPage", isLogged, blockUserCheck, doPayment);
 userRouter.get("/paymentSucess", paymentSucessPage);
 
 module.exports = userRouter;

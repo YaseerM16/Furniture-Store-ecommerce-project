@@ -1,3 +1,8 @@
+const cartCollection = require("../models/cartModel");
+const orderCollection = require("../models/orderModel");
+const productCollection = require("../models/productModel");
+const crypto = require("crypto");
+
 const paypal = require("paypal-rest-sdk");
 const { PAYPAL_MODE, PAYPAL_CLIENT_KEY, PAYPAL_SECRET_KEY } = process.env;
 
@@ -9,7 +14,7 @@ paypal.configure({
 
 const doPayment = async (req, res) => {
   try {
-    const total = req.query.total;
+    const total = String(req.session.cartTotal);
 
     const create_payment_json = {
       intent: "sale",
@@ -47,6 +52,7 @@ const doPayment = async (req, res) => {
         throw err;
       } else {
         req.session.paymentId = payment.id;
+
         for (let i = 0; i < payment.links.length; i++) {
           if (payment.links[i].rel === "approval_url") {
             res.redirect(payment.links[i].href);
@@ -61,8 +67,40 @@ const doPayment = async (req, res) => {
   }
 };
 
-const paymentSucessPage = (req, res) => {
+const paymentSucessPage = async (req, res) => {
   try {
+    const cartDet = await cartCollection.find({
+      userId: req.session.currentUser._id,
+    });
+    for (let cart of cartDet) {
+      await productCollection.updateOne(
+        { _id: cart.productId },
+        { $inc: { productStock: -cart.productQuantity } }
+      );
+    }
+
+    const clonedCartDet = cartDet.map((cart) => ({ ...cart }));
+
+    await cartCollection.deleteMany({ userId: req.session.currentUser._id });
+
+    await orderCollection.insertMany([
+      {
+        orderId: crypto.randomBytes(6).toString("hex"),
+        userId: req.session.currentUser._id,
+        orderDate: new Date(),
+        paymentType: req.session.paymentMethod,
+        addressChosen: req.session.addressId,
+        cartData: clonedCartDet,
+        grandTotalCost: req.session.cartTotal,
+        paymentId: req.query.paymentId,
+        couponApplied: req.session.appliedCouponId,
+      },
+    ]);
+
+    req.session.cartTotal = null;
+    req.session.couponApplied = false;
+    req.session.save();
+
     res.render("userViews/orderSuccess");
   } catch (error) {
     console.log("Error While Rendering the Payment Success Page: " + error);

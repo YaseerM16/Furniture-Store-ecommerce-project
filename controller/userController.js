@@ -13,6 +13,7 @@ const {
   verifyOTP,
   resendOTP,
   applyOffers,
+  checkOfferAvailability,
 } = require("../helpers/helper");
 const { ObjectId } = require("mongodb");
 // const axios = require("axios");
@@ -68,15 +69,17 @@ const signUpPage = (req, res) => {
     if (req.session.logged) {
       res.redirect("/");
     } else {
-      let referralCode = null;
-      if (req.query.referral) {
-        referralCode = req.query.referral;
-      }
+      let referralCodeAvail;
+      // if (req.query.referral) {
+      //   referralCodeAvail = req.query.referral;
+      // }
+      referralCodeAvail = req.query.referral ? req.query.referral : false;
+      console.log(referralCodeAvail);
       res.render("userViews/signup", {
         errors: false,
         userExist: req.session.userExist,
         passwordMismatch: req.session.passwordMismatch,
-        referralCode,
+        referralCode: referralCodeAvail,
       });
       req.session.userExist = false;
       req.session.passwordMismatch = false;
@@ -135,9 +138,11 @@ const signUpSubmit = async (req, res) => {
         referralCode,
       };
 
-      // if (referralCode) {
-      //   addUser[referralCode] = referralCode;
-      // }
+      if (referralCode) {
+        addUser[referralCode] = referralCode;
+      } else {
+        addUser[referralCode] = null;
+      }
       req.session.newUser = addUser;
       req.session.save();
       req.session.passed = true;
@@ -250,6 +255,7 @@ const products = async (req, res) => {
   const skip = (page - 1) * limit;
 
   try {
+    await checkOfferAvailability();
     await applyOffers();
     let productsDet = await productCollection
       .find({ isListed: true })
@@ -353,6 +359,8 @@ const shopSort = async (req, res) => {
     const category = req.query.category;
     const priceRange = req.query["price-range"];
     const sort = req.query.sort;
+    const productName = req.query.bySearch; // Get the search query from req.query
+    console.log(productName);
 
     const filters = {
       category: {
@@ -373,6 +381,9 @@ const shopSort = async (req, res) => {
         "price-ascending": { productPrice: 1 },
         "price-descending": { productPrice: -1 },
       },
+      bySearch: {
+        productName: { $regex: productName, $options: "i" }, // Create a regex pattern for case-insensitive search
+      },
     };
 
     let aggregationPipeline = [{ $match: { isListed: true } }];
@@ -389,10 +400,17 @@ const shopSort = async (req, res) => {
       });
     }
 
+    if (productName) {
+      aggregationPipeline.push({
+        $match: filters.bySearch, // Add search filter
+      });
+    }
+
     if (sort) {
       aggregationPipeline.push({ $sort: filters.sort[sort] });
     }
 
+    console.log(aggregationPipeline);
     const beforeLimit = await productCollection.aggregate(aggregationPipeline);
     const totalProductsCount = beforeLimit.length;
     const totalPages = Math.ceil(totalProductsCount / limit);
@@ -490,7 +508,24 @@ const walletPage = async (req, res) => {
       userId: req.session.currentUser._id,
     });
 
-    res.render("userViews/userWallet", { orders: [], user, userWallet });
+    const page = Number(req.query.page) || 1;
+    const limit = 6;
+    const skip = (page - 1) * limit;
+
+    const transactions = userWallet.walletTransaction;
+    const paginatedTransactions = transactions.slice(skip, skip + limit);
+
+    let pages;
+    pages = userWallet.walletTransaction.length;
+
+    res.render("userViews/userWallet", {
+      orders: [],
+      user,
+      userWallet,
+      walletTransData: paginatedTransactions,
+      page: page,
+      pages: Math.ceil(pages / limit),
+    });
   } catch (error) {
     console.log(
       "Error while rendering the wallet page in the user side :" + error

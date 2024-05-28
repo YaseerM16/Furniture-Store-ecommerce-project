@@ -26,6 +26,15 @@ const transporter = nodemailer.createTransport({
     pass: process.env.SMTP_APP_PASS,
   },
 });
+const otpPage = (req, res) => {
+  try {
+    res.render("userViews/otpPage", {
+      inValid: false,
+    });
+  } catch (error) {
+    console.log("Error while Rendering the Otp Page : " + error);
+  }
+};
 const sendOTP = async (req, res) => {
   try {
     if (req.session.logged) {
@@ -34,44 +43,88 @@ const sendOTP = async (req, res) => {
       const { email } = req.session.newUser;
 
       // Check if email is already registered
-      const existingUser = await Otp.findOne({ email });
-      if (existingUser) {
-        req.session.userExist = true;
-        res.redirect("/signUp");
-      } else {
-        // Generate OTP
-        const otp = Math.floor(100000 + Math.random() * 900000);
+      // const existingUser = await Otp.findOne({ email });
+      // if (existingUser) {
+      //   req.session.userExist = true;
+      //   res.redirect("/signUp");
+      // } else {
+      //   // Generate OTP
+      // }
+      const otp = Math.floor(100000 + Math.random() * 900000);
 
-        // Send email with OTP
-        const mailOptions = {
-          from: process.env.SMTP_USER,
-          to: email,
-          subject: "OTP for registration",
-          html: `<p>Your OTP is: <b>${otp}</b></p>`,
-        };
+      // Send email with OTP
+      const mailOptions = {
+        from: process.env.SMTP_USER,
+        to: email,
+        subject: "OTP for registration",
+        html: `<p>Your OTP is: <b>${otp}</b></p>`,
+      };
 
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            console.log(error);
-            return { message: "Error sending email" };
-          }
-          console.log(`Email sent: ${info.response}`);
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+          return { message: "Error sending email" };
+        }
+        console.log(`Email sent: ${info.response}`);
 
-          // Save OTP to the database
-          const newOtp = new Otp({ email, otp });
-          newOtp.save();
-          req.session.succeed = true;
-          res.render("userViews/otpPage", {
-            inValid: false,
-          });
-        });
-      }
+        // Save OTP to the database
+        const newOtp = new Otp({ email, otp });
+        newOtp.save();
+        req.session.succeed = true;
+        res.redirect("/otpPage");
+      });
     }
   } catch (error) {
     console.log("Error while sending OTP" + error);
   }
 };
+const retryOtp = async (req, res) => {
+  try {
+    if (req.session.logged) {
+      res.redirect("/");
+    } else {
+      const { email } = req.session.newUser;
 
+      // Check if email is already registered
+      // const existingUser = await Otp.findOne({ email });
+      // if (existingUser) {
+      //   req.session.userExist = true;
+      //   res.redirect("/signUp");
+      // } else {
+      //   // Generate OTP
+      // }
+      const otp = Math.floor(100000 + Math.random() * 900000);
+
+      // Send email with OTP
+      const mailOptions = {
+        from: process.env.SMTP_USER,
+        to: email,
+        subject: "OTP for registration",
+        html: `<p>Your OTP is: <b>${otp}</b></p>`,
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+          return { message: "Error sending email" };
+        }
+        console.log(`Email sent: ${info.response}`);
+
+        // Save OTP to the database
+        const newOtp = new Otp({ email, otp });
+        newOtp.save();
+        req.session.succeed = true;
+        res.redirect("/otpPage");
+      });
+    }
+  } catch (error) {
+    console.log(
+      "Error while Attempt to send the OTP through Retry button in Invalid OTP page :" +
+        error
+    );
+  }
+};
+// const sendOTPSecond = e;
 const sendForgetPassOtp = async (req, res) => {
   try {
     const email = req.session.forgetEmail;
@@ -290,14 +343,25 @@ const otpSucessPage = (req, res) => {
 };
 
 const resendOTP = async (req, res) => {
-  const { email } = req.session.newUser;
-  console.log(email);
+  try {
+    const { email } = req.session.newUser;
+    console.log(email);
 
-  // Delete existing OTP from the database
-  await Otp.deleteOne({ email });
+    // Delete existing OTP from the database
+    const deleteRes = await Otp.deleteOne({ email });
+    if (deleteRes.deletedCount > 0) {
+      console.log("Existing OTP deleted successfully");
 
-  // Send new OTP
-  sendOTP(req.session.newUser);
+      // Send new OTP
+      await sendOTP(req.session.newUser);
+    } else {
+      console.log("No existing OTP found to delete");
+      res.status(404).send({ error: "No existing OTP found" });
+    }
+    // Send new OTP
+  } catch (error) {
+    console.log("Error while Resend the OTP in User Side:" + error);
+  }
 };
 
 const forgetResendOTP = async (req, res) => {
@@ -529,6 +593,46 @@ const applyOffers = async () => {
   }
 };
 
+const checkOfferAvailability = async (req, res) => {
+  try {
+    let productCollectionData = await productCollection
+      .find()
+      .populate("parentCategory");
+
+    for (const prod of productCollectionData) {
+      if (prod.productOfferId) {
+        let ifProdOffer = await productOfferCollection.find({
+          _id: prod.productOfferId,
+        });
+        let ifCatOffer = await categoryOffercollection.find({
+          _id: prod.productOfferId,
+        });
+
+        if (ifProdOffer || ifCatOffer) {
+          let availOffer = ifProdOffer ? ifProdOffer : ifCatOffer;
+          let priceBefore = prod.priceBeforeOffer;
+          if (!availOffer.currentStatus) {
+            result = await productCollection.updateOne(
+              { _id: prod._id },
+              {
+                $set: {
+                  productPrice: priceBefore,
+                  productOfferId: null,
+                  productOfferPercentage: null,
+                },
+              }
+            );
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.log(
+      "Error while checking for if the offer is expired or not :" + error
+    );
+  }
+};
+
 const havingBothOffers = async (productName, categoryName, prod) => {
   try {
     let prodOffer = await productOfferCollection.findOne({ productName });
@@ -625,7 +729,9 @@ const havingSingleOffer = async (
 
 module.exports = {
   hashPassword,
+  otpPage,
   sendOTP,
+  retryOtp,
   verifyOTP,
   resendOTP,
   retryOTP,
@@ -638,4 +744,5 @@ module.exports = {
   applyProductOffer,
   formatDate,
   applyOffers,
+  checkOfferAvailability,
 };

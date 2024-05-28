@@ -481,14 +481,14 @@
 
                                     <!-- OTP Timer -->
                                     <div class="col-12">
-                                        <div id="otpTimer" class="text-center text-danger">Time Remaining: <span
+                                        <div id="otpTimer" class="text-center text-danger">OTP Expires in: <span
                                                 id="timer"></span></div>
                                     </div>
 
                                     <!-- Resend OTP Button -->
                                     <div class="col-12">
                                         <a id="resendOtpBtn" href="/resend-otp"
-                                            class="btn btn-outline-secondary w-100 mt-3 d-none" onclick="resendOtp()">
+                                            class="btn btn-outline-secondary w-100 mt-3 d-none">
                                             Resend OTP
                                         </a>
                                     </div>
@@ -666,6 +666,18 @@
 
 
     <script>
+        const otpInput = document.getElementById('otp');
+        const otpTimer = document.getElementById('timer');
+        const verifyOtpBtn = document.getElementById("verifyOtpBtn");
+        const resendOtpBtn = document.getElementById("resendOtpBtn");
+
+        // Get the remaining time from sessionStorage or set it to 1.5 minutes
+        let remainingTime = sessionStorage.getItem("remainingTime");
+        if (remainingTime <= 0) {
+            remainingTime = 90; // Reset the remaining time to 1.5 minutes if it's 0 or less
+        } else {
+            remainingTime = parseInt(remainingTime); // Parse the stored value as an integer
+        }
 
         function startTimer(duration, display, verifyOtpBtn, resendOtpBtn) {
             let timer = duration;
@@ -685,27 +697,47 @@
                     display.textContent = "Expired"
                     resendOtpBtn.classList.remove("d-none");
                     verifyOtpBtn.classList.add("d-none"); // Hides the Verify OTP button
+                    otpInput.disabled = true;
                     return;
                 }
 
                 timer--;
+                sessionStorage.setItem("remainingTime", timer); // Store the remaining time in sessionStorage
             }, 1000);
         }
 
-
         // OTP Timer
-        var otpTimer = document.getElementById('timer');
-        var timerInterval = null;
-        startTimer(60, otpTimer, document.getElementById("verifyOtpBtn"), document.getElementById("resendOtpBtn"));
+        startTimer(remainingTime, otpTimer, verifyOtpBtn, resendOtpBtn);
+
+        // Reset timer on form submission
+        function resetTimerOnSubmit() {
+            remainingTime = 90;
+            sessionStorage.setItem("remainingTime", remainingTime);
+            startTimer(remainingTime, otpTimer, verifyOtpBtn, resendOtpBtn);
+            return true;
+        }
 
         // Resend OTP Button Click Event
-        document.getElementById('resendOtpBtn').addEventListener('click', function () {
-            startTimer(60, otpTimer, document.getElementById("verifyOtpBtn"), document.getElementById("resendOtpBtn"));
-            document.getElementById("resendOtpBtn").classList.add("d-none");
-            document.getElementById("verifyOtpBtn").classList.remove("d-none");
+        resendOtpBtn.addEventListener('click', function () {
+            otpInput.disabled = false;
+            remainingTime = 90; // Reset the remaining time to 1.5 minutes
+            startTimer(remainingTime, otpTimer, verifyOtpBtn, resendOtpBtn);
+            resendOtpBtn.classList.add("d-none");
+            verifyOtpBtn.classList.remove("d-none");
         });
 
+        // Verify OTP Button Click Event
+        verifyOtpBtn.addEventListener('click', function () {
+            // Prevent the form from submitting immediately
+            event.preventDefault();
 
+            // Reset the timer to 1.5 minutes
+            remainingTime = 90;
+            sessionStorage.setItem("remainingTime", remainingTime);
+
+            // Submit the form
+            document.getElementById("myForm").submit();
+        });
     </script>
 </body>
 

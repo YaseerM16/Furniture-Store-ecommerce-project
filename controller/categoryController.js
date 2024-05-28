@@ -46,9 +46,10 @@ const addCategory = async (req, res) => {
       categoryDescription: req.body.categoryDes,
     });
     // const catExists = await categoryCollection.findOne({ categoryName: req.body.categoryName })
+    const trimmedCategoryName = req.body.categoryName.trim();
     const catExists = await categoryCollection.findOne({
       categoryName: {
-        $regex: new RegExp("^" + req.body.categoryName + "$", "i"),
+        $regex: new RegExp("^" + trimmedCategoryName.toLowerCase() + "$", "i"),
       },
     });
 
@@ -65,12 +66,10 @@ const addCategory = async (req, res) => {
 
 const editCategory = async (req, res) => {
   try {
+    const trimmedCategoryName = req.body.categoryName.trim();
     const catDetails = await categoryCollection.findOne({
       categoryName: {
-        $regex: new RegExp(
-          "^" + req.body.categoryName.toLowerCase() + "$",
-          "i"
-        ),
+        $regex: new RegExp("^" + trimmedCategoryName.toLowerCase() + "$", "i"),
       },
     });
 
