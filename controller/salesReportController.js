@@ -6,9 +6,10 @@ const productCollection = require("../models/productModel");
 const walletCollection = require("../models/walletModel");
 const puppeteer = require("puppeteer");
 const exceljs = require("exceljs");
+const AppError = require("../middlewares/errorHandling");
 const ReadableStream = require("readable-stream");
 
-const SalesReportGet = async (req, res) => {
+const SalesReportGet = async (req, res, next) => {
   try {
     const user = await adminCollection.findOne({
       _id: req.session.adminUser._id,
@@ -55,6 +56,13 @@ const SalesReportGet = async (req, res) => {
     const end = start + productsPerPage;
     salesDetails = salesDetails.slice(start, end);
 
+    req.session.sreportLen = salesDetails.length;
+
+    const products = await orderCollection
+      .find({ orderStatus: "Delivered" })
+      .sort({ _id: -1 });
+    const totalcount = products.reduce((total, item) => total + item.Total, 0);
+
     res.render("adminViews/salesReport", {
       Sreports: salesDetails,
       totalPages,
@@ -62,13 +70,14 @@ const SalesReportGet = async (req, res) => {
       orders: [],
       page: 1,
       pages: 1,
+      totalcount,
     });
   } catch (error) {
-    console.log("Error While Rendering the sales Report :" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const salesReportDownloadPDF = async (req, res) => {
+const salesReportDownloadPDF = async (req, res, next) => {
   try {
     let startDate, endDate;
     if (req.session.startDate && req.session.endDate) {
@@ -208,8 +217,7 @@ const salesReportDownloadPDF = async (req, res) => {
 
     await browser.close();
   } catch (error) {
-    console.error("Error generating PDF:", error);
-    res.status(500).send("Internal Server Error");
+    next(new AppError(error, 500));
   }
 };
 
@@ -248,6 +256,9 @@ const filterDate = async (req, res) => {
       let endDate = new Date(req.body.filterDateTo);
       startDate = startOfDay(new Date(startDate));
       endDate = endOfDay(new Date(endDate));
+      if (startDate > endDate) {
+        res.send({ dateInvalid: true });
+      }
       const salesData = await orderCollection
         .find({
           orderDate: { $gte: startDate, $lte: endDate },
@@ -280,7 +291,7 @@ const filterDate = async (req, res) => {
     console.log(error);
   }
 };
-const salesReportDownload = async (req, res) => {
+const salesReportDownload = async (req, res, next) => {
   try {
     let startDate, endDate;
     if (
@@ -502,17 +513,16 @@ const salesReportDownload = async (req, res) => {
     await workBook.xlsx.write(res);
     res.end();
   } catch (error) {
-    console.log(error);
-    res.status(500).send("Error generating sales report");
+    next(new AppError(error, 500));
   }
 };
 
-const removeAllFillters = async (req, res) => {
+const removeAllFillters = async (req, res, next) => {
   try {
     req.session.salesDetails = null;
     res.redirect("/salesReport");
   } catch (error) {
-    console.log(error);
+    next(new AppError(error, 500));
   }
 };
 

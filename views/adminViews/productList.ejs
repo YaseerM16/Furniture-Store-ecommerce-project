@@ -21,12 +21,12 @@
     <meta name="twitter:description" content="Description website">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
     <!-- Css -->
-    <link href="assets/css/plugins/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/fonts/font-awesome.min.css" rel="stylesheet">
-    <link href="assets/css/plugins/magnific-popup.css" rel="stylesheet">
-    <link href="assets/css/plugins/slick.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/responsive.css" rel="stylesheet">
+    <link href="/assets/css/plugins/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/fonts/font-awesome.min.css" rel="stylesheet">
+    <link href="/assets/css/plugins/magnific-popup.css" rel="stylesheet">
+    <link href="/assets/css/plugins/slick.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/responsive.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/img/favicon.png">
@@ -135,14 +135,44 @@
         .product-offers-button:hover {
             background-color: #ff564e;
         }
+
+        #user .iconx {
+            background-color: #604220;
+            color: #ffffff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            margin: 0 auto;
+            /* Center the icon horizontally */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition:
+                background-color 0.7s ease,
+                color 0.7s ease,
+                transform 0.7s ease,
+                width 0.7s ease,
+                height 0.7s ease,
+                font-size 0.7s ease;
+        }
+
+        #user:hover .iconx {
+            background-color: #C7A379;
+            color: #ffffff;
+            transform: scale(1.6);
+            /* No margin change to prevent layout shift */
+        }
+
+        .header .topbar .inner {
+            height: 100px;
+        }
     </style>
 </head>
 
 <body>
     <!-- Preloader Start -->
-    <div class="preloader">
-        <img src="assets/images/preloader.svg" alt="preloader">
-    </div>
+
     <!-- Preloader End -->
     <!-- Header Start -->
     <header class="header">
@@ -159,7 +189,7 @@
                     </div>
                     <!-- Logo -->
                     <!-- Search Form -->
-                    <div class="search-form">
+                    <div class="search-form" style="padding-bottom: 50px;">
                         <form>
                             <!-- Location -->
 
@@ -179,13 +209,13 @@
                     </div>
                     <!-- Search Form -->
                     <!-- Header Action -->
-                    <div class="header_action">
+                    <div class="header_action" style="padding-bottom: 50px;">
                         <ul>
 
                             <li class="user">
                                 <% if (user) { %>
                                     <a href="#">
-                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
+                                        <img src="/assets/images/header/user.png" class="image-fit" alt="img">
                                         <div class="cart_text">
                                             ADMIN
                                         </div>
@@ -201,7 +231,7 @@
                                     </ul>
                                     <% } else { %>
                                         <a href="account.html">
-                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
+                                            <img src="/assets/images/header/user2.png" class="image-fit" alt="img">
                                             <span>New User</span>
                                         </a>
                                         <ul class="sub-menu">
@@ -237,24 +267,65 @@
                                     <span class="navbar-toggler-icon"></span>
                                 </button>
                                 <div class="collapse navbar-collapse" id="navbarNav">
-                                    <ul class="navbar-nav w-100 d-flex flex-column align-items-start">
+                                    <ul class="navbar-nav w-100 d-flex flex-column">
                                         <li class="nav-item my-3 fs-5">
                                             <a class="nav-link" href="/adimDashBoard">Home</a>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/usersList">User Management</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/admin/userManagement/usersList">User
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-users"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/productList">Product Management</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/admin/productManagement/productList">Product
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-box-open"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/categoryList">Category Management</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link"
+                                                    href="/admin/categoryManagement/categoryList">Category
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-list"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/orderList">Order Management</a>
+                                            <div class="d-flex" id="user">
+
+                                                <a class="nav-link" href="/admin/orderManagement/orderList">Order
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-shopping-cart"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="#">Sales Report</a>
+                                            <div class="d-flex" id="user">
+
+                                                <a class="nav-link" href="/admin/couponManagement/coupons">Coupon
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-ticket"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/admin/salesReport">Sales Report</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-chart-line"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
                                             <a class="nav-link" href="#">Banner Management</a>
@@ -283,8 +354,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="/addProduct" style="margin-bottom: 10px;"><button type="button"
-                                    class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            <a href="/admin/productManagement/addProduct" style="margin-bottom: 10px;"><button
+                                    type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#exampleModal">
                                     Add Product
                                 </button></a>
 
@@ -319,7 +391,7 @@
 
                                                         <td>
                                                             <% for(let j=0;j<productDet[i].productImage.length;j++){ %>
-                                                                <img src="assets/uploadimages/uploads/<%=productDet[i].productImage[j]%>"
+                                                                <img src="/assets/uploadimages/uploads/<%=productDet[i].productImage[j]%>"
                                                                     style="height: 60px; width: 60px; border-radius: 0;">
                                                                 <% } %>
                                                         </td>
@@ -343,7 +415,7 @@
                                                                 <% } %>
                                                                     <td>
                                                                         <a
-                                                                            href="/editProduct?pid=<%= productDet[i]._id %>&cid=<%= productDet[i].parentCategory._id %>">
+                                                                            href="/admin/productManagement/editProduct?pid=<%= productDet[i]._id %>&cid=<%= productDet[i].parentCategory._id %>">
 
                                                                             <button id="unblock<%i%>"
                                                                                 data-target="#categoryModal<%=i%>"
@@ -409,7 +481,7 @@
 
     <script>
         async function fnBlock(productId) {
-            let response = await fetch(`/blockProduct?id=${productId}`, {
+            let response = await fetch(`/admin/productManagement/blockProduct?id=${productId}`, {
                 method: 'GET',
             })
             let result = await response.json()
@@ -423,7 +495,7 @@
         }
 
         async function fnUnBlock(productId) {
-            let response = await fetch(`/unBlockProduct?id=${productId}`, {
+            let response = await fetch(`/admin/productManagement/unBlockProduct?id=${productId}`, {
                 method: 'GET',
             })
             let result = await response.json()
@@ -490,7 +562,7 @@
         }
 
         document.querySelector('.product-offers-button').addEventListener("click", () => {
-            window.location.href = '/product-offers-page'
+            window.location.href = '/admin/productManagement/product-offers-page'
         })
 
 

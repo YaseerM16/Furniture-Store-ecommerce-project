@@ -1,7 +1,10 @@
 const cartCollection = require("../models/cartModel");
 const orderCollection = require("../models/orderModel");
 const productCollection = require("../models/productModel");
+const userCollection = require("../models/userModel");
 const crypto = require("crypto");
+const AppError = require("../middlewares/errorHandling");
+const { default: axios } = require("axios");
 
 const paypal = require("paypal-rest-sdk");
 const { PAYPAL_MODE, PAYPAL_CLIENT_KEY, PAYPAL_SECRET_KEY } = process.env;
@@ -14,7 +17,27 @@ paypal.configure({
 
 const doPayment = async (req, res) => {
   try {
-    const total = String(req.session.cartTotal);
+    let total = req.query.grandTot || String(req.session.cartTotal);
+    const response = await axios.get(
+      "https://v6.exchangerate-api.com/v6/44a9e911496b7fa81ee41d59/latest/USD"
+    );
+    const exchangeRates = response.data;
+    if (exchangeRates.conversion_rates && exchangeRates.conversion_rates.INR) {
+      const usdToInrRate = exchangeRates.conversion_rates.INR;
+      total = total / usdToInrRate;
+    } else {
+      console.log("USD to INR conversion rate not available");
+    }
+    const orderId = req.query.orderID || crypto.randomBytes(6).toString("hex");
+    if (req.query.orderID) {
+      const pendingPayment = await orderCollection.findOne({
+        orderId: req.query.orderID,
+      });
+      req.session.addressId = pendingPayment.addressChosen;
+      req.session.cartTotal = pendingPayment.grandTotalCost;
+      req.session.appliedCouponId = pendingPayment.couponApplied;
+      req.session.paymentMethod = pendingPayment.paymentType;
+    }
 
     const create_payment_json = {
       intent: "sale",
@@ -22,8 +45,8 @@ const doPayment = async (req, res) => {
         payment_method: "paypal",
       },
       redirect_urls: {
-        return_url: "http://localhost:3000/paymentSucess",
-        cancel_url: "http://localhost:3000/products",
+        return_url: `http://localhost:3000/paymentSucess?orderId=${orderId}`,
+        cancel_url: `http://localhost:3000/paymentFailed?orderId=${orderId}`,
       },
       transactions: [
         {
@@ -32,7 +55,7 @@ const doPayment = async (req, res) => {
               {
                 name: "Book",
                 sku: "001",
-                price: total,
+                price: total.toFixed(2),
                 currency: "USD",
                 quantity: 1,
               },
@@ -40,7 +63,7 @@ const doPayment = async (req, res) => {
           },
           amount: {
             currency: "USD",
-            total: total,
+            total: total.toFixed(2),
           },
           description: "Hat for the best team ever",
         },
@@ -52,6 +75,7 @@ const doPayment = async (req, res) => {
         throw err;
       } else {
         req.session.paymentId = payment.id;
+        req.session.orderId = orderId;
 
         for (let i = 0; i < payment.links.length; i++) {
           if (payment.links[i].rel === "approval_url") {
@@ -61,111 +85,131 @@ const doPayment = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log(
-      "Error While Accepting the Payment Request from the User :" + error
-    );
+    console.log("ERrror while dOing the payment :", error);
   }
 };
 
-const paymentSucessPage = async (req, res) => {
+const paymentSucessPage = async (req, res, next) => {
   try {
-    const cartDet = await cartCollection.find({
-      userId: req.session.currentUser._id,
-    });
-    for (let cart of cartDet) {
-      await productCollection.updateOne(
-        { _id: cart.productId },
-        { $inc: { productStock: -cart.productQuantity } }
+    const user = await userCollection.findById(req.session.currentUser._id);
+    if (user.failedPayments.includes(req.query.orderId)) {
+      await orderCollection.updateOne(
+        { orderId: req.query.orderId },
+        {
+          $set: {
+            paymentType: "paypal",
+          },
+        }
       );
+
+      let indx = user.failedPayments.indexOf(req.query.orderId);
+      user.failedPayments.splice(indx, 1);
+      await user.save();
+
+      const cartDet = await cartCollection.find({
+        userId: req.session.currentUser._id,
+      });
+      for (let cart of cartDet) {
+        await productCollection.updateOne(
+          { _id: cart.productId },
+          { $inc: { productStock: -cart.productQuantity } }
+        );
+      }
+      await cartCollection.deleteMany({ userId: req.session.currentUser._id });
+      res.render("userViews/orderSuccess");
+    } else {
+      const cartDet = await cartCollection.find({
+        userId: req.session.currentUser._id,
+      });
+      for (let cart of cartDet) {
+        await productCollection.updateOne(
+          { _id: cart.productId },
+          { $inc: { productStock: -cart.productQuantity } }
+        );
+      }
+
+      const clonedCartDet = cartDet.map((cart) => ({ ...cart }));
+
+      await cartCollection.deleteMany({ userId: req.session.currentUser._id });
+
+      await orderCollection.insertMany([
+        {
+          orderId: req.session.orderId,
+          userId: req.session.currentUser._id,
+          orderDate: new Date(),
+          paymentType: req.session.paymentMethod,
+          addressChosen: req.session.addressId,
+          cartData: clonedCartDet,
+          grandTotalCost: req.session.cartTotal,
+          paymentId: req.query.paymentId,
+          couponApplied: req.session.appliedCouponId,
+        },
+      ]);
+
+      req.session.cartTotal = null;
+      req.session.couponApplied = false;
+      req.session.orderId = null;
+      req.session.save();
+
+      res.render("userViews/orderSuccess");
     }
+  } catch (error) {
+    next(new AppError(error, 500));
+  }
+};
 
-    const clonedCartDet = cartDet.map((cart) => ({ ...cart }));
+const paymentFailed = async (req, res, next) => {
+  try {
+    const user = await userCollection.findById(req.session.currentUser._id);
+    if (user.failedPayments.includes(req.query.orderId)) {
+      await orderCollection.updateOne(
+        { orderId: req.query.orderId },
+        {
+          $set: {
+            paymentType: req.session.paymentMethod,
+          },
+        }
+      );
+      req.session.cartTotal = null;
+      req.session.couponApplied = false;
+      req.session.orderId = null;
+      req.session.save();
 
-    await cartCollection.deleteMany({ userId: req.session.currentUser._id });
+      res.render("userViews/paymentFailed");
+    } else {
+      const cartDet = await cartCollection.find({
+        userId: req.session.currentUser._id,
+      });
 
-    await orderCollection.insertMany([
-      {
-        orderId: crypto.randomBytes(6).toString("hex"),
+      await userCollection.findByIdAndUpdate(req.session.currentUser._id, {
+        $push: { failedPayments: req.query.orderId },
+      });
+
+      const clonedCartDet = cartDet.map((cart) => ({ ...cart }));
+      const storingDet = new orderCollection({
+        orderId: req.session.orderId,
         userId: req.session.currentUser._id,
         orderDate: new Date(),
-        paymentType: req.session.paymentMethod,
+        paymentType: "Payment Pending",
         addressChosen: req.session.addressId,
         cartData: clonedCartDet,
         grandTotalCost: req.session.cartTotal,
         paymentId: req.query.paymentId,
         couponApplied: req.session.appliedCouponId,
-      },
-    ]);
+      });
 
-    req.session.cartTotal = null;
-    req.session.couponApplied = false;
-    req.session.save();
+      const stored = await storingDet.save();
 
-    res.render("userViews/orderSuccess");
+      req.session.cartTotal = null;
+      req.session.couponApplied = false;
+      req.session.orderId = null;
+      req.session.save();
+
+      res.render("userViews/paymentFailed");
+    }
   } catch (error) {
-    console.log("Error While Rendering the Payment Success Page: " + error);
+    next(new AppError(error, 500));
   }
 };
 
-// const { PAYPALMODE,PAYPAL_CLINT_KEY,PAYPAL_SECRET_KEY}=process.env
-
-// paypal.configure({
-//     'mode':PAYPALMODE,
-//     'client_id':PAYPAL_CLINT_KEY,
-//     'client_secret':PAYPAL_SECRET_KEY
-// })
-
-// const paymentPage=async(req,res)=>{
-//     const card=await cartCollection.find({userId:req.query.id})
-
-//     const total=req.session.cartTotal
-//     req.session.total=total
-// try{
-//     const create_payment_json = {
-//         'intent': 'sale',
-//         'payer': {
-//             'payment_method': 'paypal'
-//         },
-//         'redirect_urls': { // Change made here: redirect_urls instead of redirect_url
-//             'return_url': 'http://localhost:8001/checkout5',
-//             'cancel_url': 'http://localhost:8001/shop'
-//         },
-//            "transactions": [{
-//                 "item_list": {
-//                     "items": [{
-//                         "name": "book",
-//                         "sku": "001",
-//                         "price":total ,
-//                         "currency": "USD",
-//                         "quantity": 1
-//                     }]
-//                 },
-//                 "amount": {
-//                     "currency": "USD",
-//                     "total": total // Fix the total amount to 2 decimal places
-//                 },
-//                 "description": "This is the payment description.",
-
-//             }]
-//         };
-
-//    paypal.payment.create(create_payment_json,async function(error,payment){
-//         if(error){
-//             throw error;
-//         }else{
-
-//               req.session.paymentId=payment.id
-//             console.log('hai')
-//             for(let i=0;payment.links.length;i++){
-//                 if(payment.links[i].rel==='approval_url'){
-
-//                     return res.redirect(payment.links[i].href)
-
-//             }
-//         }
-//           }
-//          }
-//         )
-// }
-
-module.exports = { doPayment, paymentSucessPage };
+module.exports = { doPayment, paymentSucessPage, paymentFailed };

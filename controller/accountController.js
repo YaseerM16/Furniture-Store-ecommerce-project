@@ -1,17 +1,18 @@
 const userCollection = require("../models/userModel");
 const addressCollection = require("../models/addressModel");
+const AppError = require("../middlewares/errorHandling");
 
-const userDetailsPage = async (req, res) => {
+const userDetailsPage = async (req, res, next) => {
   try {
     const email = req.session.currentUser.email;
     const user = await userCollection.findOne({ email: email });
     res.render("userViews/userDetails", { user: user });
   } catch (error) {
-    console.log("Error while showing the Users Details Page " + error);
+    next(new AppError(error, 500));
   }
 };
 
-const profileEdit = async (req, res) => {
+const profileEdit = async (req, res, next) => {
   try {
     const { username, email, phone } = req.body;
 
@@ -31,11 +32,11 @@ const profileEdit = async (req, res) => {
       res.send({ success: true, name: username, phone: phone });
     }
   } catch (error) {
-    console.log("Error while Editing the Users' Profile " + error);
+    next(new AppError(error, 500));
   }
 };
 
-const addressPage = async (req, res) => {
+const addressPage = async (req, res, next) => {
   try {
     const userId = req.session.currentUser._id;
     const userAddress = await addressCollection.find({
@@ -46,11 +47,11 @@ const addressPage = async (req, res) => {
       addresses: userAddress,
     });
   } catch (error) {
-    console.log("Error while showing the address page in user Account" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const addAddressPage = async (req, res) => {
+const addAddressPage = async (req, res, next) => {
   try {
     let user;
     if (req.session.logged) {
@@ -61,11 +62,11 @@ const addAddressPage = async (req, res) => {
     }
     res.render("userViews/addAddress", { user: user });
   } catch (error) {
-    console.log("Error While showing the Add Address Page: " + error);
+    next(new AppError(error, 500));
   }
 };
 
-const addAddress = async (req, res) => {
+const addAddress = async (req, res, next) => {
   try {
     const userId = req.session.currentUser._id;
     const address = {
@@ -84,14 +85,11 @@ const addAddress = async (req, res) => {
     await addressCollection.insertMany([address]);
     res.send({ success: true });
   } catch (error) {
-    console.log("Error While Adding the Address " + error);
-    return res
-      .status(500)
-      .json({ success: false, error: "Error adding the address" });
+    next(new AppError(error, 500));
   }
 };
 
-const editAddress = async (req, res) => {
+const editAddress = async (req, res, next) => {
   try {
     const editAddress = addressCollection.findOne({ _id: req.query.id });
     if (!editAddress) {
@@ -117,11 +115,11 @@ const editAddress = async (req, res) => {
       res.send({ success: true });
     }
   } catch (error) {
-    console.log("Error while editing the Address" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const deleteAddress = async (req, res) => {
+const deleteAddress = async (req, res, next) => {
   try {
     const addressId = req.query.id;
     const address = await addressCollection.findByIdAndDelete(addressId);
@@ -132,8 +130,7 @@ const deleteAddress = async (req, res) => {
 
     res.send({ success: true });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error deleting address" });
+    next(new AppError(error, 500));
   }
 };
 

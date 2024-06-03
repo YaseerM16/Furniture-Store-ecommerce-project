@@ -3,6 +3,9 @@ const orderCollection = require("../models/orderModel");
 const productCollection = require("../models/productModel");
 const userCollection = require("../models/userModel");
 const { ObjectId } = require("mongodb");
+const mongoose = require("mongoose");
+const AppError = require("../middlewares/errorHandling");
+
 const walletCollection = require("../models/walletModel");
 
 const orderData = async (req) => {
@@ -39,7 +42,7 @@ const orderData = async (req) => {
 
   return orderDet;
 };
-const orderPage = async (req, res) => {
+const orderPage = async (req, res, next) => {
   try {
     let user;
     if (req.session.logged) {
@@ -80,11 +83,11 @@ const orderPage = async (req, res) => {
       pages: Math.ceil(pages / limit),
     });
   } catch (error) {
-    console.log("Error while rendering the My Orders Page: " + error);
+    next(new AppError(error, 500));
   }
 };
 
-const orderDetailsPage = async (req, res) => {
+const orderDetailsPage = async (req, res, next) => {
   try {
     let user;
     if (req.session.logged) {
@@ -164,7 +167,7 @@ const orderDetailsPage = async (req, res) => {
       orderStatus: req.session.orderStatus,
     });
   } catch (error) {
-    console.log("Error while Rendering the Order Detail Page : " + error);
+    next(new AppError(error, 500));
   }
 };
 
@@ -219,7 +222,7 @@ const orderDetailsPage = async (req, res) => {
 //   }
 // };
 
-const cancelOrder = async (req, res) => {
+const cancelOrder = async (req, res, next) => {
   try {
     const orderId = req.query.orderID;
     const order = await orderCollection.findByIdAndUpdate(
@@ -234,11 +237,11 @@ const cancelOrder = async (req, res) => {
     res.send({ success: true, message: "Order cancelled successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).send({ message: "Error cancelling order" });
+    next(new AppError(error, 500));
   }
 };
 
-const singleProdCancel = async (req, res) => {
+const singleProdCancel = async (req, res, next) => {
   try {
     const orderId = req.query.orderId;
     const cartProdId = req.query.cartProdId;
@@ -301,10 +304,55 @@ const singleProdCancel = async (req, res) => {
       res.status(404).send({ failed: true, error: "Order not found" });
     }
   } catch (error) {
-    console.log(
-      "Error while Cancelling the Single Product form the users Order Details Page :" +
-        error
+    next(new AppError(error, 500));
+  }
+};
+const returnSingleProd = async (req, res, next) => {
+  try {
+    const cartId = req.query.cartId;
+    const orderId = req.query.orderId;
+    const reason = req.query.reason;
+    console.log(cartId);
+    console.log(orderId);
+    console.log(reason);
+    const cartIdObject = new mongoose.Types.ObjectId(cartId);
+    // const res = await orderCollection.findOne({
+    //   _id: orderId,
+    //   "cartData._id": cartIdObject,
+    // });
+
+    const res = await orderCollection.findOneAndUpdate(
+      {
+        _id: orderId,
+        "cartData._id": cartIdObject,
+      },
+      {
+        $set: {
+          "cartData.$.productStatus": "Requested Return",
+          "cartData.$.returnReason": reason,
+        },
+      }
     );
+
+    // }
+    // const orderData = await orderCollection.findOne({
+    //   _id: new mongoose.Types.ObjectId(id),
+    // });
+    // const allReturned = orderData.cartData.every(
+    //   (item) => item.status === "Request Return"
+    // );
+
+    // If all products have been returned, update orderStatus to 'Returned'
+    // if (allReturned) {
+    //   await orderCollection.findOneAndUpdate(
+    //     { _id: new mongoose.Types.ObjectId(id) },
+    //     { $set: { orderStatus: "Request Return" } }
+    //   );
+    // }
+    console.log(res);
+    // res.send({ success: true });
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
 
@@ -313,4 +361,5 @@ module.exports = {
   orderDetailsPage,
   cancelOrder,
   singleProdCancel,
+  returnSingleProd,
 };

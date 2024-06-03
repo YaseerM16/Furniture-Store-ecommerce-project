@@ -28,13 +28,26 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
-    <link href="assets/css/plugins/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/fonts/font-awesome.min.css" rel="stylesheet">
-    <link href="assets/css/plugins/magnific-popup.css" rel="stylesheet">
-    <link href="assets/css/plugins/slick.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/responsive.css" rel="stylesheet">
+    <link href="/assets/css/plugins/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/fonts/font-awesome.min.css" rel="stylesheet">
+    <link href="/assets/css/plugins/magnific-popup.css" rel="stylesheet">
+    <link href="/assets/css/plugins/slick.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/responsive.css" rel="stylesheet">
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
+
     <style>
+        #brand-name {
+            font-family: "Bungee Spice", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 30px;
+            background-color: #8a5d2a;
+        }
+
         @media (max-width: 380px) {
             .order_list_block .price {
                 margin-left: 0;
@@ -53,11 +66,7 @@
 </head>
 
 <body>
-    <!-- Preloader Start -->
-    <div class="preloader">
-        <img src="assets/images/preloader.svg" alt="preloader">
-    </div>
-    <!-- Preloader End -->
+
     <!-- Header Start -->
     <header class="header">
         <!-- Topbar -->
@@ -66,8 +75,9 @@
                 <div class="inner">
                     <!-- Logo -->
                     <div class="logo">
-                        <a href="index.html">
-                            <img src="assets/images/logo.png" class="image-fit" alt="logo">
+                        <a href="#">
+                            <div id="brand-name">&nbsp;Y-FURNS</div>
+                            <!-- <img src="assets/images/logo.png" class="image-fi" alt="logo" height="100px" width="100px"> -->
                         </a>
                     </div>
                     <!-- Logo -->
@@ -75,16 +85,7 @@
                     <div class="search-form">
                         <form>
                             <!-- Location -->
-                            <div class="location">
-                                <label>Your Location</label>
-                                <select>
-                                    <option selected>Select A Location</option>
-                                    <option value="New Delhi">New Delhi</option>
-                                    <option value="Mumbai">Mumbai</option>
-                                    <option value="Kolkata">Kolkata</option>
-                                    <option value="Chennai">Chennai</option>
-                                </select>
-                            </div>
+
                             <!-- Location -->
                             <!-- Search -->
                             <div class="input-group">
@@ -107,7 +108,7 @@
                             <li class="user">
                                 <% if (user) { %>
                                     <a href="#">
-                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
+                                        <img src="/assets/images/header/user.png" class="image-fit" alt="img">
                                         <div class="cart_text">
                                             ADMIN
                                         </div>
@@ -123,7 +124,7 @@
                                     </ul>
                                     <% } else { %>
                                         <a href="account.html">
-                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
+                                            <img src="/assets/images/header/user2.png" class="image-fit" alt="img">
                                             <span>New User</span>
                                         </a>
                                         <ul class="sub-menu">
@@ -152,27 +153,27 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-around" id="navbarNav">
-                <ul class="navbar-nav w-100">
-                    <li class="nav-item">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav w-100 d-flex flex-column">
+                    <li class="nav-item my-3 fs-5">
                         <a class="nav-link" href="/adimDashBoard">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/usersList">User Management</a>
+                    <li class="nav-item my-3 fs-5">
+                        <a class="nav-link" href="/admin/userManagement/usersList">User Management</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/productList">Product Management</a>
+                    <li class="nav-item my-3 fs-5">
+                        <a class="nav-link" href="/admin/productManagement/productList">Product Management</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/categoryList">Category Management</a>
+                    <li class="nav-item my-3 fs-5">
+                        <a class="nav-link" href="/admin/categoryManagement/categoryList">Category Management</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/orderList">Order Management</a>
+                    <li class="nav-item my-3 fs-5">
+                        <a class="nav-link" href="/admin/orderManagement/orderList">Order Management</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Sales Report</a>
+                    <li class="nav-item my-3 fs-5">
+                        <a class="nav-link" href="/admin/salesReport">Sales Report</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item my-3 fs-5">
                         <a class="nav-link" href="#">Banner Management</a>
                     </li>
                 </ul>
@@ -221,7 +222,7 @@
                         <div class="details_box">
                             <h4 class="title">Order ID:</h4>
                             <div class="name">
-                                <%= orders[0]._id%>
+                                <%= orders[0].orderId%>
                             </div>
 
 
@@ -275,7 +276,7 @@
                         <div class="order_list_block">
                             <div class="image_info_box d-flex flex-column justify-content-center">
                                 <a href="#">
-                                    <img src="assets/uploadimages/uploads/<%=orders[i].productDetails.productImage[0]%>"
+                                    <img src="/assets/uploadimages/uploads/<%=orders[i].productDetails.productImage[0]%>"
                                         class="image-fit-contain" alt="img" style="margin-right: 0">
                                 </a>
                                 <div class="info">
@@ -350,6 +351,7 @@
                                                             index-value="<%= i %>">Shipped</a>
                                                         <a class="dropdown-item" href="#" data-value="Delivered"
                                                             index-value="<%= i %>">Delivered</a>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -451,7 +453,7 @@
 
                 // Send a request to the server to update the order status
                 try {
-                    const response = await fetch("/update-order-status", {
+                    const response = await fetch("/admin/orderManagement/orderSummary/update-order-status", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"

@@ -1,7 +1,12 @@
 const adminCollection = require("../models/adminModel");
 const userCollection = require("../models/userModel");
+const AppError = require("../middlewares/errorHandling");
+const categoryCollection = require("../models/categoryModel");
+const productCollection = require("../models/productModel");
+const dashBoardHelpers = require("../helpers/adminDashboardData");
+const orderCollection = require("../models/orderModel");
 
-const adminLoginPage = (req, res) => {
+const adminLoginPage = (req, res, next) => {
   try {
     if (req.session.adminLog) {
       res.redirect("/adimDashBoard");
@@ -15,11 +20,11 @@ const adminLoginPage = (req, res) => {
       req.session.save();
     }
   } catch (error) {
-    console.log("Error in showing the Admin login Page" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const adminLoginSubmit = async (req, res) => {
+const adminLoginSubmit = async (req, res, next) => {
   try {
     let adminData = await adminCollection.findOne({
       email: req.session.loginEmail,
@@ -42,11 +47,11 @@ const adminLoginSubmit = async (req, res) => {
       res.redirect("/adminLogin");
     }
   } catch (error) {
-    console.error("Error while submitting the admin" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const dashBoard = async (req, res) => {
+const dashBoard = async (req, res, next) => {
   try {
     let user;
     if (req.session.adminLog) {
@@ -54,13 +59,124 @@ const dashBoard = async (req, res) => {
     } else {
       user = {};
     }
-    res.render("adminViews/home", { user: user });
+
+    const salesData = [
+      { date: "2024-05-01", sales: 150 },
+      { date: "2024-05-02", sales: 200 },
+      { date: "2024-05-03", sales: 175 },
+      // Add more data points as needed
+    ];
+    const category = await categoryCollection.find({});
+    const Product = await productCollection.find({});
+    const users = await userCollection.find({});
+    res.render("adminViews/home", {
+      user: user,
+      salesData,
+      ordersLen: req.session.sreportLen,
+      category,
+      Product,
+      users,
+    });
   } catch (error) {
-    console.error("Error in Renderind the Admin Home page" + error);
+    next(new AppError(error, 500));
+  }
+};
+const adminDashBoardData = async (req, res, next) => {
+  try {
+    const [
+      getProductsCount,
+      getCategoryCount,
+      pendingOrdersCount,
+      deliveredOrdersCount,
+      currentDayRevenue,
+      fourteenDaysRevenue,
+      categoryWiseRevenue,
+      revenue,
+      monthlyRevenue,
+      activeUser,
+    ] = await Promise.all([
+      dashBoardHelpers.getProductsCount(),
+      dashBoardHelpers.getCategoryCount(),
+      dashBoardHelpers.pendingOrdersCount(),
+      dashBoardHelpers.deliveredOrdersCount(),
+      dashBoardHelpers.currentDayRevenue(),
+      dashBoardHelpers.fourteenDaysRevenue(),
+      dashBoardHelpers.categoryWiseRevenue(),
+      dashBoardHelpers.revenue(),
+      dashBoardHelpers.monthlyRevenue(),
+      dashBoardHelpers.activeUser(),
+    ]);
+
+    const data = {
+      getProductsCount,
+      getCategoryCount,
+      pendingOrdersCount,
+      deliveredOrdersCount,
+      currentDayRevenue,
+      fourteenDaysRevenue,
+      categoryWiseRevenue,
+      revenue,
+      monthlyRevenue,
+      activeUser,
+    };
+
+    res.json(data);
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
 
-const userListing = async (req, res) => {
+const topProduct = async (req, res, next) => {
+  try {
+    const topProducts = await orderCollection.aggregate([
+      {
+        $match: { orderStatus: "Delivered" },
+      },
+      {
+        $unwind: "$cartData",
+      },
+      {
+        $group: {
+          _id: "$cartData.productId",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { count: -1 },
+      },
+      {
+        $limit: 10,
+      },
+      {
+        $lookup: {
+          from: "products",
+          localField: "_id",
+          foreignField: "_id",
+          as: "product",
+        },
+      },
+      {
+        $unwind: "$product",
+      },
+      {
+        $project: {
+          _id: 0,
+          productId: "$_id",
+          count: 1,
+          productName: "$product.productName",
+          productPrice: "$product.offerPrice",
+        },
+      },
+    ]);
+
+    res.render("adminPages/topProducts", { topProducts });
+  } catch (err) {
+    next(new AppError("Sorry...Something went wrong", 500));
+    res.status(500).send({ success: false, message: "Internal Server Error" });
+  }
+};
+
+const userListing = async (req, res, next) => {
   try {
     let user;
     if (req.session.adminLog) {
@@ -90,42 +206,42 @@ const userListing = async (req, res) => {
       pages: Math.ceil(pages / limit),
       user: user,
     });
-  } catch (err) {
-    console.log("Error in User Listing Page" + err);
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
-const blockUser = async (req, res) => {
+const blockUser = async (req, res, next) => {
   try {
     await userCollection.updateOne(
       { _id: req.query.id },
       { $set: { isBlocked: false } }
     );
     res.send({ success: true });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
 
-const unBlockUser = async (req, res) => {
+const unBlockUser = async (req, res, next) => {
   try {
     await userCollection.updateOne(
       { _id: req.query.id },
       { $set: { isBlocked: true } }
     );
     res.send({ success: true });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
 
-const logout = (req, res) => {
+const logout = (req, res, next) => {
   try {
     req.session.adminLog = false;
     req.session.save();
 
     res.redirect("/adminLogin");
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
 
@@ -137,4 +253,5 @@ module.exports = {
   blockUser,
   unBlockUser,
   logout,
+  adminDashBoardData,
 };

@@ -8,8 +8,9 @@ const walletCollection = require("../models/walletModel");
 const couponController = require("../controller/couponController");
 const paymentController = require("../controller/paymentController");
 const crypto = require("crypto");
+const AppError = require("../middlewares/errorHandling");
 
-const addToCart = async (req, res) => {
+const addToCart = async (req, res, next) => {
   try {
     const productExist = await cartCollection.findOne({
       userId: req.session.currentUser._id,
@@ -43,11 +44,11 @@ const addToCart = async (req, res) => {
     }
     res.send({ success: true });
   } catch (error) {
-    console.log("Error While adding the product to the Caart " + error);
+    next(new AppError(error, 500));
   }
 };
 
-const removeFromCart = async (req, res) => {
+const removeFromCart = async (req, res, next) => {
   try {
     const userId = req.query.userID;
     const productId = req.query.productID;
@@ -63,11 +64,11 @@ const removeFromCart = async (req, res) => {
       res.status(404).send("Product not found in cart.");
     }
   } catch (error) {
-    console.log("Error while Remove the Product from the Cart Page :" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const cartPage = async (req, res) => {
+const cartPage = async (req, res, next) => {
   try {
     let user;
     if (req.session.logged) {
@@ -81,19 +82,62 @@ const cartPage = async (req, res) => {
         userId: req.session.currentUser._id,
       })
       .populate("productId");
+
+    let totalItems = 0;
+    let grandTotal = 0;
+    let outOfStockItems = [];
+
+    // Loop through the cart items and check actual available quantities
+    for (const item of cartProducts) {
+      const product = item.productId;
+
+      if (product.productStock < item.productQuantity) {
+        // If available quantity is less than cart quantity, adjust it
+        outOfStockItems.push({
+          productName: product.productName,
+          requestedQuantity: item.productQuantity,
+          availableQuantity: product.productStock,
+        });
+
+        // Update the cart item to reflect the actual available quantity
+        await cartCollection.updateOne(
+          { _id: item._id },
+          {
+            $set: {
+              productQuantity: product.productStock,
+              totalCostPerProduct: product.productStock * product.productPrice,
+            },
+          }
+        );
+
+        item.productQuantity = product.productStock;
+        item.totalCostPerProduct = product.productStock * product.productPrice;
+      }
+
+      totalItems += item.productQuantity;
+      grandTotal += item.totalCostPerProduct;
+    }
+
     if (!cartProducts || cartProducts.length === 0) {
       // Render the EJS page with an empty cartProducts array
-      res.render("userViews/cart", { cartProducts: [], user: user });
+      res.render("userViews/cart", {
+        cartProducts: [],
+        user: user,
+      });
     } else {
       // Render the EJS page with the cartProducts data
-      res.render("userViews/cart", { cartProducts: cartProducts, user: user });
+      res.render("userViews/cart", {
+        cartProducts: cartProducts,
+        user: user,
+        outOfStockItems,
+      });
     }
   } catch (error) {
-    console.log("Error while showing the Cart Page :" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const cartIncDecBtn = async (req, res) => {
+const cartIncDecBtn = async (req, res, next) => {
   try {
     const productId = req.query.productID;
     const quantity = parseInt(req.query.quantity);
@@ -166,15 +210,11 @@ const cartIncDecBtn = async (req, res) => {
       res.status(400).send({ success: false, message: "Invalid action" });
     }
   } catch (error) {
-    console.log(
-      "Error while clicking the Cart Increment/Decrement Button:",
-      error
-    );
-    res.status(500).send({ success: false, message: "Internal server error" });
+    next(new AppError(error, 500));
   }
 };
 
-const quantityIncBtn = async (req, res) => {
+const quantityIncBtn = async (req, res, next) => {
   try {
     const product = await productCollection.findOne({ _id: req.query.pid });
     if (!product) {
@@ -190,11 +230,11 @@ const quantityIncBtn = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log("Error while CLikcking the Add quantity Button :" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const addressCheckOutPage = async (req, res) => {
+const addressCheckOutPage = async (req, res, next) => {
   try {
     let user;
     if (req.session.logged) {
@@ -217,11 +257,11 @@ const addressCheckOutPage = async (req, res) => {
       user: user,
     });
   } catch (error) {
-    console.log("Error while showing the First CheckOUt page :" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const redirecPaymentMethod = async (req, res) => {
+const redirecPaymentMethod = async (req, res, next) => {
   try {
     if (!req.query.addressId) {
       console.log(req.session.addressId);
@@ -231,11 +271,11 @@ const redirecPaymentMethod = async (req, res) => {
       res.send({ success: true });
     }
   } catch (error) {
-    console.log("Error Occured While Rendering the Payment Page :" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const paymentMethodPage = async (req, res) => {
+const paymentMethodPage = async (req, res, next) => {
   try {
     let user;
     if (req.session.logged) {
@@ -255,13 +295,11 @@ const paymentMethodPage = async (req, res) => {
 
     res.render("userViews/selectPayment", { user: user });
   } catch (error) {
-    console.log(
-      "Error occur WHile rendering the Payment Method Page :" + error
-    );
+    next(new AppError(error, 500));
   }
 };
 
-const checkoutPage = async (req, res) => {
+const checkoutPage = async (req, res, next) => {
   try {
     let user;
     if (req.session.logged) {
@@ -319,11 +357,11 @@ const checkoutPage = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log("Error while rendering the Final CheckOut Page: " + error);
+    next(new AppError(error, 500));
   }
 };
 
-const applyCoupon = async (req, res) => {
+const applyCoupon = async (req, res, next) => {
   try {
     const requestCoupon = await couponCollection.findOne({
       _id: req.query.couponID,
@@ -351,11 +389,11 @@ const applyCoupon = async (req, res) => {
       res.send({ couponCofirmed: true, discountAmount, appliedDisCount });
     }
   } catch (error) {
-    console.log("Error While applying the coupon in the server side: " + error);
+    next(new AppError(error, 500));
   }
 };
 
-const removeCoupon = async (req, res) => {
+const removeCoupon = async (req, res, next) => {
   try {
     const removeCoupon = await couponCollection.findOne({
       _id: req.query.couponID,
@@ -377,13 +415,11 @@ const removeCoupon = async (req, res) => {
       res.send({ isRemoved: true });
     }
   } catch (error) {
-    console.log(
-      "Error while Remove the coupon from the checkout Page :" + error
-    );
+    next(new AppError(error, 500));
   }
 };
 
-const placeOrder = async (req, res) => {
+const placeOrder = async (req, res, next) => {
   try {
     const cartDet = await cartCollection.find({
       userId: req.session.currentUser._id,
@@ -451,7 +487,7 @@ const placeOrder = async (req, res) => {
 
     res.render("userViews/orderSuccess");
   } catch (error) {
-    console.log("Error while Placing the Order" + error);
+    next(new AppError(error, 500));
   }
 };
 

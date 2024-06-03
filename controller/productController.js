@@ -2,8 +2,9 @@ const productCollection = require("../models/productModel");
 const categoryCollection = require("../models/categoryModel");
 const { default: mongoose } = require("mongoose");
 const adminCollection = require("../models/adminModel");
+const AppError = require("../middlewares/errorHandling");
 
-const productList = async (req, res) => {
+const productList = async (req, res, next) => {
   try {
     let user;
     if (req.session.adminLog) {
@@ -38,12 +39,12 @@ const productList = async (req, res) => {
       pages: Math.ceil(pages / limit),
       user: user,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
 
-const addProductPage = async (req, res) => {
+const addProductPage = async (req, res, next) => {
   try {
     let user;
     if (req.session.adminLog) {
@@ -56,12 +57,12 @@ const addProductPage = async (req, res) => {
       categoryDet: categoryDetails,
       user: user,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
 
-const addProduct = async (req, res) => {
+const addProduct = async (req, res, next) => {
   try {
     let imgFiles = [];
     for (i = 0; i < req.files.length; i++) {
@@ -94,11 +95,11 @@ const addProduct = async (req, res) => {
       newProduct.save();
     }
   } catch (error) {
-    console.log("Error while Submitting the ADD product post Form" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const blockProduct = async (req, res) => {
+const blockProduct = async (req, res, next) => {
   try {
     await productCollection.updateOne(
       { _id: req.query.id },
@@ -106,22 +107,22 @@ const blockProduct = async (req, res) => {
     );
     res.send({ block: true });
   } catch (err) {
-    console.log(err);
+    next(new AppError(error, 500));
   }
 };
-const unBlockProduct = async (req, res) => {
+const unBlockProduct = async (req, res, next) => {
   try {
     await productCollection.updateOne(
       { _id: req.query.id },
       { $set: { isListed: true } }
     );
     res.send({ unBlock: true });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
 
-const editProductPage = async (req, res) => {
+const editProductPage = async (req, res, next) => {
   try {
     let user;
     if (req.session.adminLog) {
@@ -141,12 +142,12 @@ const editProductPage = async (req, res) => {
       categoryDetail,
       user: user,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
 
-const editProduct = async (req, res) => {
+const editProduct = async (req, res, next) => {
   try {
     let imgFiles = [];
     for (let i = 0; i < req.files.length; i++) {
@@ -183,12 +184,12 @@ const editProduct = async (req, res) => {
       );
       res.send({ success: true });
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
 
-const deleteImage = async (req, res) => {
+const deleteImage = async (req, res, next) => {
   try {
     const updatedProduct = await productCollection.findOne({
       _id: req.body.productId,
@@ -210,10 +211,7 @@ const deleteImage = async (req, res) => {
       res.status(400).json({ error: "Invalid image index" });
     }
   } catch (error) {
-    console.log(
-      "Error in deleteing the Image through the Edit product delete button " +
-        error
-    );
+    next(new AppError(error, 500));
   }
 };
 

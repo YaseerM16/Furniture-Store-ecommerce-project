@@ -23,12 +23,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Css -->
-    <link href="assets/css/plugins/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/fonts/font-awesome.min.css" rel="stylesheet">
-    <link href="assets/css/plugins/magnific-popup.css" rel="stylesheet">
-    <link href="assets/css/plugins/slick.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/responsive.css" rel="stylesheet">
+    <link href="/assets/css/plugins/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/fonts/font-awesome.min.css" rel="stylesheet">
+    <link href="/assets/css/plugins/magnific-popup.css" rel="stylesheet">
+    <link href="/assets/css/plugins/slick.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/responsive.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
@@ -110,23 +110,51 @@
             flex-direction: column;
             /* Align nav items vertically */
         }
+
+        #user .iconx {
+            background-color: #604220;
+            color: #ffffff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            margin: 0 auto;
+            /* Center the icon horizontally */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition:
+                background-color 0.7s ease,
+                color 0.7s ease,
+                transform 0.7s ease,
+                width 0.7s ease,
+                height 0.7s ease,
+                font-size 0.7s ease;
+        }
+
+        #user:hover .iconx {
+            background-color: #C7A379;
+            color: #ffffff;
+            transform: scale(1.6);
+            /* No margin change to prevent layout shift */
+        }
+
+        .header .topbar .inner {
+            height: 100px;
+        }
     </style>
 </head>
 
 <body>
-    <!-- Preloader Start -->
-    <div class="preloader">
-        <img src="assets/images/preloader.svg" alt="preloader">
-    </div>
-    <!-- Preloader End -->
+
     <!-- Header Start -->
     <header class="header">
         <!-- Topbar -->
-        <div class="topbar">
+        <div class="topbar d-flex align-items-center">
             <div class="container-fluid">
                 <div class="inner">
                     <!-- Logo -->
-                    <div class="logo">
+                    <div class="logo" style="padding-left: 50px;padding-bottom: 50px;">
                         <a href="#">
                             <div id="brand-name">&nbsp;Y-FURNS</div>
                             <!-- <img src="assets/images/logo.png" class="image-fi" alt="logo" height="100px" width="100px"> -->
@@ -134,7 +162,7 @@
                     </div>
                     <!-- Logo -->
                     <!-- Search Form -->
-                    <div class="search-form">
+                    <div class="search-form" style="padding-bottom: 35px;">
                         <form>
                             <!-- Location -->
 
@@ -154,13 +182,13 @@
                     </div>
                     <!-- Search Form -->
                     <!-- Header Action -->
-                    <div class="header_action">
+                    <div class="header_action" style="padding-bottom: 25px;padding-right: 50px;">
                         <ul>
 
                             <li class="user">
                                 <% if (user) { %>
                                     <a href="#">
-                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
+                                        <img src="/assets/images/header/user.png" class="image-fit" alt="img">
                                         <div class="cart_text">
                                             ADMIN
                                         </div>
@@ -176,7 +204,7 @@
                                     </ul>
                                     <% } else { %>
                                         <a href="account.html">
-                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
+                                            <img src="/assets/images/header/user2.png" class="image-fit" alt="img">
                                             <span>New User</span>
                                         </a>
                                         <ul class="sub-menu">
@@ -210,24 +238,65 @@
                                     <span class="navbar-toggler-icon"></span>
                                 </button>
                                 <div class="collapse navbar-collapse" id="navbarNav">
-                                    <ul class="navbar-nav w-100 d-flex flex-column align-items-start">
+                                    <ul class="navbar-nav w-100 d-flex flex-column">
                                         <li class="nav-item my-3 fs-5">
                                             <a class="nav-link" href="/adimDashBoard">Home</a>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/usersList">User Management</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/admin/userManagement/usersList">User
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-users"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/productList">Product Management</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/admin/productManagement/productList">Product
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-box-open"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/categoryList">Category Management</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link"
+                                                    href="/admin/categoryManagement/categoryList">Category
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-list"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/orderList">Order Management</a>
+                                            <div class="d-flex" id="user">
+
+                                                <a class="nav-link" href="/admin/orderManagement/orderList">Order
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-shopping-cart"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="#">Sales Report</a>
+                                            <div class="d-flex" id="user">
+
+                                                <a class="nav-link" href="/admin/couponManagement/coupons">Coupon
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-ticket"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/admin/salesReport">Sales Report</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-chart-line"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
                                             <a class="nav-link" href="#">Banner Management</a>
@@ -609,11 +678,11 @@
                                 // console.log(`${result.currentStatus}`);
                                 Swal.fire({
                                     icon: "success",
-                                    title: "Your Product Offer has been updated",
+                                    title: "Your Category Offer has been updated",
                                     showConfirmButton: true,
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        window.location.href = "/category-offers-page" // Reload the page after user confirms
+                                        window.location.href = "/admin/categoryManagement/category-offers-page" // Reload the page after user confirms
                                     }
                                 });
                             } else {

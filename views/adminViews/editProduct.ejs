@@ -21,12 +21,12 @@
     <meta name="twitter:description" content="Description website">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
     <!-- Css -->
-    <link href="assets/css/plugins/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/fonts/font-awesome.min.css" rel="stylesheet">
-    <link href="assets/css/plugins/magnific-popup.css" rel="stylesheet">
-    <link href="assets/css/plugins/slick.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/responsive.css" rel="stylesheet">
+    <link href="/assets/css/plugins/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/fonts/font-awesome.min.css" rel="stylesheet">
+    <link href="/assets/css/plugins/magnific-popup.css" rel="stylesheet">
+    <link href="/assets/css/plugins/slick.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/responsive.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/img/favicon.png">
@@ -127,11 +127,7 @@
 </head>
 
 <body>
-    <!-- Preloader Start -->
-    <div class="preloader">
-        <img src="assets/images/preloader.svg" alt="preloader">
-    </div>
-    <!-- Preloader End -->
+
     <!-- Header Start -->
     <header class="header">
         <!-- Topbar -->
@@ -323,7 +319,7 @@
                             <div class="d-flex flex-wrap justify-content-center align-items-center">
                                 <% for(let i=0;i<productDet.productImage.length;i++){ %>
                                     <div class="position-relati mve-2" id="image<%= i %>">
-                                        <img src="assets/uploadimages/uploads/<%=productDet.productImage[i]%>"
+                                        <img src="/assets/uploadimages/uploads/<%=productDet.productImage[i]%>"
                                             style="height: 60px; width: 60px; border-radius: 0;" alt="">
                                         <button type="button" class="btn btn-danger delete-image"
                                             data-id="<%=productDet._id%>" data-index="<%=i%>">Delete</button>
@@ -560,7 +556,7 @@
 
 
 
-                let response = await fetch('/editProduct/<%=productDet._id%>', {
+                let response = await fetch('/admin/productManagement/editProduct/<%=productDet._id%>', {
                     method: 'POST',
                     body: formData
                 })
@@ -576,7 +572,7 @@
                         icon: "success",
                         title: "Product Edited"
                     })
-                    window.location.href = '/productList'
+                    window.location.href = '/admin/productManagement/productList'
                 }
                 if (result.noValue) {
                     await Swal.fire({
@@ -594,7 +590,7 @@
 
             // Send an AJAX request to delete the image
             $.ajax({
-                url: '/delete-image',
+                url: '/admin/editProduct/delete-image',
                 method: 'POST',
                 data: {
                     productId: productId,

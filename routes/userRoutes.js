@@ -30,6 +30,7 @@ const passport = require("passport");
 const {
   doPayment,
   paymentSucessPage,
+  paymentFailed,
 } = require("../controller/paymentController");
 
 //sign-up Routes
@@ -201,8 +202,13 @@ userRouter.get(
   userController.walletPage
 );
 
+///Order Return
+userRouter.post("/user/returnOrder", orderController.returnSingleProd);
+
 //Payment Page
 userRouter.get("/payPalPaymentPage", isLogged, blockUserCheck, doPayment);
 userRouter.get("/paymentSucess", paymentSucessPage);
+userRouter.get("/paymentFailed", paymentFailed);
+userRouter.get("/user/myOrders/resumePayment");
 
 module.exports = userRouter;

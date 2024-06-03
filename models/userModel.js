@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   isBlocked: { type: Boolean, required: false },
   referralCode: { type: String, required: true },
+  failedPayments: {
+    type: [String], // Array of failed payment IDs
+    default: [],
+  },
 });
 
 module.exports = mongoose.model("users", userSchema);

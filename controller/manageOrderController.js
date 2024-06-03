@@ -2,8 +2,11 @@ const { ObjectId } = require("mongodb");
 const orderCollection = require("../models/orderModel");
 const { calcStatus } = require("../helpers/helper");
 const adminCollection = require("../models/adminModel");
+const mongoose = require("mongoose");
+const productCollection = require("../models/productModel");
+const AppError = require("../middlewares/errorHandling");
 
-const orderListPage = async (req, res) => {
+const orderListPage = async (req, res, next) => {
   try {
     let user;
     if (req.session.adminLog) {
@@ -38,13 +41,11 @@ const orderListPage = async (req, res) => {
       user: user,
     });
   } catch (error) {
-    console.log(
-      "ERR while Rendering the Order LIst  Page in the admin side: " + error
-    );
+    next(new AppError(error, 500));
   }
 };
 
-const orderSummaryDetails = async (req, res) => {
+const orderSummaryDetails = async (req, res, next) => {
   try {
     let user = await adminCollection.findOne({
       _id: req.session.adminUser._id,
@@ -147,14 +148,11 @@ const orderSummaryDetails = async (req, res) => {
       user,
     });
   } catch (error) {
-    console.log(
-      "Errror while Getting the Order Summary through the Order Management OrderId Clicking :" +
-        error
-    );
+    next(new AppError(error, 500));
   }
 };
 
-const updateOrderStatus = async (req, res) => {
+const updateOrderStatus = async (req, res, next) => {
   try {
     const orderId = req.body.orderId;
     const orderStatus = req.body.orderStatus;
@@ -207,11 +205,115 @@ const updateOrderStatus = async (req, res) => {
       res.status(404).send({ failed: true, error: "Order not found" });
     }
   } catch (error) {
-    console.log(
-      "Error while updating the status of the order from the admin order controller:" +
-        error
+    next(new AppError(error, 500));
+  }
+};
+
+const returnOrdersPage = async (req, res, next) => {
+  try {
+    let user;
+    if (req.session.adminLog) {
+      user = await adminCollection.findOne({ _id: req.session.adminUser._id });
+    } else {
+      user = {};
+    }
+
+    const page = Number(req.query.page) || 1;
+    const limit = 9;
+    const skip = (page - 1) * limit;
+
+    const orders = await orderCollection
+      .find({ cartData: { $elemMatch: { productStatus: "Requested Return" } } })
+      .populate("userId")
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const ordersDet = await orderCollection.aggregate([
+      { $unwind: "$cartData" },
+      { $match: { "cartData.productStatus": "Requested Return" } },
+      { $sort: { _id: -1 } },
+      { $skip: skip },
+      { $limit: limit },
+      { $project: { _id: 1, cartData: 1, userId: "$userId", orderDate: 1 } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      { $unwind: "$user" },
+      { $unwind: "$cartData" },
+      {
+        $lookup: {
+          from: "products",
+          localField: "cartData.productId",
+          foreignField: "_id",
+          as: "cartData.product",
+        },
+      },
+      { $unwind: "$cartData.product" },
+    ]);
+
+    let pages;
+
+    await orderCollection
+      .countDocuments()
+      .then((count) => {
+        pages = count;
+      })
+      .catch((err) => console.log("Error while counting the docment" + err));
+
+    res.render("adminViews/returnedOrders", {
+      orders: orders,
+      ordersDet,
+      page: page,
+      pages: Math.ceil(pages / limit),
+      user: user,
+    });
+  } catch (error) {
+    next(new AppError(error, 500));
+  }
+};
+
+const orderReturnApproval = async (req, res, next) => {
+  try {
+    const orderId = req.body.orderId;
+    const cartId = req.body.cartProdId;
+    const approval = req.body.orderStatus;
+    const cartIdObject = new mongoose.Types.ObjectId(cartId);
+
+    const orderDet = await orderCollection.findOne({
+      _id: orderId,
+      "cartData._id": cartIdObject,
+    });
+    const matchedCartData = orderDet.cartData.find((cartItem) =>
+      cartItem._id.equals(cartIdObject)
     );
-    res.status(500).send({ message: "Error updating order status" });
+    const productQuantity = matchedCartData.productQuantity;
+    const productId = matchedCartData.productId;
+
+    const result = await orderCollection.findOneAndUpdate(
+      {
+        _id: orderId,
+        "cartData._id": cartIdObject,
+      },
+      {
+        $set: {
+          "cartData.$.productStatus": approval,
+        },
+      }
+    );
+    if (result) {
+      const quantityInc = await productCollection.findByIdAndUpdate(productId, {
+        $inc: { productStock: productQuantity },
+      });
+      res.send({ success: true });
+    }
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
 
@@ -219,4 +321,6 @@ module.exports = {
   orderListPage,
   orderSummaryDetails,
   updateOrderStatus,
+  returnOrdersPage,
+  orderReturnApproval,
 };

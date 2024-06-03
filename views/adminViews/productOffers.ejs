@@ -21,12 +21,12 @@
     <meta name="twitter:description" content="Description website">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
     <!-- Css -->
-    <link href="assets/css/plugins/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/fonts/font-awesome.min.css" rel="stylesheet">
-    <link href="assets/css/plugins/magnific-popup.css" rel="stylesheet">
-    <link href="assets/css/plugins/slick.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/responsive.css" rel="stylesheet">
+    <link href="/assets/css/plugins/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/fonts/font-awesome.min.css" rel="stylesheet">
+    <link href="/assets/css/plugins/magnific-popup.css" rel="stylesheet">
+    <link href="/assets/css/plugins/slick.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/responsive.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/img/favicon.png">
@@ -175,15 +175,39 @@
             height: auto;
             margin-right: 10px;
         }
+
+        #user .iconx {
+            background-color: #604220;
+            color: #ffffff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            margin: 0 auto;
+            /* Center the icon horizontally */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition:
+                background-color 0.7s ease,
+                color 0.7s ease,
+                transform 0.7s ease,
+                width 0.7s ease,
+                height 0.7s ease,
+                font-size 0.7s ease;
+        }
+
+        #user:hover .iconx {
+            background-color: #C7A379;
+            color: #ffffff;
+            transform: scale(1.6);
+            /* No margin change to prevent layout shift */
+        }
     </style>
 </head>
 
 <body>
-    <!-- Preloader Start -->
-    <div class="preloader">
-        <img src="assets/images/preloader.svg" alt="preloader">
-    </div>
-    <!-- Preloader End -->
+
     <!-- Header Start -->
     <header class="header">
         <!-- Topbar -->
@@ -277,24 +301,65 @@
                                     <span class="navbar-toggler-icon"></span>
                                 </button>
                                 <div class="collapse navbar-collapse" id="navbarNav">
-                                    <ul class="navbar-nav w-100 d-flex flex-column align-items-start">
+                                    <ul class="navbar-nav w-100 d-flex flex-column">
                                         <li class="nav-item my-3 fs-5">
                                             <a class="nav-link" href="/adimDashBoard">Home</a>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/usersList">User Management</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/admin/userManagement/usersList">User
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-users"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/productList">Product Management</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/admin/productManagement/productList">Product
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-box-open"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/categoryList">Category Management</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link"
+                                                    href="/admin/categoryManagement/categoryList">Category
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-list"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/orderList">Order Management</a>
+                                            <div class="d-flex" id="user">
+
+                                                <a class="nav-link" href="/admin/orderManagement/orderList">Order
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-shopping-cart"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="#">Sales Report</a>
+                                            <div class="d-flex" id="user">
+
+                                                <a class="nav-link" href="/admin/couponManagement/coupons">Coupon
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-ticket"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/admin/salesReport">Sales Report</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-chart-line"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
                                             <a class="nav-link" href="#">Banner Management</a>
@@ -342,7 +407,7 @@
                                                         <% for(let i=0; i<productDet.length; i++){ %>
                                                             <div class="select-item"
                                                                 data-value="<%=productDet[i]._id%>">
-                                                                <img src="assets/uploadimages/uploads/<%=productDet[i].productImage[0]%>"
+                                                                <img src="/assets/uploadimages/uploads/<%=productDet[i].productImage[0]%>"
                                                                     alt="<%=productDet[i].productName%>"
                                                                     class="product-image">
                                                                 <%=productDet[i].productName%>
@@ -424,7 +489,7 @@
                                                             <div class="d-flex w-100 justify-content-start align-items-center flex-wrap"
                                                                 style="padding-left: 10px;">
                                                                 <div style="margin-right: 20px;">
-                                                                    <img src="assets/uploadimages/uploads/<%=productOfferData[i].productId.productImage[0]%>"
+                                                                    <img src="/assets/uploadimages/uploads/<%=productOfferData[i].productId.productImage[0]%>"
                                                                         style="height: 60px; width: 60px; border-radius: 0;">
                                                                 </div>
                                                                 <div>
@@ -622,7 +687,7 @@
                                                     showConfirmButton: true,
                                                 }).then((result) => {
                                                     if (result.isConfirmed) {
-                                                        window.location.href = "/product-offers-page" // Reload the page after user confirms
+                                                        window.location.href = "/admin/productManagement/product-offers-page" // Reload the page after user confirms
                                                     }
                                                 });
                                             } else {
@@ -773,7 +838,7 @@
                             showConfirmButton: true,
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                window.location.href = "/product-offers-page" // Reload the page after user confirms
+                                window.location.href = "/admin/productManagement/product-offers-page" // Reload the page after user confirms
                             }
                         })
                     } else {

@@ -4,7 +4,7 @@ const productCollection = require("../models/productModel");
 const cartCollection = require("../models/cartModel");
 const wishListCollection = require("../models/wishListModel");
 const walletCollection = require("../models/walletModel");
-
+const AppError = require("../middlewares/errorHandling");
 const bcrypt = require("bcrypt");
 
 const {
@@ -24,7 +24,7 @@ const { ObjectId } = require("mongodb");
 //   secureProtocol: "TLSv1_2_method", // Specify the TLS version here
 // });
 
-const landingPage = async (req, res) => {
+const landingPage = async (req, res, next) => {
   try {
     if (req.session.logged) {
       const email = req.session.currentUser.email;
@@ -34,11 +34,11 @@ const landingPage = async (req, res) => {
       res.render("userViews/home", { user: null });
     }
   } catch (error) {
-    console.log("Error While Rendering the Home Page" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const googleUser = async (req, res) => {
+const googleUser = async (req, res, next) => {
   try {
     const referralCode = crypto.randomBytes(10).toString("hex");
     const user = await userCollection.findOneAndUpdate(
@@ -58,13 +58,11 @@ const googleUser = async (req, res) => {
       res.redirect("/");
     }
   } catch (error) {
-    console.log(
-      "Error while getting the Informations from the google authenticate user:"
-    );
+    next(new AppError(error, 500));
   }
 };
 
-const signUpPage = (req, res) => {
+const signUpPage = (req, res, next) => {
   try {
     if (req.session.logged) {
       res.redirect("/");
@@ -86,11 +84,11 @@ const signUpPage = (req, res) => {
       req.session.save();
     }
   } catch (error) {
-    console.log("Error in showing Signup page" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const loginPage = (req, res) => {
+const loginPage = (req, res, next) => {
   try {
     if (req.session.logged) {
       res.redirect("/");
@@ -103,10 +101,10 @@ const loginPage = (req, res) => {
     req.session.invalidCredentials = false;
     req.session.save();
   } catch (error) {
-    console.log("Error in Viewing the Login Page" + error);
+    next(new AppError(error, 500));
   }
 };
-const signUpSubmit = async (req, res) => {
+const signUpSubmit = async (req, res, next) => {
   try {
     const {
       username,
@@ -149,11 +147,11 @@ const signUpSubmit = async (req, res) => {
       res.redirect("/sendOTP");
     }
   } catch (err) {
-    console.log(`Error in SignUp Registering : ${err}`);
+    next(new AppError(error, 500));
   }
 };
 
-const loginSubmit = async (req, res) => {
+const loginSubmit = async (req, res, next) => {
   try {
     let exisitingUser = await userCollection.findOne({
       email: req.body.email,
@@ -180,11 +178,11 @@ const loginSubmit = async (req, res) => {
       res.redirect("/logIn");
     }
   } catch (error) {
-    console.error(error);
+    next(new AppError(error, 500));
   }
 };
 
-const forgetPasswordPage = (req, res) => {
+const forgetPasswordPage = (req, res, next) => {
   try {
     if (req.session.logged) {
       res.redirect("/");
@@ -196,11 +194,11 @@ const forgetPasswordPage = (req, res) => {
     }
     req.session.invalidCredentials = false;
   } catch (error) {
-    console.log("Error in Viewing the Login Page" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const forgetEmailSubmit = async (req, res) => {
+const forgetEmailSubmit = async (req, res, next) => {
   try {
     let exisitingUser = await userCollection.findOne({
       email: req.body.email,
@@ -215,7 +213,7 @@ const forgetEmailSubmit = async (req, res) => {
       res.redirect("/forget-password");
     }
   } catch (error) {
-    console.log("Error while submitting form the forget email page" + error);
+    next(new AppError(error, 500));
   }
 };
 // const produects = async (req, res) => {
@@ -230,7 +228,7 @@ const forgetEmailSubmit = async (req, res) => {
 //   }
 // };
 
-const products = async (req, res) => {
+const products = async (req, res, next) => {
   let user;
   let wishListDet;
   if (req.session.logged) {
@@ -289,11 +287,11 @@ const products = async (req, res) => {
     });
   } catch (error) {
     // res.status(500).send(error);
-    console.log(error);
+    next(new AppError(error, 500));
   }
 };
 
-const productDetail = async (req, res) => {
+const productDetail = async (req, res, next) => {
   try {
     let user;
     if (req.session.logged) {
@@ -328,7 +326,7 @@ const productDetail = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log("Error while showing the Product Detail" + error);
+    next(new AppError(error, 500));
   }
 };
 
@@ -342,7 +340,7 @@ const filterProduct = async (req, res) => {
   }
 };
 
-const shopSort = async (req, res) => {
+const shopSort = async (req, res, next) => {
   let user;
   if (req.session.logged) {
     const email = req.session.currentUser.email;
@@ -429,22 +427,21 @@ const shopSort = async (req, res) => {
       queryFilters,
     });
   } catch (err) {
-    console.log(err);
-    res.status(500).send({ success: false, error: "Internal Server Error" });
+    next(new AppError(error, 500));
   }
 };
 
-const logout = (req, res) => {
+const logout = (req, res, next) => {
   try {
     req.session.logged = false;
     req.session.currentUser = false;
     res.redirect("/");
   } catch (err) {
-    console.log(err);
+    next(new AppError(error, 500));
   }
 };
 
-const removeWishList = async (req, res) => {
+const removeWishList = async (req, res, next) => {
   try {
     const productId = req.query.productId;
     const userId = req.session.currentUser._id;
@@ -456,11 +453,11 @@ const removeWishList = async (req, res) => {
       res.send({ success: true });
     }
   } catch (error) {
-    console.log("Error while remove the product from the wish list  :" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const wishListing = async (req, res) => {
+const wishListing = async (req, res, next) => {
   try {
     if (req.session.currentUser) {
       const wish = {
@@ -476,11 +473,11 @@ const wishListing = async (req, res) => {
       res.send({ notUser: true });
     }
   } catch (error) {
-    console.log("Error while adding the product to the wish list " + error);
+    next(new AppError(error, 500));
   }
 };
 
-const wishListPage = async (req, res) => {
+const wishListPage = async (req, res, next) => {
   try {
     let user = req.session.logged
       ? await userCollection.findOne({ email: req.session.currentUser.email })
@@ -494,11 +491,11 @@ const wishListPage = async (req, res) => {
 
     res.render("userViews/wishList", { user: user, Products: wishListed });
   } catch (error) {
-    console.log("Error while showing the Wish List Page :" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const walletPage = async (req, res) => {
+const walletPage = async (req, res, next) => {
   try {
     user = await userCollection.findOne({
       email: req.session.currentUser.email,
@@ -527,9 +524,7 @@ const walletPage = async (req, res) => {
       pages: Math.ceil(pages / limit),
     });
   } catch (error) {
-    console.log(
-      "Error while rendering the wallet page in the user side :" + error
-    );
+    next(new AppError(error, 500));
   }
 };
 

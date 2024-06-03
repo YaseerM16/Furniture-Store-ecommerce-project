@@ -510,93 +510,123 @@
                         <h3 class="title">Cart</h3>
                         <p class="text">Lorem ipsum dolor sit amet, consectetur.</p>
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="table-responsive cart_table">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th class="remove-item"></th>
-                                            <th>Product</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        <% for(let i=0;i<cartProducts.length;i++){ %>
-                                            <tr>
-                                                <td class="remove">
-                                                    <button class="remove-from-cart"
-                                                        onclick="removeFromCart('<%=cartProducts[i].productId._id%>','<%=cartProducts[i].userId%>')"
-                                                        type="button">
-                                                        <span></span>
-                                                        <span></span>
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <div class="cart_product">
-                                                        <img src="assets/uploadimages/uploads/<%=cartProducts[i].productId.productImage[0]%>"
-                                                            class="image-fit-contain" alt="img">
-                                                        <div class="cart_product_text">
-                                                            <h6 class="title">
-                                                                <a href="shop-details.html">
-                                                                    <%= cartProducts[i].productId.productName %>
-                                                                </a>
-                                                            </h6>
-                                                            <p class="mb-0">1pc</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <strong>₹&nbsp;<%= cartProducts[i].productId.productPrice %>
-                                                    </strong>
-                                                </td>
-                                                <td class="product_block product_details">
-                                                    <div class="product_action">
-                                                        <div class="quantity m-0">
-                                                            <button class="btn qty-mins"
-                                                                onclick="cartQuantityUpdate('minus','<%= cartProducts[i].productId._id %>','<%= i %>')"
-                                                                index="<%= i %>" type="button"><i
-                                                                    class="fal fa-minus"></i></button>
-                                                            <input type="text" class="dataClass"
-                                                                id="productQuantity<%= cartProducts[i].productId._id %>"
-                                                                data-pid="<%= cartProducts[i].productId._id %>"
-                                                                value="<%= cartProducts[i].productQuantity %>"
-                                                                index="<%= i %>" autocomplete="off" disabled>
-                                                            <button class="btn qty-add"
-                                                                onclick="cartQuantityUpdate('plus','<%= cartProducts[i].productId._id %>','<%= i %>')">
-                                                                <i class="fal fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <strong>₹</strong>&nbsp;<strong
-                                                        id="totalCostPerProduct<%= cartProducts[i].productId._id %>"></strong>
-                                                </td>
-                                            </tr>
-                                            <% } %>
-                                    </tbody>
-                                </table>
-                            </div>
+                    <% if (outOfStockItems && outOfStockItems.length> 0) { %>
+                        <div class="alert alert-warning">
+                            <h5>Some items have been updated due to insufficient stock:</h5>
+                            <ul>
+                                <% outOfStockItems.forEach(item=> { %>
+                                    <li>
+                                        <%= item.productName %>: Requested <%= item.requestedQuantity %>, Available <%=
+                                                    item.availableQuantity %>
+                                    </li>
+                                    <% }) %>
+                            </ul>
                         </div>
+                        <% } %>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-responsive cart_table">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="remove-item"></th>
+                                                    <th>Product</th>
+                                                    <th>Price</th>
+                                                    <th>Quantity</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
-                        <div class="col-lg-5">
-                            <div class="sidebar mb-xl-30">
-                                <div class="input-group">
-                                    <input type="text" name="#" class="form-control form-control-custom"
-                                        placeholder="Enter Coupon Code" autocomplete="off" required="">
-                                    <div class="input-group-append with_text">
-                                        <button type="submit">
-                                            Apply
-                                        </button>
+                                                <% for(let i=0;i<cartProducts.length;i++){ %>
+                                                    <tr>
+                                                        <td class="remove">
+                                                            <button class="remove-from-cart"
+                                                                onclick="removeFromCart('<%=cartProducts[i].productId._id%>','<%=cartProducts[i].userId%>')"
+                                                                type="button">
+                                                                <span></span>
+                                                                <span></span>
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <div class="cart_product">
+                                                                <img src="assets/uploadimages/uploads/<%=cartProducts[i].productId.productImage[0]%>"
+                                                                    class="image-fit-contain" alt="img">
+                                                                <div class="cart_product_text">
+                                                                    <h6 class="title">
+                                                                        <a href="shop-details.html">
+                                                                            <%= cartProducts[i].productId.productName %>
+                                                                        </a>
+                                                                    </h6>
+                                                                    <p class="mb-0">1pc</p>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <strong>₹&nbsp;<%= cartProducts[i].productId.productPrice %>
+                                                            </strong>
+                                                        </td>
+                                                        <% if (cartProducts[i].productQuantity>
+                                                            cartProducts[i].productId.productStock)
+                                                            { %>
+                                                            <td class="product_block product_details">
+                                                                <div class="product_action">
+                                                                    <div
+                                                                        class="m-3 py-1 rounded text-center bg-danger-subtle">
+                                                                        <strong class="text-danger">
+                                                                            Out of Stock!!</strong>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>unavailable</td>
+                                                            <% } else { %>
+
+                                                                <td class="product_block product_details">
+                                                                    <div class="product_action">
+                                                                        <div class="quantity m-0">
+                                                                            <button class="btn qty-mins"
+                                                                                onclick="cartQuantityUpdate('minus','<%= cartProducts[i].productId._id %>','<%= i %>')"
+                                                                                index="<%= i %>" type="button"><i
+                                                                                    class="fal fa-minus"></i></button>
+                                                                            <input type="text" class="dataClass"
+                                                                                id="productQuantity<%= cartProducts[i].productId._id %>"
+                                                                                data-pid="<%= cartProducts[i].productId._id %>"
+                                                                                value="<%= cartProducts[i].productQuantity %>"
+                                                                                index="<%= i %>" autocomplete="off"
+                                                                                disabled>
+                                                                            <button class="btn qty-add"
+                                                                                onclick="cartQuantityUpdate('plus','<%= cartProducts[i].productId._id %>','<%= i %>')">
+                                                                                <i class="fal fa-plus"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <strong>₹</strong>&nbsp;<strong
+                                                                        id="totalCostPerProduct<%= cartProducts[i].productId._id %>"></strong>
+                                                                </td>
+                                                                <% } %>
+                                                    </tr>
+                                                    <% } %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-5">
+                                    <div class="sidebar mb-xl-30">
+                                        <div class="input-group">
+                                            <input type="text" name="#" class="form-control form-control-custom"
+                                                placeholder="Enter Coupon Code" autocomplete="off" required="">
+                                            <div class="input-group-append with_text">
+                                                <button type="submit">
+                                                    Apply
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
                 </div>
             </section>
             <!-- Section End -->
@@ -853,6 +883,7 @@
     <script>
         const cartProducts = '<%- JSON.stringify(cartProducts) %>'
         const cartPdArr = JSON.parse(cartProducts)
+        console.log(cartPdArr);
         // const presentQty = cartPdArr[0].productQuantity
 
         // console.log(presentQty);

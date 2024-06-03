@@ -842,25 +842,27 @@
                 if (radio.checked) {
                     const val = radio.id;
                     const filterType = radio.name;
-                    console.log(radio.id);
                     selectedFilters[filterType] = val;
                 }
             });
 
-            const selectedFiltersArray = Object.entries(selectedFilters).map(([key, value]) => value);
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('bySearch');
 
-            // const filterBy = applyFiltersButton.dataset.filterBy;
-            // selectedFilters.filterBy = filterBy;
+            let url = `/filterProduct?`;
 
+            if (searchQuery) {
+                url += `bySearch=${searchQuery}&`;
+            }
 
             Object.keys(selectedFilters).forEach((filterType, index) => {
                 url += `${filterType}=${selectedFilters[filterType]}${index < Object.keys(selectedFilters).length - 1 ? '&' : ''}`;
             });
+
             console.log(url);
-            // window.location.href = url
+            window.location.href = url;
             console.log("Heolloe");
         });
-
         removeFiltersButton.addEventListener('click', () => {
             window.location.href = '/filterProduct';
             console.log('Filters removed');
@@ -879,15 +881,24 @@
 
 
 
+        let urlSearch = url; // store the current URL
+
         function redirectToSearch(event) {
             event.preventDefault();
-            const urlParams = new URLSearchParams(window.location.search);
             const searchQuery = document.querySelector('input[name="searchQuery"]').value;
-            urlParams.append('bySearch', searchQuery);
-            console.log(searchQuery);
-            url += `bySearch=${searchQuery}`
-            window.location.href = url
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('bySearch', searchQuery); // update the query string
+            const newUrl = `${urlSearch.split('?')[0]}?${urlParams.toString()}`;
+            console.log(newUrl); // reconstruct the URL
+            window.location.href = newUrl;
         }
+        window.addEventListener('load', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('bySearch');
+            if (searchQuery) {
+                document.querySelector('input[name="searchQuery"]').value = searchQuery;
+            }
+        });
 
         const whisListIcons = document.querySelectorAll('.whisListIcon')
 

@@ -1,8 +1,9 @@
 const adminCollection = require("../models/adminModel");
 const couponCollection = require("../models/couponModel");
 const crypto = require("crypto");
+const AppError = require("../middlewares/errorHandling");
 
-const couponsPage = async (req, res) => {
+const couponsPage = async (req, res, next) => {
   try {
     let user = await adminCollection.findOne({
       _id: req.session.adminUser._id,
@@ -19,11 +20,11 @@ const couponsPage = async (req, res) => {
       coupons,
     });
   } catch (error) {
-    console.log("Error While list the coupons in the admin side :" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const addCoupon = async (req, res) => {
+const addCoupon = async (req, res, next) => {
   try {
     let existingCoupon = await couponCollection.findOne({
       couponCode: { $regex: new RegExp(req.body.couponCode, "i") },
@@ -58,11 +59,11 @@ const addCoupon = async (req, res) => {
       res.send({ couponCodeExists: true });
     }
   } catch (error) {
-    console.error(error);
+    next(new AppError(error, 500));
   }
 };
 
-const editCoupon = async (req, res) => {
+const editCoupon = async (req, res, next) => {
   try {
     let existCoupon = await couponCollection.findOne({
       _id: req.body.couponId,
@@ -85,11 +86,11 @@ const editCoupon = async (req, res) => {
       res.json({ couponEdited: true });
     }
   } catch (error) {
-    console.error(error);
+    next(new AppError(error, 500));
   }
 };
 
-const deleteCounpon = async (req, res) => {
+const deleteCounpon = async (req, res, next) => {
   try {
     const deleteCoupon = await couponCollection.findByIdAndUpdate(
       req.query.couponID,
@@ -106,7 +107,7 @@ const deleteCounpon = async (req, res) => {
       res.send({ couponNotFound: true });
     }
   } catch (error) {
-    console.log("Error while Delete the coupon in the admin side: " + error);
+    next(new AppError(error, 500));
   }
 };
 

@@ -3,17 +3,17 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Wuud - Furniture Store Website HTML5 Template | Order List</title>
+    <title>Wuud - Furniture Store Website HTML5 Template | Thank You</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Description website">
     <meta name="author" content="Maksym Blank">
     <meta name="keywords" content="website, with, meta, tags">
     <meta name="robots" content="noindex, follow">
     <meta name="revisit-after" content="5 month">
-    <meta name="image" content="../../../../mywebsite.com/image.html">
+    <meta name="image" content="http://mywebsite.com/image.jpg">
     <meta name="og:title" content="Title website">
     <meta name="og:description" content="Description website">
-    <meta name="og:image" content="../../../../mywebsite.com/image.html">
+    <meta name="og:image" content="http://mywebsite.com/image.jpg">
     <meta name="og:site_name" content="My Website">
     <meta name="og:type" content="website">
     <meta name="twitter:card" content="summary">
@@ -27,31 +27,6 @@
     <link href="assets/css/plugins/slick.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
-    <!-- google fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
-    <style>
-        #brand-name {
-            font-family: "Bungee Spice", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-            font-size: 30px;
-            background-color: #8a5d2a;
-        }
-
-        .actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .status,
-        .cancel,
-        .view {
-            margin: 0 10px;
-        }
-    </style>
 </head>
 
 <body>
@@ -68,9 +43,8 @@
                 <div class="inner">
                     <!-- Logo -->
                     <div class="logo">
-                        <a href="/">
-                            <div id="brand-name">&nbsp;Y-FURNS</div>
-                            <!-- <img src="assets/images/logo.png" class="image-fi" alt="logo" height="100px" width="100px"> -->
+                        <a href="index.html">
+                            <img src="assets/images/logo.png" class="image-fit" alt="logo">
                         </a>
                     </div>
                     <!-- Logo -->
@@ -112,45 +86,34 @@
                                 </a>
                             </li>
                             <li class="cart">
-                                <a href="/cartPage">
-                                    <span class="cart_value" style="color: white; background-color: #333;">1</span>
+                                <a href="cart.html">
+                                    <span class="cart_value">0</span>
                                     <i class="far fa-shopping-cart"></i>
                                     <div class="cart_text">
                                         My Cart
-                                        <!-- <span class="amount">$150.00</span> -->
+                                        <span class="amount">$150.00</span>
                                     </div>
                                 </a>
                             </li>
                             <li class="user">
-                                <% if (user) { %>
-                                    <a href="/userDetails">
-                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
-                                        <span>
-                                            <%= user.username %>
-                                        </span>
-                                    </a>
-                                    <ul class="sub-menu">
-                                        <li>
-                                            <a href="/userDetails">My Account</a>
-                                        </li>
-                                        <li>
-                                            <a href="/logout">Logout</a>
-                                        </li>
-                                    </ul>
-                                    <% } else { %>
-                                        <a href="account.html">
-                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
-                                            <span>New User</span>
-                                        </a>
-                                        <ul class="sub-menu">
-                                            <li>
-                                                <a href="/logIn">Login</a>
-                                            </li>
-                                            <li>
-                                                <a href="/signUp">SignUp</a>
-                                            </li>
-                                        </ul>
-                                        <% } %>
+                                <a href="account.html">
+                                    <img src="assets/images/header/user.jpg" class="image-fit" alt="img">
+                                    <span>Jhon Deo</span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a href="login.html">Login</a>
+                                    </li>
+                                    <li>
+                                        <a href="register.html">SignUp</a>
+                                    </li>
+                                    <li>
+                                        <a href="account.html">My Account</a>
+                                    </li>
+                                    <li>
+                                        <a href="login.html">Logout</a>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </div>
@@ -375,7 +338,7 @@
                     <div class="nav_inner">
                         <ul class="main-menu">
                             <li class="menu-item">
-                                <a href="index-2.html" class="active">Home</a>
+                                <a href="index.html" class="active">Home</a>
                             </li>
                             <li class="menu-item">
                                 <a href="about.html">About Us</a>
@@ -462,231 +425,24 @@
     </div>
     <!-- Category Nav End -->
     <!-- Section Start -->
-    <section class="order-list">
+    <div class="section">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-3 col-lg-4">
-                    <div class="account_sidebar section pb-0 h-100">
-                        <h4 class="title">My Account</h4>
-                        <ul>
-                            <li class="active">
-                                <a href="/userDetails">
-                                    <i class="fal fa-user"></i>
-                                    User Info
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/addressPage">
-                                    <i class="fal fa-book"></i>
-                                    Address
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/myOrdersPage">
-                                    <i class="fal fa-luggage-cart"></i>
-                                    Order
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/walletPage">
-                                    <i class="fas fa-wallet"></i>
-                                    Wallet
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/wishListPage">
-                                    <i class="fal fa-star"></i>
-                                    Wishlist
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fal fa-cog"></i>
-                                    Settings
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fal fa-bell"></i>
-                                    Notifications
-                                </a>
-                            </li>
-                            <li>
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <div class="error-page text-center">
+                        <div class="image mb-xl-30">
+                            <div class="alert alert-warning">
 
-                                <div class="row mt-3">
-                                    <input type="hidden" id="ReferalCode"
-                                        value="http://localhost:3000/signUp?referral=<%= user.referralCode %>" readonly>
-                                    <a onclick="copyReferralCode()"
-                                        style=" cursor: pointer; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; padding: 25px 50px;width: 280px;">
-                                        <b class="text-success fw-700">Click here to get the referral link</b>
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-9 col-lg-8">
-                    <div class="order_list_box sidebar">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="input-group">
-                                    <input type="text" name="#" class="form-control form-control-custom"
-                                        placeholder="Search keywords..." autocomplete="off" required>
-                                    <div class="input-group-append">
-                                        <button type="submit">
-                                            <i class="fal fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Item -->
-                            <!-- Order List -->
-                            <% for(let i=0;i<orders.length;i++){ %>
-                                <div class="col-12">
-                                    <div class="order_list_block">
-                                        <div class="image_info_box d-flex flex-column justify-content-around"
-                                            style="margin-bottom: 30px;">
-                                            <p class="mb-0 d-flex justify-content-center">Order Id</p>
-                                            <div class="info">
-                                                <h6 class="mb-0 name"><a
-                                                        href="/orderDetail?orderID=<%= orders[i]._id%>">
-                                                        <%= orders[i].orderId%>
-                                                    </a></h6>
-                                            </div>
-                                        </div>
-
-                                        <div class="order_info">
-                                            <p class="mb-0 d-flex justify-content-center">Payment method</p>
-                                            <div class="price" style="text-align: center;">
-                                                <%= orders[i].paymentType%>
-                                            </div>
-                                        </div>
-                                        <div class="order_info">
-                                            <p class="mb-0 d-flex justify-content-center">Status</p>
-                                            <div class="price">
-                                                <%= orders[i].orderStatus%>
-                                            </div>
-                                        </div>
-                                        <div class="order_info">
-                                            <p class="mb-0 d-flex justify-content-center">Amount</p>
-                                            <div class="price">
-                                                &#8377&nbsp;<%= orders[i].grandTotalCost%>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                                <% } %>
-                        </div>
-                        <!-- Item -->
-
-                        <!-- Item -->
-                        <div class="row">
-                            <div class="col-12">
-                                <!-- <nav>
-                                                                                            <ul class="pagination">
-                                                                                                <li class="page-item">
-                                                                                                    <a class="page-link" href="?page=<%= page - 1 %>"
-                                                                                                        aria-label="Previous">
-                                                                                                        <span aria-hidden="true">&laquo;</span>
-                                                                                                        <span class="sr-only">Previous</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                                <% for(let i=1; i <=pages; i++){ %>
-                                                                                                    <li class="page-item <%= page == i? 'active' : '' %>"><a
-                                                                                                            class="page-link" href="?page=<%= i %>">
-                                                                                                            <%= i %>
-                                                                                                        </a></li>
-                                                                                                    <% } %>
-                                                                                                        <li class="page-item">
-                                                                                                            <a class="page-link" href="?page=<%= page + 1 %>"
-                                                                                                                aria-label="Next">
-                                                                                                                <span aria-hidden="true">&raquo;</span>
-                                                                                                                <span class="sr-only">Next</span>
-                                                                                                            </a>
-                                                                                                        </li>
-                                                                                            </ul>
-                                                                                        </nav> -->
-                                <!-- <nav>
-                                                                                            <ul class="pagination">
-                                                                                                <li class="page-item">
-                                                                                                    <a class="page-link" href="#" aria-label="Previous">
-                                                                                                        <span aria-hidden="true">&laquo;</span>
-                                                                                                        <span class="sr-only">Previous</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                                                                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                                                                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                                                                <li class="page-item">
-                                                                                                    <a class="page-link" href="#" aria-label="Next">
-                                                                                                        <span aria-hidden="true">&raquo;</span>
-                                                                                                        <span class="sr-only">Next</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                
-                                                                                            </ul>
-                                                
-                                                                                        </nav>
-                                                                                        <nav>
-                                                                                            <ul class="pagination">
-                                                                                                <li class="page-item">
-                                                                                                    <a class="page-link" href="?page=<%= page - 1 %>"
-                                                                                                        aria-label="Previous">
-                                                                                                        <span aria-hidden="true">&laquo;</span>
-                                                                                                        <span class="sr-only">Previous</span>
-                                                                                                    </a>
-                                                                                                </li>
-                                                                                                <% for(let i=1; i <=pages; i++){ %>
-                                                                                                    <li class="page-item <%= page == i? 'active' : '' %>"><a
-                                                                                                            class="page-link" href="?page=<%= i %>">
-                                                                                                            <%= i %>
-                                                                                                        </a></li>
-                                                                                                    <% } %>
-                                                                                                        <li class="page-item">
-                                                                                                            <a class="page-link" href="?page=<%= page + 1 %>"
-                                                                                                                aria-label="Next">
-                                                                                                                <span aria-hidden="true">&raquo;</span>
-                                                                                                                <span class="sr-only">Next</span>
-                                                                                                            </a>
-                                                                                                        </li>
-                                                                                            </ul>
-                                                                                        </nav> -->
-                                <nav>
-                                    <ul class="pagination">
-                                        <li class="page-item">
-                                            <a class="page-link" href="?page=<%= page - 1 %>" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                        </li>
-                                        <% for(let i=1; i <=pages; i++){ %>
-                                            <li class="page-item <%= page == i? 'active' : '' %>"><a class="page-link"
-                                                    href="?page=<%= i %>">
-                                                    <%= i %>
-                                                </a></li>
-                                            <!-- <% if(i < pages){ %> -->
-                                            <!-- <li class="page-item disabled"><a class="page-link"
-                                                                                                                href="#">&hellip;</a></li>
-                                                                                                        <% } %> -->
-                                            <% } %>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?page=<%= page + 1 %>" aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
-                                                        <span class="sr-only">Next</span>
-                                                    </a>
-                                                </li>
-                                    </ul>
-                                </nav>
+                                <h1>Payment Failed!!!</h1>
                             </div>
                         </div>
+                        <h4>You can Continue the payment Later from your "orders" page</h4>
+                        <a href="/userDetails" class="thm-btn btn-rounded thm-bg-color-one">My Account</a>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
-    </section>
+    </div>
     <!-- Section End -->
     <!-- Footer Start -->
     <footer class="footer section-padding border-top">
@@ -745,7 +501,7 @@
                         <h6 class="ft_title">Useful Links</h6>
                         <ul class="ft_menu">
                             <li>
-                                <a href="index-2.html">Home</a>
+                                <a href="index.html">Home</a>
                             </li>
                             <li>
                                 <a href="contact.html">Contact</a>
@@ -828,12 +584,6 @@
     </div>
     <!-- Copyright End -->
     <!-- Scripts -->
-    <script>
-        const orders = '<%- JSON.stringify(orders) %>'
-        const parsedOrders = JSON.parse(orders)
-
-
-    </script>
     <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
     <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="assets/js/plugins/slick.min.js"></script>

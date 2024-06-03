@@ -4,8 +4,9 @@ const productOfferCollection = require("../models/productOfferModel");
 const categoryCollection = require("../models/categoryModel");
 const categoryOffercollection = require("../models/categoryOfferModel");
 const { applyProductOffer, formatDate } = require("../helpers/helper");
+const AppError = require("../middlewares/errorHandling");
 
-const productOfferPage = async (req, res) => {
+const productOfferPage = async (req, res, next) => {
   try {
     let user = await adminCollection.findOne({
       _id: req.session.adminUser._id,
@@ -44,11 +45,11 @@ const productOfferPage = async (req, res) => {
       user: user,
     });
   } catch (error) {
-    console.log("Error while showing the Product Offer page :" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const addProductOffer = async (req, res) => {
+const addProductOffer = async (req, res, next) => {
   try {
     //check if the product already has an offer applied
     let { productName } = req.body;
@@ -77,11 +78,11 @@ const addProductOffer = async (req, res) => {
       res.send({ success: false });
     }
   } catch (error) {
-    console.error(error);
+    next(new AppError(error, 500));
   }
 };
 
-const editProductOffer = async (req, res) => {
+const editProductOffer = async (req, res, next) => {
   try {
     let { productName } = req.body;
     let existingOffer = await productOfferCollection.findOne({
@@ -111,13 +112,13 @@ const editProductOffer = async (req, res) => {
       res.send({ success: false });
     }
   } catch (error) {
-    console.error(error);
+    next(new AppError(error, 500));
   }
 };
 
 //////// CATEGORY OFFER ////////
 
-const categoryOffersPage = async (req, res) => {
+const categoryOffersPage = async (req, res, next) => {
   try {
     let user = await adminCollection.findOne({
       _id: req.session.adminUser._id,
@@ -162,13 +163,11 @@ const categoryOffersPage = async (req, res) => {
       user: user,
     });
   } catch (error) {
-    console.log(
-      "Error while showing the categort offers page in admin side :" + error
-    );
+    next(new AppError(error, 500));
   }
 };
 
-const addCategoryOffer = async (req, res) => {
+const addCategoryOffer = async (req, res, next) => {
   try {
     // let productData = await productCollection.find().populate("parentCategory");
     // let productsUnderSelectedCategory = productData.filter(
@@ -260,11 +259,11 @@ const addCategoryOffer = async (req, res) => {
 
     // res.json({ success: true });
   } catch (error) {
-    console.error(error);
+    next(new AppError(error, 500));
   }
 };
 
-const editCategoryOffer = async (req, res) => {
+const editCategoryOffer = async (req, res, next) => {
   try {
     const { categoryName, categoryOfferPercentage, startDate, endDate } =
       req.body;
@@ -291,10 +290,7 @@ const editCategoryOffer = async (req, res) => {
       res.send({ success: false });
     }
   } catch (error) {
-    console.log(
-      "Error while edit the category offer which has alredy have a offer: " +
-        error
-    );
+    next(new AppError(error, 500));
   }
 };
 

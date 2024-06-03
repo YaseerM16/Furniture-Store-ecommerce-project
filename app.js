@@ -8,6 +8,7 @@ const dbConnect = require("./config/config");
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const passport = require("passport");
+
 dbConnect();
 
 app.use(nocache());
@@ -25,5 +26,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(userRoutes);
 app.use(adminRoutes);
 app.use("/admin", adminRoutes);
+app.use("/admin", express.static("public/admin"));
 
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const status = err.status || "error";
+  res.status(statusCode).render("userViews/errorHandlingPage", {
+    statusCode,
+    status,
+    message: err.message,
+  });
+});
 app.listen(port, () => console.log(`app listening on port ${port}!`));

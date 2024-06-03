@@ -21,12 +21,17 @@
     <meta name="twitter:description" content="Description website">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
     <!-- Css -->
-    <link href="assets/css/plugins/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/fonts/font-awesome.min.css" rel="stylesheet">
-    <link href="assets/css/plugins/magnific-popup.css" rel="stylesheet">
-    <link href="assets/css/plugins/slick.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/responsive.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link href="/assets/css/plugins/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/fonts/font-awesome.min.css" rel="stylesheet">
+    <link href="/assets/css/plugins/magnific-popup.css" rel="stylesheet">
+    <link href="/assets/css/plugins/slick.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/responsive.css" rel="stylesheet">
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -140,15 +145,44 @@
                 margin-left: 10px;
             }
         }
+
+        #user .iconx {
+            background-color: #604220;
+            color: #ffffff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            margin: 0 auto;
+            /* Center the icon horizontally */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition:
+                background-color 0.7s ease,
+                color 0.7s ease,
+                transform 0.7s ease,
+                width 0.7s ease,
+                height 0.7s ease,
+                font-size 0.7s ease;
+        }
+
+        #user:hover .iconx {
+            background-color: #C7A379;
+            color: #ffffff;
+            transform: scale(1.6);
+            /* No margin change to prevent layout shift */
+        }
+
+        .header .topbar .inner {
+            height: 100px;
+        }
     </style>
 </head>
 
 <body>
     <!-- Preloader Start -->
-    <div class="preloader">
-        <img src="assets/images/preloader.svg" alt="preloader">
-    </div>
-    <!-- Preloader End -->
+
     <!-- Header Start -->
     <header class="header">
         <!-- Topbar -->
@@ -243,24 +277,55 @@
                                     <span class="navbar-toggler-icon"></span>
                                 </button>
                                 <div class="collapse navbar-collapse" id="navbarNav">
-                                    <ul class="navbar-nav w-100 d-flex flex-column align-items-start">
+                                    <ul class="navbar-nav w-100 d-flex flex-column">
                                         <li class="nav-item my-3 fs-5">
                                             <a class="nav-link" href="/adimDashBoard">Home</a>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/usersList">User Management</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/admin/userManagement/usersList">User
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-users"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/productList">Product Management</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/admin/productManagement/productList">Product
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-box-open"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/categoryList">Category Management</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link"
+                                                    href="/admin/categoryManagement/categoryList">Category
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-list"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/orderList">Order Management</a>
+                                            <div class="d-flex" id="user">
+
+                                                <a class="nav-link" href="/admin/orderManagement/orderList">Order
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-shopping-cart"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="#">Sales Report</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/admin/salesReport">Sales Report</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-chart-line"></i>
+                                                </div>
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
                                             <a class="nav-link" href="#">Banner Management</a>
@@ -367,7 +432,7 @@
                                                 <tr>
                                                     <td rowspan="<%= order.cartData.length %>"
                                                         style="text-align: center;">
-                                                        <%= order._id %>
+                                                        <%= order.orderId %>
                                                     </td>
                                                     <td rowspan="<%= order.cartData.length %>"
                                                         style="text-align: center;">
@@ -444,6 +509,12 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+
+                    <div>
+                        <h5>
+                            Overall sales Count : <%= Sreports.length %>
+                        </h5>
                     </div>
                     <!-- Section End -->
                     <!-- Footer Start -->
@@ -529,6 +600,12 @@
                 if (data.success) {
                     window.location.reload()
                     // Check if the response is successful
+                }
+                if (data.dateInvalid) {
+                    await Swal.fire({
+                        icon: "error",
+                        title: "Invalid Date Filters",
+                    });
                 }
                 // Handle the response data
 

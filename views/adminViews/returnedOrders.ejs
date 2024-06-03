@@ -185,7 +185,11 @@
 </head>
 
 <body>
-
+    <!-- Preloader Start -->
+    <!-- <div class="preloader">
+        <img src="assets/images/preloader.svg" alt="preloader">
+    </div> -->
+    <!-- Preloader End -->
     <!-- Header Start -->
     <header class="header">
         <!-- Topbar -->
@@ -360,63 +364,112 @@
                                         <!-- <div class="d-flex justify-content-between">
                                         </div> -->
                                         <div class="section-header">
-                                            <h3 class="title">Orders List</h3>
+                                            <h3 class="title">Return Requests</h3>
                                         </div>
-                                        <div>
-                                            <a href="/admin/orderManagement/returnedOrders">
-                                                <h3 class="title product-offers-button"
-                                                    style="width: 250px; height: 50px;">
-                                                    Return
-                                                    Requests</h3>
-                                            </a>
-                                        </div>
-                                        <!-- <div style="padding: 0 30px 0 0;margin: 0; width: 300px;height: 100px;">
-                                            <button class="title flex-end product-offers-button">
-                                                <h3>Product Offer
-                                                    Management</h3>
-                                            </button>
-                                        </div> -->
+
                                     </div>
                                 </div>
-                                <% for(let i=0;i<orders.length;i++){ %>
-                                    <div class="order_list_block">
-                                        <div class="image_info_box d-flex flex-column justify-content-around"
-                                            style="margin-bottom: 30px;">
-                                            <p class="mb-0 d-flex justify-content-center">Order Id</p>
-                                            <div class="info">
-                                                <h6 class="mb-0 name"><a
-                                                        href="/admin/orderManagement/orderSummary?orderID=<%= orders[i]._id%>">
-                                                        <%= orders[i].orderId%>
-                                                    </a></h6>
+                                <% for(let i=0;i<ordersDet.length;i++){ %>
+                                    <div class="col-12">
+
+                                        <div class="order_list_block">
+                                            <div class="image_info_box d-flex flex-column justify-content-center">
+                                                <a href="#">
+                                                    <img src="/assets/uploadimages/uploads/<%=ordersDet[i].cartData.product.productImage[i]%>"
+                                                        class="image-fit-contain" alt="img" style="margin-right: 0">
+                                                </a>
+                                                <div class="info">
+                                                    <h6 class="mb-0 name"><a href="order-details.html">
+                                                            <%= ordersDet[i].cartData.product.productName%>
+                                                        </a></h6>
+                                                </div>
+                                            </div>
+                                            <div class="order_info">
+                                                <p class="mb-0 d-flex justify-content-center"">Price</p>
+                                                                                        <div class=" price">₹&nbsp;
+                                                    <%=ordersDet[i].cartData.product.productPrice%>
                                             </div>
                                         </div>
                                         <div class="order_info">
-                                            <p class="mb-0 d-flex justify-content-center">Name</p>
+                                            <p class="mb-0 d-flex justify-content-center">Quantity</p>
                                             <div class="price">
-                                                <%= orders[i].userId.username%>
-                                            </div>
-                                        </div>
-                                        <div class="order_info">
-                                            <p class="mb-0 d-flex justify-content-center">Payment method</p>
-                                            <div class="price" style="text-align: center;">
-                                                <%= orders[i].paymentType%>
+                                                <%= ordersDet[i].cartData.productQuantity%>
                                             </div>
                                         </div>
                                         <div class="order_info">
                                             <p class="mb-0 d-flex justify-content-center">Status</p>
                                             <div class="price">
-                                                <%= orders[i].orderStatus%>
+                                                <div class="order_list_block"
+                                                    style="border: 1px solid #ccc;width: 150px;display: flex;justify-content: center;">
+
+                                                    <div class="price">
+
+                                                        <%= ordersDet[i].cartData.productStatus%>
+                                                    </div>
+
+                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="order_info" style="margin-bottom: 32px;">
+                                            <p class="mb-0 d-flex justify-content-center">Date</p>
+                                            <div class="name" id="date"
+                                                style="font-weight: 900;margin-top: 3px; display: flex; justify-content: center;">
+                                                <%= ordersDet[i].orderDate.toLocaleDateString('en-US', { year: 'numeric'
+                                                    , month: '2-digit' , day: '2-digit' }) %>
+                                            </div>
+                                            <!-- <p class="mb-0">Your Item has been delivered</p> -->
                                         </div>
                                         <div class="order_info">
-                                            <p class="mb-0 d-flex justify-content-center">Amount</p>
-                                            <div class="price">
-                                                ₹&nbsp;<%= orders[i].grandTotalCost%>
+                                            <p class="mb-0 d-flex justify-content-center">Total</p>
+                                            <div class="price">₹&nbsp;<%= ordersDet[i].cartData.totalCostPerProduct%>
                                             </div>
                                         </div>
+                                        <% if (ordersDet[i].cartData.productStatus==="Cancelled" ) { %>
+                                            <div class="order_info d-flex justify-content-center">
+                                                <div class="price"
+                                                    style="color: red; margin-top: 25px;margin-right: 60px;">
+                                                    Cancelled</div>
+                                            </div>
+                                            <% } else { %>
+
+                                                <div>
+                                                    <p class="mb-0 price">Change Status</p>
+                                                    <div style="font-weight: 900;color: black; ">
+                                                        <div class="order_list_block">
+                                                            <div class="price">
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-secondary dropdown-toggle"
+                                                                        onclick="toggleDropdown(this)">
+                                                                        <%= ordersDet[i].cartData.productStatus%>
+                                                                            <span class="caret"></span>
+                                                                    </button>
+                                                                    <div id="dropdownMenu" class="dropdown-menu"
+                                                                        style="display: none; position: absolute; background-color: #f9f9f9; border: 1px solid #ccc; padding: 5px;">
+                                                                        <a class="dropdown-item" href="#"
+                                                                            data-value="Approve Return"
+                                                                            index-value="<%= i %>">Approve Return</a>
+                                                                        <a class="dropdown-item" href="#"
+                                                                            data-value="Reject Return"
+                                                                            index-value="<%= i %>">Reject Return</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+                                                    <div class="order_info"
+                                                        style="border: 1px solid #ccc;border-radius: 12px;">
+                                                        <p class="mb-0">Reason for Return</p>
+                                                        <div class="price">
+                                                            <%= ordersDet[i].cartData.returnReason%>
+                                                        </div>
+                                                    </div>
+
 
                                     </div>
                                     <% } %>
+
                             </div>
                         </div>
                     </div>
@@ -457,7 +510,26 @@
     </section>
     <!-- Category Nav End -->
     <!-- Section Start -->
-
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Success</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>The Order Status has been Updated Successfully!.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="okButton">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     </div>
@@ -479,9 +551,91 @@
     <script src="assets/js/custom.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
-        const orderDet = '<%- JSON.stringify(orders) %>'
+        const orderDet = '<%- JSON.stringify(ordersDet) %>'
         const orders = JSON.parse(orderDet)
         console.log(orders);
+        function toggleDropdown(button) {
+            var dropdownMenu = button.nextElementSibling;
+            if (dropdownMenu.style.display === "none") {
+                dropdownMenu.style.display = "block";
+            } else {
+                dropdownMenu.style.display = "none";
+            }
+        }
+
+        // Add an event listener to the dropdown menu items
+        var dropdownItems = document.querySelectorAll("#dropdownMenu a");
+        dropdownItems.forEach(function (item) {
+            item.addEventListener("click", async function (event) {
+                event.preventDefault();
+
+                // Get the selected value
+                var selectedValue = this.getAttribute("data-value");
+                var index = this.getAttribute("index-value")
+                const cartProdId = orders[index].cartData._id
+                const orderId = orders[index]._id
+                console.log(selectedValue);
+                console.log(index);
+                console.log(cartProdId);
+
+                // Update the order status
+
+                // Send a request to the server to update the order status
+                try {
+                    Swal.fire({
+                        title: "Are you sure want to update status?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes"
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            try {
+                                const response = await fetch("/admin/orderManagement/returnApproval", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify({
+                                        orderId: orderId,
+                                        cartProdId: cartProdId,
+                                        orderStatus: selectedValue
+                                    })
+                                });
+
+                                if (!response.ok) {
+                                    throw new Error("Failed to update order status");
+                                }
+
+                                const data = await response.json();
+                                console.log(data);
+
+                                if (data.success) {
+                                    console.log("ITS Getiitind into thisbbb");
+                                    await Swal.fire({
+                                        icon: "success",
+                                        title: "Return Status has been updated",
+                                        showConfirmButton: true,
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            window.location.reload() // Reload the page after user confirms
+                                        }
+                                    })
+                                }
+                            } catch (error) {
+                                console.error("Error updating order status:", error);
+                            }
+
+                            // Hide the dropdown menu
+                            toggleDropdown(button);
+                        }
+                    });
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            });
+        });
     </script>
 </body>
 

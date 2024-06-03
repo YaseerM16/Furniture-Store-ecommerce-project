@@ -19,7 +19,12 @@ const {
   filterDate,
   removeAllFillters,
 } = require("../controller/salesReportController.js");
+const {
+  topProductsData,
+  topCategories,
+} = require("../helpers/adminDashboardData.js");
 
+///Dashboard
 adminRouter.get("/adminLogin", adminController.adminLoginPage);
 adminRouter.post(
   "/adminLogin",
@@ -28,54 +33,136 @@ adminRouter.post(
   adminController.adminLoginSubmit
 );
 adminRouter.get("/adimDashBoard", isAdmin, adminController.dashBoard);
+adminRouter.get(
+  "/admin/adminDashBoardData",
+  isAdmin,
+  adminController.adminDashBoardData
+);
+adminRouter.get("/admin/dashBoard/topProducts", topProductsData);
+adminRouter.get("/admin/dashBoard/topCategories", topCategories);
 adminRouter.get("/adminLogout", adminController.logout);
 
-adminRouter.get("/usersList", isAdmin, adminController.userListing);
-adminRouter.get("/blockUser", isAdmin, adminController.blockUser);
-adminRouter.get("/unBlockUser", isAdmin, adminController.unBlockUser);
+////User Management
+adminRouter.get(
+  "/admin/userManagement/usersList",
+  isAdmin,
+  adminController.userListing
+);
+adminRouter.get(
+  "/admin/userManagement/blockUser",
+  isAdmin,
+  adminController.blockUser
+);
+adminRouter.get(
+  "/admin/userManagement/unBlockUser",
+  isAdmin,
+  adminController.unBlockUser
+);
 
 //Category Management
-adminRouter.get("/categoryList", isAdmin, categoryController.categoryList);
-adminRouter.post("/addCategory", isAdmin, categoryController.addCategory);
-adminRouter.post("/editCategory", isAdmin, categoryController.editCategory);
-adminRouter.get("/listCategory", isAdmin, categoryController.listCategory);
-adminRouter.get("/unListCategory", isAdmin, categoryController.unListCategory);
+adminRouter.get(
+  "/admin/categoryManagement/categoryList",
+  isAdmin,
+  categoryController.categoryList
+);
+adminRouter.post(
+  "/admin/categoryManagement/addCategory",
+  isAdmin,
+  categoryController.addCategory
+);
+adminRouter.post(
+  "/admin/categoryManagement/editCategory",
+  isAdmin,
+  categoryController.editCategory
+);
+adminRouter.get(
+  "/admin/categoryManagement/listCategory",
+  isAdmin,
+  categoryController.listCategory
+);
+adminRouter.get(
+  "/admin/categoryManagement/unListCategory",
+  isAdmin,
+  categoryController.unListCategory
+);
 
 //Product Management
-adminRouter.get("/productList", isAdmin, productController.productList);
-adminRouter.get("/addProduct", isAdmin, productController.addProductPage);
+adminRouter.get(
+  "/admin/productManagement/productList",
+  isAdmin,
+  productController.productList
+);
+adminRouter.get(
+  "/admin/productManagement/addProduct",
+  isAdmin,
+  productController.addProductPage
+);
 adminRouter.post(
-  "/addProduct",
+  "/admin/productManagement/addProduct",
   isAdmin,
   upload.any(),
   productController.addProduct
 );
-adminRouter.get("/blockProduct", isAdmin, productController.blockProduct);
-adminRouter.get("/unBlockProduct", isAdmin, productController.unBlockProduct);
-adminRouter.get("/editProduct", isAdmin, productController.editProductPage);
+adminRouter.get(
+  "/admin/productManagement/blockProduct",
+  isAdmin,
+  productController.blockProduct
+);
+adminRouter.get(
+  "/admin/productManagement/unBlockProduct",
+  isAdmin,
+  productController.unBlockProduct
+);
+adminRouter.get(
+  "/admin/productManagement/editProduct",
+  isAdmin,
+  productController.editProductPage
+);
 adminRouter.post(
-  "/editProduct/:id",
+  "/admin/productManagement/editProduct/:id",
   upload.any(),
   productController.editProduct
 );
-adminRouter.post("/delete-image", isAdmin, productController.deleteImage);
+adminRouter.post(
+  "/admin/editProduct/delete-image",
+  isAdmin,
+  productController.deleteImage
+);
 
 //Order Management
-adminRouter.get("/orderList", isAdmin, manageOrderController.orderListPage);
 adminRouter.get(
-  "/orderSummary",
+  "/admin/orderManagement/orderList",
+  isAdmin,
+  manageOrderController.orderListPage
+);
+adminRouter.get(
+  "/admin/orderManagement/orderSummary",
   isAdmin,
   manageOrderController.orderSummaryDetails
 );
 adminRouter.post(
-  "/update-order-status",
+  "/admin/orderManagement/orderSummary/update-order-status",
   isAdmin,
   manageOrderController.updateOrderStatus
 );
+adminRouter.get(
+  "/admin/orderManagement/returnedOrders",
+  manageOrderController.returnOrdersPage
+);
+adminRouter.post(
+  "/admin/orderManagement/returnApproval",
+  manageOrderController.orderReturnApproval
+);
 
 ///Offers Management
-adminRouter.get("/product-offers-page", offersController.productOfferPage);
-adminRouter.get("/category-offers-page", offersController.categoryOffersPage);
+adminRouter.get(
+  "/admin/productManagement/product-offers-page",
+  offersController.productOfferPage
+);
+adminRouter.get(
+  "/admin/categoryManagement/category-offers-page",
+  offersController.categoryOffersPage
+);
 adminRouter.post(
   "/productOfferManagement/addOffer",
   offersController.addProductOffer
@@ -95,7 +182,10 @@ adminRouter.put(
 
 /// coupons
 
-adminRouter.get("/coupons", couponController.couponsPage);
+adminRouter.get(
+  "/admin/couponManagement/coupons",
+  couponController.couponsPage
+);
 adminRouter.post("/couponManagement/addCoupon", couponController.addCoupon);
 adminRouter.put(
   "/couponManagement/editCoupon/:id",
@@ -105,7 +195,7 @@ adminRouter.patch("/deleteCoupon", couponController.deleteCounpon);
 
 /// Sales Report
 
-adminRouter.get("/salesReport", SalesReportGet);
+adminRouter.get("/admin/salesReport", SalesReportGet);
 adminRouter.get("/salesReport/download/pdf", salesReportDownloadPDF);
 adminRouter.get("/salesReport/download/xlsx", salesReportDownload);
 adminRouter.post("/filterdate", filterDate);

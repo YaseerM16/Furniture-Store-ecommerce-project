@@ -1,7 +1,8 @@
 const categoryCollection = require("../models/categoryModel");
 const adminCollection = require("../models/adminModel");
+const AppError = require("../middlewares/errorHandling");
 
-const categoryList = async (req, res) => {
+const categoryList = async (req, res, next) => {
   try {
     let user;
     if (req.session.adminLog) {
@@ -34,12 +35,12 @@ const categoryList = async (req, res) => {
       pages: Math.ceil(pages / limit),
       user: user,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
 
-const addCategory = async (req, res) => {
+const addCategory = async (req, res, next) => {
   try {
     const newCategory = new categoryCollection({
       categoryName: req.body.categoryName,
@@ -59,12 +60,12 @@ const addCategory = async (req, res) => {
       newCategory.save();
       res.send({ success: true });
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
 
-const editCategory = async (req, res) => {
+const editCategory = async (req, res, next) => {
   try {
     const trimmedCategoryName = req.body.categoryName.trim();
     const catDetails = await categoryCollection.findOne({
@@ -92,11 +93,11 @@ const editCategory = async (req, res) => {
       );
       res.send({ success: true });
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
-const listCategory = async (req, res) => {
+const listCategory = async (req, res, next) => {
   try {
     console.log(req.query.id);
     await categoryCollection.updateOne(
@@ -104,11 +105,11 @@ const listCategory = async (req, res) => {
       { $set: { isListed: false } }
     );
     res.send({ list: true });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
-const unListCategory = async (req, res) => {
+const unListCategory = async (req, res, next) => {
   try {
     console.log(req.query.id);
     await categoryCollection.updateOne(
@@ -116,8 +117,8 @@ const unListCategory = async (req, res) => {
       { $set: { isListed: true } }
     );
     res.send({ unlist: true });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
 module.exports = {

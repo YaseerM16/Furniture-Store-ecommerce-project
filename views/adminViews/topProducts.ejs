@@ -357,65 +357,57 @@
                             <div class="col-10">
                                 <div class="col-12">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <!-- <div class="d-flex justify-content-between">
-                                        </div> -->
                                         <div class="section-header">
-                                            <h3 class="title">Orders List</h3>
-                                        </div>
-                                        <div>
-                                            <a href="/admin/orderManagement/returnedOrders">
-                                                <h3 class="title product-offers-button"
-                                                    style="width: 250px; height: 50px;">
-                                                    Return
-                                                    Requests</h3>
-                                            </a>
-                                        </div>
-                                        <!-- <div style="padding: 0 30px 0 0;margin: 0; width: 300px;height: 100px;">
-                                            <button class="title flex-end product-offers-button">
-                                                <h3>Product Offer
-                                                    Management</h3>
-                                            </button>
-                                        </div> -->
-                                    </div>
-                                </div>
-                                <% for(let i=0;i<orders.length;i++){ %>
-                                    <div class="order_list_block">
-                                        <div class="image_info_box d-flex flex-column justify-content-around"
-                                            style="margin-bottom: 30px;">
-                                            <p class="mb-0 d-flex justify-content-center">Order Id</p>
-                                            <div class="info">
-                                                <h6 class="mb-0 name"><a
-                                                        href="/admin/orderManagement/orderSummary?orderID=<%= orders[i]._id%>">
-                                                        <%= orders[i].orderId%>
-                                                    </a></h6>
-                                            </div>
-                                        </div>
-                                        <div class="order_info">
-                                            <p class="mb-0 d-flex justify-content-center">Name</p>
-                                            <div class="price">
-                                                <%= orders[i].userId.username%>
-                                            </div>
-                                        </div>
-                                        <div class="order_info">
-                                            <p class="mb-0 d-flex justify-content-center">Payment method</p>
-                                            <div class="price" style="text-align: center;">
-                                                <%= orders[i].paymentType%>
-                                            </div>
-                                        </div>
-                                        <div class="order_info">
-                                            <p class="mb-0 d-flex justify-content-center">Status</p>
-                                            <div class="price">
-                                                <%= orders[i].orderStatus%>
-                                            </div>
-                                        </div>
-                                        <div class="order_info">
-                                            <p class="mb-0 d-flex justify-content-center">Amount</p>
-                                            <div class="price">
-                                                ₹&nbsp;<%= orders[i].grandTotalCost%>
-                                            </div>
+                                            <h3 class="title">Top Products</h3>
                                         </div>
 
                                     </div>
+                                </div>
+                                <% for(let i=0;i<products.length;i++){ %>
+                                    <div class="col-12">
+
+                                        <div class="order_list_block">
+                                            <div class="image_info_box d-flex flex-column justify-content-center">
+                                                <a href="#">
+                                                    <img src="/assets/uploadimages/uploads/<%=products[i].productImage[0]%>"
+                                                        class="image-fit-contain" alt="img" style="margin-right: 0">
+                                                </a>
+                                                <div class="info">
+                                                    <h6 class="mb-0 name"><a href="order-details.html">
+                                                            <%= products[i].productName%>
+                                                        </a></h6>
+                                                </div>
+                                            </div>
+                                            <div class="order_info">
+                                                <p class="mb-0 d-flex justify-content-center"">Price</p>
+                                                                                            <div class=" price">₹&nbsp;
+                                                    <%= products[i].product.priceBeforeOffer%>
+                                            </div>
+                                        </div>
+                                        <div class="order_info">
+                                            <p class="mb-0 d-flex justify-content-center">Category</p>
+                                            <div class="price">
+                                                <%= products[i].category.categoryName%>
+                                            </div>
+                                        </div>
+                                        <div class="order_info">
+                                            <p class="mb-0 d-flex justify-content-center">Sold</p>
+                                            <div class="price">
+                                                <div class="order_list_block"
+                                                    style="border: 1px solid #ccc;width: 150px;display: flex;justify-content: center;">
+                                                    <div class="price">
+                                                        <%= products[i].count%>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+
                                     <% } %>
                             </div>
                         </div>
@@ -479,7 +471,7 @@
     <script src="assets/js/custom.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
-        const orderDet = '<%- JSON.stringify(orders) %>'
+        const orderDet = '<%- JSON.stringify() %>'
         const orders = JSON.parse(orderDet)
         console.log(orders);
     </script>
