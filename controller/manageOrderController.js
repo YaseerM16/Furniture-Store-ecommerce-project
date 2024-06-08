@@ -23,7 +23,8 @@ const orderListPage = async (req, res, next) => {
       .find()
       .populate("userId")
       .skip(skip)
-      .limit(limit);
+      .limit(limit)
+      .sort({ orderDate: -1 });
 
     let pages;
 

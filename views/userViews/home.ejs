@@ -352,1297 +352,272 @@
     </section>
     <!-- Discount Banner End -->
     <!-- Fruits Start -->
-    <section class="section-padding pt-0">
-        <div class="container-fluid">
-            <div class="section-header">
-                <h3 class="title">Chair</h3>
-                <p class="text">Lorem ipsum dolor sit amet, consectetur.</p>
-            </div>
-            <div class="fruits-slider row">
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/fruits/12.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Chair</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">wing Chair</a></h4>
-                        <div class="price">
-                            <span>$55.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
+    <% for(let i=0; i<arr.length; i++){ %>
+        <section class="section-padding pt-0">
+            <div class="container-fluid">
+                <div class="section-header">
+                    <h3 class="title">
+                        <%= Object.keys(arr[i])[0] %>
+                    </h3>
+                    <p class="text">Lorem ipsum dolor sit amet, consectetur.</p>
                 </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/fruits/21.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Chair</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Wooden Chair</a></h4>
-                        <div class="price">
-                            <span>$96.00</span>
-                            <span>$98.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/fruits/31.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Chair</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Desk Chair</a></h4>
-                        <div class="price">
-                            <span>$41.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>2</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/fruits/41.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Chair</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Arm Chair</a></h4>
-                        <div class="price">
-                            <span>$74.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/fruits/12.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Chair</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Wing Chair</a></h4>
-                        <div class="price">
-                            <span>$55.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/fruits/21.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Chair</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Wooden Chair</a></h4>
-                        <div class="price">
-                            <span>$96.00</span>
-                            <span>$98.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/fruits/31.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Chair</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Desk Chair</a></h4>
-                        <div class="price">
-                            <span>$41.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>2</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/fruits/41.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Chair</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Arm Chair</a></h4>
-                        <div class="price">
-                            <span>$74.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-            </div>
-        </div>
-    </section>
-    <!-- Fruits End -->
-    <!-- Vegetables Start -->
-    <section class="section-padding pt-0">
-        <div class="container-fluid">
-            <div class="section-header">
-                <h3 class="title">Sofa</h3>
-                <p class="text">Lorem ipsum dolor sit amet, consectetur.</p>
-            </div>
-            <div class="vegetables-slider row">
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/vegetables/11.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Sofa</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Cabriole Sofa</a></h4>
-                        <div class="price">
-                            <span>$55.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/vegetables/21.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Sofa</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Settee Sofa</a></h4>
-                        <div class="price">
-                            <span>$61.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/vegetables/31.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Sofa</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Lawson Sofa</a></h4>
-                        <div class="price">
-                            <span>$44.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/vegetables/41.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Sofa</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Camelback Sofa</a></h4>
-                        <div class="price">
-                            <span>$25.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/vegetables/11.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Sofa</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Cabriole Sofa</a></h4>
-                        <div class="price">
-                            <span>$55.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/vegetables/21.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Sofa</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Settee Sofa</a></h4>
-                        <div class="price">
-                            <span>$61.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/vegetables/31.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Sofa</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Lawson Sofa</a></h4>
-                        <div class="price">
-                            <span>$44.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/vegetables/41.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Sofa</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Camelback Sofa</a></h4>
-                        <div class="price">
-                            <span>$25.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>PC</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-            </div>
-        </div>
-    </section>
-    <!-- Vegetables End -->
-    <!-- Best Offers Start -->
-
-    <!-- Best Offers End -->
-    <!-- Drinks Start -->
-    <section class="section-padding pt-0">
-        <div class="container-fluid">
-            <div class="section-header">
-                <h3 class="title">Dining Table Set</h3>
-                <p class="text">Lorem ipsum dolor sit amet, consectetur.</p>
-            </div>
-            <div class="drinks-slider row">
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/drinks/11.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Dining Table</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">6 Seaters Chair Dining Table</a></h4>
-                        <div class="price">
-                            <span>$55.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Set</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/drinks/21.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Dining Table</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">3 Seaters Chair Dining Table </a></h4>
-                        <div class="price">
-                            <span>$61.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Set</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/drinks/31.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Dining Table</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">12 Seaters Chair Dining Table</a></h4>
-                        <div class="price">
-                            <span>$44.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Set</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/drinks/41.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Dining Table</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">8 Seaters Chair Dining Table</a></h4>
-                        <div class="price">
-                            <span>$25.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Set</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/drinks/11.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Dining Table</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">6 Seaters Chair Dining Table</a></h4>
-                        <div class="price">
-                            <span>$55.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Set</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/drinks/21.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Dining Table</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">3 Seaters Chair Dining Table</a></h4>
-                        <div class="price">
-                            <span>$61.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Set</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/drinks/31.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Dining Table</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">12 Seaters Chair Dining Table</a></h4>
-                        <div class="price">
-                            <span>$44.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Set</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/drinks/41.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Dining Table</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">8 Seaters Chair Dining Table</a></h4>
-                        <div class="price">
-                            <span>$25.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Set</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-            </div>
-        </div>
-    </section>
-    <!-- Drinks End -->
-    <!-- Bakery Start -->
-    <section class="section-padding pt-0">
-        <div class="container-fluid">
-            <div class="section-header">
-                <h3 class="title">Table Lamp</h3>
-                <p class="text">Lorem ipsum dolor sit amet, consectetur.</p>
-            </div>
-            <div class="bakery-slider row">
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/bakery/11.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Table Lamp</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Bottle Table Lamp</a></h4>
-                        <div class="price">
-                            <span>$55.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Pc.</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/bakery/21.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Table Lamp</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Decorative Table Lamp</a></h4>
-                        <div class="price">
-                            <span>$61.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Pc.</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/bakery/31.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Table Lamp</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Study Table Lamp</a></h4>
-                        <div class="price">
-                            <span>$44.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Pc.</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/bakery/41.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Table Lamp</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Heti Table Lamp</a></h4>
-                        <div class="price">
-                            <span>$25.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Pc.</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/bakery/11.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Table Lamp</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Bottle Table Lamp</a></h4>
-                        <div class="price">
-                            <span>$55.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Pc.</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/bakery/21.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Table Lamp</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Decorative Table Lamp</a></h4>
-                        <div class="price">
-                            <span>$61.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Pc.</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/bakery/31.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Table Lamp</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Study Table Lamp</a></h4>
-                        <div class="price">
-                            <span>$44.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Pc.</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-                <div class="slide-item col-12">
-                    <div class="product_block">
-                        <div class="product_top">
-                            <span class="product_tag">30% Off</span>
-                            <button type="button" class="icon">
-                                <i class="fal fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="product_image">
-                            <a href="shop-details.html">
-                                <img src="assets/images/product/bakery/41.png" class="image-fit-contain" alt="img">
-                            </a>
-                        </div>
-                        <div class="product_categories">
-                            <a href="shop.html">Table Lamp</a>
-                        </div>
-                        <h4 class="title"><a href="shop-details.html">Heti Table Lamp</a></h4>
-                        <div class="price">
-                            <span>$25.00</span>
-                            <span>$80.25</span>
-                        </div>
-                        <div class="product_qty"><span>1</span>Pc.</div>
-                        <div class="product_action">
-                            <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
-                            <!-- <div class="quantity">
-                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
-                                <input type="text" name="#" value="1" autocomplete="off" readonly>
-                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Item -->
-            </div>
-        </div>
-    </section>
-    <!-- Bakery End -->
-    <!-- Testimonial Start -->
-
-    <!-- Testimonial End -->
-    <!-- Newsletter Start -->
-    <section class="section section-bg relative newsletter_bg"
-        style="background-image: url(assets/images/newsletter2.jpg);">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-5">
-                    <div class="newsletter_text">
-                        <h2 class="title">
-                            Contrary to popular belief, Lorem Ipsum.
-                        </h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur.</p>
-                        <form action="#" method="POST">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fal fa-envelope"></i>
+                <div class="fruits-slider row">
+                    <% Object.values(arr[i])[0].forEach(product=> { %>
+                        <!-- Item -->
+                        <div class="slide-item col-12">
+                            <div class="product_block">
+                                <div class="product_top">
+                                    <div>
+                                        <% if (product.productOfferPercentage ) { %>
+                                            <span class="product_tag">
+                                                <%=product.productOfferPercentage%>% Off
+                                            </span>
+                                            <% } else { %>
+                                                <% } %>
+                                    </div>
+                                    <div>
+                                        <% if (product.isWishListed ) { %>
+                                            <button type="button" class="icon active whisListIcon"
+                                                prod-id="<%= product._id %>" index="<%= i %>" id="wishIcon_<%= i %>">
+                                                <i class="fal fa-heart activei"></i>
+                                            </button>
+                                            <% } else { %>
+                                                <button type="button" class="icon whisListIcon"
+                                                    prod-id="<%= product._id %>" index="<%= i %>"
+                                                    id="wishIcon_<%= i %>">
+                                                    <i class="fal fa-heart"></i>
+                                                </button>
+                                                <% } %>
+                                    </div>
+                                </div>
+                                <div class="product_image">
+                                    <a href="/singleProduct?id=<%=product._id %>" class="click_img">
+                                        <img src="assets/uploadimages/uploads/<%=product.productImage[0]%>"
+                                            class="image-fit-contain" alt="img">
+                                    </a>
+                                </div>
+                                <div class="product_categories">
+                                    <span>
+                                        <%= Object.keys(arr[i])[0] %>
                                     </span>
                                 </div>
-                                <input type="email" class="form-control" placeholder="Email Address" autocomplete="off"
-                                    required>
-                                <div class="input-group-append">
-                                    <button class="thm-btn thm-bg-color-one" type="submit">Subscribe</button>
+                                <h4 class="title"><a href="#">
+                                        <%=product.productName%>
+                                    </a></h4>
+                                <div class="price">
+                                    <span>
+                                        &#8377
+                                        <%=product.productPrice%>
+                                    </span>
+                                    <% if (product.priceBeforeOffer !==product.productPrice ) { %>
+                                        <span>&#8377&nbsp;<%=product.priceBeforeOffer%></span>
+                                        <% } else { %>
+                                            <% } %>
+                                </div>
+                                <div class="product_qty"><span>1</span>PC</div>
+                                <div class="product_action">
+                                    <button type="button" class="product_btn">ADD <i class="fal fa-plus"></i></button>
+                                    <!-- <div class="quantity">
+                                <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
+                                <input type="text" name="#" value="1" autocomplete="off" readonly>
+                                <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
+                            </div> -->
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <!-- Item -->
+                        <% }); %>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- Newsletter End -->
-    <!-- Footer Start -->
-    <footer class="footer section-padding border-top">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget border-sm-0 pl-sm-0">
-                        <h6 class="ft_title">Find a Store<br> Shop Gift Cards</h6>
-                        <p class="mb-2">Follow Us:</p>
-                        <ul class="ft_social">
-                            <li>
-                                <a href="#">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </li>
-                        </ul>
+        </section>
+        <% } %>
+            <!-- Testimonial Start -->
+
+            <!-- Testimonial End -->
+            <!-- Newsletter Start -->
+            <section class="section section-bg relative newsletter_bg"
+                style="background-image: url(assets/images/newsletter2.jpg);">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-5">
+                            <div class="newsletter_text">
+                                <h2 class="title">
+                                    Contrary to popular belief, Lorem Ipsum.
+                                </h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur.</p>
+                                <form action="#" method="POST">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fal fa-envelope"></i>
+                                            </span>
+                                        </div>
+                                        <input type="email" class="form-control" placeholder="Email Address"
+                                            autocomplete="off" required>
+                                        <div class="input-group-append">
+                                            <button class="thm-btn thm-bg-color-one" type="submit">Subscribe</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Help Center</h6>
-                        <ul class="ft_menu">
-                            <li>
-                                <a href="payment.html">Payments</a>
-                            </li>
-                            <li>
-                                <a href="#">Shipping</a>
-                            </li>
-                            <li>
-                                <a href="#">Product Returns</a>
-                            </li>
-                            <li>
-                                <a href="faqs.html">FAQ's</a>
-                            </li>
-                            <li>
-                                <a href="checkout.html">Checkout</a>
-                            </li>
-                            <li>
-                                <a href="blog.html">Blog</a>
-                            </li>
-                        </ul>
+            </section>
+            <!-- Newsletter End -->
+            <!-- Footer Start -->
+            <footer class="footer section-padding border-top">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-2 col-sm-4">
+                            <div class="ft_widget border-sm-0 pl-sm-0">
+                                <h6 class="ft_title">Find a Store<br> Shop Gift Cards</h6>
+                                <p class="mb-2">Follow Us:</p>
+                                <ul class="ft_social">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-sm-4">
+                            <div class="ft_widget">
+                                <h6 class="ft_title">Help Center</h6>
+                                <ul class="ft_menu">
+                                    <li>
+                                        <a href="payment.html">Payments</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Shipping</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Product Returns</a>
+                                    </li>
+                                    <li>
+                                        <a href="faqs.html">FAQ's</a>
+                                    </li>
+                                    <li>
+                                        <a href="checkout.html">Checkout</a>
+                                    </li>
+                                    <li>
+                                        <a href="blog.html">Blog</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-sm-4">
+                            <div class="ft_widget">
+                                <h6 class="ft_title">Useful Links</h6>
+                                <ul class="ft_menu">
+                                    <li>
+                                        <a href="index-2.html">Home</a>
+                                    </li>
+                                    <li>
+                                        <a href="contact.html">Contact</a>
+                                    </li>
+                                    <li>
+                                        <a href="about.html">About</a>
+                                    </li>
+                                    <li>
+                                        <a href="terms-conditions.html">Terms & Conditions</a>
+                                    </li>
+                                    <li>
+                                        <a href="privacy.html">Policy</a>
+                                    </li>
+                                    <li>
+                                        <a href="order-list.html">My Orders</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-xl col-sm-8">
+                            <div class="ft_widget">
+                                <h6 class="ft_title">Contact Us</h6>
+                                <p class="mb-3">Sed ut perspiciatis unde omnis iste natus error sit voluptatem </p>
+                                <ul class="ft_contact">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            14 Prospect Row, Bury St. Edmunds
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="tel:0002583745351">
+                                            <i class="fas fa-phone"></i>
+                                            000 2583 745 351
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="mailto:example@example.com">
+                                            <i class="fas fa-envelope"></i>
+                                            example@example.com
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-sm-4">
+                            <div class="ft_widget">
+                                <h6 class="ft_title">Categories</h6>
+                                <ul class="ft_menu">
+                                    <li>
+                                        <a href="shop.html">Chair</a>
+                                    </li>
+                                    <li>
+                                        <a href="shop.html">Sofa</a>
+                                    </li>
+                                    <li>
+                                        <a href="shop.html">Dining Table</a>
+                                    </li>
+                                    <li>
+                                        <a href="shop.html">Table Lamp</a>
+                                    </li>
+                                    <li>
+                                        <a href="shop.html">Desk</a>
+                                    </li>
+                                    <li>
+                                        <a href="shop.html">cabinets</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Useful Links</h6>
-                        <ul class="ft_menu">
-                            <li>
-                                <a href="index-2.html">Home</a>
-                            </li>
-                            <li>
-                                <a href="contact.html">Contact</a>
-                            </li>
-                            <li>
-                                <a href="about.html">About</a>
-                            </li>
-                            <li>
-                                <a href="terms-conditions.html">Terms & Conditions</a>
-                            </li>
-                            <li>
-                                <a href="privacy.html">Policy</a>
-                            </li>
-                            <li>
-                                <a href="order-list.html">My Orders</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl col-sm-8">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Contact Us</h6>
-                        <p class="mb-3">Sed ut perspiciatis unde omnis iste natus error sit voluptatem </p>
-                        <ul class="ft_contact">
-                            <li>
-                                <a href="#">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    14 Prospect Row, Bury St. Edmunds
-                                </a>
-                            </li>
-                            <li>
-                                <a href="tel:0002583745351">
-                                    <i class="fas fa-phone"></i>
-                                    000 2583 745 351
-                                </a>
-                            </li>
-                            <li>
-                                <a href="mailto:example@example.com">
-                                    <i class="fas fa-envelope"></i>
-                                    example@example.com
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Categories</h6>
-                        <ul class="ft_menu">
-                            <li>
-                                <a href="shop.html">Chair</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Sofa</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Dining Table</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Table Lamp</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">Desk</a>
-                            </li>
-                            <li>
-                                <a href="shop.html">cabinets</a>
-                            </li>
-                        </ul>
-                    </div>
+            </footer>
+            <!-- Footer End -->
+            <!-- Copyright Start -->
+            <div class="copyright">
+                <div class="container-fluid">
+                    <p class="mb-0">@Copyright 2022. <a href="#" class="thm-color-one">Website.com</a> All Rights
+                        Reserved</p>
                 </div>
             </div>
-        </div>
-    </footer>
-    <!-- Footer End -->
-    <!-- Copyright Start -->
-    <div class="copyright">
-        <div class="container-fluid">
-            <p class="mb-0">@Copyright 2022. <a href="#" class="thm-color-one">Website.com</a> All Rights Reserved</p>
-        </div>
-    </div>
-    <!-- Copyright End -->
-    <!-- Scripts -->
-    <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/plugins/slick.min.js"></script>
-    <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/plugins/jquery.counterup.min.js"></script>
-    <script src="assets/js/plugins/jquery.inview.min.js"></script>
-    <script src="assets/js/custom.js"></script>
+            <!-- Copyright End -->
+            <!-- Scripts -->
+            <script>
+                const arrDet = '<%- JSON.stringify(arr) %>'
+                const arr = JSON.parse(arrDet)
+                console.log(arr);
+            </script>
+            <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
+            <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
+            <script src="assets/js/plugins/slick.min.js"></script>
+            <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
+            <script src="assets/js/plugins/jquery.counterup.min.js"></script>
+            <script src="assets/js/plugins/jquery.inview.min.js"></script>
+            <script src="assets/js/custom.js"></script>
 </body>
 
 </html>

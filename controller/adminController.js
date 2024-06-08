@@ -14,6 +14,7 @@ const adminLoginPage = (req, res, next) => {
       res.render("adminViews/login", {
         invalid: req.session.invalidCredentials,
         errors: false,
+        user: null,
       });
 
       req.session.invalidCredentials = false;
@@ -100,8 +101,8 @@ const adminDashBoardData = async (req, res, next) => {
       dashBoardHelpers.pendingOrdersCount(),
       dashBoardHelpers.deliveredOrdersCount(),
       dashBoardHelpers.currentDayRevenue(),
-      dashBoardHelpers.fourteenDaysRevenue(),
-      dashBoardHelpers.categoryWiseRevenue(),
+      dashBoardHelpers.fourteenDaysRevenue(req.query.filter),
+      dashBoardHelpers.categoryWiseRevenue(req.query.filter),
       dashBoardHelpers.revenue(),
       dashBoardHelpers.monthlyRevenue(),
       dashBoardHelpers.activeUser(),

@@ -24,6 +24,11 @@ const SalesReportGet = async (req, res, next) => {
       startDate.setDate(startDate.getDate() - 7);
       endDate = new Date();
     }
+    let startDate2, endDate2;
+    if (req.session.startDate2 && req.session.endDate2) {
+      startDate2 = new Date(req.session.startDate2);
+      endDate2 = new Date(req.session.endDate2);
+    }
 
     var salesDetails =
       req.session.salesDetails ||
@@ -54,12 +59,41 @@ const SalesReportGet = async (req, res, next) => {
     const pageNo = req.query.pages || 1;
     const start = (pageNo - 1) * productsPerPage;
     const end = start + productsPerPage;
+    let allSales = salesDetails;
     salesDetails = salesDetails.slice(start, end);
+    let totalSales = salesDetails.reduce(
+      (total, sale) => total + sale.grandTotalCost,
+      0
+    );
+    let totalSum = [];
+    let total = [];
+    let totalSum1 = [];
+    let total2 = [];
+    for (i = 0; i < salesDetails.length; i++) {
+      totalSum = salesDetails[i].cartData.map((item) => item.productprice);
+      total.push(totalSum);
+      totalSum1 = salesDetails[i].cartData.map((item) => item.priceBeforeOffer);
+      total2.push(totalSum1);
+    }
+    let sum = total.flat();
+    let sum2 = total2.flat();
+    let totalSales1 = sum.reduce((total, sale) => (total = total + sale), 0);
+    let totalSales2 = sum2.reduce((total, sale) => (total = total + sale), 0);
+    let coupontotal = salesDetails.reduce(
+      (total, sale) => (total = total + sale.couponApplied),
+      0
+    );
+    console.log("Total Sale 1: ", totalSales1);
+    console.log("Total Sale 2: ", totalSales2);
+    console.log("Coupon Total: ", coupontotal);
+    console.log("Total Sale: ", totalSales);
+    let totalDiscount = coupontotal + totalSales2 - totalSales1;
 
     req.session.sreportLen = salesDetails.length;
 
     const products = await orderCollection
       .find({ orderStatus: "Delivered" })
+      .populate("userId")
       .sort({ _id: -1 });
     const totalcount = products.reduce((total, item) => total + item.Total, 0);
 
@@ -71,6 +105,9 @@ const SalesReportGet = async (req, res, next) => {
       page: 1,
       pages: 1,
       totalcount,
+      startDate2,
+      endDate2,
+      products,
     });
   } catch (error) {
     next(new AppError(error, 500));
@@ -284,7 +321,10 @@ const filterDate = async (req, res) => {
       req.session.filterDates = { datevalues: {} };
       req.session.startDate = startDate;
       req.session.endDate = endDate;
+      req.session.startDate2 = startDate;
+      req.session.endDate2 = endDate;
       req.session.filterDates.datevalues = { startDate, endDate };
+      req.session.save();
       res.send({ success: true });
     }
   } catch (error) {
@@ -326,7 +366,7 @@ const salesReportDownload = async (req, res, next) => {
         model: "coupons",
         as: "couponDetails",
       });
-    console.log("Data Length ", salesData.length);
+
     if (!salesData || !Array.isArray(salesData)) {
       console.error("salesData is undefined or not an array");
     }
@@ -520,9 +560,67 @@ const salesReportDownload = async (req, res, next) => {
 const removeAllFillters = async (req, res, next) => {
   try {
     req.session.salesDetails = null;
-    res.redirect("/salesReport");
+    req.session.startDate2 = null;
+    req.session.endDate2 = null;
+    res.redirect("/admin/salesReport");
   } catch (error) {
     next(new AppError(error, 500));
+  }
+};
+
+const filterOptions = async (req, res, next) => {
+  try {
+    let { filterOption } = req.body;
+    let startDate, endDate;
+
+    if (filterOption === "month") {
+      endDate = new Date();
+      startDate = new Date(endDate);
+      startDate.setDate(endDate.getDate() - 30);
+    } else if (filterOption === "week") {
+      let currentDate = new Date();
+      let currentDay = currentDate.getDay();
+      let diff = currentDate.getDate() - currentDay - 7;
+      startDate = new Date(currentDate.setDate(diff));
+      endDate = new Date(startDate);
+      endDate.setDate(startDate.getDate() + 6);
+    } else if (filterOption === "year") {
+      let currentYear = new Date().getFullYear();
+      startDate = new Date(currentYear, 0, 1);
+      endDate = new Date(currentYear, 11, 31);
+    }
+
+    let salesDataFiltered = await orderCollection
+      .find({
+        orderDate: { $gte: startDate, $lte: endDate },
+        orderStatus: "Delivered",
+      })
+      .sort({ orderDate: -1 })
+      .populate({
+        path: "cartData.productId",
+        model: "products",
+        as: "productDetails",
+      })
+      .populate({
+        path: "userId",
+        model: "users",
+        as: "userDetails",
+      })
+      .populate({
+        path: "couponApplied",
+        model: "coupons",
+        as: "couponDetails",
+      });
+
+    req.session.admin = {};
+    req.session.admin.dateValues = { startDate, endDate };
+    req.session.salesDetails = salesData = JSON.parse(
+      JSON.stringify(salesDataFiltered)
+    );
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    next(new AppError("Somthing went Wrong", 500));
   }
 };
 
@@ -531,5 +629,6 @@ module.exports = {
   salesReportDownloadPDF,
   salesReportDownload,
   filterDate,
+  filterOptions,
   removeAllFillters,
 };

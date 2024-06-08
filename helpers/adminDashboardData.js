@@ -49,9 +49,33 @@ const currentDayRevenue = async () => {
   }
 };
 
-const fourteenDaysRevenue = async () => {
+const fourteenDaysRevenue = async (filter) => {
   try {
+    let startDate;
+    switch (filter) {
+      case "week":
+        startDate = new Date();
+        startDate.setDate(startDate.getDate() - 7);
+        break;
+      case "2week":
+        startDate = new Date();
+        startDate.setDate(startDate.getDate() - 14);
+        break;
+      case "month":
+        startDate = new Date();
+        startDate.setMonth(startDate.getMonth() - 1);
+        break;
+      case "year":
+        startDate = new Date();
+        startDate.setFullYear(startDate.getFullYear() - 1);
+        break;
+      default:
+        // Default to 14 days if no filter specified
+        startDate = new Date();
+        startDate.setDate(startDate.getDate() - 14);
+    }
     const result = await orderCollection.aggregate([
+      { $match: { orderStatus: "Delivered", orderDate: { $gte: startDate } } },
       {
         $group: {
           _id: { $dateToString: { format: "%Y-%m-%d", date: "$orderDate" } },
@@ -59,10 +83,7 @@ const fourteenDaysRevenue = async () => {
         },
       },
       {
-        $sort: { _id: 1 },
-      },
-      {
-        $limit: 14,
+        $sort: { _id: -1 },
       },
     ]);
     return {
@@ -74,10 +95,33 @@ const fourteenDaysRevenue = async () => {
   }
 };
 
-const categoryWiseRevenue = async () => {
+const categoryWiseRevenue = async (filter) => {
   try {
+    let startDate;
+    switch (filter) {
+      case "week":
+        startDate = new Date();
+        startDate.setDate(startDate.getDate() - 7);
+        break;
+      case "2week":
+        startDate = new Date();
+        startDate.setDate(startDate.getDate() - 14);
+        break;
+      case "month":
+        startDate = new Date();
+        startDate.setMonth(startDate.getMonth() - 1);
+        break;
+      case "year":
+        startDate = new Date();
+        startDate.setFullYear(startDate.getFullYear() - 1);
+        break;
+      default:
+        // Default to 14 days if no filter specified
+        startDate = new Date();
+        startDate.setDate(startDate.getDate() - 14);
+    }
     const result = await orderCollection.aggregate([
-      { $match: { orderStatus: "Delivered" } },
+      { $match: { orderStatus: "Delivered", orderDate: { $gte: startDate } } },
       { $unwind: "$cartData" },
       {
         $lookup: {
@@ -105,9 +149,10 @@ const categoryWiseRevenue = async () => {
           product: { $push: "$product" },
         },
       },
+      {
+        $sort: { _id: -1 },
+      },
     ]);
-
-    // console.log(result.product);
 
     return {
       categoryName: result.map((v) => v.parentCategory.categoryName),

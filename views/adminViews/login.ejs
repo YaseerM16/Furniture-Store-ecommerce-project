@@ -27,7 +27,20 @@
     <link href="assets/css/plugins/slick.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
+
     <style>
+        #brand-name {
+            font-family: "Bungee Spice", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 30px;
+            background-color: #8a5d2a;
+        }
+
         div .logoa {
             height: 150px;
             width: 136px;
@@ -43,6 +56,10 @@
             object-fit: cover;
             object-position: center;
             height: 19vh;
+        }
+
+        .header .topbar .inner {
+            height: 100px;
         }
     </style>
 </head>
@@ -60,9 +77,10 @@
             <div class="container-fluid">
                 <div class="inner">
                     <!-- Logo -->
-                    <div class="logoa">
-                        <a href="index-2.html">
-                            <img src="assets/images/logo.png" class="image-fit" alt="logo">
+                    <div class="logo">
+                        <a href="/">
+                            <div id="brand-name">&nbsp;Y-FURNS</div>
+                            <!-- <img src="assets/images/logo.png" class="image-fi" alt="logo" height="100px" width="100px"> -->
                         </a>
                     </div>
                     <!-- Logo -->
@@ -70,16 +88,7 @@
                     <div class="search-form">
                         <form>
                             <!-- Location -->
-                            <div class="location">
-                                <label>Your Location</label>
-                                <select>
-                                    <option selected>Select A Location</option>
-                                    <option value="New Delhi">New Delhi</option>
-                                    <option value="Mumbai">Mumbai</option>
-                                    <option value="Kolkata">Kolkata</option>
-                                    <option value="Chennai">Chennai</option>
-                                </select>
-                            </div>
+
                             <!-- Location -->
                             <!-- Search -->
                             <div class="input-group">
@@ -99,39 +108,47 @@
                     <div class="header_action">
                         <ul>
                             <li>
-                                <a href="wishlist.html">
+                                <a href="/wishListPage">
                                     <i class="far fa-heart"></i>
                                 </a>
                             </li>
                             <li class="cart">
-                                <a href="cart.html">
+                                <a href="/cartPage">
                                     <span class="cart_value">0</span>
                                     <i class="far fa-shopping-cart"></i>
                                     <div class="cart_text">
                                         My Cart
-                                        <span class="amount">$150.00</span>
+                                        <!-- <span class="amount">$150.00</span> -->
                                     </div>
                                 </a>
                             </li>
                             <li class="user">
-                                <a href="account.html">
-                                    <img src="assets/images/header/user.jpg" class="image-fit" alt="img">
-                                    <span>Jhon Deo</span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="login.html">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="register.html">SignUp</a>
-                                    </li>
-                                    <li>
-                                        <a href="account.html">My Account</a>
-                                    </li>
-                                    <li>
-                                        <a href="login.html">Logout</a>
-                                    </li>
-                                </ul>
+                                <% if (user) { %>
+                                    <a href="/userDetails">
+                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
+                                        <span>
+                                            <%= user.username %>
+                                        </span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="/adimDashBoard">Dashboard</a>
+                                        </li>
+                                        <li>
+                                            <a href="/logout">Logout</a>
+                                        </li>
+                                    </ul>
+                                    <% } else { %>
+                                        <a href="account.html">
+                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
+                                            <span>Login as Admin</span>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li>
+                                                <a href="/adminLogin">Admin Login</a>
+                                            </li>
+                                        </ul>
+                                        <% } %>
                             </li>
                         </ul>
                     </div>
@@ -147,234 +164,15 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-3 col-6">
-                    <div class="main-collapse-wrap custom-accordion">
-                        <button type="button">All Category</button>
-                        <div id="cataccordion" class="accordion_wrap accordion">
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button" data-bs-toggle="collapse"
-                                        data-bs-target="#catOne">
-                                        <i class="fal fa-heart"></i>
-                                        Chair
-                                    </button>
-                                </div>
-                                <div id="catOne" class="accordion-collapse collapse show"
-                                    data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#catTwo">
-                                        <i class="fal fa-heart"></i>
-                                        Sofa
-                                    </button>
-                                </div>
-                                <div id="catTwo" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#catThree">
-                                        <i class="fal fa-heart"></i>
-                                        Table Lamp
-                                    </button>
-                                </div>
-                                <div id="catThree" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#catFour">
-                                        <i class="fal fa-heart"></i>
-                                        Tables
-                                    </button>
-                                </div>
-                                <div id="catFour" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#catFive">
-                                        <i class="fal fa-heart"></i>
-                                        Swing
-                                    </button>
-                                </div>
-                                <div id="catFive" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <div class="card-header accordion-header">
-                                    <button class="btn btn-link accordion-button collapsed" data-bs-toggle="collapse"
-                                        data-bs-target="#catSix">
-                                        <i class="fal fa-heart"></i>
-                                        Cabinets
-                                    </button>
-                                </div>
-                                <div id="catSix" class="accordion-collapse collapse" data-bs-parent="#cataccordion">
-                                    <div class="card-body accordion-body">
-                                        <ul class="sub-category">
-                                            <li>
-                                                <a href="#">Category 1</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 4</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 5</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Category 6</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="col-lg-9 col-6">
                     <div class="nav_inner">
                         <ul class="main-menu">
                             <li class="menu-item">
-                                <a href="index-2.html" class="active">Home</a>
+                                <a href="/adimDashBoard" class="active">Dashboard</a>
                             </li>
-                            <li class="menu-item">
-                                <a href="about.html">About Us</a>
-                            </li>
-                            <li class="menu-item menu-item-has-children"><a href="#">Blog</a>
-                                <ul class="sub-menu custom">
-                                    <li class="menu-item menu-item-has-children"><a href="#">Blog Grid</a>
-                                        <ul class="sub-menu custom">
-                                            <li class="menu-item"><a href="blog.html">Full Width</a></li>
-                                            <li class="menu-item"><a href="blog-left.html">Left Sidebar</a></li>
-                                            <li class="menu-item"><a href="blog-right.html">Right Sidebar</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="blog-details.html">Blog Details</a>
-                                    </li>
-                                </ul>
-                            </li>
+
                             <li class="menu-item menu-item-has-children"><a href="#">Pages</a>
                                 <ul class="sub-menu custom">
                                     <li class="menu-item menu-item-has-children"><a href="#">Account</a>
@@ -382,8 +180,6 @@
                                             <li class="menu-item"><a href="account.html">My Account</a></li>
                                             <li class="menu-item"><a href="login.html">Login</a></li>
                                             <li class="menu-item"><a href="register.html">Register</a></li>
-                                            <li class="menu-item"><a href="payment.html">Payment</a></li>
-                                            <li class="menu-item"><a href="thankyou.html">Thank You</a></li>
                                         </ul>
                                     </li>
                                     <li class="menu-item">
@@ -448,11 +244,9 @@
             <div class="row justify-content-center">
                 <div class="col-lg-7">
                     <div class="login_register_box">
-                        <div class="image">
-                            <img src="assets/images/login.jpg" class="image-fit" alt="img">
-                        </div>
+
                         <div class="box_inner">
-                            <h3 class="title">Log in to your account</h3>
+                            <h3 class="title">Log in as Admin</h3>
                             <form id="myForm" action="/adminLogin" method="POST">
                                 <% if(invalid){ %>
                                     <div class="m-3 py-1 rounded text-center border bg-danger-subtle">
@@ -479,9 +273,6 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label>Password <a href="/forget-password"
-                                                            class="thm-color-one">Forgot
-                                                            Password?</a></label>
                                                     <input type="password" name="password" style="font-size: 22px;"
                                                         class="form-control form-control-custom" id="password_value"
                                                         placeholder="password" autocomplete="off" required>
@@ -494,24 +285,10 @@
                                                                 <% } %>
                                                                     <% }); %>
                                                                         <% } %>
-                                                                            <button id="password_eye" class="fal fa-eye"
-                                                                                type="button">
-                                                                                <span></span>
-                                                                            </button>
+
                                                 </div>
                                             </div>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <div class="custom-control custom-radio me-sm-2 form-check">
-                                                        <input type="radio"
-                                                            class="custom-control-input form-check-input"
-                                                            id="radioValidation">
-                                                        <label class="custom-control-label" for="radioValidation">Keep
-                                                            me logged
-                                                            in</label>
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                             <div class="col-12">
                                                 <button type="submit"
                                                     class="thm-btn btn-rectangle thm-bg-color-one w-100">Login</button>

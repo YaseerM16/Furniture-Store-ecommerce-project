@@ -8,6 +8,7 @@ const categoryCollection = require("../models/categoryModel");
 const productOfferCollection = require("../models/productOfferModel");
 const categoryOffercollection = require("../models/categoryOfferModel");
 const walletCollection = require("../models/walletModel");
+const AppError = require("../middlewares/errorHandling");
 
 const hashPassword = async (password) => {
   try {
@@ -26,30 +27,34 @@ const transporter = nodemailer.createTransport({
     pass: process.env.SMTP_APP_PASS,
   },
 });
-const otpPage = (req, res) => {
+const otpPage = async (req, res) => {
   try {
+    let diffInSeconds;
+    const existingOtp = await Otp.findOne({ email: req.query.email });
+    if (existingOtp) {
+      const createdAt = existingOtp.createdAt;
+      const currentDate = new Date();
+      const diffInMs = currentDate.getTime() - createdAt.getTime();
+      diffInSeconds = Math.floor(diffInMs / 1000);
+    } else {
+      diffInSeconds = null;
+    }
+
     res.render("userViews/otpPage", {
       inValid: false,
+      diffInSeconds,
+      user: null,
     });
   } catch (error) {
     console.log("Error while Rendering the Otp Page : " + error);
   }
 };
-const sendOTP = async (req, res) => {
+const sendOTP = async (req, res, next) => {
   try {
     if (req.session.logged) {
       res.redirect("/");
     } else {
       const { email } = req.session.newUser;
-
-      // Check if email is already registered
-      // const existingUser = await Otp.findOne({ email });
-      // if (existingUser) {
-      //   req.session.userExist = true;
-      //   res.redirect("/signUp");
-      // } else {
-      //   // Generate OTP
-      // }
       const otp = Math.floor(100000 + Math.random() * 900000);
 
       // Send email with OTP
@@ -71,28 +76,19 @@ const sendOTP = async (req, res) => {
         const newOtp = new Otp({ email, otp });
         newOtp.save();
         req.session.succeed = true;
-        res.redirect("/otpPage");
+        res.redirect(`/otpPage?email=${email}`);
       });
     }
   } catch (error) {
-    console.log("Error while sending OTP" + error);
+    next(new AppError(error, 500));
   }
 };
-const retryOtp = async (req, res) => {
+const retryOtp = async (req, res, next) => {
   try {
     if (req.session.logged) {
       res.redirect("/");
     } else {
       const { email } = req.session.newUser;
-
-      // Check if email is already registered
-      // const existingUser = await Otp.findOne({ email });
-      // if (existingUser) {
-      //   req.session.userExist = true;
-      //   res.redirect("/signUp");
-      // } else {
-      //   // Generate OTP
-      // }
       const otp = Math.floor(100000 + Math.random() * 900000);
 
       // Send email with OTP
@@ -114,24 +110,41 @@ const retryOtp = async (req, res) => {
         const newOtp = new Otp({ email, otp });
         newOtp.save();
         req.session.succeed = true;
-        res.redirect("/otpPage");
+        res.redirect(`/otpPage?email=${email}`);
       });
     }
   } catch (error) {
-    console.log(
-      "Error while Attempt to send the OTP through Retry button in Invalid OTP page :" +
-        error
-    );
+    next(new AppError(error, 500));
+  }
+};
+const forgetOtpPage = async (req, res, next) => {
+  try {
+    let diffInSeconds;
+    const existingOtp = await Otp.findOne({ email: req.query.email });
+    if (existingOtp) {
+      const createdAt = existingOtp.createdAt;
+      const currentDate = new Date();
+      const diffInMs = currentDate.getTime() - createdAt.getTime();
+      diffInSeconds = Math.floor(diffInMs / 1000);
+    } else {
+      diffInSeconds = null;
+    }
+
+    res.render("userViews/forgetOtpPage", {
+      inValid: false,
+      diffInSeconds,
+      user: null,
+    });
+  } catch (error) {
+    next(new AppError(error, 500));
   }
 };
 // const sendOTPSecond = e;
-const sendForgetPassOtp = async (req, res) => {
+const sendForgetPassOtp = async (req, res, next) => {
   try {
     const email = req.session.forgetEmail;
     const otp = Math.floor(100000 + Math.random() * 900000);
 
-    console.log(email);
-    console.log(req.session.forgetEmail);
     if (!email) {
       console.log("Error: No email address found in session");
       return res
@@ -158,22 +171,20 @@ const sendForgetPassOtp = async (req, res) => {
       const newOtp = new Otp({ email, otp });
       newOtp.save();
       req.session.succeed = true;
-      res.render("userViews/forgetOtpPage", {
-        inValid: false,
-      });
+      res.redirect(`/forgetOtpPage?email=${email}`);
     });
   } catch (error) {
-    console.log("Error while sending OTP to the Forget password Page:" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const verifyForgetOTP = async (req, res) => {
+const verifyForgetOTP = async (req, res, next) => {
   try {
     const { otp } = req.body;
     const email = req.session.forgetEmail;
     const existingOtp = await Otp.findOne({ email, otp });
     if (!existingOtp || existingOtp.createdAt < Date.now() - 5 * 60 * 1000) {
-      res.render("userViews/forgetOtpInvalid");
+      res.render("userViews/forgetOtpInvalid", { user: null });
     } else {
       await Otp.deleteOne({ email, otp });
 
@@ -184,22 +195,19 @@ const verifyForgetOTP = async (req, res) => {
         errors: false,
         userExist: req.session.userExist,
         passwordMismatch: req.session.passwordMismatch,
+        user: null,
       });
       req.session.userExist = false;
       req.session.passwordMismatch = false;
     }
   } catch (error) {
-    console.log(
-      "Erro while Verifying the OTP form the Forget Passerword generated OTP " +
-        error
-    );
+    next(new AppError(error, 500));
   }
 };
 
-const updatePassword = async (req, res) => {
+const updatePassword = async (req, res, next) => {
   try {
     const { password, confirmPassword } = req.body;
-    console.log(req.session.forgetEmail);
     if (password !== confirmPassword) {
       req.session.passwordMismatch = true;
       res.redirect("/");
@@ -212,159 +220,143 @@ const updatePassword = async (req, res) => {
         { new: true }
       );
       if (!user) {
-        console.log("User not found");
         res.status(404).send({ message: "User not found" });
       } else {
-        console.log("Password updated successfully");
-
-        res.render("userViews/changePassSuccess");
+        res.render("userViews/changePassSuccess", { user: null });
       }
     }
   } catch (error) {
-    console.log(
-      "ERROR while updating the password through the forget password " + error
-    );
+    next(new AppError(error, 500));
   }
 };
 
-const verifyOTP = async (req, res) => {
+const verifyOTP = async (req, res, next) => {
   try {
     if (req.session.logged) {
       res.redirect("/");
     } else {
-      if (req.session.verified) {
-        res.redirect("/otpSuccess");
+      const { otp } = req.body;
+      const {
+        username,
+        email,
+        phonenumber,
+        password,
+        isBlocked,
+        referralCode,
+      } = req.session.newUser;
+
+      // Check if OTP is valid
+      const existingOtp = await Otp.findOne({ email, otp });
+      if (!existingOtp || existingOtp.createdAt < Date.now() - 5 * 60 * 1000) {
+        res.render("userViews/otpInvalid", { user: null });
       } else {
-        const { otp } = req.body;
-        const {
+        await Otp.deleteOne({ email, otp });
+
+        // Add user to the database
+        // You can define your user model and add the user here
+        let addUser = new userCollection({
           username,
           email,
           phonenumber,
           password,
           isBlocked,
-          referralCode,
-        } = req.session.newUser;
+          referralCode: crypto.randomBytes(10).toString("hex"),
+        });
 
-        // Check if OTP is valid
-        const existingOtp = await Otp.findOne({ email, otp });
-        if (
-          !existingOtp ||
-          existingOtp.createdAt < Date.now() - 5 * 60 * 1000
-        ) {
-          res.render("userViews/otpInvalid");
-        } else {
-          await Otp.deleteOne({ email, otp });
+        let savedUser = await addUser.save();
+        const userId = savedUser._id;
+        await walletCollection.create({
+          userId,
+        });
 
-          // Add user to the database
-          // You can define your user model and add the user here
-          let addUser = new userCollection({
-            username,
-            email,
-            phonenumber,
-            password,
-            isBlocked,
-            referralCode: crypto.randomBytes(10).toString("hex"),
+        if (referralCode) {
+          const transactionDate = new Date();
+          const transactionAmount = 100;
+          const transactionType = "credited";
+          const referrer = await userCollection.findOne({
+            referralCode: req.session.newUser.referralCode,
           });
-
-          let savedUser = await addUser.save();
-          const userId = savedUser._id;
-          await walletCollection.create({
-            userId,
-          });
-
-          if (referralCode) {
-            console.log(req.session.newUser.referralCode);
-            const transactionDate = new Date();
-            const transactionAmount = 100;
-            const transactionType = "credited";
-            const referrer = await userCollection.findOne({
-              referralCode: req.session.newUser.referralCode,
-            });
-            const secondper = await walletCollection.findOneAndUpdate(
-              { userId: referrer._id },
-              {
-                $inc: { walletBalance: 100 },
-                $push: {
-                  walletTransaction: {
-                    transactionDate: transactionDate,
-                    transactionAmount: transactionAmount,
-                    transactionType: transactionType,
-                    transactionMethod: "Referral",
-                  },
+          const secondper = await walletCollection.findOneAndUpdate(
+            { userId: referrer._id },
+            {
+              $inc: { walletBalance: 100 },
+              $push: {
+                walletTransaction: {
+                  transactionDate: transactionDate,
+                  transactionAmount: transactionAmount,
+                  transactionType: transactionType,
+                  transactionMethod: "Referral",
                 },
               },
+            },
 
-              { new: true }
-            );
-            const firstPer = await walletCollection.findOneAndUpdate(
-              { userId: userId },
-              {
-                $inc: { walletBalance: 100 },
-                $push: {
-                  walletTransaction: {
-                    transactionDate: transactionDate,
-                    transactionAmount: transactionAmount,
-                    transactionType: transactionType,
-                    transactionMethod: "Referral",
-                  },
+            { new: true }
+          );
+          const firstPer = await walletCollection.findOneAndUpdate(
+            { userId: userId },
+            {
+              $inc: { walletBalance: 100 },
+              $push: {
+                walletTransaction: {
+                  transactionDate: transactionDate,
+                  transactionAmount: transactionAmount,
+                  transactionType: transactionType,
+                  transactionMethod: "Referral",
                 },
               },
+            },
 
-              { new: true }
-            );
-          }
-
-          req.session.verified = true;
-          req.session.passed = false;
-          res.redirect("/otpSuccess");
+            { new: true }
+          );
         }
+
+        req.session.verified = true;
+        req.session.passed = false;
+        res.redirect("/otpSuccess");
       }
     }
   } catch (error) {
-    console.log("Error while verifying the OTP " + error);
+    next(new AppError(error, 500));
   }
 
   //success Page
 
   // Delete OTP from the database
 };
-const otpSucessPage = (req, res) => {
+const otpSucessPage = (req, res, next) => {
   try {
     if (req.session.logged) {
       res.redirect("/");
     } else {
       if (req.session.verified) {
-        res.render("userViews/otpSuccess");
+        res.render("userViews/otpSuccess", { user: null });
       }
     }
   } catch (error) {
-    console.log("error in showing the OTP Success Page" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const resendOTP = async (req, res) => {
+const resendOTP = async (req, res, next) => {
   try {
     const { email } = req.session.newUser;
-    console.log(email);
 
     // Delete existing OTP from the database
     const deleteRes = await Otp.deleteOne({ email });
     if (deleteRes.deletedCount > 0) {
-      console.log("Existing OTP deleted successfully");
-
       // Send new OTP
-      await sendOTP(req.session.newUser);
+      await sendOTP(req, res);
     } else {
       console.log("No existing OTP found to delete");
       res.status(404).send({ error: "No existing OTP found" });
     }
     // Send new OTP
   } catch (error) {
-    console.log("Error while Resend the OTP in User Side:" + error);
+    next(new AppError(error, 500));
   }
 };
 
-const forgetResendOTP = async (req, res) => {
+const forgetResendOTP = async (req, res, next) => {
   try {
     const email = req.session.forgetEmail;
 
@@ -372,8 +364,6 @@ const forgetResendOTP = async (req, res) => {
     const deleteResult = await Otp.deleteOne({ email: email });
 
     if (deleteResult.deletedCount > 0) {
-      console.log("Existing OTP deleted successfully");
-
       // Send new OTP
       await sendForgetPassOtp(req, res);
     } else {
@@ -381,23 +371,22 @@ const forgetResendOTP = async (req, res) => {
       res.status(404).send({ error: "No existing OTP found" });
     }
   } catch (error) {
-    console.log("Error in forgetResendOTP:", error);
-    res.status(500).send({ error: "Error resending OTP" });
+    next(new AppError(error, 500));
   }
 };
 
-const retryOTP = async (req, res) => {
-  console.log("retry OTp function is calling");
-  const { email } = req.session.newUser;
-  console.log(email);
+const retryOTP = async (req, res, next) => {
+  try {
+    const { email } = req.session.newUser;
 
-  // Delete existing OTP from the database
-  await Otp.deleteOne({ email });
+    // Delete existing OTP from the database
+    await Otp.deleteOne({ email });
 
-  // Send new OTP
-  sendOTP(req.session.newUser);
-
-  res.render("userViews/otpPage", { inValid: false });
+    // Send new OTP
+    await sendOTP(req, res);
+  } catch (error) {
+    next(new AppError(error, 500));
+  }
 };
 
 function calcStatus(orderCancelUpdate) {
@@ -486,9 +475,7 @@ async function offerExistsAndActiveFn(v, offerExists, action) {
     productPrice = Math.round(
       v.productPrice * (1 - greaterOfferPercentage * 0.01)
     );
-    console.log("applying add : ");
-    console.log(greaterOfferPercentage);
-    console.log(productPrice);
+
     await productCollection.updateOne(
       { _id: v._id },
       {
@@ -504,9 +491,7 @@ async function offerExistsAndActiveFn(v, offerExists, action) {
     productPrice = Math.round(
       v.priceBeforeOffer * (1 - greaterOfferPercentage * 0.01)
     );
-    console.log("applying edit : ");
-    console.log(greaterOfferPercentage);
-    console.log(productPrice);
+
     await productCollection.updateOne(
       { _id: v._id },
       {
@@ -522,8 +507,6 @@ async function offerExistsAndActiveFn(v, offerExists, action) {
 
 async function offerExistsAndInactiveFn(v, action) {
   if (action == "editOffer" || "landingPage") {
-    console.log("Offer removing also happening:");
-    console.log(v.priceBeforeOffer);
     let productPrice = v.priceBeforeOffer;
     await productCollection.updateOne(
       { _id: v._id },
@@ -736,6 +719,7 @@ module.exports = {
   resendOTP,
   retryOTP,
   otpSucessPage,
+  forgetOtpPage,
   sendForgetPassOtp,
   verifyForgetOTP,
   updatePassword,

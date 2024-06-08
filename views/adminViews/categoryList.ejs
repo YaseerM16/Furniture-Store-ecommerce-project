@@ -66,6 +66,7 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
 
     <title>Admin-Category</title>
     <style>
@@ -271,6 +272,24 @@
         .category-offers-button:hover {
             background-color: #ff564e;
         }
+
+        .header .topbar .inner {
+            height: 100px;
+        }
+
+        .header .topbar .inner .logo {
+            height: 100px;
+            margin-left: 60px;
+        }
+
+        .header .topbar .inner .logo #brand-name {
+            height: 52px;
+            padding: 2px;
+        }
+
+        a {
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -279,11 +298,11 @@
     <!-- Header Start -->
     <header class="header">
         <!-- Topbar -->
-        <div class="topbar d-flex align-items-center">
+        <div class="topbar">
             <div class="container-fluid">
                 <div class="inner">
                     <!-- Logo -->
-                    <div class="logo" style="padding-left: 50px;">
+                    <div class="logo">
                         <a href="#">
                             <div id="brand-name">&nbsp;Y-FURNS</div>
                             <!-- <img src="assets/images/logo.png" class="image-fi" alt="logo" height="100px" width="100px"> -->
@@ -291,7 +310,7 @@
                     </div>
                     <!-- Logo -->
                     <!-- Search Form -->
-                    <div class="search-form" style="padding-bottom: 50px;">
+                    <div class="search-form">
                         <form>
                             <!-- Location -->
 
@@ -311,36 +330,34 @@
                     </div>
                     <!-- Search Form -->
                     <!-- Header Action -->
-                    <div class="header_action" style="padding-bottom: 50px;padding-right: 50px;">
+                    <div class="header_action">
                         <ul>
-
-                            <li class="user">
+                            <li class="user" style="margin-right: 50px;">
                                 <% if (user) { %>
-                                    <a href="#">
+                                    <a href="/userDetails">
                                         <img src="/assets/images/header/user.png" class="image-fit" alt="img">
-                                        <div class="cart_text">
-                                            ADMIN
-                                        </div>
                                         <span>
+                                            Admin
                                             <%= user.username %>
                                         </span>
                                     </a>
                                     <ul class="sub-menu">
-
                                         <li>
-                                            <a href="/adminLogout">Logout</a>
+                                            <a href="/adimDashBoard">Dashboard</a>
+                                        </li>
+                                        <li>
+                                            <a href="/logout">Logout</a>
                                         </li>
                                     </ul>
                                     <% } else { %>
                                         <a href="account.html">
                                             <img src="/assets/images/header/user2.png" class="image-fit" alt="img">
-                                            <span>New User</span>
+                                            <span>Login as Admin</span>
                                         </a>
                                         <ul class="sub-menu">
                                             <li>
-                                                <a href="/adminLogin">Login</a>
+                                                <a href="/adminLogin">Admin Login</a>
                                             </li>
-
                                         </ul>
                                         <% } %>
                             </li>
@@ -369,7 +386,13 @@
                                 <div class="collapse navbar-collapse" id="navbarNav">
                                     <ul class="navbar-nav w-100 d-flex flex-column">
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/adimDashBoard">Home</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/adimDashBoard">Dashboard</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-tachometer-alt"></i>
+                                                </div>
+
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
                                             <div class="d-flex" id="user">
@@ -563,18 +586,31 @@
                                             <%= categoryDet[i].categoryDescription %>
                                         </td>
                                         <% if(categoryDet[i].isListed){ %>
-                                            <td><button id="unList<%i%>" type="button"
-                                                    onclick="fnList('<%=categoryDet[i].categoryName %>')"
-                                                    class="btn btn-danger">Unlist</button> </td>
+                                            <td>
+                                                <div class="d-flex justify-content-center align-items-center">
+                                                    <button id="unList<%i%>" type="button"
+                                                        onclick="fnList('<%=categoryDet[i].categoryName %>')"
+                                                        class="btn btn-danger"><i class="fas fa-times-circle"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
                                             <% }else{ %>
-                                                <td><button id="list<%i%>" type="button"
-                                                        onclick="fnUnlist('<%=categoryDet[i].categoryName %>')"
-                                                        class="btn btn-success">List</button> </td>
+                                                <td>
+                                                    <div class="d-flex justify-content-center align-items-center">
+                                                        <button id="list<%i%>" type="button"
+                                                            onclick="fnUnlist('<%=categoryDet[i].categoryName %>')"
+                                                            class="btn btn-success"><i class="fas fa-list"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
                                                 <% } %>
                                                     <td>
-                                                        <button id="unblock<%i%>" data-target="#categoryModal<%=i%>"
-                                                            data-toggle="modal" type="button"
-                                                            class="btn btn-info">Edit</button>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <button id="unblock<%i%>" data-target="#categoryModal<%=i%>"
+                                                                data-toggle="modal" type="button"
+                                                                class="btn btn-info"><i
+                                                                    class="fas fa-edit"></i></button>
+                                                        </div>
                                                     </td>
                                     </tr>
                                     <!-- Modal -->

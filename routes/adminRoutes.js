@@ -18,6 +18,7 @@ const {
   salesReportDownload,
   filterDate,
   removeAllFillters,
+  filterOptions,
 } = require("../controller/salesReportController.js");
 const {
   topProductsData,
@@ -192,13 +193,15 @@ adminRouter.put(
   couponController.editCoupon
 );
 adminRouter.patch("/deleteCoupon", couponController.deleteCounpon);
+adminRouter.patch("/admin/restoreCoupon", couponController.restoreCounpon);
 
 /// Sales Report
 
-adminRouter.get("/admin/salesReport", SalesReportGet);
+adminRouter.get("/admin/salesReport", isAdmin, SalesReportGet);
 adminRouter.get("/salesReport/download/pdf", salesReportDownloadPDF);
 adminRouter.get("/salesReport/download/xlsx", salesReportDownload);
 adminRouter.post("/filterdate", filterDate);
+adminRouter.post("/admin/salesReport/filterOptions", filterOptions);
 adminRouter.get("/removefilter", removeAllFillters);
 
 module.exports = adminRouter;

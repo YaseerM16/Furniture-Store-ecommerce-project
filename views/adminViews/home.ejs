@@ -254,6 +254,47 @@
         .product-offers-button:hover {
             background-color: #ff564e;
         }
+
+        .hover-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .hover-button::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+            z-index: 0;
+            opacity: 0;
+        }
+
+        .hover-button:hover {
+            background-color: #c0392b;
+            color: #fff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .hover-button:hover::before {
+            opacity: 1;
+        }
+
+        .hover-button span {
+            position: relative;
+            z-index: 1;
+        }
     </style>
 </head>
 
@@ -494,8 +535,27 @@
                         </div>
 
                         <div class="row d-flex justify-content-around">
-                            <div class="container text-center">
-                                <h5>Two Weeks Sales Report</h5>
+                            <div class="container text-center d-flex">
+                                <div>
+                                    <section class="row d-flex justify-content-between"
+                                        style="display: flex; align-items: center; margin-top: 20px;">
+                                        <select style="width: 200px;padding: 10px;margin-left: 20px;" id="timeRange">
+                                            <option value="week">This Week</option>
+                                            <option value="2week">Last 2 Weeks</option>
+                                            <option value="month">Last Month</option>
+                                            <option value="year">Last Year</option>
+                                        </select>
+
+                                        <button class="hover-button"
+                                            style="width: 120px;margin-left: 10px;height: 55px; background-color: #2f5630; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: auto;"
+                                            type="button" onclick="updateRevenue()">
+                                            Apply Filter
+                                        </button>
+                                    </section>
+                                </div>
+                                <div style="padding-top: 30px;padding-left: 50px;">
+                                    <h5 id="heading">Two Weeks Sales Report</h5>
+                                </div>
                             </div>
 
                             <hr />
@@ -533,15 +593,21 @@
 
     <script
         src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@1.0.0/dist/chartjs-adapter-date-fns.min.js"></script>
-    <script type="module">
-        const chartAndGraph = (async () => {
-            try {
-                // / admin / adminDashBoardData
+    <script>
+        let twoWeeksSalesChart; // Declare a variable to store the chart instance
+        let categoryWiseRevenueChart; // Declare a variable to store the chart instance
 
-                const response = await fetch("/admin/adminDashBoardData", { method: 'GET' })
+        async function chartAndGraph(range) {
+            try {
+                const response = await fetch(`/admin/adminDashBoardData?filter=${range}`, { method: 'GET' });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
                 console.log(data);
-                const { getProductsCount,
+
+                const {
+                    getProductsCount,
                     getCategoryCount,
                     pendingOrdersCount,
                     deliveredOrdersCount,
@@ -550,30 +616,36 @@
                     categoryWiseRevenue,
                     revenue,
                     monthlyRevenue,
-                    activeUser, } = data
+                    activeUser
+                } = data;
+
                 console.log("Product Count: ", getProductsCount);
                 console.log("Category Count: ", getCategoryCount);
-                console.log("PendingOrder :", pendingOrdersCount);
-                console.log("Delivereds: ", deliveredOrdersCount);
-                console.log("CurrentRevenue: ", currentDayRevenue);
-                console.log("FourteenDayRevenue: ", fourteenDaysRevenue);
-                console.log("CategoryRevenue: ", categoryWiseRevenue);
+                console.log("Pending Order :", pendingOrdersCount);
+                console.log("Delivered Orders: ", deliveredOrdersCount);
+                console.log("Current Revenue: ", currentDayRevenue);
+                console.log("Fourteen Day Revenue: ", fourteenDaysRevenue);
+                console.log("Category Revenue: ", categoryWiseRevenue);
                 console.log("Revenue: ", revenue);
-                console.log("MonthlyRevenue: ", monthlyRevenue);
-                console.log("ActiveUser: ", activeUser);
-
+                console.log("Monthly Revenue: ", monthlyRevenue);
+                console.log("Active User: ", activeUser);
+                if (range) {
+                    document.getElementById('heading').innerHTML = range + " sales";
+                } else {
+                    document.getElementById('heading')
+                }
                 document.getElementById('productsCount').innerHTML = getProductsCount;
                 document.getElementById('categoryCount').innerHTML = `In ${getCategoryCount} Categories`;
                 document.getElementById('completedOrdersCount').innerHTML = deliveredOrdersCount;
-                document.getElementById('MonthlyRevenue').innerHTML = `$ ${monthlyRevenue}`;
-                document.getElementById('currentDayRevenue').innerHTML = `$ ${currentDayRevenue}`;
+                document.getElementById('MonthlyRevenue').innerHTML = `&#8377&nbsp; ${monthlyRevenue}`;
+                document.getElementById('currentDayRevenue').innerHTML = `&#8377&nbsp; ${currentDayRevenue}`;
 
                 const twoWeekDates = fourteenDaysRevenue.date;
                 const dateRevenues = fourteenDaysRevenue.revenue;
                 console.log(twoWeekDates);
 
-                const categoryNames = categoryWiseRevenue.categoryName
-                const categoryRevenue = categoryWiseRevenue.revenuePerCategory
+                const categoryNames = categoryWiseRevenue.categoryName;
+                const categoryRevenue = categoryWiseRevenue.revenuePerCategory;
 
                 const twoWeeksSalesData = {
                     labels: twoWeekDates,
@@ -586,7 +658,10 @@
                     }]
                 };
 
-
+                // Destroy the existing chart instance if it exists
+                if (twoWeeksSalesChart) {
+                    twoWeeksSalesChart.destroy();
+                }
 
                 // Config for Two Weeks Sales Report
                 const twoWeeksSalesConfig = {
@@ -602,7 +677,7 @@
                 };
 
                 // Render Two Weeks Sales Report
-                const twoWeeksSalesChart = new Chart(
+                twoWeeksSalesChart = new Chart(
                     document.getElementById('twoWeeksSalesChart'),
                     twoWeeksSalesConfig
                 );
@@ -626,47 +701,12 @@
                         borderWidth: 1
                     }]
                 };
-                // Sample sales data passed from the server
-                // const salesDataDet = '<%- JSON.stringify(salesData) %>';
-                // const salesData = JSON.parse(salesDataDet);
 
-                // Extract dates and sales values from the data
-                // const labels = salesData.map(item => item.date);
-                // const data = salesData.map(item => item.sales);
-                // console.log(labels);
+                // Destroy the existing chart instance if it exists
+                if (categoryWiseRevenueChart) {
+                    categoryWiseRevenueChart.destroy();
+                }
 
-                // Setup the line chart data and configuration
-                // const ctxLine = document.getElementById('salesLineChart').getContext('2d');
-                // const salesLineChart = new Chart(ctxLine, {
-                //     type: 'line',
-                //     data: {
-                //         labels: labels,
-                //         datasets: [{
-                //             label: 'Sales',
-                //             data: data,
-                //             borderColor: 'rgba(75, 192, 192, 1)',
-                //             backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                //             borderWidth: 1,
-                //             fill: true
-                //         }]
-                //     },
-                //     options: {
-                //         scales: {
-                //             x: {
-                //                 type: 'time',
-                //                 time: {
-                //                     unit: 'day',
-                //                     tooltipFormat: 'MMM d, yyyy',
-                //                 }
-                //             },
-                //             y: {
-                //                 beginAtZero: true
-                //             }
-                //         }
-                //     }
-                // });
-
-                // Config for Categorywise Revenue Chart
                 const categoryWiseRevenueConfig = {
                     type: 'polarArea', // Change the type to 'radar'
                     data: categoryWiseRevenueData,
@@ -683,7 +723,7 @@
                             tooltip: {
                                 callbacks: {
                                     label: function (tooltipItem) {
-                                        return $`${tooltipItem.raw}`;
+                                        return `₹ ${tooltipItem.raw}`;
                                     }
                                 }
                             },
@@ -696,15 +736,23 @@
                 };
 
                 // Render Categorywise Revenue Chart
-                const categoryWiseRevenueChart = new Chart(
+                categoryWiseRevenueChart = new Chart(
                     document.getElementById('categoryWiseRevenueChart'),
                     categoryWiseRevenueConfig
                 );
 
             } catch (error) {
-                console.log("Erro while generating the datas");
+                console.error("Error while generating the data: ", error);
             }
-        })();
+        }
+
+        function updateRevenue() {
+            const range = document.getElementById("timeRange").value;
+            chartAndGraph(range);
+        }
+
+        // Call this function after defining it
+        chartAndGraph('Two Week');
 
     </script>
 

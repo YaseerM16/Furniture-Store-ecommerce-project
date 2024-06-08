@@ -36,6 +36,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
 
     <style>
         #brand-name {
@@ -177,6 +178,36 @@
         .header .topbar .inner {
             height: 100px;
         }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table-responsive table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-responsive th,
+        .table-responsive td {
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+
+            .table-responsive th,
+            .table-responsive td {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .table-responsive th,
+            .table-responsive td {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 
@@ -224,7 +255,7 @@
                             <li class="user">
                                 <% if (user) { %>
                                     <a href="#">
-                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
+                                        <img src="/assets/images/header/user.png" class="image-fit" alt="img">
                                         <div class="cart_text">
                                             ADMIN
                                         </div>
@@ -240,7 +271,7 @@
                                     </ul>
                                     <% } else { %>
                                         <a href="account.html">
-                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
+                                            <img src="/assets/images/header/user2.png" class="image-fit" alt="img">
                                             <span>New User</span>
                                         </a>
                                         <ul class="sub-menu">
@@ -279,7 +310,13 @@
                                 <div class="collapse navbar-collapse" id="navbarNav">
                                     <ul class="navbar-nav w-100 d-flex flex-column">
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/adimDashBoard">Home</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/adimDashBoard">Dashboard</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-tachometer-alt"></i>
+                                                </div>
+
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
                                             <div class="d-flex" id="user">
@@ -321,15 +358,23 @@
                                         </li>
                                         <li class="nav-item my-3 fs-5">
                                             <div class="d-flex" id="user">
+
+                                                <a class="nav-link" href="/admin/couponManagement/coupons">Coupon
+                                                    Management</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-ticket"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="nav-item my-3 fs-5">
+                                            <div class="d-flex" id="user">
                                                 <a class="nav-link" href="/admin/salesReport">Sales Report</a>
                                                 <div class="iconx d-flex align-items-center justify-content-center">
                                                     <i class="fas fa-chart-line"></i>
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="#">Banner Management</a>
-                                        </li>
+
                                     </ul>
                                 </div>
                             </div>
@@ -361,153 +406,217 @@
                                     </div>
                                 </div>
                                 <div class="container mt-1 d-flex" style="padding: 0px 0px;margin: 0px 0px 0px;">
+                                    <% if(startDate2 && endDate2) { %>
 
-                                    <form id="filtersForm" class="form-inline d-flex mx-3">
-                                        <div class="d-flex flex-column" style="margin-right: 30px;">
+                                        <form id="filtersForm" class="form-inline d-flex mx-3">
+                                            <div class="d-flex flex-column" style="margin-right: 30px;">
+                                                <label for="filterDateFrom"
+                                                    class="mr-2 d-flex align-items-center me-3">Date
+                                                    From</label>
+                                                <input style="max-width: fit-content; height: 40px;" type="date"
+                                                    id="filterDateFrom" class="form-control form-control-sm datepicker"
+                                                    value="<%= startDate2.toISOString().substring(0, 10) %>">
+                                                <div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column" style="margin-left: 0px;">
+                                                <label for="filterDateTo"
+                                                    class="mr-2 ms-3 d-flex align-items-center me-3">Date
+                                                    To</label>
+                                                <input style="max-width: fit-content;height: 40px" type="date"
+                                                    id="filterDateTo" class="form-control form-control-sm datepicker"
+                                                    value="<%= endDate2.toISOString().substring(0, 10) %>">
+                                                <div>
+                                                </div>
 
-                                            <label for="filterDateFrom" class="mr-2 d-flex align-items-center me-3">Date
-                                                From</label>
-                                            <input style="max-width: fit-content; height: 40px;" type="date"
-                                                id="filterDateFrom" class="form-control form-control-sm datepicker">
-                                        </div>
-                                        <div class="d-flex flex-column" style="margin-left: 0px;">
-                                            <label for="filterDateTo"
-                                                class="mr-2 ms-3 d-flex align-items-center me-3">Date
-                                                To</label>
-                                            <input style="max-width: fit-content;height: 40px" type="date"
-                                                id="filterDateTo" class="form-control form-control-sm datepicker">
+                                            </div>
+                                            <div class="d-flex my-3 mx-3" style="margin-top: 0px;">
+                                                <div>
 
-                                        </div>
+                                                    <button type="button" class="btn btn-primary btn-sm ms-3 btn-custom"
+                                                        id="applyFilters">Apply
+                                                        Filters</button>
+                                                </div>
+                                                <div>
 
+                                                    <a href="/removefilter">
+                                                        <button type="button"
+                                                            class="btn btn-secondary btn-sm ms-3 btn-custom">Remove
+                                                            Filters</button>
+                                                    </a>
+                                                </div>
+                                            </div>
 
-                                    </form>
-                                    <select id="filterOption" class="ms-5"
-                                        style="width: 100px; height: 40px; padding: 5px; font-size: 16px; border: 2px solid #ccc; border-radius: 5px;">
-                                        <option value="month">Month</option>
-                                        <option value="week">Week</option>
-                                        <option value="year">Year</option>
-                                    </select>
-                                    <button id="filterBtn" class="btn btn-success ms-3 btn-custom">Filter</button>
-                                    <br />
-                                    <br />
+                                        </form>
+                                        <% } else { %>
+                                            <form id="filtersForm" class="form-inline d-flex mx-3 flex-column">
+                                                <div class="d-flex">
+                                                    <div class="d-flex flex-column" style="margin-right: 5px;">
+
+                                                        <label for="filterDateFrom"
+                                                            class="mr-2 d-flex align-items-center me-3">Date
+                                                            From</label>
+                                                        <input style="max-width: fit-content; height: 40px;" type="date"
+                                                            id="filterDateFrom"
+                                                            class="form-control form-control-sm datepicker">
+                                                    </div>
+                                                    <div class="d-flex flex-column" style="margin-left: 0px;">
+                                                        <label for="filterDateTo"
+                                                            class="mr-2 ms-3 d-flex align-items-center me-3">Date
+                                                            To</label>
+                                                        <input style="max-width: fit-content;height: 40px" type="date"
+                                                            id="filterDateTo"
+                                                            class="form-control form-control-sm datepicker">
+
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex my-3 mx-3" style="margin-top: 0px;">
+                                                    <div>
+
+                                                        <button type="button"
+                                                            class="btn btn-primary btn-sm ms-3 btn-custom"
+                                                            id="applyFilters">Apply
+                                                            Filters</button>
+                                                    </div>
+                                                    <div>
+
+                                                        <a href="/removefilter">
+                                                            <button type="button"
+                                                                class="btn btn-secondary btn-sm ms-3 btn-custom">Remove
+                                                                Filters</button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+
+                                            <% } %>
+                                                <div style="padding-top: 25px;">
+
+                                                    <select id="filterOption" class="ms-5"
+                                                        style="width: 100px; height: 40px; padding: 5px; font-size: 16px; border: 2px solid #ccc; border-radius: 5px;">
+                                                        <option value="month">Month</option>
+                                                        <option value="week">Week</option>
+                                                        <option value="year">Year</option>
+                                                    </select>
+                                                    <button id="applyOptionFilter"
+                                                        class="btn btn-success ms-3 btn-custom"
+                                                        style="height: 50px;width: 70px;">Filter</button>
+                                                </div>
+                                                <br />
+                                                <br />
                                 </div>
                             </div>
-                            <div class="d-flex my-3 mx-3" style="margin-top: 0px;">
-                                <div>
-
-                                    <button type="button" class="btn btn-primary btn-sm ms-3 btn-custom"
-                                        id="applyFilters">Apply
-                                        Filters</button>
-                                </div>
-                                <div>
-
-                                    <a href="/removefilter">
-                                        <button type="button" class="btn btn-secondary btn-sm ms-3 btn-custom">Remove
-                                            Filters</button>
-                                    </a>
-                                </div>
-                            </div>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Order Number</th>
-                                        <th>UserName</th>
-                                        <th>Order Date</th>
-                                        <th>Products</th>
-                                        <th>Product Offer</th>
-                                        <th>Quantity</th>
-                                        <th>Before Offer</th>
-                                        <th>Total Cost</th>
-                                        <th>Payment Method</th>
-                                        <th>Status</th>
-                                        <th>Coupons</th>
-                                        <th>Before Coupon</th>
-                                        <th>Ordered Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% for (let i=0; i < Sreports.length; i++) { %>
-                                        <% let order=Sreports[i]; %>
-                                            <% let j=0; %>
-                                                <tr>
-                                                    <td rowspan="<%= order.cartData.length %>"
-                                                        style="text-align: center;">
-                                                        <%= order.orderId %>
-                                                    </td>
-                                                    <td rowspan="<%= order.cartData.length %>"
-                                                        style="text-align: center;">
-                                                        <%= order.userId.username %>
-                                                    </td>
-                                                    <td rowspan="<%= order.cartData.length %>"
-                                                        style="text-align: center;">
-                                                        <%= new Date(order.orderDate).toLocaleDateString('en-GB', {
-                                                            day: '2-digit' , month: '2-digit' , year: 'numeric'
-                                                            }).replace(/\//g, '-' ) %>
-                                                    </td>
-                                                    <% for (let cartItem of order.cartData) { %>
-                                                        <td style="text-align: center;">
-                                                            <%= cartItem.productId.productName %>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Order Number</th>
+                                            <th>UserName</th>
+                                            <th>Order Date</th>
+                                            <th>Products</th>
+                                            <th>Product Offer</th>
+                                            <th>Quantity</th>
+                                            <th>Before Offer</th>
+                                            <th>Total Cost</th>
+                                            <th>Payment Method</th>
+                                            <th>Status</th>
+                                            <th>Coupons</th>
+                                            <th>Before Coupon</th>
+                                            <th>Ordered Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for (let i=0; i < Sreports.length; i++) { %>
+                                            <% let order=Sreports[i]; %>
+                                                <% let j=0; %>
+                                                    <tr>
+                                                        <td rowspan="<%= order.cartData.length %>"
+                                                            style="text-align: center;">
+                                                            <%= order.orderId %>
                                                         </td>
-                                                        <td style="text-align: center;">
-                                                            <% if (cartItem.productId.productOfferPercentage) { %>
-                                                                <%= `${cartItem.productId.productOfferPercentage}%` %>
-                                                                    <% } else { %>
-                                                                        Nil
-                                                                        <% } %>
+                                                        <td rowspan="<%= order.cartData.length %>"
+                                                            style="text-align: center;">
+                                                            <%= order.userId.username %>
                                                         </td>
-                                                        <td style="text-align: center;">
-                                                            <%= cartItem.productQuantity %>
+                                                        <td rowspan="<%= order.cartData.length %>"
+                                                            style="text-align: center;">
+                                                            <%= new Date(order.orderDate).toLocaleDateString('en-GB', {
+                                                                day: '2-digit' , month: '2-digit' , year: 'numeric'
+                                                                }).replace(/\//g, '-' ) %>
                                                         </td>
-                                                        <td style="text-align: center;">
-                                                            <span>
-                                                                Rs.<%= cartItem.productId.priceBeforeOffer *
-                                                                    cartItem.productQuantity %>
-                                                            </span>
-                                                        </td>
-                                                        <td style="text-align: center;">
-                                                            <span>
-                                                                Rs.<%= cartItem.totalCostPerProduct %>
-                                                            </span>
-                                                        </td>
-                                                        <td style="text-align: center;">
-                                                            <%= order.paymentType %>
-                                                        </td>
-                                                        <td style="text-align: center;">
-                                                            <%= order.orderStatus %>
-                                                        </td>
-                                                        <td style="text-align: center;">
-                                                            <% if (order.couponApplied) { %>
-                                                                <%= `${order.couponApplied.discountPercentage}%` %>
-                                                                    <% } else { %>
-                                                                        Nil
-                                                                        <% } %>
-                                                        </td>
-                                                        <td style="text-align: center;">
-                                                            <% if (order.couponApplied) { %>
-                                                                <span>
-                                                                    Rs.<%= Math.round(order.grandTotalCost / (1 -
-                                                                        order.couponApplied.discountPercentage / 100))
+                                                        <% for (let cartItem of order.cartData) { %>
+                                                            <td style="text-align: center;">
+                                                                <%= cartItem.productId.productName %>
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                <% if (cartItem.productId.productOfferPercentage) { %>
+                                                                    <%= `${cartItem.productId.productOfferPercentage}%`
                                                                         %>
+                                                                        <% } else { %>
+                                                                            Nil
+                                                                            <% } %>
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                <%= cartItem.productQuantity %>
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                <span>
+                                                                    Rs.<%= cartItem.productId.priceBeforeOffer *
+                                                                        cartItem.productQuantity %>
                                                                 </span>
-                                                                <% } else { %>
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                <span>
+                                                                    Rs.<%= cartItem.totalCostPerProduct %>
+                                                                </span>
+                                                            </td>
+                                                            <% if (j===0) { %>
+                                                                <td rowspan="<%= order.cartData.length %>"
+                                                                    style="text-align: center;">
+                                                                    <%= order.paymentType %>
+                                                                </td>
+                                                                <td rowspan="<%= order.cartData.length %>"
+                                                                    style="text-align: center;">
+                                                                    <%= order.orderStatus %>
+                                                                </td>
+                                                                <td rowspan="<%= order.cartData.length %>"
+                                                                    style="text-align: center;">
+                                                                    <% if (order.couponApplied) { %>
+                                                                        <%= `${order.couponApplied.discountPercentage}%`
+                                                                            %>
+                                                                            <% } else { %>
+                                                                                Nil
+                                                                                <% } %>
+                                                                </td>
+                                                                <td rowspan="<%= order.cartData.length %>"
+                                                                    style="text-align: center;">
+                                                                    <% if (order.couponApplied) { %>
+                                                                        <span>
+                                                                            Rs.<%= Math.round(order.grandTotalCost / (1
+                                                                                - order.couponApplied.discountPercentage
+                                                                                / 100)) %>
+                                                                        </span>
+                                                                        <% } else { %>
+                                                                            <span>
+                                                                                Rs.<%= order.grandTotalCost %>
+                                                                            </span>
+                                                                            <% } %>
+                                                                </td>
+                                                                <td rowspan="<%= order.cartData.length %>"
+                                                                    style="text-align: center;">
                                                                     <span>
                                                                         Rs.<%= order.grandTotalCost %>
                                                                     </span>
-                                                                    <% } %>
-                                                        </td>
-                                                        <td style="text-align: center;">
-                                                            <span>
-                                                                Rs.<%= order.grandTotalCost %>
-                                                            </span>
-                                                        </td>
-                                                        <% if (j===0) { %>
-                                                            <% } %>
-                                                </tr>
-                                                <% j++; %>
-                                                    <% } %>
+                                                                </td>
+                                                                <% } %>
+                                                    </tr>
+                                                    <% j++; %>
                                                         <% } %>
-                                </tbody>
-                            </table>
+                                                            <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
@@ -569,12 +678,37 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         const orderDet = '<%- JSON.stringify(Sreports) %>'
+        const salesDet = '<%- JSON.stringify(products) %>'
+
         const orders = JSON.parse(orderDet)
+        const delivsDet = JSON.parse(salesDet)
+
         console.log(orders);
+        console.log(delivsDet);
+
     </script>
     <script>
-        document.getElementById('applyFilters').addEventListener('click', async () => {
+        let filterBtn2 = document.getElementById('filterBtn')
+        document.getElementById('applyOptionFilter').addEventListener('click', async (e) => {
+            e.preventDefault();
+            let filterOption = document.getElementById('filterOption').value;
+            let formData = { filterOption };
+            console.log(formData)
+            let response = await fetch('/admin/salesReport/filterOptions', {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            });
+            let result = await response.json();
+
+            if (result.success) {
+                window.location.reload();
+            }
+        });
+
+        document.getElementById('applyFilters').addEventListener("click", async (e) => {
             // Get values from date inputs
+            e.preventDefault()
             const filterDateFrom = document.getElementById('filterDateFrom').value;
             const filterDateTo = document.getElementById('filterDateTo').value;
 

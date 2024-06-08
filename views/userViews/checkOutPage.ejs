@@ -539,90 +539,108 @@
                     the Payment Select page</a>
             </div>
         </div>
-        <% } else { %>
+        <% if (insufficientCod) { %>
+            <div class="container mt-5">
+                <div class="alert alert-vibrant text-center">
+                    <h4 class="alert-heading">Insufficient Total for the Cash On delivery Option!</h4>
+                    <p>You do not have enough money in your
+                    <h4>
+                        <%= inSufficienBalance %>
+                    </h4> to complete this transaction. Please add more funds and
+                    try
+                    again.</p>
+                    <hr>
+                    <a href="/payMethodPage" class="btn btn-contact-support"
+                        style="text-decoration-color: black;">Return to
+                        the Payment Select page</a>
+                </div>
+            </div>
+            <% } %>
+                <% } else { %>
 
-            <section class="section-padding pb-0">
-                <div class="container-fluid">
-                    <div class="section-header text-center mx-auto">
-                        <h3 class="title justify-content-center">Checkout</h3>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-xl-8 col-lg-9">
-                            <ul class="process_bar">
-                                <li class="done">Cart</li>
-                                <li class="done">Shipping</li>
-                                <li class="done">Checkout</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <h4 class="c-out_title">Billing Information <a href="login.html"
-                            class="thm-color-one fw-500">Already
-                            Registered? Check Here To Login</a></h4>
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="checkout_form">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="thm-color-two">First Name</label>
-                                            <input type="text" name="#" class="form-control form-control-custom"
-                                                value="<%= addressDet.firstName %>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="thm-color-two">Last Name</label>
-                                            <input type="text" name="#" class="form-control form-control-custom"
-                                                value="<%= addressDet.lastName %>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="thm-color-two">Phone No.</label>
-                                            <input type="text" name="#" class="form-control form-control-custom"
-                                                value="<%= addressDet.phone %>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="thm-color-two">Alternate Phone No.</label>
-                                            <input type="text" name="#" class="form-control form-control-custom"
-                                                value="<%= addressDet.alternateNumber %>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <ul class="address_list">
-                                                <li>
-                                                    <span class="thm-color-two fw-500">Delivers To</span>
-                                                    <div class="custom-control form-check custom-radio me-sm-2 mb-2">
-                                                        <input type="radio"
-                                                            class="custom-control-input form-check-input"
-                                                            name="addresslist" id="addressone" checked>
-                                                        <label class="custom-control-label" for="addressone">
-                                                            <span class="top">
-                                                                <i class="fal fa-briefcase"></i>
-                                                                <span class="fw-500 thm-color-two">
-                                                                    <%= addressDet.addressTitle %>
-                                                                </span>
-                                                            </span>
-                                                            <span class="mb-0 p">
-                                                                <%= addressDet.addressLine1 %>
-                                                            </span>
-                                                            <span class="mb-0 p">
-                                                                <%= addressDet.addressLine2 %>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="payment_box" style="margin-top: 0px;">
+                    <section class="section-padding pb-0">
+                        <div class="container-fluid">
+                            <div class="section-header text-center mx-auto">
+                                <h3 class="title justify-content-center">Checkout</h3>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-xl-8 col-lg-9">
+                                    <ul class="process_bar">
+                                        <li class="done">Cart</li>
+                                        <li class="done">Shipping</li>
+                                        <li class="done">Checkout</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <h4 class="c-out_title">Billing Information <a href="login.html"
+                                    class="thm-color-one fw-500">Already
+                                    Registered? Check Here To Login</a></h4>
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="checkout_form">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="thm-color-two">First Name</label>
+                                                    <input type="text" name="#" class="form-control form-control-custom"
+                                                        value="<%= addressDet.firstName %>" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="thm-color-two">Last Name</label>
+                                                    <input type="text" name="#" class="form-control form-control-custom"
+                                                        value="<%= addressDet.lastName %>" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="thm-color-two">Phone No.</label>
+                                                    <input type="text" name="#" class="form-control form-control-custom"
+                                                        value="<%= addressDet.phone %>" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="thm-color-two">Alternate Phone No.</label>
+                                                    <input type="text" name="#" class="form-control form-control-custom"
+                                                        value="<%= addressDet.alternateNumber %>" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <ul class="address_list">
+                                                        <li>
+                                                            <span class="thm-color-two fw-500">Delivers To</span>
+                                                            <div
+                                                                class="custom-control form-check custom-radio me-sm-2 mb-2">
+                                                                <input type="radio"
+                                                                    class="custom-control-input form-check-input"
+                                                                    name="addresslist" id="addressone" checked>
+                                                                <label class="custom-control-label" for="addressone">
+                                                                    <span class="top">
+                                                                        <i class="fal fa-briefcase"></i>
+                                                                        <span class="fw-500 thm-color-two">
+                                                                            <%= addressDet.addressTitle %>
+                                                                        </span>
+                                                                    </span>
+                                                                    <span class="mb-0 p">
+                                                                        <%= addressDet.addressLine1 %>
+                                                                    </span>
+                                                                    <span class="mb-0 p">
+                                                                        <%= addressDet.addressLine2 %>
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="payment_box" style="margin-top: 0px;">
                                         <h5 class="title">Availble Coupons</h5> -->
-                                    <!-- <% coupons.forEach(function(coupon, index) { %> -->
+                                            <!-- <% coupons.forEach(function(coupon, index) { %> -->
 
-                                    <!-- <ul style="padding-bottom: 10px;">
+                                            <!-- <ul style="padding-bottom: 10px;">
                                                 <li>
                                                     <% if (coupon._id==couponDet.couponId) { %>
                                                         <div class="custom-control d-flex flex-column custom-radio form-check me-sm-2 applied-coupon"
@@ -712,486 +730,493 @@
                                                                 </div>
                                                 </li>
                                             </ul> -->
-                                    <!-- <% }); %> -->
-                                    <!-- </div> -->
+                                            <!-- <% }); %> -->
+                                            <!-- </div> -->
 
-                                </div>
-                            </div>
-                            <section class="section-padding pt-0">
-                                <div class="container-fluid">
-                                    <div class="section-header">
-                                        <h3 class="title">Availble Coupons</h3>
+                                        </div>
                                     </div>
-                                    <div class="fruits-slider row">
-                                        <% coupons.forEach(function(coupon, index) { %>
-                                            <% if (coupon._id==couponDet.couponId) { %>
-                                                <!-- Coupon -->
-                                                <div class="slide-item col-12 mx-2">
-                                                    <div class="product_block" style="background-color: #d0ffda;">
-                                                        <div class="product_top d-flex justify-content-center">
-                                                            <span class="product_tag"
-                                                                style="background: #10571f;color: #E0FFFF; padding: 5px; border-radius: 24px;">
-                                                                <div class="d-flex align-items-center fs-4"
-                                                                    style="padding: 10px;">
-                                                                    Applied</div>
-                                                            </span>
-                                                        </div>
-                                                        <div class="d-flex justify-content-center">
-                                                            <span class="product_tag"
-                                                                style="background-color: #10571f;">
-                                                                <%= coupon.discountPercentage %>&nbsp;%off
-                                                            </span>
-                                                        </div>
-                                                        <div class="product_categories">
-                                                            Coupon Code
-                                                        </div>
-                                                        <div class="d-flex justify-content-center">
-                                                            <div class="title d-flex justify-content-center align-items-center"
-                                                                style="width: 180px;height: 63px; background: #a07a13;color: #E0FFFF; padding: 5px; border-radius: 24px;">
-                                                                <%= coupon.couponCode %>
-                                                            </div>
-                                                        </div>
-                                                        <h4 class="title">This Coupon is Applicable for
-                                                            the Minimum Purchase of&nbsp;<div class="price">
-                                                                <span>₹&nbsp;<%= coupon.minimumPurchase %></span>
-                                                            </div>
+                                    <section class="section-padding pt-0">
+                                        <div class="container-fluid">
+                                            <div class="section-header">
+                                                <h3 class="title">Availble Coupons</h3>
+                                            </div>
+                                            <div class="fruits-slider row">
+                                                <% coupons.forEach(function(coupon, index) { %>
+                                                    <% if (coupon._id==couponDet.couponId) { %>
+                                                        <!-- Coupon -->
+                                                        <div class="slide-item col-12 mx-2">
+                                                            <div class="product_block"
+                                                                style="background-color: #d0ffda;">
+                                                                <div class="product_top d-flex justify-content-center">
+                                                                    <span class="product_tag"
+                                                                        style="background: #10571f;color: #E0FFFF; padding: 5px; border-radius: 24px;">
+                                                                        <div class="d-flex align-items-center fs-4"
+                                                                            style="padding: 10px;">
+                                                                            Applied</div>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <span class="product_tag"
+                                                                        style="background-color: #10571f;">
+                                                                        <%= coupon.discountPercentage %>&nbsp;%off
+                                                                    </span>
+                                                                </div>
+                                                                <div class="product_categories">
+                                                                    Coupon Code
+                                                                </div>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <div class="title d-flex justify-content-center align-items-center"
+                                                                        style="width: 180px;height: 63px; background: #a07a13;color: #E0FFFF; padding: 5px; border-radius: 24px;">
+                                                                        <%= coupon.couponCode %>
+                                                                    </div>
+                                                                </div>
+                                                                <h4 class="title">This Coupon is Applicable for
+                                                                    the Minimum Purchase of&nbsp;<div class="price">
+                                                                        <span>₹&nbsp;<%= coupon.minimumPurchase %>
+                                                                        </span>
+                                                                    </div>
 
-                                                        </h4>
+                                                                </h4>
 
-                                                        <div class="product_action">
-                                                            <button type="button" class="product_btn bg-danger"
-                                                                onclick="removeCoupon(event, '<%= coupon._id %>')">Remove
-                                                                Coupon</button>
-                                                            <!-- <div class="quantity">
+                                                                <div class="product_action">
+                                                                    <button type="button" class="product_btn bg-danger"
+                                                                        onclick="removeCoupon(event, '<%= coupon._id %>')">Remove
+                                                                        Coupon</button>
+                                                                    <!-- <div class="quantity">
                                                                                                             <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
                                                                                                             <input type="text" name="#" value="1" autocomplete="off" readonly>
                                                                                                             <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
                                                                                                         </div> -->
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Coupon -->
-                                                <% } else { %>
-                                                    <div class="slide-item col-12 mx-2">
-                                                        <div class="product_block">
-                                                            <div class="product_top d-flex justify-content-center">
-                                                                <span class="product_tag"
-                                                                    style="background: #571055;color: #E0FFFF; padding: 5px; border-radius: 24px;">
-                                                                    <div class="d-flex align-items-center fs-4"
-                                                                        style="padding: 10px;">
-                                                                        <%= coupon.discountPercentage %>% Off
+                                                        <!-- Coupon -->
+                                                        <% } else { %>
+                                                            <div class="slide-item col-12 mx-2">
+                                                                <div class="product_block">
+                                                                    <div
+                                                                        class="product_top d-flex justify-content-center">
+                                                                        <span class="product_tag"
+                                                                            style="background: #571055;color: #E0FFFF; padding: 5px; border-radius: 24px;">
+                                                                            <div class="d-flex align-items-center fs-4"
+                                                                                style="padding: 10px;">
+                                                                                <%= coupon.discountPercentage %>%
+                                                                                    Off
+                                                                            </div>
+                                                                        </span>
                                                                     </div>
-                                                                </span>
-                                                            </div>
 
-                                                            <div class="product_categories">
-                                                                Coupon Code
-                                                            </div>
-                                                            <div class="d-flex justify-content-center">
+                                                                    <div class="product_categories">
+                                                                        Coupon Code
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-center">
 
-                                                                <div class="title d-flex justify-content-center"
-                                                                    style="width: 180px; background: #a07a13;color: #E0FFFF; padding: 10px; border-radius: 24px;">
-                                                                    <%= coupon.couponCode %>
-                                                                </div>
-                                                            </div>
-                                                            <h4 class="title">This Coupon is Applicable for
-                                                                the Minimum Purchase of
-                                                                <div class="price"><span>₹&nbsp;<%=
-                                                                            coupon.minimumPurchase %></span>
-                                                                </div>
-                                                            </h4>
+                                                                        <div class="title d-flex justify-content-center"
+                                                                            style="width: 180px; background: #a07a13;color: #E0FFFF; padding: 10px; border-radius: 24px;">
+                                                                            <%= coupon.couponCode %>
+                                                                        </div>
+                                                                    </div>
+                                                                    <h4 class="title">This Coupon is Applicable for
+                                                                        the Minimum Purchase of
+                                                                        <div class="price"><span>₹&nbsp;<%=
+                                                                                    coupon.minimumPurchase %></span>
+                                                                        </div>
+                                                                    </h4>
 
-                                                            <div class="product_action">
-                                                                <button type="button" class="product_btn"
-                                                                    onclick="couponFunc('<%= coupon._id %>')">Apply
-                                                                    Coupon
-                                                                    <i class="fal fa-plus"></i></button>
-                                                                <!-- <div class="quantity">
+                                                                    <div class="product_action">
+                                                                        <button type="button" class="product_btn"
+                                                                            onclick="couponFunc('<%= coupon._id %>')">Apply
+                                                                            Coupon
+                                                                            <i class="fal fa-plus"></i></button>
+                                                                        <!-- <div class="quantity">
                                                                                                                 <button class="btn qty-mins" type="button"><i class="fal fa-minus"></i></button>
                                                                                                                 <input type="text" name="#" value="1" autocomplete="off" readonly>
                                                                                                                 <button class="btn qty-add" type="button"><i class="fal fa-plus"></i></button>
                                                                                                             </div> -->
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                            <% } %>
+                                                                <!-- Couopn -->
+                                                                <% }); %>
+
+
+
+
+                                            </div>
+                                        </div>
+                                    </section>
+
+
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="checkout_items">
+                                        <div style="padding: 30px 0px 0px 30px;">
+                                            <h5 class="title">Payment Method
+                                            </h5>
+                                            <ul class="address_list">
+                                                <li>
+                                                    <div class="custom-control custom-radio form-check me-sm-2">
+                                                        <input type="radio"
+                                                            class="custom-control-input form-check-input"
+                                                            name="paymentmethod" id="cod" checked>
+                                                        <label class="custom-control-label" for="cod">
+                                                            <span class="top">
+                                                                <span class="fw-500 thm-color-two">
+                                                                    <%= paymentMethod %>
+                                                                </span>
+                                                            </span>
+                                                        </label>
                                                     </div>
-                                                    <% } %>
-                                                        <!-- Couopn -->
-                                                        <% }); %>
+                                                    <div class="payment_icon">
+                                                        <!-- No icon needed for COD -->
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="items_box checkout_info">
+                                            <p class="title">Shipping
+                                            <h6 class="mb-0">
+                                                <%= addressDet.firstName %>
+                                                    <%= addressDet.lastName %>
+                                            </h6>
+                                            <p class="add">
+                                                <%= addressDet.addressLine1 %>
+                                            </p>
+                                            <p class="add">
+                                                <%= addressDet.addressLine2 %>
+                                            </p>
+                                            <p>Mobile: <strong class="thm-color-two">
+                                                    <%= addressDet.phone %>
+                                                </strong> </p>
+                                        </div>
+                                        <div class="items_box items table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <!-- <th>Type</th> -->
+                                                        <th>Product</th>
+                                                        <th>Qty</th>
+                                                        <th>Price</th>
+                                                        <th>Subtotal</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% for(let i=0;i<cartProducts.length;i++){ %>
+                                                        <tr>
+                                                            <!-- <td> -->
+                                                            <!-- <span class="type veg"></span> -->
+                                                            <!-- </td> -->
+                                                            <td>
+                                                                <%= cartProducts[i].productId.productName %>
+                                                            </td>
+                                                            <td>
+                                                                <%= cartProducts[i].productQuantity %>
+                                                            </td>
+                                                            <td>₹&nbsp;<%= cartProducts[i].productId.productPrice %>
+                                                            </td>
+                                                            <td>₹&nbsp;<%= cartProducts[i].totalCostPerProduct %>
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <% if (couponDet.isApplied) { %>
+                                            <div class="appliedDisCount items_box total_amount"
+                                                style="padding: 0px 0px 0px 0px;">
+                                                <span
+                                                    class="items_box product_tag d-flex  justify-content-center align-items-center"
+                                                    style="width:150px; height: 20px;padding: 25px 25px 25px 25px;">
+                                                    <div>
+                                                        Coupon Applied
+                                                    </div>
+                                                </span>
+                                                <strong id="discountAmt">-&nbsp;₹&nbsp;<%= couponDet.providedDisc %>
+                                                </strong>
+                                            </div>
+                                            <% } %>
+
+                                                <div class="items_box total_amount">
+                                                    <strong>Total</strong>
+
+                                                    <strong id="grand-total">₹&nbsp;<%= grandTotal %></strong>
+                                                </div>
 
 
-
-
+                                                <div class="items_box">
+                                                    <a href="/placeOrder"
+                                                        class="thm-btn btn-rectangle thm-bg-color-one w-100 mb-4">Place
+                                                        The
+                                                        Order</a>
+                                                </div>
                                     </div>
                                 </div>
-                            </section>
-
-
+                            </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="checkout_items">
-                                <div style="padding: 30px 0px 0px 30px;">
-                                    <h5 class="title">Payment Method
-                                    </h5>
-                                    <ul class="address_list">
-                                        <li>
-                                            <div class="custom-control custom-radio form-check me-sm-2">
-                                                <input type="radio" class="custom-control-input form-check-input"
-                                                    name="paymentmethod" id="cod" checked>
-                                                <label class="custom-control-label" for="cod">
-                                                    <span class="top">
-                                                        <span class="fw-500 thm-color-two">
-                                                            <%= paymentMethod %>
-                                                        </span>
-                                                    </span>
-                                                </label>
-                                            </div>
-                                            <div class="payment_icon">
-                                                <!-- No icon needed for COD -->
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="items_box checkout_info">
-                                    <p class="title">Shipping
-                                    <h6 class="mb-0">
-                                        <%= addressDet.firstName %>
-                                            <%= addressDet.lastName %>
-                                    </h6>
-                                    <p class="add">
-                                        <%= addressDet.addressLine1 %>
-                                    </p>
-                                    <p class="add">
-                                        <%= addressDet.addressLine2 %>
-                                    </p>
-                                    <p>Mobile: <strong class="thm-color-two">
-                                            <%= addressDet.phone %>
-                                        </strong> </p>
-                                </div>
-                                <div class="items_box items table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <!-- <th>Type</th> -->
-                                                <th>Product</th>
-                                                <th>Qty</th>
-                                                <th>Price</th>
-                                                <th>Subtotal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <% for(let i=0;i<cartProducts.length;i++){ %>
-                                                <tr>
-                                                    <!-- <td> -->
-                                                    <!-- <span class="type veg"></span> -->
-                                                    <!-- </td> -->
-                                                    <td>
-                                                        <%= cartProducts[i].productId.productName %>
-                                                    </td>
-                                                    <td>
-                                                        <%= cartProducts[i].productQuantity %>
-                                                    </td>
-                                                    <td>₹&nbsp;<%= cartProducts[i].productId.productPrice %>
-                                                    </td>
-                                                    <td>₹&nbsp;<%= cartProducts[i].totalCostPerProduct %>
-                                                    </td>
-                                                </tr>
-                                                <% } %>
+                    </section>
+                    <% } %>
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <% if (couponDet.isApplied) { %>
-                                    <div class="appliedDisCount items_box total_amount"
-                                        style="padding: 0px 0px 0px 0px;">
-                                        <span
-                                            class="items_box product_tag d-flex  justify-content-center align-items-center"
-                                            style="width:150px; height: 20px;padding: 25px 25px 25px 25px;">
-                                            <div>
-                                                Coupon Applied
-                                            </div>
-                                        </span>
-                                        <strong id="discountAmt">-&nbsp;₹&nbsp;<%= couponDet.providedDisc %>
-                                        </strong>
+
+                        <!-- Section End -->
+                        <!-- Footer Start -->
+                        <footer class="footer section-padding border-top">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-xl-2 col-sm-4">
+                                        <div class="ft_widget border-sm-0 pl-sm-0">
+                                            <h6 class="ft_title">Find a Store<br> Shop Gift Cards</h6>
+                                            <p class="mb-2">Follow Us:</p>
+                                            <ul class="ft_social">
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fab fa-facebook-f"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fab fa-twitter"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fab fa-instagram"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <% } %>
-
-                                        <div class="items_box total_amount">
-                                            <strong>Total</strong>
-
-                                            <strong id="grand-total">₹&nbsp;<%= grandTotal %></strong>
+                                    <div class="col-xl-2 col-sm-4">
+                                        <div class="ft_widget">
+                                            <h6 class="ft_title">Help Center</h6>
+                                            <ul class="ft_menu">
+                                                <li>
+                                                    <a href="payment.html">Payments</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Shipping</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Product Returns</a>
+                                                </li>
+                                                <li>
+                                                    <a href="faqs.html">FAQ's</a>
+                                                </li>
+                                                <li>
+                                                    <a href="checkout.html">Checkout</a>
+                                                </li>
+                                                <li>
+                                                    <a href="blog.html">Blog</a>
+                                                </li>
+                                            </ul>
                                         </div>
-
-
-                                        <div class="items_box">
-                                            <a href="/placeOrder"
-                                                class="thm-btn btn-rectangle thm-bg-color-one w-100 mb-4">Place
-                                                The
-                                                Order</a>
+                                    </div>
+                                    <div class="col-xl-2 col-sm-4">
+                                        <div class="ft_widget">
+                                            <h6 class="ft_title">Useful Links</h6>
+                                            <ul class="ft_menu">
+                                                <li>
+                                                    <a href="index-2.html">Home</a>
+                                                </li>
+                                                <li>
+                                                    <a href="contact.html">Contact</a>
+                                                </li>
+                                                <li>
+                                                    <a href="about.html">About</a>
+                                                </li>
+                                                <li>
+                                                    <a href="terms-conditions.html">Terms & Conditions</a>
+                                                </li>
+                                                <li>
+                                                    <a href="privacy.html">Policy</a>
+                                                </li>
+                                                <li>
+                                                    <a href="order-list.html">My Orders</a>
+                                                </li>
+                                            </ul>
                                         </div>
+                                    </div>
+                                    <div class="col-xl col-sm-8">
+                                        <div class="ft_widget">
+                                            <h6 class="ft_title">Contact Us</h6>
+                                            <p class="mb-3">Sed ut perspiciatis unde omnis iste natus error sit
+                                                voluptatem </p>
+                                            <ul class="ft_contact">
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fas fa-map-marker-alt"></i>
+                                                        14 Prospect Row, Bury St. Edmunds
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="tel:0002583745351">
+                                                        <i class="fas fa-phone"></i>
+                                                        000 2583 745 351
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="mailto:example@example.com">
+                                                        <i class="fas fa-envelope"></i>
+                                                        example@example.com
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-sm-4">
+                                        <div class="ft_widget">
+                                            <h6 class="ft_title">Categories</h6>
+                                            <ul class="ft_menu">
+                                                <li>
+                                                    <a href="shop.html">Chair</a>
+                                                </li>
+                                                <li>
+                                                    <a href="shop.html">Sofa</a>
+                                                </li>
+                                                <li>
+                                                    <a href="shop.html">Dining Table</a>
+                                                </li>
+                                                <li>
+                                                    <a href="shop.html">Table Lamp</a>
+                                                </li>
+                                                <li>
+                                                    <a href="shop.html">Desk</a>
+                                                </li>
+                                                <li>
+                                                    <a href="shop.html">cabinets</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </footer>
+                        <!-- Footer End -->
+                        <!-- Copyright Start -->
+                        <div class="copyright">
+                            <div class="container-fluid">
+                                <p class="mb-0">@Copyright 2022. <a href="#" class="thm-color-one">Website.com</a>
+                                    All Rights
+                                    Reserved
+                                </p>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-            <% } %>
+                        <!-- Copyright End -->
+                        <!-- Scripts -->
+                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+                        <script>
+                            const cartProducts = '<%- JSON.stringify(cartProducts) %>'
+                            const cartTotalVal = '<%- JSON.stringify(grandTotal) %>'
+                            const couponData = '<%- JSON.stringify(couponDet) %>'
+                            const couponsData = '<%- JSON.stringify(coupons) %>'
+                            const cartTotal = JSON.parse(cartTotalVal)
+                            const couponDet = JSON.parse(couponData)
+                            const couponsDet = JSON.parse(couponsData)
+                            const parsedCartTot = parseInt(cartTotal)
+                            const cartPdArr = JSON.parse(cartProducts)
+                            console.log(cartPdArr);
+                            console.log(couponDet);
 
-                <!-- Section End -->
-                <!-- Footer Start -->
-                <footer class="footer section-padding border-top">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-xl-2 col-sm-4">
-                                <div class="ft_widget border-sm-0 pl-sm-0">
-                                    <h6 class="ft_title">Find a Store<br> Shop Gift Cards</h6>
-                                    <p class="mb-2">Follow Us:</p>
-                                    <ul class="ft_social">
-                                        <li>
-                                            <a href="#">
-                                                <i class="fab fa-facebook-f"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="fab fa-twitter"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="fab fa-instagram"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-xl-2 col-sm-4">
-                                <div class="ft_widget">
-                                    <h6 class="ft_title">Help Center</h6>
-                                    <ul class="ft_menu">
-                                        <li>
-                                            <a href="payment.html">Payments</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Shipping</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Product Returns</a>
-                                        </li>
-                                        <li>
-                                            <a href="faqs.html">FAQ's</a>
-                                        </li>
-                                        <li>
-                                            <a href="checkout.html">Checkout</a>
-                                        </li>
-                                        <li>
-                                            <a href="blog.html">Blog</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-xl-2 col-sm-4">
-                                <div class="ft_widget">
-                                    <h6 class="ft_title">Useful Links</h6>
-                                    <ul class="ft_menu">
-                                        <li>
-                                            <a href="index-2.html">Home</a>
-                                        </li>
-                                        <li>
-                                            <a href="contact.html">Contact</a>
-                                        </li>
-                                        <li>
-                                            <a href="about.html">About</a>
-                                        </li>
-                                        <li>
-                                            <a href="terms-conditions.html">Terms & Conditions</a>
-                                        </li>
-                                        <li>
-                                            <a href="privacy.html">Policy</a>
-                                        </li>
-                                        <li>
-                                            <a href="order-list.html">My Orders</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-xl col-sm-8">
-                                <div class="ft_widget">
-                                    <h6 class="ft_title">Contact Us</h6>
-                                    <p class="mb-3">Sed ut perspiciatis unde omnis iste natus error sit voluptatem </p>
-                                    <ul class="ft_contact">
-                                        <li>
-                                            <a href="#">
-                                                <i class="fas fa-map-marker-alt"></i>
-                                                14 Prospect Row, Bury St. Edmunds
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="tel:0002583745351">
-                                                <i class="fas fa-phone"></i>
-                                                000 2583 745 351
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="mailto:example@example.com">
-                                                <i class="fas fa-envelope"></i>
-                                                example@example.com
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-xl-2 col-sm-4">
-                                <div class="ft_widget">
-                                    <h6 class="ft_title">Categories</h6>
-                                    <ul class="ft_menu">
-                                        <li>
-                                            <a href="shop.html">Chair</a>
-                                        </li>
-                                        <li>
-                                            <a href="shop.html">Sofa</a>
-                                        </li>
-                                        <li>
-                                            <a href="shop.html">Dining Table</a>
-                                        </li>
-                                        <li>
-                                            <a href="shop.html">Table Lamp</a>
-                                        </li>
-                                        <li>
-                                            <a href="shop.html">Desk</a>
-                                        </li>
-                                        <li>
-                                            <a href="shop.html">cabinets</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
-                <!-- Footer End -->
-                <!-- Copyright Start -->
-                <div class="copyright">
-                    <div class="container-fluid">
-                        <p class="mb-0">@Copyright 2022. <a href="#" class="thm-color-one">Website.com</a> All Rights
-                            Reserved
-                        </p>
-                    </div>
-                </div>
-                <!-- Copyright End -->
-                <!-- Scripts -->
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+                            async function couponFunc(couponId) {
+                                try {
 
-                <script>
-                    const cartProducts = '<%- JSON.stringify(cartProducts) %>'
-                    const cartTotalVal = '<%- JSON.stringify(grandTotal) %>'
-                    const couponData = '<%- JSON.stringify(couponDet) %>'
-                    const couponsData = '<%- JSON.stringify(coupons) %>'
-                    const cartTotal = JSON.parse(cartTotalVal)
-                    const couponDet = JSON.parse(couponData)
-                    const couponsDet = JSON.parse(couponsData)
-                    const parsedCartTot = parseInt(cartTotal)
-                    const cartPdArr = JSON.parse(cartProducts)
-                    console.log(cartPdArr);
-                    console.log(couponDet);
+                                    const response = await fetch(`/applyCoupon?couponID=${couponId}&grandTotal=${parsedCartTot}`, {
+                                        method: 'GET',
+                                    });
+                                    const result = await response.json();
+                                    console.log(result);
 
-                    async function couponFunc(couponId) {
-                        try {
-
-                            const response = await fetch(`/applyCoupon?couponID=${couponId}&grandTotal=${parsedCartTot}`, {
-                                method: 'GET',
-                            });
-                            const result = await response.json();
-                            console.log(result);
-
-                            if (result.couponCofirmed) {
-                                Swal.fire({
-                                    icon: "success",
-                                    title: "Your coupon has been Applied",
-                                    showConfirmButton: true,
-                                })
-                                    .then((result) => {
-                                        if (result.isConfirmed) {
-                                            window.location.reload()
-                                        }
-                                    })
-                            } else if (result.couponCodeExists) {
-                                await Swal.fire({
-                                    icon: "error",
-                                    title: "Coupon Code Applied Already",
-                                    text: "Coupon Code must be Added Once"
-                                });
-                            } else if (result.notEligible) {
-                                await Swal.fire({
-                                    icon: "warning",
-                                    iconHtml: '<i class="fas fa-exclamation-triangle"></i>',
-                                    title: "Insufficient Purchase Amount",
-                                    text: "Your purchase amount is less than the minimum required to apply the coupon.",
-                                    customClass: {
-                                        icon: 'swal2-warning-icon'
-                                    }
-                                });
-                            }
-                        } catch (error) {
-                            console.log("Error while sending the apply coupon request :" + error);
-                        }
-
-
-
-                    }
-                    async function removeCoupon(event, couponId) {
-                        try {
-                            event.stopImmediatePropagation();
-                            event.preventDefault();
-                            await Swal.fire({
-                                icon: "Confirmation",
-                                title: "Are you sure to Remove Coupon",
-                                showConfirmButton: true,
-                                showCancelButton: true,
-                                confirmButtonText: 'OK',
-                                cancelButtonText: 'Dismiss'
-                            })
-                                .then(async (result) => {
-                                    if (result.isConfirmed) {
-                                        const response = await fetch(`/removeCoupon?couponID=${couponId}`, {
-                                            method: 'GET',
-                                        });
-                                        const result = await response.json();
-
-                                        if (result.isRemoved) {
-                                            Swal.fire({
-                                                icon: "success",
-                                                title: "Your coupon has been Removed",
-                                                showConfirmButton: true,
-                                            })
-                                                .then((result) => {
-                                                    if (result.isConfirmed) {
-                                                        window.location.reload()
-                                                    }
-                                                })
-                                        }
-
-                                    } else if (result.couponNotFound) {
+                                    if (result.couponCofirmed) {
                                         Swal.fire({
-                                            icon: "error",
-                                            title: "The coupon trying to Remove is not found",
+                                            icon: "success",
+                                            title: "Your coupon has been Applied",
                                             showConfirmButton: true,
                                         })
+                                            .then((result) => {
+                                                if (result.isConfirmed) {
+                                                    window.location.reload()
+                                                }
+                                            })
+                                    } else if (result.couponCodeExists) {
+                                        await Swal.fire({
+                                            icon: "error",
+                                            title: "Coupon Code Applied Already",
+                                            text: "Coupon Code must be Added Once"
+                                        });
+                                    } else if (result.notEligible) {
+                                        await Swal.fire({
+                                            icon: "warning",
+                                            iconHtml: '<i class="fas fa-exclamation-triangle"></i>',
+                                            title: "Insufficient Purchase Amount",
+                                            text: "Your purchase amount is less than the minimum required to apply the coupon.",
+                                            customClass: {
+                                                icon: 'swal2-warning-icon'
+                                            }
+                                        });
                                     }
-                                })
-                        }
-                        catch (error) {
-                            console.log("Error while sending the apply coupon request :" + error);
-                        }
-                    }
+                                } catch (error) {
+                                    console.log("Error while sending the apply coupon request :" + error);
+                                }
 
-                </script>
-                <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
-                <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
-                <script src="assets/js/plugins/slick.min.js"></script>
-                <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
-                <script src="assets/js/plugins/jquery.counterup.min.js"></script>
-                <script src="assets/js/plugins/jquery.inview.min.js"></script>
-                <script src="assets/js/custom.js"></script>
+
+
+                            }
+                            async function removeCoupon(event, couponId) {
+                                try {
+                                    event.stopImmediatePropagation();
+                                    event.preventDefault();
+                                    await Swal.fire({
+                                        icon: "Confirmation",
+                                        title: "Are you sure to Remove Coupon",
+                                        showConfirmButton: true,
+                                        showCancelButton: true,
+                                        confirmButtonText: 'OK',
+                                        cancelButtonText: 'Dismiss'
+                                    })
+                                        .then(async (result) => {
+                                            if (result.isConfirmed) {
+                                                const response = await fetch(`/removeCoupon?couponID=${couponId}`, {
+                                                    method: 'GET',
+                                                });
+                                                const result = await response.json();
+
+                                                if (result.isRemoved) {
+                                                    Swal.fire({
+                                                        icon: "success",
+                                                        title: "Your coupon has been Removed",
+                                                        showConfirmButton: true,
+                                                    })
+                                                        .then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                window.location.reload()
+                                                            }
+                                                        })
+                                                }
+
+                                            } else if (result.couponNotFound) {
+                                                Swal.fire({
+                                                    icon: "error",
+                                                    title: "The coupon trying to Remove is not found",
+                                                    showConfirmButton: true,
+                                                })
+                                            }
+                                        })
+                                }
+                                catch (error) {
+                                    console.log("Error while sending the apply coupon request :" + error);
+                                }
+                            }
+
+                        </script>
+                        <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
+                        <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
+                        <script src="assets/js/plugins/slick.min.js"></script>
+                        <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
+                        <script src="assets/js/plugins/jquery.counterup.min.js"></script>
+                        <script src="assets/js/plugins/jquery.inview.min.js"></script>
+                        <script src="assets/js/custom.js"></script>
 </body>
 
 </html>

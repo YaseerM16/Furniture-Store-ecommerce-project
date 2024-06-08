@@ -66,6 +66,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
 
     <title>Admin-Category</title>
     <style>
@@ -203,6 +204,24 @@
             transform: scale(1.6);
             /* No margin change to prevent layout shift */
         }
+
+        .header .topbar .inner {
+            height: 100px;
+        }
+
+        .header .topbar .inner .logo {
+            height: 100px;
+            margin-left: 60px;
+        }
+
+        .header .topbar .inner .logo #brand-name {
+            height: 52px;
+            padding: 2px;
+        }
+
+        a {
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -245,35 +264,31 @@
                     <!-- Header Action -->
                     <div class="header_action">
                         <ul>
-
-                            <li class="user">
+                            <li class="user" style="margin-right: 50px;">
                                 <% if (user) { %>
-                                    <a href="#">
-                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
-                                        <div class="cart_text">
-                                            ADMIN
-                                        </div>
+                                    <a href="/userDetails">
+                                        <img src="/assets/images/header/user.png" class="image-fit" alt="img">
                                         <span>
+                                            Admin
                                             <%= user.username %>
                                         </span>
                                     </a>
                                     <ul class="sub-menu">
-
+                                        <li>
+                                            <a href="/adimDashBoard">Dashboard</a>
+                                        </li>
                                         <li>
                                             <a href="/logout">Logout</a>
                                         </li>
                                     </ul>
                                     <% } else { %>
                                         <a href="account.html">
-                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
-                                            <span>New User</span>
+                                            <img src="/assets/images/header/user2.png" class="image-fit" alt="img">
+                                            <span>Login as Admin</span>
                                         </a>
                                         <ul class="sub-menu">
                                             <li>
-                                                <a href="/logIn">Login</a>
-                                            </li>
-                                            <li>
-                                                <a href="/signUp">SignUp</a>
+                                                <a href="/adminLogin">Admin Login</a>
                                             </li>
                                         </ul>
                                         <% } %>
@@ -303,7 +318,13 @@
                                 <div class="collapse navbar-collapse" id="navbarNav">
                                     <ul class="navbar-nav w-100 d-flex flex-column">
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/adimDashBoard">Home</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/adimDashBoard">Dashboard</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-tachometer-alt"></i>
+                                                </div>
+
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
                                             <div class="d-flex" id="user">
@@ -624,9 +645,14 @@
                     <!-- Edit Product Script- form validation and submit  -->
 
                     <script>
+                        console.log("Sdfrevevbv dsgtr");
                         var today = new Date().toISOString().split('T')[0];
                         const productOfferData = '<%- JSON.stringify(productOfferData) %>';
+                        const productDetData = '<%- JSON.stringify(productDet) %>';
                         const parsedProdOffer = JSON.parse(productOfferData);
+                        const parsedProdDet = JSON.parse(productOfferData);
+                        console.log(parsedProdOffer);
+                        console.log(parsedProdDet);
 
                         $(document).ready(function () {
                             parsedProdOffer.forEach((productOffer, index) => {

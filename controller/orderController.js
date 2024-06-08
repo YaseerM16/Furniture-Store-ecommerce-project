@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const AppError = require("../middlewares/errorHandling");
 
 const walletCollection = require("../models/walletModel");
+const { invoicePdf } = require("../services/invoicePdf");
 
 const orderData = async (req) => {
   const id = req.session.currentUser._id;
@@ -65,7 +66,8 @@ const orderPage = async (req, res, next) => {
         userId: req.session.currentUser._id,
       })
       .skip(skip)
-      .limit(limit);
+      .limit(limit)
+      .sort({ orderDate: -1 });
 
     let pages;
 
@@ -284,7 +286,6 @@ const singleProdCancel = async (req, res, next) => {
         $inc: { grandTotalCost: -totalCostOfProd },
       }
     );
-    console.log(updateResult.modifiedCount);
 
     if (updateResult.modifiedCount > 0) {
       const prodQtyUpdate = await productCollection.updateOne(
@@ -312,9 +313,7 @@ const returnSingleProd = async (req, res, next) => {
     const cartId = req.query.cartId;
     const orderId = req.query.orderId;
     const reason = req.query.reason;
-    console.log(cartId);
-    console.log(orderId);
-    console.log(reason);
+
     const cartIdObject = new mongoose.Types.ObjectId(cartId);
     // const res = await orderCollection.findOne({
     //   _id: orderId,
@@ -356,10 +355,50 @@ const returnSingleProd = async (req, res, next) => {
   }
 };
 
+const downloadInvoice = async (req, res, next) => {
+  try {
+    let orderData = await orderCollection
+      .findOne({ _id: req.query.orderId })
+      .populate("addressChosen")
+      .populate("userId")
+      .populate({
+        path: "cartData.productId",
+        model: "products",
+        select: "productName", // select only the fields you need
+        options: { as: "productDetails" },
+      });
+
+    if (!orderData) {
+      return next(new AppError("Order not found", 404));
+    }
+
+    // Extract order number
+    const orderNumber = orderData.orderId;
+
+    // Construct filename with order number
+    const filename = `invoice_order_${orderNumber}.pdf`;
+
+    const stream = res.writeHead(200, {
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename=${filename}`,
+    });
+
+    invoicePdf(
+      (chunk) => stream.write(chunk),
+      () => stream.end(),
+      orderData
+    );
+  } catch (err) {
+    console.error("Error generating invoice:", err);
+    next(new AppError("Sorry...Something went wrong", 500));
+  }
+};
+
 module.exports = {
   orderPage,
   orderDetailsPage,
   cancelOrder,
   singleProdCancel,
   returnSingleProd,
+  downloadInvoice,
 };

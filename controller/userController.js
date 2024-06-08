@@ -4,6 +4,7 @@ const productCollection = require("../models/productModel");
 const cartCollection = require("../models/cartModel");
 const wishListCollection = require("../models/wishListModel");
 const walletCollection = require("../models/walletModel");
+const categoryCollection = require("../models/categoryModel");
 const AppError = require("../middlewares/errorHandling");
 const bcrypt = require("bcrypt");
 
@@ -26,12 +27,22 @@ const { ObjectId } = require("mongodb");
 
 const landingPage = async (req, res, next) => {
   try {
+    const arr = [];
+    const category = await categoryCollection.find({ isListed: true });
+    for (i = 0; i < category.length; i++) {
+      let obj = {};
+      let catName = category[i].categoryName;
+      let catId = category[i]._id;
+      let catProds = await productCollection.find({ parentCategory: catId });
+      obj[catName] = catProds;
+      arr.push(obj);
+    }
     if (req.session.logged) {
       const email = req.session.currentUser.email;
       const user = await userCollection.findOne({ email: email });
-      res.render("userViews/home", { user: user });
+      res.render("userViews/home", { user: user, arr });
     } else {
-      res.render("userViews/home", { user: null });
+      res.render("userViews/home", { user: null, arr });
     }
   } catch (error) {
     next(new AppError(error, 500));
@@ -78,6 +89,7 @@ const signUpPage = (req, res, next) => {
         userExist: req.session.userExist,
         passwordMismatch: req.session.passwordMismatch,
         referralCode: referralCodeAvail,
+        user: null,
       });
       req.session.userExist = false;
       req.session.passwordMismatch = false;
@@ -96,6 +108,7 @@ const loginPage = (req, res, next) => {
       res.render("userViews/login", {
         invalid: req.session.invalidCredentials,
         errors: false,
+        user: null,
       });
     }
     req.session.invalidCredentials = false;
@@ -190,6 +203,7 @@ const forgetPasswordPage = (req, res, next) => {
       res.render("userViews/forgetPassword", {
         invalid: req.session.invalidCredentials,
         errors: false,
+        user: null,
       });
     }
     req.session.invalidCredentials = false;
@@ -238,7 +252,7 @@ const products = async (req, res, next) => {
       userId: req.session.currentUser._id,
     });
   } else {
-    user = {};
+    user = null;
     wishListDet = [];
   }
   let pages;
@@ -465,12 +479,12 @@ const wishListing = async (req, res, next) => {
         productId: req.query.productId,
       };
       await wishListCollection.insertMany([wish]);
-      res.send({ success: true });
+      res.json({ success: true });
     } else {
       console.log(
         "The product Id is not gettin while attempt to add to the wishlist"
       );
-      res.send({ notUser: true });
+      res.json({ notUser: true });
     }
   } catch (error) {
     next(new AppError(error, 500));

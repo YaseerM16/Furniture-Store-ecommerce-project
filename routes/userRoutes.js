@@ -16,6 +16,7 @@ const {
   forgetResendOTP,
   otpPage,
   retryOtp,
+  forgetOtpPage,
 } = require("../helpers/helper");
 const {
   signupValidationRules,
@@ -66,9 +67,10 @@ userRouter.post("/verify-otp", verifyOTP);
 userRouter.get("/retry-otp", retryOTP);
 userRouter.get("/otpSuccess", otpSucessPage);
 userRouter.get("/sendForgetOTP", sendForgetPassOtp);
+userRouter.get("/forgetOtpPage", forgetOtpPage);
+userRouter.get("/forgetResendOtp", forgetResendOTP);
 userRouter.post("/verifyForgetOtp", verifyForgetOTP);
 userRouter.post("/changePassword", updatePassword);
-userRouter.get("/forgetResendOtp", forgetResendOTP);
 
 //LogIn Routes
 userRouter.get("/logIn", userController.loginPage);
@@ -188,11 +190,17 @@ userRouter.delete(
   orderController.singleProdCancel
 );
 
+//Download Invoice
+userRouter.get(
+  "/user/account/myOrders/orderDetails/downloadInvoice",
+  orderController.downloadInvoice
+);
+
 ///WishList
 
 userRouter.get("/wishList", userController.wishListing);
 userRouter.get("/removeWishList", userController.removeWishList);
-userRouter.get("/wishListPage", userController.wishListPage);
+userRouter.get("/wishListPage", isLogged, userController.wishListPage);
 
 //Wallet page
 userRouter.get(

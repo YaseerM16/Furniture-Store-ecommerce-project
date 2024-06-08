@@ -161,35 +161,31 @@
                     <!-- Header Action -->
                     <div class="header_action">
                         <ul>
-
-                            <li class="user">
+                            <li class="user" style="margin-right: 20px;">
                                 <% if (user) { %>
-                                    <a href="#">
-                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
-                                        <div class="cart_text">
-                                            ADMIN
-                                        </div>
+                                    <a href="/userDetails">
+                                        <img src="/assets/images/header/user.png" class="image-fit" alt="img">
                                         <span>
+                                            Admin
                                             <%= user.username %>
                                         </span>
                                     </a>
                                     <ul class="sub-menu">
-
+                                        <li>
+                                            <a href="/adimDashBoard">Dashboard</a>
+                                        </li>
                                         <li>
                                             <a href="/logout">Logout</a>
                                         </li>
                                     </ul>
                                     <% } else { %>
                                         <a href="account.html">
-                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
-                                            <span>New User</span>
+                                            <img src="/assets/images/header/user2.png" class="image-fit" alt="img">
+                                            <span>Login as Admin</span>
                                         </a>
                                         <ul class="sub-menu">
                                             <li>
-                                                <a href="/logIn">Login</a>
-                                            </li>
-                                            <li>
-                                                <a href="/signUp">SignUp</a>
+                                                <a href="/adminLogin">Admin Login</a>
                                             </li>
                                         </ul>
                                         <% } %>
@@ -221,7 +217,7 @@
                                     <ul class="navbar-nav w-100 d-flex flex-column">
                                         <li class="nav-item my-3 fs-5">
                                             <div class="d-flex" id="user">
-                                                <a class="nav-link" href="/adimDashBoard">Home</a>
+                                                <a class="nav-link" href="/adimDashBoard">Dashboard</a>
                                                 <div class="iconx d-flex align-items-center justify-content-center">
                                                     <i class="fas fa-tachometer-alt"></i>
                                                 </div>
@@ -324,15 +320,27 @@
                                                             <%= userDet[i].phonenumber %>
                                                         </td>
                                                         <% if(userDet[i].isBlocked){ %>
-                                                            <td><button id="unblock<%i%>"
-                                                                    onclick="fnBlock('<%=userDet[i]._id %>')"
-                                                                    type="button"
-                                                                    class="btn btn-success">Unblock</button> </td>
+                                                            <td>
+                                                                <div
+                                                                    class="d-flex justify-content-center align-items-center">
+                                                                    <button id="unblock<%i%>"
+                                                                        onclick="fnBlock('<%=userDet[i]._id %>')"
+                                                                        type="button" class="btn btn-success"><i
+                                                                            class="fas fa-unlock"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
                                                             <% }else{ %>
-                                                                <td><button id="block<%i%>"
-                                                                        onclick="fnUnBlock('<%=userDet[i]._id %>')"
-                                                                        type="button"
-                                                                        class="btn btn-danger">Block</button> </td>
+                                                                <td>
+                                                                    <div
+                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        <button id="block<%i%>"
+                                                                            onclick="fnUnBlock('<%=userDet[i]._id %>')"
+                                                                            type="button" class="btn btn-danger"><i
+                                                                                class="fas fa-ban"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
                                                                 <% } %>
 
                                                     </tr>

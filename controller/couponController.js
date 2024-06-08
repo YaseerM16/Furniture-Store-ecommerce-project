@@ -12,12 +12,14 @@ const couponsPage = async (req, res, next) => {
     await updateCouponsStatus();
 
     const coupons = await couponCollection.find({ isDelete: false });
+    const deletedCoupons = await couponCollection.find({ isDelete: true });
 
     res.render("adminViews/couponsList", {
       user,
       page: 1,
       pages: 2,
       coupons,
+      deletedCoupons,
     });
   } catch (error) {
     next(new AppError(error, 500));
@@ -110,6 +112,26 @@ const deleteCounpon = async (req, res, next) => {
     next(new AppError(error, 500));
   }
 };
+const restoreCounpon = async (req, res, next) => {
+  try {
+    const restoredCoupon = await couponCollection.findByIdAndUpdate(
+      req.query.couponID,
+      {
+        $set: { isDelete: false },
+      },
+      {
+        new: true, // return the updated document
+      }
+    );
+    if (!restoredCoupon.isDelete) {
+      res.send({ isRestored: true });
+    } else {
+      res.send({ couponNotFound: true });
+    }
+  } catch (error) {
+    next(new AppError(error, 500));
+  }
+};
 
 const updateCouponsStatus = async () => {
   try {
@@ -140,5 +162,6 @@ module.exports = {
   addCoupon,
   editCoupon,
   deleteCounpon,
+  restoreCounpon,
   updateCouponsStatus,
 };

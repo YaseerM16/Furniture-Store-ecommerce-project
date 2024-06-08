@@ -66,6 +66,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
 
     <title>Admin-Category</title>
     <style>
@@ -207,6 +208,24 @@
         .header .topbar .inner {
             height: 100px;
         }
+
+        .header .topbar .inner {
+            height: 100px;
+        }
+
+        .header .topbar .inner .logo {
+            height: 100px;
+            margin-left: 60px;
+        }
+
+        .header .topbar .inner .logo #brand-name {
+            height: 52px;
+            padding: 2px;
+        }
+
+        a {
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -219,7 +238,7 @@
             <div class="container-fluid">
                 <div class="inner">
                     <!-- Logo -->
-                    <div class="logo" style="padding-left: 50px;">
+                    <div class="logo">
                         <a href="#">
                             <div id="brand-name">&nbsp;Y-FURNS</div>
                             <!-- <img src="assets/images/logo.png" class="image-fi" alt="logo" height="100px" width="100px"> -->
@@ -227,7 +246,7 @@
                     </div>
                     <!-- Logo -->
                     <!-- Search Form -->
-                    <div class="search-form" style="padding-bottom: 15px;">
+                    <div class="search-form">
                         <form>
                             <!-- Location -->
 
@@ -247,22 +266,21 @@
                     </div>
                     <!-- Search Form -->
                     <!-- Header Action -->
-                    <div class="header_action" style="padding-top: 10px;padding-right: 50px;">
+                    <div class="header_action">
                         <ul>
-
-                            <li class="user">
+                            <li class="user" style="margin-right: 50px;">
                                 <% if (user) { %>
-                                    <a href="#">
+                                    <a href="/userDetails">
                                         <img src="/assets/images/header/user.png" class="image-fit" alt="img">
-                                        <div class="cart_text">
-                                            ADMIN
-                                        </div>
                                         <span>
+                                            Admin
                                             <%= user.username %>
                                         </span>
                                     </a>
                                     <ul class="sub-menu">
-
+                                        <li>
+                                            <a href="/adimDashBoard">Dashboard</a>
+                                        </li>
                                         <li>
                                             <a href="/logout">Logout</a>
                                         </li>
@@ -270,14 +288,11 @@
                                     <% } else { %>
                                         <a href="account.html">
                                             <img src="/assets/images/header/user2.png" class="image-fit" alt="img">
-                                            <span>New User</span>
+                                            <span>Login as Admin</span>
                                         </a>
                                         <ul class="sub-menu">
                                             <li>
-                                                <a href="/logIn">Login</a>
-                                            </li>
-                                            <li>
-                                                <a href="/signUp">SignUp</a>
+                                                <a href="/adminLogin">Admin Login</a>
                                             </li>
                                         </ul>
                                         <% } %>
@@ -307,7 +322,13 @@
                                 <div class="collapse navbar-collapse" id="navbarNav">
                                     <ul class="navbar-nav w-100 d-flex flex-column">
                                         <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="/adimDashBoard">Home</a>
+                                            <div class="d-flex" id="user">
+                                                <a class="nav-link" href="/adimDashBoard">Dashboard</a>
+                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-tachometer-alt"></i>
+                                                </div>
+
+                                            </div>
                                         </li>
                                         <li class="nav-item my-3 fs-5">
                                             <div class="d-flex" id="user">
@@ -384,11 +405,26 @@
                                     <h3 class="title">Coupons List</h3>
                                 </div>
                             </div>
-                            <div class="pt-3">
-                                <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    Add new coupon
-                                </button>
+                            <div class="d-flex justify-content-between">
+                                <div class="pt-3" style="margin-bottom: 20px;">
+                                    <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                        <i class="fas fa-tags fa-3x"></i>
+                                        <h5>Add new coupon</h5>
+                                    </button>
+                                </div>
+                                <div class="d-flex justify-content-end mx-5">
+                                    <div class="d-flex justfify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                                data-bs-target="#deletedCouponsModal"><i
+                                                    class="fas fa-undo-alt fa-2x"></i>
+                                                <h4>Restore Coupon</h4>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
 
                             <!--Add Category Modal -->
@@ -514,7 +550,9 @@
                                                             <%= coupons[i].couponCode %>
                                                         </th>
                                                         <td>
-                                                            <%= coupons[i].discountPercentage %>
+                                                            <div class="d-flex justify-content-center">
+                                                                <%= coupons[i].discountPercentage %> %
+                                                            </div>
                                                         </td>
                                                         <td>
                                                             <%= coupons[i].startDate.toLocaleDateString('en-US', {
@@ -527,25 +565,35 @@
                                                                 %>
                                                         </td>
                                                         <td>
-                                                            <%= coupons[i].minimumPurchase %>
+                                                            <div class="d-flex justify-content-center">
+                                                                ₹&nbsp;<%= coupons[i].minimumPurchase %>
+                                                            </div>
                                                         </td>
                                                         <td>
-                                                            <%= coupons[i].maximumDiscount %>
+                                                            <div class="d-flex justify-content-center">
+                                                                <%= coupons[i].maximumDiscount %> %
+                                                            </div>
                                                         </td>
                                                         <td>
-                                                            <%= coupons[i].currentStatus %>
+                                                            <div class="d-flex justify-content-center">
+                                                                <%= coupons[i].currentStatus %>
+                                                            </div>
                                                         </td>
-                                                        <td>
-                                                            <div class="d-flex justify-content-between">
-
-                                                                <button type="button" class="btn btn-info"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#editModal<%= i %>">
-                                                                    <i class="fas fa-edit"></i>
-                                                                </button>
-                                                                <button id="unblock<%i%>"
-                                                                    onclick="deleteCoupon(event, '<%=coupons[i]._id %>')"
-                                                                    type="button" class="btn btn-danger">Delete</button>
+                                                        <td style="width: 180px;">
+                                                            <div class="d-flex justify-content-around">
+                                                                <div>
+                                                                    <button type="button" class="btn btn-info"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#editModal<%= i %>">
+                                                                        <i class="fas fa-edit"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <div>
+                                                                    <button id="unblock<%i%>"
+                                                                        onclick="deleteCoupon(event, '<%=coupons[i]._id %>')"
+                                                                        type="button" class="btn btn-danger"><i
+                                                                            class="fas fa-trash"></i></button>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -660,7 +708,87 @@
                                 </div>
                                 <% }); %>
                         </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="deletedCouponsModal" tabindex="-1"
+                            aria-labelledby="couponModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="couponModalLabel">Deleted Coupons</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th scope="col">Coupon Code</th>
+                                                        <th scope="col">Discount Percentage</th>
+                                                        <th scope="col">Start Date</th>
+                                                        <th scope="col">Expiry Date</th>
+                                                        <th scope="col">Minimum Purchase</th>
+                                                        <th scope="col">Current Status</th>
+                                                        <th scope="col">Restore</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="coupon-list">
+                                                    <% for(let i=0; i < deletedCoupons.length; i++) { %>
+                                                        <tr>
+                                                            <th scope="row">
+                                                                <%= deletedCoupons[i].couponCode %>
+                                                            </th>
+                                                            <td>
+                                                                <%= deletedCoupons[i].discountPercentage %> %
+                                                            </td>
+                                                            <td>
+                                                                <%= new
+                                                                    Date(deletedCoupons[i].startDate).toLocaleDateString('en-US',
+                                                                    { year: 'numeric' , month: '2-digit' ,
+                                                                    day: '2-digit' }) %>
+                                                            </td>
+                                                            <td>
+                                                                <%= new
+                                                                    Date(deletedCoupons[i].expiryDate).toLocaleDateString('en-US',
+                                                                    { year: 'numeric' , month: '2-digit' ,
+                                                                    day: '2-digit' }) %>
+                                                            </td>
+                                                            <td>
+                                                                <%= deletedCoupons[i].minimumPurchase %>
+                                                            </td>
+                                                            <td>
+                                                                <%= deletedCoupons[i].currentStatus %>
+                                                            </td>
+                                                            <td>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <div>
+                                                                        <i class="fas fa-undo-alt fa-2x"></i>
+                                                                    </div>
+                                                                    <div>
+                                                                        <button type="button" class="btn btn-info"
+                                                                            onclick="restoreCouponBtn('<%= deletedCoupons[i]._id %>')">Restore</button>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+
+
+                                                        </tr>
+                                                        <% } %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </section>
+
                     <!-- Edit Product Script- form validation and submit  -->
 
                     <script>
@@ -765,6 +893,7 @@
                         });
                     </script>
 
+
                     <div class="row">
                         <div class="col-12">
 
@@ -823,6 +952,7 @@
     </div>
     <!-- Copyright End -->
     <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
     <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="assets/js/plugins/slick.min.js"></script>
@@ -958,6 +1088,49 @@
                 })
             } catch (error) {
                 console.log(console.log(error));
+            }
+        }
+
+        async function restoreCouponBtn(couponId) {
+            console.log(couponId);
+            try {
+                await Swal.fire({
+                    icon: "Confirmation",
+                    title: "Are you sure to Restore This Coupon",
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'OK',
+                    cancelButtonText: 'Dismiss'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        const response = await fetch(`/admin/restoreCoupon?couponID=${couponId}`, {
+                            method: 'PATCH',
+                        });
+                        const result = await response.json();
+
+                        if (result.isRestored) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Your coupon has been Removed",
+                                showConfirmButton: true,
+                            })
+                                .then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.reload()
+                                    }
+                                })
+                        } else if (result.couponNotFound) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "The coupon trying to Delete is not found or deleted",
+                                showConfirmButton: true,
+                            })
+                        }
+                    }
+
+                })
+            } catch (error) {
+
             }
         }
 

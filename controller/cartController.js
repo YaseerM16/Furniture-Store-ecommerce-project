@@ -12,6 +12,7 @@ const AppError = require("../middlewares/errorHandling");
 
 const addToCart = async (req, res, next) => {
   try {
+    console.log(typeof req.query.pid);
     const productExist = await cartCollection.findOne({
       userId: req.session.currentUser._id,
       productId: req.query.pid,
@@ -82,6 +83,7 @@ const cartPage = async (req, res, next) => {
         userId: req.session.currentUser._id,
       })
       .populate("productId");
+    console.log("cartProducts ::-", cartProducts);
 
     let totalItems = 0;
     let grandTotal = 0;
@@ -221,8 +223,6 @@ const quantityIncBtn = async (req, res, next) => {
       console.log("The product is not existing: !!!!");
     } else {
       const productStock = parseInt(product.productStock);
-      console.log(productStock);
-      console.log(req.query.inputQty);
       if (req.query.inputQty > productStock) {
         res.send({ exceed: true });
       } else {
@@ -264,7 +264,6 @@ const addressCheckOutPage = async (req, res, next) => {
 const redirecPaymentMethod = async (req, res, next) => {
   try {
     if (!req.query.addressId) {
-      console.log(req.session.addressId);
       console.log("The Address Id is not retrieve from the CheckOut Page :");
     } else {
       req.session.addressId = req.query.addressId;
@@ -334,7 +333,10 @@ const checkoutPage = async (req, res, next) => {
         inSufficienBalance = "wallet";
       }
     }
-
+    let insufficientCod = null;
+    if (req.query.paymentmethod === "cod" && req.session.cartTotal < 5000) {
+      req.session.insufficientCod = true;
+    }
     await couponController.updateCouponsStatus();
     const coupons = await couponCollection.find({ currentStatus: true });
 
@@ -354,6 +356,7 @@ const checkoutPage = async (req, res, next) => {
           providedDisc: req.session.discountAmout,
           couponId: req.session.couponID,
         },
+        insufficientCod: req.session.insufficientCod,
       });
     }
   } catch (error) {
@@ -485,7 +488,10 @@ const placeOrder = async (req, res, next) => {
     req.session.couponApplied = false;
     req.session.save();
 
-    res.render("userViews/orderSuccess");
+    const email = req.session.currentUser.email;
+    let user = await userCollection.findOne({ email: email });
+
+    res.render("userViews/orderSuccess", { user });
   } catch (error) {
     next(new AppError(error, 500));
   }
