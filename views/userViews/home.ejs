@@ -21,12 +21,12 @@
     <meta name="twitter:description" content="Description website">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
     <!-- Css -->
-    <link href="assets/css/plugins/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/fonts/font-awesome.min.css" rel="stylesheet">
-    <link href="assets/css/plugins/magnific-popup.css" rel="stylesheet">
-    <link href="assets/css/plugins/slick.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/responsive.css" rel="stylesheet">
+    <link href="/assets/css/plugins/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/fonts/font-awesome.min.css" rel="stylesheet">
+    <link href="/assets/css/plugins/magnific-popup.css" rel="stylesheet">
+    <link href="/assets/css/plugins/slick.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/responsive.css" rel="stylesheet">
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,7 +45,7 @@
 <body>
     <!-- Preloader Start -->
     <div class="preloader">
-        <img src="assets/images/preloader.svg" alt="preloader">
+        <img src="/assets/images/preloader.svg" alt="preloader">
     </div>
     <!-- Preloader End -->
     <!-- Header Start -->
@@ -95,7 +95,7 @@
                     <div class="header_action">
                         <ul>
                             <li>
-                                <a href="wishlist.html">
+                                <a href="#">
                                     <i class="far fa-heart"></i>
                                 </a>
                             </li>
@@ -112,7 +112,7 @@
                             <li class="user">
                                 <% if (user) { %>
                                     <a href="/userDetails">
-                                        <img src="assets/images/header/user.png" class="image-fit" alt="img">
+                                        <img src="/assets/images/header/user.png" class="image-fit" alt="img">
                                         <span>
                                             <%= user.username %>
                                         </span>
@@ -127,7 +127,7 @@
                                     </ul>
                                     <% } else { %>
                                         <a href="account.html">
-                                            <img src="assets/images/header/user2.png" class="image-fit" alt="img">
+                                            <img src="/assets/images/header/user2.png" class="image-fit" alt="img">
                                             <span>New User</span>
                                         </a>
                                         <ul class="sub-menu">
@@ -392,7 +392,7 @@
                                 </div>
                                 <div class="product_image">
                                     <a href="/singleProduct?id=<%=product._id %>" class="click_img">
-                                        <img src="assets/uploadimages/uploads/<%=product.productImage[0]%>"
+                                        <img src="/assets/uploadimages/uploads/<%=product.productImage[0]%>"
                                             class="image-fit-contain" alt="img">
                                     </a>
                                 </div>
@@ -611,13 +611,13 @@
                 const arr = JSON.parse(arrDet)
                 console.log(arr);
             </script>
-            <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
-            <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
-            <script src="assets/js/plugins/slick.min.js"></script>
-            <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
-            <script src="assets/js/plugins/jquery.counterup.min.js"></script>
-            <script src="assets/js/plugins/jquery.inview.min.js"></script>
-            <script src="assets/js/custom.js"></script>
+            <script src="/assets/js/plugins/jquery-3.6.0.min.js"></script>
+            <script src="/assets/js/plugins/bootstrap.bundle.min.js"></script>
+            <script src="/assets/js/plugins/slick.min.js"></script>
+            <script src="/assets/js/plugins/jquery.magnific-popup.min.js"></script>
+            <script src="/assets/js/plugins/jquery.counterup.min.js"></script>
+            <script src="/assets/js/plugins/jquery.inview.min.js"></script>
+            <script src="/assets/js/custom.js"></script>
 </body>
 
 </html>
