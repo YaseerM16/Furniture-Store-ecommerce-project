@@ -83,7 +83,6 @@ const cartPage = async (req, res, next) => {
         userId: req.session.currentUser._id,
       })
       .populate("productId");
-    console.log("cartProducts ::-", cartProducts);
 
     let totalItems = 0;
     let grandTotal = 0;
