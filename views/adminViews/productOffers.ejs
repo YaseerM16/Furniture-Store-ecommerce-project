@@ -384,9 +384,6 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="#">Banner Management</a>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -493,14 +490,26 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">
-                                                        Product
+                                                        <div class="d-flex justify-content-center">
+                                                            Product
+                                                        </div>
                                                     </th>
-                                                    <th scope="col">Offer Percentage</th>
-                                                    <th scope="col">Start Date</th>
-
-                                                    <th scope="col">End Date</th>
-                                                    <th scope="col">Current Status</th>
-                                                    <th scope="col">Action</th>
+                                                    <th scope="col">
+                                                        <div class="d-flex justify-content-center">Offer Percentage
+                                                        </div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div class="d-flex justify-content-center">Start Date</div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div class="d-flex justify-content-center">End Date</div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div class="d-flex justify-content-center">Current Status</div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div class="d-flex justify-content-center">Action</div>
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -526,14 +535,18 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <%= productOfferData[i].startDate.toLocaleDateString('en-US',
-                                                                { year: 'numeric' , month: '2-digit' , day: '2-digit'
-                                                                })%>
+                                                            <div class="d-flex justify-content-center">
+                                                                <%= productOfferData[i].startDate.toLocaleDateString('en-US',
+                                                                    { year: 'numeric' , month: '2-digit' ,
+                                                                    day: '2-digit' })%>
+                                                            </div>
                                                         </td>
                                                         <td>
-                                                            <%= productOfferData[i].endDate.toLocaleDateString('en-US',
-                                                                { year: 'numeric' , month: '2-digit' , day: '2-digit'
-                                                                })%>
+                                                            <div class="d-flex justify-content-center">
+                                                                <%= productOfferData[i].endDate.toLocaleDateString('en-US',
+                                                                    { year: 'numeric' , month: '2-digit' ,
+                                                                    day: '2-digit' })%>
+                                                            </div>
                                                         </td>
                                                         <td>
                                                             <div class="d-flex justify-content-center">
@@ -541,12 +554,13 @@
                                                             </div>
                                                         </td>
                                                         <td>
-
-                                                            <button type="button" class="btn btn-info"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#editModal<%= i %>">
-                                                                <i class="fas fa-edit"></i>
-                                                            </button>
+                                                            <div class="d-flex justify-content-center">
+                                                                <button type="button" class="btn btn-info"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#editModal<%= i %>">
+                                                                    <i class="fas fa-edit"></i>
+                                                                </button>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                     <% } %>

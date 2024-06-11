@@ -27,22 +27,16 @@ const { ObjectId } = require("mongodb");
 
 const landingPage = async (req, res, next) => {
   try {
-    const arr = [];
-    const category = await categoryCollection.find({ isListed: true });
-    for (i = 0; i < category.length; i++) {
-      let obj = {};
-      let catName = category[i].categoryName;
-      let catId = category[i]._id;
-      let catProds = await productCollection.find({ parentCategory: catId });
-      obj[catName] = catProds;
-      arr.push(obj);
-    }
+    const products = await productCollection.find({ isListed: true });
+    let user;
     if (req.session.logged) {
       const email = req.session.currentUser.email;
-      const user = await userCollection.findOne({ email: email });
-      res.render("userViews/home", { user: user, arr });
+      user = await userCollection.findOne({ email: email });
+      res.render("userViews/home", { user, products });
     } else {
-      res.render("userViews/home", { user: null, arr });
+      user = null;
+      wishListDet = [];
+      res.render("userViews/home", { user, products });
     }
   } catch (error) {
     next(new AppError(error, 500));

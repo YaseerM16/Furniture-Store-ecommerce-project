@@ -319,9 +319,6 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="#">Banner Management</a>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -472,41 +469,64 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">
-                                        Category
+                                        <div class="d-flex justify-content-center">
+                                            Category
+                                        </div>
                                     </th>
-                                    <th scope="col">Offer Percentage</th>
-                                    <th scope="col">Start Date</th>
-
-                                    <th scope="col">End Date</th>
-                                    <th scope="col">Current Status</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">
+                                        <div class="d-flex justify-content-center">Offer Percentage</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="d-flex justify-content-center">Start Date</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="d-flex justify-content-center">End Date</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="d-flex justify-content-center">Current Status</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="d-flex justify-content-center">Action</div>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <% for(let i=0;i<categoryOffersDet.length;i++){ %>
                                     <tr>
                                         <th scope="row">
-                                            <%= categoryOffersDet[i].categoryName %>
+                                            <div class="d-flex justify-content-center">
+                                                <%= categoryOffersDet[i].categoryName %>
+                                            </div>
                                         </th>
                                         <td>
-                                            <%= categoryOffersDet[i].categoryOfferPercentage %>
+                                            <div class="d-flex justify-content-center">
+                                                <%= categoryOffersDet[i].categoryOfferPercentage %>&nbsp;%
+                                            </div>
                                         </td>
                                         <td>
-                                            <%= categoryOffersDet[i].startDate.toLocaleDateString('en-US', {
-                                                year: 'numeric' , month: '2-digit' , day: '2-digit' }) %>
+                                            <div class="d-flex justify-content-center">
+                                                <%= categoryOffersDet[i].startDate.toLocaleDateString('en-US', {
+                                                    year: 'numeric' , month: '2-digit' , day: '2-digit' }) %>
+                                            </div>
                                         </td>
                                         <td>
-                                            <%= categoryOffersDet[i].endDate.toLocaleDateString('en-US', {
-                                                year: 'numeric' , month: '2-digit' , day: '2-digit' }) %>
+                                            <div class="d-flex justify-content-center">
+                                                <%= categoryOffersDet[i].endDate.toLocaleDateString('en-US', {
+                                                    year: 'numeric' , month: '2-digit' , day: '2-digit' }) %>
+                                            </div>
                                         </td>
                                         <td id="currentStatus<%= i %>">
-                                            <%= categoryOffersDet[i].currentStatus %>
+                                            <div class="d-flex justify-content-center">
+                                                <%= categoryOffersDet[i].currentStatus %>
+                                            </div>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                                data-bs-target="#editModal<%= i %>">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                                    data-bs-target="#editModal<%= i %>">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                            </div>
                                         </td>
 
                                     </tr>
@@ -543,7 +563,7 @@
                                                                 <div class="input-group">
                                                                     <input id="startDate<%= index %>" name="startDate"
                                                                         type="date" class="form-control"
-                                                                        value="<%= categoryOffersDet[i].startDateFormatted %>">
+                                                                        value="<%= categoryOffer.startDate.toISOString().substring(0, 10) %>">
                                                                 </div>
                                                                 <div class="form-text">Choose a start date for the offer
                                                                     to be
@@ -555,7 +575,7 @@
                                                                 <div class="input-group">
                                                                     <input id="endDate<%= index %>" name="endDate"
                                                                         type="date" class="form-control"
-                                                                        value="<%= categoryOffer.endDateFormatted %>">
+                                                                        value="<%= categoryOffer.endDate.toISOString().substring(0, 10) %>">
                                                                 </div>
                                                                 <div class="form-text">Choose an exipry date for offer
                                                                     to end.
@@ -640,6 +660,7 @@
         var today = new Date().toISOString().split('T')[0];
         const categoryOffersDet = '<%- JSON.stringify(categoryOffersDet) %>';
         const parsedCatOffer = JSON.parse(categoryOffersDet);
+        console.log(parsedCatOffer);
 
         $(document).ready(function () {
             parsedCatOffer.forEach((categoryOffer, index) => {

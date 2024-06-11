@@ -33,6 +33,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <style>
         #brand-name {
             font-family: "Bungee Spice", sans-serif;
@@ -436,8 +438,16 @@
                                         </div>
                                         <!-- <div class="product_qty"><span>1</span>PC</div> -->
                                         <div class="product_action">
-                                            <button type="button" class="product_btn">ADD to Cart <i
-                                                    class="fal fa-plus"></i></button>
+                                            <% if (user) { %>
+                                                <button type="button" onclick="addToCart('<%= i %>')"
+                                                    class="product_btn">ADD to
+                                                    Cart <i class="fal fa-plus"></i></button>
+                                                <% } else { %>
+                                                    <button type="button" onclick="nonUserAddCart()"
+                                                        class="product_btn">ADD to Cart <i
+                                                            class="fal fa-plus"></i></button>
+                                                    <% } %>
+
                                         </div>
                                     </div>
                                 </div>
@@ -515,6 +525,27 @@
             </div>
         </div>
     </div>
+    <!-- ADD to Cart success -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Success</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Your Product has been Added To Cart Successfully!.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="okButton">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Sign Up/Login Modal -->
     <div class="modal fade" id="signupLoginModal" tabindex="-1" role="dialog" aria-labelledby="signupLoginModalLabel"
@@ -528,7 +559,7 @@
                     </button>
                 </div>
                 <div class="modal-body text-white fs-5">
-                    <p>To add products to your wishlist, please sign up or log in.</p>
+                    <p>To add products, please sign up or log in.</p>
                     <!-- Add your sign up and login forms or buttons here -->
                     <button type="button" class="btn btn-light" onclick="location.href='/logIn';">Log In</button>
                     <button type="button" class="btn btn-light" onclick="location.href='/signUp';">Sign Up</button>
@@ -724,6 +755,38 @@
         const filterDet = '<%- JSON.stringify(queryFilters) %>'
         const parsedFilters = JSON.parse(filterDet)
         // console.log(parsedFilters);
+        const addToCart = async (index) => {
+            console.log(index);
+            console.log("Indexed Product :", productDetArr[index]);
+            const product = productDetArr[index];
+            const prodId = product._id;
+            const prodStock = product.productStock;
+            const prodQty = 1;
+            const prodPrice = product.productPrice;
+            console.log("Product Qty: ", prodQty);
+            try {
+                const response = await fetch(`/addToCart?pid=${prodId}&stock=${prodStock}&quantity=${prodQty}&productPrice=${prodPrice}`, {
+                    method: 'POST',
+                })
+                const data = await response.json();
+
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Product Added to Cart',
+                        text: 'The product has been successfully added to your cart.',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#3085d6',
+                    })
+                } else {
+                    throw new Error('Error adding product to cart.');
+                }
+
+            } catch (error) {
+                console.log("Error while adding the product to the cart :" + error);
+            }
+
+        }
 
         const page = '<%- JSON.stringify(page) %>'
         const pageVal = JSON.parse(page)
@@ -755,6 +818,14 @@
 
         const applyFiltersButton = document.getElementById('apply-filters');
         const removeFiltersButton = document.getElementById('remove-filters');
+        async function nonUserAddCart() {
+            signupLoginModal.show();
+            document
+                .getElementById("closeNonUserModal")
+                .addEventListener("click", () => {
+                    signupLoginModal.hide()
+                });
+        }
 
         const selectedFilters = {};
         let url = `/filterProduct?`;
