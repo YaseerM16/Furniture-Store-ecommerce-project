@@ -335,65 +335,8 @@
                                 </div>
                             </div>
                             <!-- User Details -->
-                            <!-- <div class="user_details">
-                  <form
-                    class="user_form"
-                    action="/editProfile"
-                    method="post"
-                    enctype="application/x-www-form-urlencoded"
-                  >
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label><strong>User Name</strong></label>
-                          <input
-                            type="text"
-                            name="username"
-                            class="form-control form-control-custom"
-                            placeholder="First Name"
-                            autocomplete="off"
-                            value="<%= user.username %>"
-                            required
-                            disabled="true"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label><strong>Email Address</strong></label>
-                          <input
-                            type="email"
-                            name="email"
-                            class="form-control form-control-custom"
-                            placeholder="Email I'd"
-                            autocomplete="off"
-                            value="<%= user.email %>"
-                            required
-                            disabled="true"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <label><strong>Phone No.</strong></label>
-                        <input
-                          type="number"
-                          name="phone"
-                          class="form-control form-control-custom"
-                          placeholder="Phone No."
-                          autocomplete="off"
-                          value="<%= user.phonenumber %>"
-                          required
-                          min="10"
-                          disabled="true"
-                        />
-                      </div>
-                    </div> -->
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <button type="button" class="thm-color-two fw-500 mb-2">
-                                        <i class="fal fa-plus"></i>
-                                        Add Address
-                                    </button>
                                     <ul class="address_list">
                                         <% for(let i=0;i<addresses.length;i++){ %>
                                             <li class="d-flex align-items-center justify-content-between">
@@ -449,7 +392,7 @@
                                 </a>
                             </div>
                             </form>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -631,7 +574,7 @@
                         <h6 class="ft_title">Help Center</h6>
                         <ul class="ft_menu">
                             <li>
-                                <a href="payment.html">Payments</a>
+                                <a href="#">Payments</a>
                             </li>
                             <li>
                                 <a href="#">Shipping</a>
@@ -640,13 +583,13 @@
                                 <a href="#">Product Returns</a>
                             </li>
                             <li>
-                                <a href="faqs.html">FAQ's</a>
+                                <a href="#">FAQ's</a>
                             </li>
                             <li>
-                                <a href="checkout.html">Checkout</a>
+                                <a href="#">Checkout</a>
                             </li>
                             <li>
-                                <a href="blog.html">Blog</a>
+                                <a href="#">Blog</a>
                             </li>
                         </ul>
                     </div>
@@ -656,22 +599,22 @@
                         <h6 class="ft_title">Useful Links</h6>
                         <ul class="ft_menu">
                             <li>
-                                <a href="index-2.html">Home</a>
+                                <a href="#">Home</a>
                             </li>
                             <li>
-                                <a href="contact.html">Contact</a>
+                                <a href="#">Contact</a>
                             </li>
                             <li>
-                                <a href="about.html">About</a>
+                                <a href="#">About</a>
                             </li>
                             <li>
-                                <a href="terms-conditions.html">Terms & Conditions</a>
+                                <a href="#">Terms & Conditions</a>
                             </li>
                             <li>
-                                <a href="privacy.html">Policy</a>
+                                <a href="#">Policy</a>
                             </li>
                             <li>
-                                <a href="order-list.html">My Orders</a>
+                                <a href="#">My Orders</a>
                             </li>
                         </ul>
                     </div>
@@ -690,13 +633,13 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="tel:0002583745351">
+                                <a href="#">
                                     <i class="fas fa-phone"></i>
                                     000 2583 745 351
                                 </a>
                             </li>
                             <li>
-                                <a href="mailto:example@example.com">
+                                <a href="#">
                                     <i class="fas fa-envelope"></i>
                                     example@example.com
                                 </a>
@@ -709,22 +652,22 @@
                         <h6 class="ft_title">Categories</h6>
                         <ul class="ft_menu">
                             <li>
-                                <a href="shop.html">Chair</a>
+                                <a href="#">Chair</a>
                             </li>
                             <li>
-                                <a href="shop.html">Sofa</a>
+                                <a href="#">Sofa</a>
                             </li>
                             <li>
-                                <a href="shop.html">Dining Table</a>
+                                <a href="#">Dining Table</a>
                             </li>
                             <li>
-                                <a href="shop.html">Table Lamp</a>
+                                <a href="#">Table Lamp</a>
                             </li>
                             <li>
-                                <a href="shop.html">Desk</a>
+                                <a href="#">Desk</a>
                             </li>
                             <li>
-                                <a href="shop.html">cabinets</a>
+                                <a href="#">cabinets</a>
                             </li>
                         </ul>
                     </div>
@@ -763,48 +706,6 @@
         integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-
-        // const form = document.getElementById("my-form");
-        // form.addEventListener("submit", (event) => {
-        //     event.preventDefault();
-        //     const formData = new FormData(form);
-        //     const data = Object.fromEntries(formData.entries());
-        //     const jsonData = JSON.stringify(data);
-        //     fetch("/editProfile", {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json"
-        //         },
-        //         body: jsonData
-        //     })
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             console.log("Success:", data);
-        //         })
-        //         .catch((error) => {
-        //             console.error("Error:", error);
-        //         });
-        // });
-        // document
-        //     .getElementById("edit_profile_btn")
-        //     .addEventListener("click", function () {
-        //         let inputs = document.querySelectorAll(".user_form input");
-        //         for (let i = 0; i < inputs.length; i++) {
-        //             inputs[i].disabled = false;
-        //         }
-        //         document.querySelector("#edit_profile_btn").style.display = "none";
-        //         document.querySelector(".save_changes_btn").style.display = "block";
-        //     });
-
-        // document
-        //     .querySelector(".save_changes_btn")
-        //     .addEventListener("click", function () {
-        //         // Handle form submission and save changes
-        //         // Disable inputs and show "Edit Profile" button
-
-        //         document.querySelector("#edit_profile_btn").style.display = "block";
-        //         document.querySelector(".save_changes_btn").style.display = "none";
-        //     });
 
         const addresses = '<%- JSON.stringify(addresses) %>'
 
@@ -1001,48 +902,6 @@
             });
         });
 
-        // editAddressForm.addEventListener("submit", (event) => {
-        //     event.preventDefault();
-        //     console.log("value : ", editAddressForm.address_id);
-        //     const formData = new FormData(editAddressForm);
-        //     const data = Object.fromEntries(formData.entries());
-        //     const urlEncodedData = new URLSearchParams(data);
-        //     const addressId = editAddressForm.address_id.value;
-
-        //     // Send HTTP request to the server
-        //     fetch(`/editAddress?id=${addressId}`, {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/x-www-form-urlencoded",
-        //         },
-        //         body: urlEncodedData,
-        //     })
-        //         .then(response => {
-        //             if (response.ok) {
-        //                 const successModal = new bootstrap.Modal(
-        //                     document.getElementById("successModal")
-        //                 );
-        //                 successModal.show();
-        //                 document
-        //                     .getElementById("okButton")
-        //                     .addEventListener("click", () => {
-        //                         window.location.href = "/addressPage";
-        //                     });
-        //                 // Show success message or redirect to a new page
-        //                 console.log("Address updated successfully");
-        //             } else {
-        //                 // Show error message
-        //                 console.error("Failed to update address");
-        //             }
-        //             // Handle the edit request here
-        //             editAddressModal.hide();
-        //         })
-        //         .catch(error => {
-        //             console.error("Error:", error);
-        //         });
-        // });
-
-        // delete address
 
         deleteAddressBtns.forEach(btn => {
             btn.addEventListener("click", () => {

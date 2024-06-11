@@ -502,7 +502,10 @@
             <div class="row">
                 <div class="col-xl-2 col-sm-4">
                     <div class="ft_widget border-sm-0 pl-sm-0">
-                        <h6 class="ft_title">Find a Store<br> Shop Gift Cards</h6>
+                        <h6 class="ft_title">
+                            Find a Store<br />
+                            Shop Gift Cards
+                        </h6>
                         <p class="mb-2">Follow Us:</p>
                         <ul class="ft_social">
                             <li>
@@ -528,7 +531,7 @@
                         <h6 class="ft_title">Help Center</h6>
                         <ul class="ft_menu">
                             <li>
-                                <a href="payment.html">Payments</a>
+                                <a href="#">Payments</a>
                             </li>
                             <li>
                                 <a href="#">Shipping</a>
@@ -537,13 +540,13 @@
                                 <a href="#">Product Returns</a>
                             </li>
                             <li>
-                                <a href="faqs.html">FAQ's</a>
+                                <a href="#">FAQ's</a>
                             </li>
                             <li>
-                                <a href="checkout.html">Checkout</a>
+                                <a href="#">Checkout</a>
                             </li>
                             <li>
-                                <a href="blog.html">Blog</a>
+                                <a href="#">Blog</a>
                             </li>
                         </ul>
                     </div>
@@ -553,22 +556,22 @@
                         <h6 class="ft_title">Useful Links</h6>
                         <ul class="ft_menu">
                             <li>
-                                <a href="index.html">Home</a>
+                                <a href="#">Home</a>
                             </li>
                             <li>
-                                <a href="contact.html">Contact</a>
+                                <a href="#">Contact</a>
                             </li>
                             <li>
-                                <a href="about.html">About</a>
+                                <a href="#">About</a>
                             </li>
                             <li>
-                                <a href="terms-conditions.html">Terms & Conditions</a>
+                                <a href="#">Terms & Conditions</a>
                             </li>
                             <li>
-                                <a href="privacy.html">Policy</a>
+                                <a href="#">Policy</a>
                             </li>
                             <li>
-                                <a href="order-list.html">My Orders</a>
+                                <a href="#">My Orders</a>
                             </li>
                         </ul>
                     </div>
@@ -576,7 +579,9 @@
                 <div class="col-xl col-sm-8">
                     <div class="ft_widget">
                         <h6 class="ft_title">Contact Us</h6>
-                        <p class="mb-3">Sed ut perspiciatis unde omnis iste natus error sit voluptatem </p>
+                        <p class="mb-3">
+                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+                        </p>
                         <ul class="ft_contact">
                             <li>
                                 <a href="#">
@@ -585,13 +590,13 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="tel:0002583745351">
+                                <a href="#">
                                     <i class="fas fa-phone"></i>
                                     000 2583 745 351
                                 </a>
                             </li>
                             <li>
-                                <a href="mailto:example@example.com">
+                                <a href="#">
                                     <i class="fas fa-envelope"></i>
                                     example@example.com
                                 </a>
@@ -604,22 +609,22 @@
                         <h6 class="ft_title">Categories</h6>
                         <ul class="ft_menu">
                             <li>
-                                <a href="shop.html">Chair</a>
+                                <a href="#">Chair</a>
                             </li>
                             <li>
-                                <a href="shop.html">Sofa</a>
+                                <a href="#">Sofa</a>
                             </li>
                             <li>
-                                <a href="shop.html">Dining Table</a>
+                                <a href="#">Dining Table</a>
                             </li>
                             <li>
-                                <a href="shop.html">Table Lamp</a>
+                                <a href="#">Table Lamp</a>
                             </li>
                             <li>
-                                <a href="shop.html">Desk</a>
+                                <a href="#">Desk</a>
                             </li>
                             <li>
-                                <a href="shop.html">cabinets</a>
+                                <a href="#">cabinets</a>
                             </li>
                         </ul>
                     </div>
@@ -641,6 +646,8 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script>
+        const successModal = new bootstrap.Modal(document.getElementById("successModal"));
+        const removeFromCartModal = new bootstrap.Modal(document.getElementById("removeFromCartModal"));
         const cartProducts = '<%- JSON.stringify(cartProducts) %>'
         const cartPdArr = JSON.parse(cartProducts)
         console.log(cartPdArr);
@@ -663,8 +670,6 @@
         document.getElementById('grand-total').innerHTML = grandTotal
         // grandTotal += cartPdArr[i].totalCostPerProduct
         // grandSum.innerHTML = parsedGrandSum + grandTotal
-        const removeFromCartModal = new bootstrap.Modal(document.getElementById("removeFromCartModal"));
-        const successModal = new bootstrap.Modal(document.getElementById("successModal"));
 
         async function removeFromCart(productId, userId) {
             removeFromCartModal.show()
@@ -787,103 +792,7 @@
 
             // Your fetch request and logic here
         }
-        // method 2 -- fetch- slow
-        // document.querySelectorAll('.qty-add').forEach(btn => {
-        //     btn.addEventListener('click', async (e) => {
-        //         const productId = e.target.getAttribute('data-pid');
-        //         console.log("Product ID:", productId); // Add this line for debugging
 
-        //         try {
-        //             const response = await fetch(`/cartIncBtn?productID=${productId}`, {
-        //                 method: "GET",
-        //             });
-        //             const data = await response.json();
-
-        //             console.log("Response:", data); // Add this line for debugging
-
-        //             if (data.success) {
-        //                 console.log("Sending and coming");
-        //             }
-        //         } catch (err) {
-        //             console.log("The /cartIncBtn interrupted with an error:", err);
-        //         }
-        //     });
-        // });
-
-
-
-        // Initialize grand total
-
-        //plus-button
-        // document.querySelectorAll('.qty-add').forEach(btn => {
-        //     btn.addEventListener('click', (e) => {
-        //         e.preventDefault();
-        //         const index = btn.getAttribute('index');
-        //         const pid = cartPdArr[index].productId._id;
-        //         const productQuantity = document.querySelector(`#productQuantity${pid}`);
-        //         let qtyVal = parseInt(productQuantity.value);
-        //         if (qtyVal > cartPdArr[index].productId.productStock - 1) {
-        //             const outOfStockModal = new bootstrap.Modal(
-        //                 document.getElementById("outOfStockModal")
-        //             )
-        //             outOfStockModal.show()
-        //             document
-        //                 .getElementById("close-btn")
-        //                 .addEventListener("click", () => {
-        //                     outOfStockModal.hide();
-        //                 });
-        //         } else {
-        //             const totalCostPerProduct = document.querySelector(`#totalCostPerProduct${pid}`);
-        //             const totalCostPerProductVal = parseInt(totalCostPerProduct.innerHTML);
-        //             qtyVal += 1;
-        //             console.log(qtyVal);
-        //             productQuantity.innerHTML = qtyVal
-        //             let parsedGrand = parseInt(grandSum.innerHTML)
-        //             totalCostPerProduct.innerHTML = qtyVal * cartPdArr[index].productId.productPrice;
-        //             grandSum.innerHTML = parsedGrand + cartPdArr[index].productId.productPrice
-        //         }
-        //         console.log(index);
-        //     });
-        // });
-
-        //minus-button
-        // document.querySelectorAll('.qty-mins').forEach(btn => {
-        //     btn.addEventListener('click', (e) => {
-        //         console.log("THis minus is per");
-        //         e.preventDefault();
-        //         const index = btn.getAttribute('index');
-        //         const pid = cartPdArr[index].productId._id;
-        //         const productQuantity = document.querySelector(`#productQuantity${pid}`);
-        //         const totalCostPerProduct = document.querySelector(`#totalCostPerProduct${pid}`);
-        //         const totalCostPerProductVal = parseInt(totalCostPerProduct.innerHTML);
-        //         let qtyVal = parseInt(productQuantity.value);
-        //         if (qtyVal > 1) {
-        //             productQuantity.value = qtyVal - 1;
-        //             let parsedGrand = parseInt(grandSum.innerHTML)
-        //             grandSum.innerHTML = parsedGrand - cartPdArr[index].productId.productPrice
-        //             totalCostPerProduct.innerHTML = totalCostPerProductVal - cartPdArr[index].productId.productPrice;
-        //         }
-        //     });
-        // });
-
-
-        // const proceedToCheckoutBtn = document.getElementById('proceed-to-checkout');
-        // proceedToCheckoutBtn.addEventListener('click', (e) => {
-        //     e.preventDefault();
-        //     const form = document.createElement('form');
-        //     form.method = 'GET';
-        //     form.action = '/selectAddress';
-
-        //     const input = document.createElement('input');
-        //     input.type = 'hidden';
-        //     input.name = 'grandTotal';
-        //     input.value = grandTotal;
-        //     console.log(grandTotal);
-
-        //     form.appendChild(input);
-        //     document.body.appendChild(form);
-        //     form.submit();
-        // });
     </script>
     <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
     <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>

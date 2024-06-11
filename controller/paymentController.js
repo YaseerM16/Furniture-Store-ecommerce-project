@@ -45,8 +45,8 @@ const doPayment = async (req, res) => {
         payment_method: "paypal",
       },
       redirect_urls: {
-        return_url: `http://furniturehub.shop/paymentSucess?orderId=${orderId}`,
-        cancel_url: `http://furniturehub.shop/paymentFailed?orderId=${orderId}`,
+        return_url: `https://furniturehub.shop/paymentSucess?orderId=${orderId}`,
+        cancel_url: `https://furniturehub.shop/paymentFailed?orderId=${orderId}`,
       },
       transactions: [
         {
@@ -92,6 +92,9 @@ const doPayment = async (req, res) => {
 const paymentSucessPage = async (req, res, next) => {
   try {
     const user = await userCollection.findById(req.session.currentUser._id);
+    // let user1 = await userCollection.findOne({
+    //   email: req.session.currentUser.email,
+    // });
     if (user.failedPayments.includes(req.query.orderId)) {
       await orderCollection.updateOne(
         { orderId: req.query.orderId },
@@ -116,10 +119,8 @@ const paymentSucessPage = async (req, res, next) => {
         );
       }
       await cartCollection.deleteMany({ userId: req.session.currentUser._id });
-      let user1 = req.session.logged
-        ? await userCollection.findOne({ email: req.session.currentUser.email })
-        : {};
-      res.render("userViews/orderSuccess", { user: user1 });
+
+      res.render("userViews/orderSuccess", { user });
     } else {
       const cartDet = await cartCollection.find({
         userId: req.session.currentUser._id,
@@ -154,7 +155,7 @@ const paymentSucessPage = async (req, res, next) => {
       req.session.orderId = null;
       req.session.save();
 
-      res.render("userViews/orderSuccess");
+      res.render("userViews/orderSuccess", { user });
     }
   } catch (error) {
     next(new AppError(error, 500));
@@ -181,7 +182,7 @@ const paymentFailed = async (req, res, next) => {
         ? await userCollection.findOne({ email: req.session.currentUser.email })
         : {};
 
-      res.render("userViews/paymentFailed", user);
+      res.render("userViews/paymentFailed", { user });
     } else {
       const cartDet = await cartCollection.find({
         userId: req.session.currentUser._id,
@@ -211,7 +212,11 @@ const paymentFailed = async (req, res, next) => {
       req.session.orderId = null;
       req.session.save();
 
-      res.render("userViews/paymentFailed");
+      // let user = req.session.logged
+      //   ? await userCollection.findOne({ email: req.session.currentUser.email })
+      //   : {};
+
+      res.render("userViews/paymentFailed", { user });
     }
   } catch (error) {
     next(new AppError(error, 500));
