@@ -435,8 +435,8 @@
                                                             <% } %>
                                                     </div>
                                                 </div>
-                                                <input type="hidden" id="selectedProductName"
-                                                    name="selectedProductName">
+                                                <input readonly id="selectedProductName" name="selectedProductName"
+                                                    style="border: none;">
 
 
 
@@ -842,7 +842,9 @@
             });
             $("#addProductOfferForm").validate({
                 rules: {
-                    productName: "required",
+                    selectedProductName: {
+                        required: true,
+                    },
                     productOfferPercentage: {
                         required: true,
                         min: 5,
