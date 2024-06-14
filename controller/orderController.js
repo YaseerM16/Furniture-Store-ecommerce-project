@@ -21,26 +21,34 @@ const orderData = async (req) => {
     },
     {
       $lookup: {
-        from: "products", // the name of the collection containing the product documents
-        localField: "cartData.productId", // the field in the order document that contains the productId
-        foreignField: "_id", // the field in the product document that contains the corresponding productId
-        as: "productDetails", // the name of the field to add to the order document that will contain the matching product document(s)
+        from: "products",
+        localField: "cartData.productId",
+        foreignField: "_id",
+        as: "productDetails",
       },
     },
     {
-      $unwind: "$productDetails", // "flatten" the productDetails array
+      $unwind: "$productDetails",
     },
     {
       $lookup: {
-        from: "addresses", // Assuming "addresses" is the name of the collection containing address documents
+        from: "addresses",
         localField: "addressChosen",
         foreignField: "_id",
         as: "addressDetails",
       },
     },
     { $unwind: "$addressDetails" },
+    {
+      $lookup: {
+        from: "coupons",
+        localField: "couponApplied",
+        foreignField: "_id",
+        as: "couponDetails",
+      },
+    },
+    { $unwind: "$couponDetails" },
   ]);
-
   return orderDet;
 };
 const orderPage = async (req, res, next) => {

@@ -158,6 +158,7 @@ adminRouter.post(
 ///Offers Management
 adminRouter.get(
   "/admin/productManagement/product-offers-page",
+  isAdmin,
   offersController.productOfferPage
 );
 adminRouter.get(
@@ -185,6 +186,7 @@ adminRouter.put(
 
 adminRouter.get(
   "/admin/couponManagement/coupons",
+  isAdmin,
   couponController.couponsPage
 );
 adminRouter.post("/couponManagement/addCoupon", couponController.addCoupon);

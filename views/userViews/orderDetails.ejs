@@ -582,26 +582,52 @@
                                             </div>
                                             <% } %>
                                                 <% } %>
-                                                    <div class="col-12 d-flex justify-content-end">
-                                                        <div class="col-2">
-                                                            <div
-                                                                style="font-weight: 900;margin-top: 3px; margin-top: 18px;;display: flex; justify-content: center; align-items: center;color: black;">
-                                                                <div style="margin-bottom: 12px;">
-                                                                    Grand Total
+                                                    <% if (orders[0]?.couponApplied ) { %>
+                                                        <div class="col-12 d-flex justify-content-end">
+                                                            <div class="col-2">
+                                                                <div
+                                                                    style="font-weight: 900;margin-top: 3px; margin-top: 18px;;display: flex; justify-content: center; align-items: center;color: black;">
+                                                                    <div style="margin-bottom: 12px;">
+                                                                        Coupon Applied
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-3">
-                                                            <div class="order_list_block"
-                                                                style="font-weight: 900;margin-top: 3px; display: flex; justify-content: center; align-items: center;color: black;">
-                                                                <div style="margin-bottom: 12px;">
-                                                                    <div class="price">
-                                                                        &#8377&nbsp;<%= grandTotal%>
+                                                            <div class="col-3">
+                                                                <div class="order_list_block"
+                                                                    style="font-weight: 900;margin-top: 3px; display: flex; justify-content: center; align-items: center;color: black;">
+                                                                    <div style="margin-bottom: 12px;">
+                                                                        <div class="price">
+                                                                            &#8377&nbsp;<%= Math.round(grandTotal / (1 -
+                                                                                orders[0]?.couponDetails.discountPercentage
+                                                                                / 100)) %>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                        <% } %>
+                                                            <div class="col-12 d-flex justify-content-end">
+                                                                <div class="col-2">
+                                                                    <div
+                                                                        style="font-weight: 900;margin-top: 3px; margin-top: 18px;;display: flex; justify-content: center; align-items: center;color: black;">
+                                                                        <div style="margin-bottom: 12px;">
+                                                                            Grand Total
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-3">
+                                                                    <div class="order_list_block"
+                                                                        style="font-weight: 900;margin-top: 3px; display: flex; justify-content: center; align-items: center;color: black;">
+                                                                        <div style="margin-bottom: 12px;">
+                                                                            <div class="price">
+
+                                                                                &#8377&nbsp;<%= grandTotal%>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
                             </div>
                         </div>
                     </div>
