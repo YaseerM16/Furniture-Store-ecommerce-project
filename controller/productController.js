@@ -3,6 +3,8 @@ const categoryCollection = require("../models/categoryModel");
 const { default: mongoose } = require("mongoose");
 const adminCollection = require("../models/adminModel");
 const AppError = require("../middlewares/errorHandling");
+const path = require("node:path");
+const fs = require("fs");
 
 const productList = async (req, res, next) => {
   try {
@@ -194,6 +196,7 @@ const deleteImage = async (req, res, next) => {
     const updatedProduct = await productCollection.findOne({
       _id: req.body.productId,
     });
+
     if (!updatedProduct) {
       return res.status(404).json({ error: "Product not found" }); // Remove the first element
     }
@@ -201,6 +204,20 @@ const deleteImage = async (req, res, next) => {
       req.body.index >= 0 &&
       req.body.index < updatedProduct.productImage.length
     ) {
+      const imagePath = path.join(
+        __dirname,
+        "../public/assets/uploadimages/uploads/",
+        updatedProduct.productImage[req.body.index]
+      );
+
+      // Remove image from filesystem
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ message: "Failed to delete image" });
+        }
+      });
+
       updatedProduct.productImage.splice(req.body.index, 1);
       await updatedProduct.save();
       res.status(200).json({

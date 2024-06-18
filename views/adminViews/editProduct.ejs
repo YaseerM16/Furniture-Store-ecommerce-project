@@ -34,6 +34,9 @@
     <link rel="shortcut icon" href="assets/img/favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css"
         integrity="sha512-UtLOu9C7NuThQhuXXrGwx9Jb/z9zPQJctuAgNUBK3Z6kkSYT9wJ+2+dh6klS+TDBCV9kNPBbAxbVD+vCcfGPaA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -160,9 +163,7 @@
             font-size: 24px;
             margin: 0 auto;
             /* Center the icon horizontally */
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
             transition:
                 background-color 0.7s ease,
                 color 0.7s ease,
@@ -296,9 +297,9 @@
                                 <div class="collapse navbar-collapse" id="navbarNav">
                                     <ul class="navbar-nav w-100 d-flex flex-column">
                                         <li class="nav-item my-3 fs-5">
-                                            <div class="d-flex" id="user">
+                                            <div class="d-flex justify-content-between" id="user">
                                                 <a class="nav-link" href="/adimDashBoard">Dashboard</a>
-                                                <div class="iconx d-flex align-items-center justify-content-center">
+                                                <div class="iconx">
                                                     <i class="fas fa-tachometer-alt"></i>
                                                 </div>
 
@@ -518,39 +519,55 @@
             var cropper;
 
             document.getElementById('inputImage').addEventListener('change', function (e) {
-                const previewDiv = document.getElementById('image-preview-container');
-                previewDiv.style.display = 'block';
+                const file1 = e.target.files[0];
+                const fileType = file1.type;
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']; // add more types as needed
 
-                var files = e.target.files;
-                var done = function (url) {
-                    image.src = url;
-                    // Check if cropper is already initialized, destroy it before reinitializing with the new image
-                    if (cropper) {
-                        cropper.destroy();
-                    }
-                    cropper = new Cropper(image, {
-                        aspectRatio: NaN,
-                        viewMode: 2,
-                        autoCropArea: 1,
-                        cropBoxResizable: false,
+                if (!allowedTypes.includes(fileType)) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Only image files (jpg, png, gif) are allowed',
+                        icon: 'error',
                     });
-                };
-                var reader;
-                var file;
-                var url;
+                    e.preventDefault()
+                    return;
+                } else {
 
-                if (files && files.length > 0) {
-                    file = files[0];
-                    if (URL) {
-                        done(URL.createObjectURL(file));
-                    } else if (FileReader) {
-                        reader = new FileReader();
-                        reader.onload = function (e) {
-                            done(reader.result);
-                        };
-                        reader.readAsDataURL(file);
+                    const previewDiv = document.getElementById('image-preview-container');
+                    previewDiv.style.display = 'block';
+
+                    var files = e.target.files;
+                    var done = function (url) {
+                        image.src = url;
+                        // Check if cropper is already initialized, destroy it before reinitializing with the new image
+                        if (cropper) {
+                            cropper.destroy();
+                        }
+                        cropper = new Cropper(image, {
+                            aspectRatio: NaN,
+                            viewMode: 2,
+                            autoCropArea: 1,
+                            cropBoxResizable: false,
+                        });
+                    };
+                    var reader;
+                    var file;
+                    var url;
+
+                    if (files && files.length > 0) {
+                        file = files[0];
+                        if (URL) {
+                            done(URL.createObjectURL(file));
+                        } else if (FileReader) {
+                            reader = new FileReader();
+                            reader.onload = function (e) {
+                                done(reader.result);
+                            };
+                            reader.readAsDataURL(file);
+                        }
                     }
                 }
+
             });
 
             //...

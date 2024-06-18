@@ -149,7 +149,7 @@
                     <div class="header_action">
                         <ul>
                             <li>
-                                <a href="wishlist.html">
+                                <a href="/wishListPage">
                                     <i class="far fa-heart"></i>
                                 </a>
                             </li>
@@ -270,7 +270,6 @@
                 <div class="container-fluid">
                     <div class="section-header">
                         <h3 class="title">Cart</h3>
-                        <p class="text">Lorem ipsum dolor sit amet, consectetur.</p>
                     </div>
                     <% if (outOfStockItems && outOfStockItems.length> 0) { %>
                         <div class="alert alert-warning">
@@ -287,7 +286,7 @@
                         <% } %>
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="table-responsive cart_table">
+                                    <div class="table-responsive cart_table" id="cart-table">
                                         <table>
                                             <thead>
                                                 <tr>
@@ -320,7 +319,6 @@
                                                                             <%= cartProducts[i].productId.productName %>
                                                                         </a>
                                                                     </h6>
-                                                                    <p class="mb-0">1pc</p>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -373,19 +371,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-5">
-                                    <div class="sidebar mb-xl-30">
-                                        <div class="input-group">
-                                            <input type="text" name="#" class="form-control form-control-custom"
-                                                placeholder="Enter Coupon Code" autocomplete="off" required="">
-                                            <div class="input-group-append with_text">
-                                                <button type="submit">
-                                                    Apply
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                 </div>
             </section>
@@ -680,7 +666,6 @@
 
             document.getElementById("confirm-remove-from-cart").addEventListener("click", async function () {
                 try {
-
                     const response = await fetch(`/removePdCart?productID=${productId}&userID=${userId}`, {
                         method: "GET",
                     });
@@ -691,7 +676,17 @@
                         successModal.show()
                         document.getElementById("btn-success").addEventListener("click", function () {
                             successModal.hide()
-                            window.location.reload();
+                            $('#cart-table').load('/cartPage #cart-table > *', function () {
+                                for (let i = 0; i < cartPdArr.length; i++) {
+                                    let totalCostPer = document.getElementById(`totalCostPerProduct${cartPdArr[i].productId._id}`)
+                                    let quantity = document.getElementById(`productQuantity${cartPdArr[i].productId._id}`).value
+                                    let productPrice = cartPdArr[i].productId.productPrice
+                                    let totalCostPerVal = quantity * productPrice
+                                    grandTotal += cartPdArr[i].totalCostPerProduct
+                                    totalCostPer.innerHTML = totalCostPerVal
+                                    // console.log(grandTotal);
+                                }
+                            });
                         })
                         console.log("Item was Removed from the Cart ::");
                     } else {

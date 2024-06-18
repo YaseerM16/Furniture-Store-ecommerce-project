@@ -227,7 +227,6 @@
                             </li>
                             <li class="cart">
                                 <a href="/cartPage">
-                                    <span class="cart_value">0</span>
                                     <i class="far fa-shopping-cart"></i>
                                     <div class="cart_text">
                                         My Cart
@@ -275,75 +274,15 @@
         <!-- Topbar -->
     </header>
     <!-- Header End -->
-    <!-- Category Nav Start -->
-    <div class="main_navigation hide_cat">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-3 col-6">
 
-                </div>
-                <div class="col-lg-9 col-6">
-                    <div class="nav_inner">
-                        <ul class="main-menu">
-                            <li class="menu-item">
-                                <a href="/" class="active">Home</a>
-                            </li>
-
-                            <li class="menu-item menu-item-has-children"><a href="#">Pages</a>
-                                <ul class="sub-menu custom">
-                                    <li class="menu-item menu-item-has-children"><a href="#">Account</a>
-                                        <ul class="sub-menu custom">
-                                            <li class="menu-item"><a href="/userDetails">My Account</a></li>
-                                            <li class="menu-item"><a href="/logIn">Login</a></li>
-                                            <li class="menu-item"><a href="/signUp">Register</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item menu-item-has-children"><a href="#">Shop</a>
-                                <ul class="sub-menu custom">
-                                    <li class="menu-item">
-                                        <a href="/products">Shop</a>
-                                    </li>
-
-                                    <li class="menu-item">
-                                        <a href="/wishListPage">Wishlist</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="/cartPage">Cart</a>
-                                    </li>
-                                    <li class="menu-item menu-item-has-children"><a href="/myOrdersPage">Orders</a>
-                                        <ul class="sub-menu custom">
-                                            <li class="menu-item"><a href="/myOrdersPage">Order List</a></li>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        </li>
-
-                        </ul>
-                        <div class="hamburger">
-                            <div class="hamburger_btn">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- Category Nav End -->
     <!-- Section Start -->
-    <section class="section">
+    <section class="section" style="padding: 30px 0px;">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-lg-7">
                     <div class="login_register_box">
-                        <div class="image">
-                            <img src="assets/images/register.jpg" class="image-fit" alt="img">
-                        </div>
+
                         <div class="box_inner">
                             <% if(referralCode){ %>
                                 <div class="m-3 py-1 rounded text-center border bg-danger-subtle">
@@ -511,143 +450,7 @@
         </div>
     </section>
     <!-- Section End -->
-    <!-- Footer Start -->
-    <footer class="footer section-padding border-top">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget border-sm-0 pl-sm-0">
-                        <h6 class="ft_title">
-                            Find a Store<br />
-                            Shop Gift Cards
-                        </h6>
-                        <p class="mb-2">Follow Us:</p>
-                        <ul class="ft_social">
-                            <li>
-                                <a href="#">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Help Center</h6>
-                        <ul class="ft_menu">
-                            <li>
-                                <a href="#">Payments</a>
-                            </li>
-                            <li>
-                                <a href="#">Shipping</a>
-                            </li>
-                            <li>
-                                <a href="#">Product Returns</a>
-                            </li>
-                            <li>
-                                <a href="#">FAQ's</a>
-                            </li>
-                            <li>
-                                <a href="#">Checkout</a>
-                            </li>
-                            <li>
-                                <a href="#">Blog</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Useful Links</h6>
-                        <ul class="ft_menu">
-                            <li>
-                                <a href="#">Home</a>
-                            </li>
-                            <li>
-                                <a href="#">Contact</a>
-                            </li>
-                            <li>
-                                <a href="#">About</a>
-                            </li>
-                            <li>
-                                <a href="#">Terms & Conditions</a>
-                            </li>
-                            <li>
-                                <a href="#">Policy</a>
-                            </li>
-                            <li>
-                                <a href="#">My Orders</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl col-sm-8">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Contact Us</h6>
-                        <p class="mb-3">
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                        </p>
-                        <ul class="ft_contact">
-                            <li>
-                                <a href="#">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    14 Prospect Row, Bury St. Edmunds
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fas fa-phone"></i>
-                                    000 2583 745 351
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fas fa-envelope"></i>
-                                    example@example.com
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-sm-4">
-                    <div class="ft_widget">
-                        <h6 class="ft_title">Categories</h6>
-                        <ul class="ft_menu">
-                            <li>
-                                <a href="#">Chair</a>
-                            </li>
-                            <li>
-                                <a href="#">Sofa</a>
-                            </li>
-                            <li>
-                                <a href="#">Dining Table</a>
-                            </li>
-                            <li>
-                                <a href="#">Table Lamp</a>
-                            </li>
-                            <li>
-                                <a href="#">Desk</a>
-                            </li>
-                            <li>
-                                <a href="#">cabinets</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- Footer End -->
+
     <!-- Copyright Start -->
     <div class="copyright">
         <div class="container-fluid">

@@ -492,37 +492,52 @@
             var cropper;
 
             document.getElementById('inputImage').addEventListener('change', function (e) {
-                const previewDiv = document.getElementById('image-preview-container');
-                previewDiv.style.display = 'block';
+                const file1 = e.target.files[0];
+                const fileType = file1.type;
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']; // add more types as needed
 
-                var files = e.target.files;
-                var done = function (url) {
-                    image.src = url;
-                    // Check if cropper is already initialized, destroy it before reinitializing with the new image
-                    if (cropper) {
-                        cropper.destroy();
-                    }
-                    cropper = new Cropper(image, {
-                        aspectRatio: NaN,
-                        viewMode: 2,
-                        autoCropArea: 1,
-                        cropBoxResizable: false,
+                if (!allowedTypes.includes(fileType)) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Only image files (jpg, png, gif) are allowed',
+                        icon: 'error',
                     });
-                };
-                var reader;
-                var file;
-                var url;
+                    e.preventDefault()
+                    return;
+                } else {
 
-                if (files && files.length > 0) {
-                    file = files[0];
-                    if (URL) {
-                        done(URL.createObjectURL(file));
-                    } else if (FileReader) {
-                        reader = new FileReader();
-                        reader.onload = function (e) {
-                            done(reader.result);
-                        };
-                        reader.readAsDataURL(file);
+                    const previewDiv = document.getElementById('image-preview-container');
+                    previewDiv.style.display = 'block';
+
+                    var files = e.target.files;
+                    var done = function (url) {
+                        image.src = url;
+                        // Check if cropper is already initialized, destroy it before reinitializing with the new image
+                        if (cropper) {
+                            cropper.destroy();
+                        }
+                        cropper = new Cropper(image, {
+                            aspectRatio: NaN,
+                            viewMode: 2,
+                            autoCropArea: 1,
+                            cropBoxResizable: false,
+                        });
+                    };
+                    var reader;
+                    var file;
+                    var url;
+
+                    if (files && files.length > 0) {
+                        file = files[0];
+                        if (URL) {
+                            done(URL.createObjectURL(file));
+                        } else if (FileReader) {
+                            reader = new FileReader();
+                            reader.onload = function (e) {
+                                done(reader.result);
+                            };
+                            reader.readAsDataURL(file);
+                        }
                     }
                 }
             });
@@ -714,7 +729,7 @@
     <script src="assets/js/plugins/jquery.counterup.min.js"></script>
     <script src="assets/js/plugins/jquery.inview.min.js"></script>
     <script src="assets/js/custom.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="/https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 </body>
 

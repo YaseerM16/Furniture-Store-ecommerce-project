@@ -281,11 +281,11 @@
     <!-- Section Start -->
     <div class="details">
         <div>
-            <section class="section pb-0 ">
+            <section class="section pb-0" style="margin-top: 0px;padding-top: 10px;">
                 <div class="container-fluid">
                     <div class="row justify-content-center">
                         <div class="col-xl-8">
-                            <div class="shop_details_box justify-content-center">
+                            <div class="shop_details_box justify-content-center d-flex" style="width: 1000px;">
                                 <!-- Details -->
                                 <div class="row assets d-flex justify-content-center">
                                     <div class="col-lg-6" style="height: 500px;width: 500px;">
@@ -310,127 +310,125 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row assets d-flex justify-content-center" style="margin-top: 100px;">
-                                    <div class="col-lg-6">
+                                <div class="row assets d-flex justify-content-center" style="margin-top: 50px;">
 
-                                        <div class="product_details product_block">
-                                            <h2 class="product_title">
-                                                <%= currentProduct.productName%>
-                                            </h2>
-                                            <div class="ratings">
-                                                <i class="fal fa-star active"></i>
-                                                <i class="fal fa-star active"></i>
-                                                <i class="fal fa-star active"></i>
-                                                <i class="fal fa-star active"></i>
-                                                <i class="fal fa-star"></i>
-                                            </div>
-                                            <div class="price">
-                                                <span>₹&nbsp;<%= currentProduct.productPrice %></span>
-                                                <% if (currentProduct.productOfferId) { %>
-                                                    <span class="price-standard text-decoration-line-through">₹&nbsp;<%=
-                                                            currentProduct.priceBeforeOffer %></span>
-
-                                                    </span>
-                                                    <% } %>
-                                            </div>
+                                    <div class="product_details product_block" style="width: 600px;">
+                                        <h2 class="product_title">
+                                            <%= currentProduct.productName%>
+                                        </h2>
+                                        <div class="ratings">
+                                            <i class="fal fa-star active"></i>
+                                            <i class="fal fa-star active"></i>
+                                            <i class="fal fa-star active"></i>
+                                            <i class="fal fa-star active"></i>
+                                            <i class="fal fa-star"></i>
+                                        </div>
+                                        <div class="price">
+                                            <span>₹&nbsp;<%= currentProduct.productPrice %></span>
                                             <% if (currentProduct.productOfferId) { %>
-                                                <div class="promotion">
-                                                    <span class="product_tag">
-                                                        <%= currentProduct.productOfferPercentage %>% OFF
-                                                    </span>
-                                                </div>
-                                                <% } %>
-                                                    <p class="text">
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                        eiusmod
-                                                        tempor incididunt ut labore et dolore magna aliqua. Quis ipsum
-                                                        suspendisse ultrices gravida.
-                                                    </p>
-                                                    <% if (currentProduct.productStock===productQtyLimit) { %>
-                                                        <strong>Currently unavailable</strong>
-                                                        <div class="m-3 py-1 rounded text-center bg-danger-subtle">
-                                                            <h4 class="text-danger">
-                                                                Out of Stock!!</h4>
-                                                        </div>
-                                                        <% } else { %>
+                                                <span class="price-standard text-decoration-line-through">₹&nbsp;<%=
+                                                        currentProduct.priceBeforeOffer %></span>
 
-                                                            <div class="product_action">
-                                                                <div class="quantity">
-                                                                    <button class="btn qty-mins" type="button"><i
-                                                                            class="fal fa-minus"></i></button>
-                                                                    <input type="number" name="quantity" id="quantity"
-                                                                        value=1 autocomplete="off" disabled>
-                                                                    <button class="btn qty-add" type="button"><i
-                                                                            class="fal fa-plus"></i></button>
-                                                                </div>
-                                                                <!-- <button type="button" class="thm-btn btn-rounded thm-bg-color-one">Add To Cart</button> -->
-                                                                <% if (user) { %>
-                                                                    <button id="add-to-cart-btn"
+                                                </span>
+                                                <% } %>
+                                        </div>
+                                        <% if (currentProduct.productOfferId) { %>
+                                            <div class="promotion">
+                                                <span class="product_tag">
+                                                    <%= currentProduct.productOfferPercentage %>% OFF
+                                                </span>
+                                            </div>
+                                            <% } %>
+                                                <p class="text" style="width: 300px;">
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                                    eiusmod
+                                                    tempor incididunt ut labore et dolore magna aliqua. Quis ipsum
+                                                    suspendisse ultrices gravida.
+                                                </p>
+                                                <% if (currentProduct.productStock===productQtyLimit) { %>
+                                                    <strong>Currently unavailable</strong>
+                                                    <div class="m-3 py-1 rounded text-center bg-danger-subtle">
+                                                        <h4 class="text-danger">
+                                                            Out of Stock!!</h4>
+                                                    </div>
+                                                    <% } else { %>
+
+                                                        <div class="product_action">
+                                                            <div class="quantity">
+                                                                <button class="btn qty-mins" type="button"><i
+                                                                        class="fal fa-minus"></i></button>
+                                                                <input type="number" name="quantity" id="quantity"
+                                                                    value=1 autocomplete="off" disabled>
+                                                                <button class="btn qty-add" type="button"><i
+                                                                        class="fal fa-plus"></i></button>
+                                                            </div>
+                                                            <!-- <button type="button" class="thm-btn btn-rounded thm-bg-color-one">Add To Cart</button> -->
+                                                            <% if (user) { %>
+                                                                <button id="add-to-cart-btn"
+                                                                    class="thm-btn btn-rounded thm-bg-color-one">Add
+                                                                    To
+                                                                    Cart</button>
+                                                                <% } else { %>
+                                                                    <a href="/logIn"
                                                                         class="thm-btn btn-rounded thm-bg-color-one">Add
                                                                         To
-                                                                        Cart</button>
-                                                                    <% } else { %>
-                                                                        <a href="/logIn"
-                                                                            class="thm-btn btn-rounded thm-bg-color-one">Add
-                                                                            To
-                                                                            Cart</a>
-                                                                        <% } %>
-                                                            </div>
-                                                            <strong>Category:</strong>
-                                                            <h5><strong>
-                                                                    <%= currentProduct.parentCategory.categoryName%>
-                                                                </strong></h5>
-                                                            <% } %>
-                                                                <ul class="product_meta">
+                                                                        Cart</a>
+                                                                    <% } %>
+                                                        </div>
+                                                        <strong>Category:</strong>
+                                                        <h5><strong>
+                                                                <%= currentProduct.parentCategory.categoryName%>
+                                                            </strong></h5>
+                                                        <% } %>
+                                                            <ul class="product_meta">
 
 
 
-                                                                    <!-- <a href="shop.html">Sofa</a> -->
+                                                                <!-- <a href="shop.html">Sofa</a> -->
 
-                                                                    <li>
+                                                                <li>
 
 
-                                                                    </li>
-                                                                    <!-- <li>
+                                                                </li>
+                                                                <!-- <li>
                                                     <strong>Tags:</strong>
                                                     <a href="shop.html">Chair</a>
                                                     <a href="shop.html">Sofa</a>
                                                     <a href="shop.html">Dining Table</a>
                                                     <a href="shop.html">Table Lamp</a>
                                                 </li> -->
+                                                                <li>
+                                                                    <strong>Seller:</strong>
+                                                                    <p>Contrary to popular Private Limited</p>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="product_social">
+                                                                <button type="button" class="social_trigger">
+                                                                    <i class="fas fa-share-alt"></i>
+                                                                </button>
+                                                                <ul class="social_media">
                                                                     <li>
-                                                                        <strong>Seller:</strong>
-                                                                        <p>Contrary to popular Private Limited</p>
+                                                                        <a href="#">
+                                                                            <i class="fab fa-facebook-f"></i>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">
+                                                                            <i class="fab fa-twitter"></i>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">
+                                                                            <i class="fab fa-linkedin-in"></i>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">
+                                                                            <i class="fab fa-pinterest-p"></i>
+                                                                        </a>
                                                                     </li>
                                                                 </ul>
-                                                                <div class="product_social">
-                                                                    <button type="button" class="social_trigger">
-                                                                        <i class="fas fa-share-alt"></i>
-                                                                    </button>
-                                                                    <ul class="social_media">
-                                                                        <li>
-                                                                            <a href="#">
-                                                                                <i class="fab fa-facebook-f"></i>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="#">
-                                                                                <i class="fab fa-twitter"></i>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="#">
-                                                                                <i class="fab fa-linkedin-in"></i>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="#">
-                                                                                <i class="fab fa-pinterest-p"></i>
-                                                                            </a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                        </div>
+                                                            </div>
                                     </div>
                                 </div>
                             </div>

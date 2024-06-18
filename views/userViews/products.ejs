@@ -54,6 +54,12 @@
             padding: 0 0 0 0;
         }
 
+        @media (max-width: 991px) {
+            .account_sidebar {
+                border-right: 0;
+            }
+        }
+
 
         .image-fit {
             width: 100%;
@@ -362,11 +368,12 @@
                                     </form>
                                 </li>
                             </ul>
-                            <div class="section d-flex justify-content-center flex-column" style="margin-right: 67px;">
+                            <div class="section d-flex justify-content-center flex-column"
+                                style="margin-right: 67px;max-width: 200px;">
                                 <div class="d-flex justify-content-center flex-column">
-
-                                    <button id="apply-filters" class="btn btn-primary"
-                                        style="font-size: 1.2em; padding: 0.5em 1em;">Apply filters</button>
+                                    <button id="apply-filters" class="btn btn-primary my-3"
+                                        style="font-size: 1.2em; padding: 0.5em 1em;">Apply
+                                        filters</button>
                                     <button id="remove-filters" class="btn btn-secondary">Remove filters</button>
                                 </div>
                             </div>
@@ -378,7 +385,7 @@
                             <h3 class="title">Products</h3>
                             <p class="text">Here are there unique products</p>
                         </div>
-                        <div class="row">
+                        <div class="row mx-3">
                             <!-- Item -->
                             <% for(let i=0; i<productDet.length; i++){ %>
                                 <div class="col-lg-4 col-sm-6">
@@ -854,7 +861,7 @@
             });
 
             console.log(url);
-            // window.location.href = url;
+            window.location.href = url;
             console.log("Heolloe");
         });
         removeFiltersButton.addEventListener('click', () => {

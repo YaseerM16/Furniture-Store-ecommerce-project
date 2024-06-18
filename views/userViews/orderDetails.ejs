@@ -298,22 +298,7 @@
                             <div class="order_user_details">
                                 <div class="row no-gutters">
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="details_box delivery_add">
-                                            <h4 class="title">Delivery Address</h4>
-                                            <p class="mb-2 thm-color-two">
-                                                <%= orders[0].addressDetails.firstName%>&nbsp;<%=
-                                                        orders[0].addressDetails.lastName%>
-                                            </p>
-                                            <p>
-                                                <%= orders[0].addressDetails.addressLine1%><br>
 
-                                                    <%= orders[0].addressDetails.addressLine2%>
-                                            </p>
-                                            <h4 class="title">Phone Number</h4>
-                                            <p>
-                                                <%= orders[0].addressDetails.phone%>
-                                            </p>
-                                        </div>
                                     </div>
                                     <div class="col-lg-4 col-md-6">
                                         <div class="details_box delivery_add">
@@ -322,7 +307,7 @@
                                             <p>Unit 1, Wilkes Head Farm, Wilkes Head Square, Llandysul, SA44 4AA</p>
                                             <h4 class="title">Payment Method</h4>
                                             <p>
-                                                <%= orders[0].paymentType%>
+
                                             </p>
                                         </div>
                                     </div>
@@ -330,7 +315,7 @@
                                         <div class="details_box">
                                             <h4 class="title">Order ID:</h4>
                                             <div class="name">
-                                                <%= orders[0].orderId%>
+
                                             </div>
 
 
@@ -346,9 +331,7 @@
                                                 </div>
                                                 <div>
 
-                                                    <a href="/user/account/myOrders/orderDetails/downloadInvoice?orderId=<%= orders[0]._id %>"
-                                                        type="button" class="thm-btn btn-rectangle thm-bg-color-one">
-                                                        Download</a>
+
                                                 </div>
                                             </ul>
                                         </div>
@@ -371,7 +354,7 @@
                                     </div>
                                 </div>
                                 <div class="col-2">
-                                    <% if (orders[0].paymentType==="Payment Pending" ) { %>
+                                    <% if (orders[0] ) { %>
                                         <div class="d-flex flex-column">
 
                                             <div class="order_list_block"
@@ -600,7 +583,7 @@
                                                                             &#8377&nbsp;<%= Math.round(grandTotal / (1 -
                                                                                 orders[0]?.couponDetails.discountPercentage
                                                                                 / 100)) %>
-                                                                        </div>
+                                                                                ~ </div>
                                                                     </div>
                                                                 </div>
                                                             </div>

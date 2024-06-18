@@ -53,6 +53,7 @@ const SalesReportGet = async (req, res, next) => {
           model: "coupons",
           as: "couponDetails",
         }));
+    console.log(salesDetails);
 
     const productsPerPage = 15;
     const totalPages = salesDetails.length / productsPerPage;
@@ -83,10 +84,7 @@ const SalesReportGet = async (req, res, next) => {
       (total, sale) => (total = total + sale.couponApplied),
       0
     );
-    console.log("Total Sale 1: ", totalSales1);
-    console.log("Total Sale 2: ", totalSales2);
-    console.log("Coupon Total: ", coupontotal);
-    console.log("Total Sale: ", totalSales);
+
     let totalDiscount = coupontotal + totalSales2 - totalSales1;
 
     req.session.sreportLen = salesDetails.length;
