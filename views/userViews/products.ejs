@@ -444,18 +444,25 @@
                                                     <% } %>
                                         </div>
                                         <!-- <div class="product_qty"><span>1</span>PC</div> -->
-                                        <div class="product_action">
-                                            <% if (user) { %>
-                                                <button type="button" onclick="addToCart('<%= i %>')"
-                                                    class="product_btn">ADD to
-                                                    Cart <i class="fal fa-plus"></i></button>
-                                                <% } else { %>
-                                                    <button type="button" onclick="nonUserAddCart()"
-                                                        class="product_btn">ADD to Cart <i
-                                                            class="fal fa-plus"></i></button>
-                                                    <% } %>
+                                        <% if (productDet[i].productStock===productQtyLimit) { %>
+                                            <strong class="text-danger" style="margin-bottom:100px ;">
+                                                Out of Stock!!</strong>
+                                            <span></span>
 
-                                        </div>
+                                            <% } else { %>
+                                                <div class="product_action">
+                                                    <% if (user) { %>
+                                                        <button type="button" onclick="addToCart('<%= i %>')"
+                                                            class="product_btn">ADD to
+                                                            Cart <i class="fal fa-plus"></i></button>
+                                                        <% } else { %>
+                                                            <button type="button" onclick="nonUserAddCart()"
+                                                                class="product_btn">ADD to Cart <i
+                                                                    class="fal fa-plus"></i></button>
+                                                            <% } %>
+
+                                                </div>
+                                                <% } %>
                                     </div>
                                 </div>
                                 <% } %>

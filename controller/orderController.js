@@ -32,22 +32,24 @@ const orderData = async (req) => {
     },
     {
       $lookup: {
-        from: "addresses",
-        localField: "addressChosen",
-        foreignField: "_id",
-        as: "addressDetails",
-      },
-    },
-    { $unwind: "$addressDetails" },
-    {
-      $lookup: {
         from: "coupons",
         localField: "couponApplied",
         foreignField: "_id",
         as: "couponDetails",
       },
     },
-    { $unwind: "$couponDetails" },
+    // Optionally unwind couponDetails if not empty, otherwise handle as null
+    {
+      $addFields: {
+        couponDetails: {
+          $cond: {
+            if: { $gt: [{ $size: "$couponDetails" }, 0] },
+            then: { $arrayElemAt: ["$couponDetails", 0] },
+            else: null,
+          },
+        },
+      },
+    },
   ]);
   return orderDet;
 };

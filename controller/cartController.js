@@ -7,6 +7,7 @@ const couponCollection = require("../models/couponModel");
 const walletCollection = require("../models/walletModel");
 const couponController = require("../controller/couponController");
 const paymentController = require("../controller/paymentController");
+
 const crypto = require("crypto");
 const AppError = require("../middlewares/errorHandling");
 
@@ -467,6 +468,7 @@ const placeOrder = async (req, res, next) => {
       return await paymentController.doPayment(req, res);
       // console.log(req.session.paymentId);
     }
+    const address = await addressCollection.findById(req.session.addressId);
 
     await cartCollection.deleteMany({ userId: req.session.currentUser._id });
 
@@ -476,7 +478,7 @@ const placeOrder = async (req, res, next) => {
         userId: req.session.currentUser._id,
         orderDate: new Date(),
         paymentType: req.session.paymentMethod,
-        addressChosen: req.session.addressId,
+        addressChosen: address,
         cartData: clonedCartDet,
         grandTotalCost: req.session.cartTotal,
         couponApplied: req.session.appliedCouponId,

@@ -289,16 +289,30 @@
                     </div>
                 </div>
                 <div class="col-xl-9 col-lg-8">
-                    <section class="section-padding">
+                    <section class="section-padding" style="padding: 0px 0px 0px;">
                         <div class="container-fluid">
                             <div class="section-header">
                                 <h3 class="title">Order Details</h3>
-                                <p class="text">Lorem ipsum dolor sit amet, consectetur.</p>
                             </div>
                             <div class="order_user_details">
                                 <div class="row no-gutters">
                                     <div class="col-lg-4 col-md-6">
+                                        <div class="details_box delivery_add">
+                                            <h4 class="title">Delivery Address</h4>
+                                            <p class="mb-2 thm-color-two">
+                                                <%= orders[0]?.addressChosen[0].firstName%>&nbsp;<%=
+                                                        orders[0].addressChosen[0].lastName%>
+                                            </p>
+                                            <p>
+                                                <%= orders[0].addressChosen[0].addressLine1%><br>
 
+                                                    <%= orders[0].addressChosen[0].addressLine2%>
+                                            </p>
+                                            <h4 class="title">Phone Number</h4>
+                                            <p>
+                                                <%= orders[0].addressChosen[0].phone%>
+                                            </p>
+                                        </div>
                                     </div>
                                     <div class="col-lg-4 col-md-6">
                                         <div class="details_box delivery_add">
@@ -307,7 +321,7 @@
                                             <p>Unit 1, Wilkes Head Farm, Wilkes Head Square, Llandysul, SA44 4AA</p>
                                             <h4 class="title">Payment Method</h4>
                                             <p>
-
+                                                <%= orders[0].paymentType%>
                                             </p>
                                         </div>
                                     </div>
@@ -315,7 +329,7 @@
                                         <div class="details_box">
                                             <h4 class="title">Order ID:</h4>
                                             <div class="name">
-
+                                                <%= orders[0].orderId%>
                                             </div>
 
 
@@ -331,7 +345,9 @@
                                                 </div>
                                                 <div>
 
-
+                                                    <a href="/user/account/myOrders/orderDetails/downloadInvoice?orderId=<%= orders[0]._id %>"
+                                                        type="button" class="thm-btn btn-rectangle thm-bg-color-one">
+                                                        Download</a>
                                                 </div>
                                             </ul>
                                         </div>
@@ -340,11 +356,11 @@
                             </div>
                         </div>
                     </section>
-                    <div class="order_list_box sidebar">
+                    <div class="order_list_box sidebar" style="padding: 0px 0px 0px 0px;">
                         <div class="row justify-content-center">
                             <!-- Item -->
-                            <div class="col-12 d-flex flex-column"
-                                style="margin-left: 100px; margin-bottom: 50px;column-gap: 25px;flex-wrap: wrap;">
+                            <div class="col-12 d-flex"
+                                style="margin-left: 100px; margin-bottom: 10px;column-gap: 25px;flex-wrap: wrap;padding: 0px 0px;">
                                 <div class="col-2">
                                     <div
                                         style="font-weight: 900;margin-top: 3px; margin-top: 18px;;display: flex; justify-content: center; align-items: center;color: black;">
@@ -354,7 +370,7 @@
                                     </div>
                                 </div>
                                 <div class="col-2">
-                                    <% if (orders[0] ) { %>
+                                    <% if (orders[0].paymentType==="Payment Pending" ) { %>
                                         <div class="d-flex flex-column">
 
                                             <div class="order_list_block"
@@ -566,27 +582,21 @@
                                             <% } %>
                                                 <% } %>
                                                     <% if (orders[0]?.couponApplied ) { %>
-                                                        <div class="col-12 d-flex justify-content-end">
-                                                            <div class="col-2">
+                                                        <div class="col-12 d-flex justify-content-end couponCls">
+                                                            <div class="col-5">
                                                                 <div
-                                                                    style="font-weight: 900;margin-top: 3px; margin-top: 18px;;display: flex; justify-content: center; align-items: center;color: black;">
+                                                                    style="font-weight: 900;display: flex; justify-content: center; align-items: center;color: black;">
                                                                     <div style="margin-bottom: 12px;">
-                                                                        Coupon Applied
+                                                                        <h6>
+                                                                            <%=orders[0]?.couponDetails.discountPercentage%>
+                                                                                &nbsp;% Discount Coupon is applied for
+                                                                                this
+                                                                                Order
+                                                                        </h6>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-3">
-                                                                <div class="order_list_block"
-                                                                    style="font-weight: 900;margin-top: 3px; display: flex; justify-content: center; align-items: center;color: black;">
-                                                                    <div style="margin-bottom: 12px;">
-                                                                        <div class="price">
-                                                                            &#8377&nbsp;<%= Math.round(grandTotal / (1 -
-                                                                                orders[0]?.couponDetails.discountPercentage
-                                                                                / 100)) %>
-                                                                                ~ </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+
                                                         </div>
                                                         <% } %>
                                                             <div class="col-12 d-flex justify-content-end">

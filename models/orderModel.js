@@ -12,11 +12,7 @@ const orderSchema = new mongoose.Schema(
     paymentType: { type: String, required: true },
     orderId: { type: String, required: true },
     orderStatus: { type: String, required: true, default: "Pending" },
-    addressChosen: {
-      type: mongoose.Types.ObjectId,
-      required: true,
-      ref: "addresses",
-    },
+    addressChosen: { type: Array, required: true },
     cartData: { type: Array, required: true },
     grandTotalCost: { type: Number, required: true },
     paymentId: { type: String, default: null },

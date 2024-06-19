@@ -91,6 +91,7 @@ const doPayment = async (req, res) => {
 
 const paymentSucessPage = async (req, res, next) => {
   try {
+    // console.log(req.session.currentUser._id);
     const user = await userCollection.findById(req.session.currentUser._id);
     // let user1 = await userCollection.findOne({
     //   email: req.session.currentUser.email,

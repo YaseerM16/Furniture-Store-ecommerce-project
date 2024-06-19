@@ -315,7 +315,7 @@
                                                                     class="image-fit-contain" alt="img">
                                                                 <div class="cart_product_text">
                                                                     <h6 class="title">
-                                                                        <a href="shop-details.html">
+                                                                        <a href="#">
                                                                             <%= cartProducts[i].productId.productName %>
                                                                         </a>
                                                                     </h6>
@@ -380,7 +380,7 @@
             <section class="section pt-0">
                 <div class="container-fluid">
                     <div class="row justify-content-end">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6" id="grandTotUpdate">
                             <div class="section-header">
                                 <h3 class="title">Cart Total</h3>
                             </div>
@@ -677,16 +677,44 @@
                         document.getElementById("btn-success").addEventListener("click", function () {
                             successModal.hide()
                             $('#cart-table').load('/cartPage #cart-table > *', function () {
+                                let grandTotal = 0; // Declare grandTotal
+
+                                console.log("Grand TOT! before loop: ", grandTotal); // Initial grandTotal
+
+                                // Iterate over the cartPdArr
                                 for (let i = 0; i < cartPdArr.length; i++) {
-                                    let totalCostPer = document.getElementById(`totalCostPerProduct${cartPdArr[i].productId._id}`)
-                                    let quantity = document.getElementById(`productQuantity${cartPdArr[i].productId._id}`).value
-                                    let productPrice = cartPdArr[i].productId.productPrice
-                                    let totalCostPerVal = quantity * productPrice
-                                    grandTotal += cartPdArr[i].totalCostPerProduct
-                                    totalCostPer.innerHTML = totalCostPerVal
-                                    // console.log(grandTotal);
+                                    // Retrieve elements and values
+                                    let totalCostPer = document.getElementById(`totalCostPerProduct${cartPdArr[i].productId._id}`);
+                                    let quantity = document.getElementById(`productQuantity${cartPdArr[i].productId._id}`).value;
+                                    console.log(quantity)
+                                    let productPrice = cartPdArr[i].productId.productPrice;
+
+                                    // Calculate total cost per product
+                                    let totalCostPerVal = quantity * productPrice;
+
+                                    // Update innerHTML
+                                    totalCostPer.innerHTML = totalCostPerVal;
+
+                                    // Update grandTotal
+                                    grandTotal += totalCostPerVal;
+                                    document.getElementById('grand-total').innerHTML = grandTotal
+                                    // Log the current iteration and total cost per product
+                                    console.log(`Iteration ${i}, totalCostPerVal: ${totalCostPerVal}`);
                                 }
+
+                                // Log the final grandTotal
+                                console.log("Grand TOT after loop: ", grandTotal);
+
+                                // Check if grandTotal is accessible
+                                if (typeof grandTotal !== 'undefined') {
+                                    console.log("Grand Total is accessible and its value is: ", grandTotal);
+                                } else {
+                                    console.error("Grand Total is not accessible after the loop.");
+                                }
+
                             });
+
+
                         })
                         console.log("Item was Removed from the Cart ::");
                     } else {

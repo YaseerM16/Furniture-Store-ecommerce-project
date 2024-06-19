@@ -292,6 +292,7 @@ const products = async (req, res, next) => {
       pages: Math.ceil(pages / limit),
       user: user,
       queryFilters: {},
+      productQtyLimit: 0,
     });
   } catch (error) {
     // res.status(500).send(error);
@@ -416,7 +417,6 @@ const shopSort = async (req, res, next) => {
       aggregationPipeline.push({ $sort: filters.sort[sort] });
     }
 
-    console.log(aggregationPipeline);
     const beforeLimit = await productCollection.aggregate(aggregationPipeline);
     const totalProductsCount = beforeLimit.length;
     const totalPages = Math.ceil(totalProductsCount / limit);
@@ -433,9 +433,10 @@ const shopSort = async (req, res, next) => {
       pages: totalPages,
       user: user,
       queryFilters,
+      productQtyLimit: 0,
     });
   } catch (err) {
-    next(new AppError(error, 500));
+    next(new AppError(err, 500));
   }
 };
 

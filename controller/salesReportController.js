@@ -29,6 +29,8 @@ const SalesReportGet = async (req, res, next) => {
       startDate2 = new Date(req.session.startDate2);
       endDate2 = new Date(req.session.endDate2);
     }
+    console.log("Start Date :", startDate);
+    console.log("End Date: ", endDate);
 
     var salesDetails =
       req.session.salesDetails ||
@@ -333,8 +335,8 @@ const salesReportDownload = async (req, res, next) => {
   try {
     let startDate, endDate;
     if (
-      req.session.filterDates.datevalues.startDate &&
-      req.session.filterDates.datevalues.endDate
+      req.session.filterDates?.datevalues?.startDate &&
+      req.session.filterDates?.datevalues?.endDate
     ) {
       startDate = req.session.filterDates.datevalues.startDate;
       endDate = req.session.filterDates.datevalues.endDate;

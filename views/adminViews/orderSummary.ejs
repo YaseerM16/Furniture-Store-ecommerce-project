@@ -384,17 +384,17 @@
                                         <div class="details_box delivery_add">
                                             <h4 class="title">Delivery Address</h4>
                                             <p class="mb-2 thm-color-two">
-                                                <%= orders[0].addressDetails.firstName%>&nbsp;<%=
-                                                        orders[0].addressDetails.lastName%>
+                                                <%= orders[0]?.addressChosen[0].firstName%>&nbsp;<%=
+                                                        orders[0].addressChosen[0].lastName%>
                                             </p>
                                             <p>
-                                                <%= orders[0].addressDetails.addressLine1%><br>
+                                                <%= orders[0].addressChosen[0].addressLine1%><br>
 
-                                                    <%= orders[0].addressDetails.addressLine2%>
+                                                    <%= orders[0].addressChosen[0].addressLine2%>
                                             </p>
                                             <h4 class="title">Phone Number</h4>
                                             <p>
-                                                <%= orders[0].addressDetails.phone%>
+                                                <%= orders[0].addressChosen[0].phone%>
                                             </p>
                                         </div>
                                     </div>
@@ -626,6 +626,7 @@
     <script>
         const orders = '<%- JSON.stringify(orders) %>'
         const parsedOrders = JSON.parse(orders)
+        console.log(parsedOrders);
         const orderId = parsedOrders[0]._id
         function toggleDropdown(button) {
             var dropdownMenu = button.nextElementSibling;
