@@ -22,12 +22,17 @@ const doPayment = async (req, res) => {
       "https://v6.exchangerate-api.com/v6/44a9e911496b7fa81ee41d59/latest/USD"
     );
     const exchangeRates = response.data;
+    console.log("ExchangeRates :", exchangeRates);
     if (exchangeRates.conversion_rates && exchangeRates.conversion_rates.INR) {
       const usdToInrRate = exchangeRates.conversion_rates.INR;
-      total = total / usdToInrRate;
+      console.log("normal total: ", total);
+      const updatedTot = total / usdToInrRate;
+      total = Math.round(updatedTot);
+      console.log("updated total: ", total);
     } else {
       console.log("USD to INR conversion rate not available");
     }
+
     const orderId = req.query.orderID || crypto.randomBytes(6).toString("hex");
     if (req.query.orderID) {
       const pendingPayment = await orderCollection.findOne({
@@ -58,7 +63,7 @@ const doPayment = async (req, res) => {
               {
                 name: "Book",
                 sku: "001",
-                price: total,
+                price: total.toString(),
                 currency: "USD",
                 quantity: 1,
               },
@@ -66,7 +71,7 @@ const doPayment = async (req, res) => {
           },
           amount: {
             currency: "USD",
-            total: total,
+            total: total.toString(),
           },
           description: "Hat for the best team ever",
         },
