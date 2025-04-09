@@ -7,7 +7,7 @@ const AppError = require("../middlewares/errorHandling");
 const { default: axios } = require("axios");
 
 const paypal = require("paypal-rest-sdk");
-const { PAYPAL_MODE, PAYPAL_CLIENT_KEY, PAYPAL_SECRET_KEY } = process.env;
+const { PAYPAL_MODE, PAYPAL_CLIENT_KEY, PAYPAL_SECRET_KEY, MODE } = process.env;
 
 paypal.configure({
   mode: PAYPAL_MODE,
@@ -22,12 +22,12 @@ const doPayment = async (req, res) => {
       "https://v6.exchangerate-api.com/v6/44a9e911496b7fa81ee41d59/latest/USD"
     );
     const exchangeRates = response.data;
-    if (exchangeRates.conversion_rates && exchangeRates.conversion_rates.INR) {
-      const usdToInrRate = exchangeRates.conversion_rates.INR;
-      total = total / usdToInrRate;
-    } else {
-      console.log("USD to INR conversion rate not available");
-    }
+    // if (exchangeRates.conversion_rates && exchangeRates.conversion_rates.INR) {
+    //   const usdToInrRate = exchangeRates.conversion_rates.INR;
+    //   total = total / usdToInrRate;
+    // } else {
+    //   console.log("USD to INR conversion rate not available");
+    // }
     const orderId = req.query.orderID || crypto.randomBytes(6).toString("hex");
     if (req.query.orderID) {
       const pendingPayment = await orderCollection.findOne({
@@ -45,7 +45,10 @@ const doPayment = async (req, res) => {
         payment_method: "paypal",
       },
       redirect_urls: {
-        return_url: `https://furniturehub.shop/paymentSucess?orderId=${orderId}`,
+        return_url:
+          MODE === "development"
+            ? `http://localhost:3000/paymentSucess?orderId=${orderId}`
+            : `https://furniturehub.shop/paymentSucess?orderId=${orderId}`,
         cancel_url: `https://furniturehub.shop/paymentFailed?orderId=${orderId}`,
       },
       transactions: [
@@ -55,7 +58,7 @@ const doPayment = async (req, res) => {
               {
                 name: "Book",
                 sku: "001",
-                price: total.toFixed(2),
+                price: total,
                 currency: "USD",
                 quantity: 1,
               },
@@ -63,7 +66,7 @@ const doPayment = async (req, res) => {
           },
           amount: {
             currency: "USD",
-            total: total.toFixed(2),
+            total: total,
           },
           description: "Hat for the best team ever",
         },

@@ -37,4 +37,6 @@ app.use((err, req, res, next) => {
     message: err.message,
   });
 });
-app.listen(port, () => console.log(`app listening on port ${port}!`));
+app.listen(3000, "0.0.0.0", () =>
+  console.log(`app listening on port ${port}!`)
+);

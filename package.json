@@ -20,6 +20,7 @@
   "homepage": "https://github.com/YaseerM16/Furniture-Store-ecommerce-project#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.9",
     "exceljs": "^4.4.0",
