@@ -154,7 +154,8 @@ const signUpSubmit = async (req, res, next) => {
       res.redirect("/sendOTP");
     }
   } catch (err) {
-    next(new AppError(error, 500));
+    console.log("Error in Signup Submit : ", err);
+    next(new AppError(err, 500));
   }
 };
 

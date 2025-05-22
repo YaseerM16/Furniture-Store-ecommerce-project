@@ -4,6 +4,7 @@ const { calcStatus } = require("../helpers/helper");
 const adminCollection = require("../models/adminModel");
 const mongoose = require("mongoose");
 const productCollection = require("../models/productModel");
+const walletCollection = require("../models/walletModel");
 const AppError = require("../middlewares/errorHandling");
 
 const orderListPage = async (req, res, next) => {
@@ -318,7 +319,39 @@ const orderReturnApproval = async (req, res, next) => {
         },
       }
     );
+    // console.log("Approved Return Req,");
+    // console.log("orderDet :");
+    // console.log("paymetnType :", orderDet.paymentType);
+    // console.log("UserId :", orderDet.userId);
+    // console.log("ProdID, ProdQty :", productId, productQuantity);
+    const productDet = await productCollection.findById(productId);
+
+    // console.log(
+    //   "ProdPrice, ProdQty :",
+    //   productDet.productPrice,
+    //   productQuantity
+    // );
     if (result) {
+      if (
+        orderDet.paymentType == "wallet" ||
+        orderDet.paymentType == "paypal"
+      ) {
+        await walletCollection.findOneAndUpdate(
+          { userId: orderDet.userId },
+          {
+            $inc: { walletBalance: +productDet.productPrice },
+            $push: {
+              walletTransaction: {
+                transactionDate: new Date(),
+                transactionAmount: productDet.productPrice,
+                transactionType: "credited",
+                transactionMethod: "Returned Order",
+              },
+            },
+          },
+          { new: true }
+        );
+      }
       const quantityInc = await productCollection.findByIdAndUpdate(productId, {
         $inc: { productStock: productQuantity },
       });

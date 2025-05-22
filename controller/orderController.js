@@ -77,7 +77,7 @@ const orderPage = async (req, res, next) => {
       })
       .skip(skip)
       .limit(limit)
-      .sort({ orderDate: -1 });
+      .sort({ createdAt: -1 });
 
     let pages;
 
@@ -285,6 +285,10 @@ const singleProdCancel = async (req, res, next) => {
         { new: true }
       );
     }
+    const deductProdAmount =
+      order.grandTotalCost - totalCostOfProd < 0
+        ? 0
+        : order.grandTotalCost - totalCostOfProd;
 
     const updateResult = await orderCollection.updateOne(
       {
@@ -292,8 +296,10 @@ const singleProdCancel = async (req, res, next) => {
         cartData: { $elemMatch: { _id: cartProdId } },
       },
       {
-        $set: { "cartData.$.productStatus": "Cancelled" },
-        $inc: { grandTotalCost: -totalCostOfProd },
+        $set: {
+          "cartData.$.productStatus": "Cancelled",
+          grandTotalCost: deductProdAmount,
+        },
       }
     );
 
