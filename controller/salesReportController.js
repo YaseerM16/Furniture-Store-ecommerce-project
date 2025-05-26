@@ -1,13 +1,8 @@
 const adminCollection = require("../models/adminModel");
 const orderCollection = require("../models/orderModel");
-const userCollection = require("../models/userModel");
-const addressCollection = require("../models/addressModel");
-const productCollection = require("../models/productModel");
-const walletCollection = require("../models/walletModel");
 const puppeteer = require("puppeteer");
 const exceljs = require("exceljs");
 const AppError = require("../middlewares/errorHandling");
-const ReadableStream = require("readable-stream");
 
 const SalesReportGet = async (req, res, next) => {
   try {
@@ -29,8 +24,6 @@ const SalesReportGet = async (req, res, next) => {
       startDate2 = new Date(req.session.startDate2);
       endDate2 = new Date(req.session.endDate2);
     }
-    console.log("Start Date :", startDate);
-    console.log("End Date: ", endDate);
 
     var salesDetails =
       req.session.salesDetails ||
@@ -55,11 +48,10 @@ const SalesReportGet = async (req, res, next) => {
           model: "coupons",
           as: "couponDetails",
         }));
-    console.log(salesDetails);
 
-    const productsPerPage = 15;
+    const productsPerPage = 6;
     const totalPages = salesDetails.length / productsPerPage;
-    const pageNo = req.query.pages || 1;
+    const pageNo = Number(req.query.page) || 1;
     const start = (pageNo - 1) * productsPerPage;
     const end = start + productsPerPage;
     let allSales = salesDetails;
@@ -102,8 +94,8 @@ const SalesReportGet = async (req, res, next) => {
       totalPages,
       user,
       orders: [],
-      page: 1,
-      pages: 1,
+      page: pageNo,
+      pages: Math.ceil(salesDetails.length / limit),
       totalcount,
       startDate2,
       endDate2,
@@ -573,6 +565,30 @@ const filterOptions = async (req, res, next) => {
     let { filterOption } = req.body;
     let startDate, endDate;
 
+    const startOfDay = (date) => {
+      return new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        6,
+        0,
+        0,
+        0
+      );
+    };
+
+    const endOfDay = (date) => {
+      return new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        23,
+        59,
+        59,
+        999
+      );
+    };
+
     if (filterOption === "month") {
       endDate = new Date();
       startDate = new Date(endDate);
@@ -585,14 +601,18 @@ const filterOptions = async (req, res, next) => {
       endDate = new Date(startDate);
       endDate.setDate(startDate.getDate() + 6);
     } else if (filterOption === "year") {
-      let currentYear = new Date().getFullYear();
-      startDate = new Date(currentYear, 0, 1);
-      endDate = new Date(currentYear, 11, 31);
+      let today = new Date();
+      endDate = today;
+      startDate = new Date();
+      startDate.setFullYear(today.getFullYear() - 1);
     }
+
+    const startDateVal = startOfDay(startDate);
+    const endDateVal = endOfDay(endDate);
 
     let salesDataFiltered = await orderCollection
       .find({
-        orderDate: { $gte: startDate, $lte: endDate },
+        orderDate: { $gte: startDateVal, $lte: endDateVal },
         orderStatus: "Delivered",
       })
       .sort({ orderDate: -1 })
@@ -613,10 +633,8 @@ const filterOptions = async (req, res, next) => {
       });
 
     req.session.admin = {};
-    req.session.admin.dateValues = { startDate, endDate };
-    req.session.salesDetails = salesData = JSON.parse(
-      JSON.stringify(salesDataFiltered)
-    );
+    req.session.admin.dateValues = { startDateVal, endDateVal };
+    req.session.salesDetails = salesDataFiltered;
 
     res.status(200).json({ success: true });
   } catch (error) {

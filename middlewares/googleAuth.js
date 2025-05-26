@@ -9,7 +9,7 @@ passport.use(
       callbackURL:
         process.env.MODE === "development"
           ? "http://localhost:3000/google/callback"
-          : "https://furniture-store-ecommerce-project.onrender.com/google/callback",
+          : "https://furniturehub.shop/google/callback",
       passReqToCallback: true,
     },
     function (request, accessToken, refreshToken, profile, done) {
