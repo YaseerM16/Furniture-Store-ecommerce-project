@@ -95,7 +95,7 @@ const SalesReportGet = async (req, res, next) => {
       user,
       orders: [],
       page: pageNo,
-      pages: Math.ceil(salesDetails.length / limit),
+      pages: Math.ceil(salesDetails.length / productsPerPage),
       totalcount,
       startDate2,
       endDate2,

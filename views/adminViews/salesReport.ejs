@@ -641,7 +641,7 @@
                                             <span class="sr-only">Previous</span>
                                         </a>
                                     </li>
-                                    <% for(let i=1; i <=pages; i++){ %>
+                                    <% for(let i=1; i <=pages+1; i++){ %>
                                         <li class="page-item <%= page == i? 'active' : '' %>"><a class="page-link"
                                                 onclick="pageClick('<%= i %>')">
                                                 <%= i %>
@@ -779,6 +779,17 @@
                 console.error('There was a problem with the fetch operation:', error); // Log any errors to the console
             }
         });
+
+        function pageClick(page) {
+            const currentPage = parseInt(page);
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('page')) {
+                urlParams.set('page', currentPage);
+            } else {
+                urlParams.append('page', currentPage);
+            }
+            window.location.search = urlParams.toString();
+        }
 
     </script>
     <script>
