@@ -35,8 +35,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="assets/img/favicon.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
@@ -46,15 +44,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
         integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js"
-        integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Bootstrap JS -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -93,23 +82,6 @@
             max-width: 100%;
             height: auto;
         }
-
-        /* .container,
-        .map-container {
-            margin: 20px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-
-        .map-container {
-            height: 400px;
-        }
-
-        #map {
-            height: 100%; 
-        }*/
 
         #brand-name {
             font-family: "Bungee Spice", sans-serif;
@@ -181,20 +153,6 @@
             /* Add space between icon and text */
         }
 
-        /* .iconx {
-            background-color: #C7A379;
-            color: #ffffff;
-            border-radius: 50%;
-            width: 80px;
-            height: 80px;
-            font-size: 32px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }*/
-
         #user .iconx {
             background-color: #604220;
             color: #ffffff;
@@ -257,24 +215,6 @@
             height: 100px;
         }
 
-        .category-offers-button {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: large;
-            background-color: #8a5d2a;
-            color: #ffffff;
-            padding: 8px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        .category-offers-button:hover {
-            background-color: #ff564e;
-        }
-
         .header .topbar .inner {
             height: 100px;
         }
@@ -307,16 +247,12 @@
                     <div class="logo">
                         <a href="#">
                             <div id="brand-name">&nbsp;Y-FURNS</div>
-                            <!-- <img src="assets/images/logo.png" class="image-fi" alt="logo" height="100px" width="100px"> -->
                         </a>
                     </div>
                     <!-- Logo -->
                     <!-- Search Form -->
                     <div class="search-form">
                         <form>
-                            <!-- Location -->
-
-                            <!-- Location -->
                             <!-- Search -->
                             <div class="input-group">
                                 <input type="text" name="#" class="form-control" placeholder="Search for products..."
@@ -459,45 +395,53 @@
 
                     </div>
                 </div>
-                <!-- <div class="col-xl-9 col-lg-8">
-                    <div class="d-flex w-100 justify-content-between">
-                        <div class="section-header">
-                            <h3 class="title">Product List</h3>
-                        </div>
-                        <div style="padding: 0 30px 0 0;margin: 0;">
-                            <button class="title flex-end product-offers-button">
-                                <h3>Product Offer
-                                    Management</h3>
-                            </button>
-                        </div>
-                    </div>
-                </div> -->
                 <div class="col-xl-9 col-lg-8">
                     <section class="section-padding pb-0">
                         <div class="d-flex w-100 justify-content-between">
                             <div class="section-header">
                                 <h3 class="title">Category List</h3>
                             </div>
-                            <div style="padding: 0 30px 0 0;margin: 0;">
-                                <button class="title flex-end category-offers-button">
-                                    <h3>Category Offer
-                                        Management</h3>
+                            <div class="category-offers-button"
+                                style="padding: 5px 20px 5px 0; margin: 0; display: flex; justify-content: flex-end; align-items: center;">
+                                <button class="title" style="
+                                                                display: flex;
+                                                                justify-content: center;
+                                                                align-items: center;
+                                                                font-size: small;
+                                                                background-color: #8a5d2a;
+                                                                color: #ffffff;
+                                                                padding: 8px;
+                                                                border-radius: 10px;
+                                                                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                                                                cursor: pointer;
+                                                                transition: background-color 0.3s ease-in-out;
+                                                                border: none;
+                                                              " onmouseover="this.style.backgroundColor='#ff564e'"
+                                    onmouseout="this.style.backgroundColor='#8a5d2a'">
+                                    <h5 style="margin: 0; color: #ffffff;">Category Offer Management</h5>
                                 </button>
                             </div>
+
+
                         </div>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                            style="margin-bottom: 10px;">
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
                             Add Category
                         </button>
 
+
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
                                 <div class="modal-content">
+
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                     </div>
+
                                     <div class="modal-body">
                                         <form id="addCat">
                                             <div class="form-outline mb-4">
@@ -508,14 +452,12 @@
                                             <div class="form-outline mb-4">
                                                 <input type="text" placeholder="Category Description" name="categorydes"
                                                     id="categorydes" class="form-control pb-5" />
-
                                             </div>
 
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Save
-                                                    changes</button>
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
                                             </div>
                                         </form>
                                     </div>
@@ -535,38 +477,53 @@
                                     }
                                 },
                                 submitHandler: async (form, event) => {
-                                    event.preventDefault()
+                                    event.preventDefault();
 
                                     let formData = {
-                                        categoryName: $(form.category).val().trim(),
-                                        categoryDes: form.categorydes.value
+                                        categoryName: form.category.value.trim(),
+                                        categoryDes: form.categorydes.value.trim()
+                                    };
+                                    if (!formData.categoryName) {
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Provide category Name"
+                                        });
+                                        return
                                     }
+
                                     let response = await fetch('/admin/categoryManagement/addCategory', {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify(formData)
-                                    })
-                                    let result = await response.json()
+                                    });
+
+                                    let result = await response.json();
+
                                     if (result.success) {
                                         await Swal.fire({
                                             icon: "success",
                                             title: "Category Added"
-
                                         });
-                                        window.location.reload();
+                                        $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
+
+                                        const modalEl = document.getElementById('exampleModal');
+                                        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                                        if (modalInstance) modalInstance.hide();
+                                        form.reset()
+
                                     } else {
                                         await Swal.fire({
                                             icon: "error",
                                             title: "Category Already Exists"
-
                                         });
-                                        window.location.reload();
+                                        $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
                                     }
                                 }
-                            })
+                            });
                         </script>
 
-                        <table class="table">
+
+                        <table id="category-table" class="table">
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">Category Name</th>
@@ -576,6 +533,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <script>
+                                    const modals = [];
+                                </script>
+
                                 <% for(let i=0;i<categoryDet.length;i++){ %>
                                     <tr>
                                         <th scope="row">
@@ -605,100 +566,121 @@
                                                 <% } %>
                                                     <td>
                                                         <div class="d-flex justify-content-center align-items-center">
-                                                            <button id="unblock<%i%>" data-target="#categoryModal<%=i%>"
-                                                                data-toggle="modal" type="button"
-                                                                class="btn btn-info"><i
-                                                                    class="fas fa-edit"></i></button>
+                                                            <button id="unblock<%= i %>" data-bs-toggle="modal"
+                                                                data-bs-target="#categoryModal<%= i %>" type="button"
+                                                                class="btn btn-info">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
                                                         </div>
                                                     </td>
+
                                     </tr>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="categoryModal<%=i%>" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <!-- Edit Category Modal -->
+                                    <div class="modal fade" id="categoryModal<%= i %>" tabindex="-1"
+                                        aria-labelledby="categoryModalLabel<%= i %>" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
+
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
+                                                    <h5 class="modal-title" id="categoryModalLabel<%= i %>">Edit
+                                                        Category</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
                                                 </div>
+
                                                 <div class="modal-body">
-                                                    <form id="categoryEdit<%=i%>">
+                                                    <form id="categoryEdit<%= i %>">
+
                                                         <div class="form-outline mb-4">
-                                                            <input type="text" placeholder="Category"
-                                                                value="<%=categoryDet[i].categoryName %>"
-                                                                name="categoryNameEdit<%=i%>" id="categoryNameEdit"
-                                                                class="form-control" />
+                                                            <input type="text" class="form-control"
+                                                                id="categoryNameEdit<%= i %>"
+                                                                name="categoryNameEdit<%= i %>" placeholder="Category"
+                                                                value="<%= categoryDet[i].categoryName %>" />
                                                         </div>
 
                                                         <div class="form-outline mb-4">
-                                                            <input type="text" placeholder="Category Description"
-                                                                value="<%=categoryDet[i].categoryDescription %>"
-                                                                name="categorydesEdit<%=i%>" id="categorydesEdit"
-                                                                class="form-control pb-5" />
-
+                                                            <input type="text" class="form-control pb-5"
+                                                                id="categorydesEdit<%= i %>"
+                                                                name="categorydesEdit<%= i %>"
+                                                                placeholder="Category Description"
+                                                                value="<%= categoryDet[i].categoryDescription %>" />
                                                         </div>
 
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">Close</button>
-
+                                                                data-bs-dismiss="modal">Close</button>
                                                             <button type="submit" class="btn btn-primary">Save
                                                                 changes</button>
-
                                                         </div>
+
                                                     </form>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
-                                    <script>
 
-                                        $('#categoryEdit<%=i%>').validate({
+                                    <script>
+                                        // let categoryModal = new bootstrap.Modal(document.getElementById(`categoryModal<%=i%>`));
+                                        // categoryModal.show();
+                                        var arr = [$('#categoryModal<%=i%>')]
+                                        modals['<%= i %>'] = $('#categoryModal<%= i %>');
+                                        console.log("Check ajax is work: ", arr[0]); // should print "function"
+                                        $('#categoryEdit<%= i %>').validate({
                                             rules: {
-                                                'categoryNameEdit<%=i%>': {
+                                                'categoryNameEdit<%= i %>': {
                                                     required: true,
                                                 },
-                                                'categorydesEdit<%=i%>': {
+                                                'categorydesEdit<%= i %>': {
                                                     required: true
                                                 }
                                             },
                                             submitHandler: async (form, event) => {
-                                                event.preventDefault()
+                                                event.preventDefault();
 
                                                 let formData = {
-                                                    categoryName: $(form.categoryNameEdit).val().trim(),
-                                                    categoryDes: form.categorydesEdit.value,
-                                                    categoryId: '<%=categoryDet[i]._id%>'
-                                                }
+                                                    categoryName: form[`categoryNameEdit<%= i %>`].value.trim(),
+                                                    categoryDes: form[`categorydesEdit<%= i %>`].value.trim(),
+                                                    categoryId: '<%= categoryDet[i]._id %>'
+                                                };
+
                                                 let response = await fetch('/admin/categoryManagement/editCategory', {
                                                     method: 'POST',
                                                     headers: { 'Content-Type': 'application/json' },
                                                     body: JSON.stringify(formData)
-                                                })
-                                                let result = await response.json()
+                                                });
+
+                                                let result = await response.json();
+
                                                 if (result.success) {
                                                     await Swal.fire({
                                                         icon: "success",
                                                         title: "Category Edited"
-
                                                     });
-                                                    window.location.reload();
-                                                } if (result.exists) {
+                                                    $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
+
+                                                    // Bootstrap 5 modal hide (using Modal instance)
+                                                    const modalElement = document.getElementById('categoryModal<%= i %>');
+                                                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                                    if (modalInstance) modalInstance.hide();
+
+                                                } else if (result.exists) {
                                                     await Swal.fire({
                                                         icon: "error",
                                                         title: "Category Already Exists"
-
                                                     });
-                                                    window.location.reload();
-                                                } if (result.noValue) {
+                                                    $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
+
+                                                } else if (result.noValue) {
                                                     await Swal.fire({
                                                         icon: "error",
                                                         title: "Give any value"
-
                                                     });
-                                                    window.location.reload();
+                                                    $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
                                                 }
                                             }
-                                        })
+                                        });
+
                                     </script>
                                     <% } %>
 
@@ -709,10 +691,7 @@
             </div>
         </div>
     </section>
-    <!-- Category Nav End -->
-    <!-- Section Start -->
 
-    <!-- Section End -->
     <!-- Footer Start -->
     <div class="row">
         <div class="col-12">
@@ -730,10 +709,6 @@
                                 href="?page=<%= i %>">
                                 <%= i %>
                             </a></li>
-                        <!-- <% if(i < pages){ %> -->
-                        <!-- <li class="page-item disabled"><a class="page-link"
-                                                                                                        href="#">&hellip;</a></li>
-                                                                                                <% } %> -->
                         <% } %>
                             <li class="page-item">
                                 <a class="page-link" href="?page=<%= page + 1 %>" aria-label="Next">
@@ -754,13 +729,7 @@
     </div>
     <!-- Copyright End -->
     <!-- Scripts -->
-    <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/plugins/slick.min.js"></script>
-    <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/plugins/jquery.counterup.min.js"></script>
-    <script src="assets/js/plugins/jquery.inview.min.js"></script>
-    <script src="assets/js/custom.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
 
@@ -775,7 +744,7 @@
                     title: "Category Unlisted",
                 });
             }
-            window.location.reload();
+            $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
         }
 
         async function fnUnlist(catName) {
@@ -790,7 +759,8 @@
                     confirmButtonText: "OK",
                 });
             }
-            window.location.reload();
+            $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
+
         }
 
         document.querySelector('.category-offers-button').addEventListener("click", () => {

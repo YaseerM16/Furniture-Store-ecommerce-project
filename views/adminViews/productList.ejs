@@ -378,7 +378,7 @@
                                     <h4>Add Product</h4>
                                 </button></a>
 
-                            <div class="row">
+                            <div id="products-table" class="row">
                                 <div class="col-12">
                                     <div class="table-responsive cart_table">
                                         <table>
@@ -531,7 +531,9 @@
                     title: "Product Blocked",
                 });
             }
-            window.location.reload();
+            $('#products-table').load('/admin/productManagement/productList #products-table');
+
+            // window.location.reload();
         }
 
         async function fnUnBlock(productId) {
@@ -546,8 +548,15 @@
                     confirmButtonText: "OK",
                 });
             }
-            window.location.reload();
+            $('#products-table').load('/admin/productManagement/productList #products-table');
+
+            // window.location.reload();
         }
+
+        document.querySelector('.product-offers-button').addEventListener("click", () => {
+            window.location.href = '/admin/productManagement/product-offers-page'
+        })
+
 
     </script>
 
@@ -563,51 +572,7 @@
     <!-- Copyright End -->
     <!-- Scripts -->
     <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/plugins/slick.min.js"></script>
-    <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/plugins/jquery.counterup.min.js"></script>
-    <script src="assets/js/plugins/jquery.inview.min.js"></script>
-    <script src="assets/js/custom.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script>
-
-        async function fnList(catName) {
-            let response = await fetch(`/listCategory?id=${catName}`, {
-                method: 'GET',
-            })
-            let result = await response.json()
-            if (result.list) {
-                await Swal.fire({
-                    icon: "error",
-                    title: "Category Unlisted",
-                });
-            }
-            window.location.reload();
-        }
-
-        async function fnUnlist(catName) {
-            let response = await fetch(`/unListCategory?id=${catName}`, {
-                method: 'GET',
-            })
-            let result = await response.json()
-            if (result.unlist) {
-                await Swal.fire({
-                    icon: "success",
-                    title: "Category listed",
-                    confirmButtonText: "OK",
-                });
-            }
-            window.location.reload();
-        }
-
-        document.querySelector('.product-offers-button').addEventListener("click", () => {
-            window.location.href = '/admin/productManagement/product-offers-page'
-        })
-
-
-
-    </script>
 </body>
 
 </html>

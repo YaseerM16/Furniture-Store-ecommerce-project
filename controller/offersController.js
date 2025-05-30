@@ -15,7 +15,8 @@ const productOfferPage = async (req, res, next) => {
     const productDet = await productCollection.find();
     let productOfferData = await productOfferCollection
       .find()
-      .populate("productId");
+      .populate("productId")
+      .sort({ createdAt: -1 });
 
     productOfferData.forEach(async (v) => {
       await productOfferCollection.updateOne(
@@ -131,6 +132,7 @@ const categoryOffersPage = async (req, res, next) => {
     let categoryDet = await categoryCollection.find();
     const catOffersCollection = await categoryOffercollection
       .find()
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit);
 
@@ -267,6 +269,8 @@ const editCategoryOffer = async (req, res, next) => {
   try {
     const { categoryName, categoryOfferPercentage, startDate, endDate } =
       req.body;
+
+    console.log("Edit cat offer approach ");
 
     let currentStatus =
       new Date(endDate) >= new Date() && new Date(startDate) <= new Date();

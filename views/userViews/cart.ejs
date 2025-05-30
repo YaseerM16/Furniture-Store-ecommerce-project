@@ -264,7 +264,7 @@
     </div>
     <!-- Category Nav End -->
     <!-- Section Start -->
-    <section>
+    <section id="cart-table">
         <% if (cartProducts.length> 0) { %>
             <section class="section-padding pb-0">
                 <div class="container-fluid">
@@ -286,7 +286,7 @@
                         <% } %>
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="table-responsive cart_table" id="cart-table">
+                                    <div class="table-responsive cart_table">
                                         <table>
                                             <thead>
                                                 <tr>
@@ -349,6 +349,7 @@
                                                                             <input type="text" class="dataClass"
                                                                                 id="productQuantity<%= cartProducts[i].productId._id %>"
                                                                                 data-pid="<%= cartProducts[i].productId._id %>"
+                                                                                data-price="<%= cartProducts[i].productId.productPrice %>"
                                                                                 value="<%= cartProducts[i].productQuantity %>"
                                                                                 index="<%= i %>" autocomplete="off"
                                                                                 disabled>
@@ -392,9 +393,11 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <button id="proceed-to-checkout"
-                                class="thm-btn btn-rectangle thm-bg-color-one w-100">Proceed To
-                                Checkout</button>
+                            <div>
+                                <button id="proceed-to-checkout" class="thm-btn btn-rectangle thm-bg-color-one w-100"
+                                    onclick="handlePlaceOrder()">Proceed To
+                                    Checkout</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -632,105 +635,8 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script>
-        const successModal = new bootstrap.Modal(document.getElementById("successModal"));
-        const removeFromCartModal = new bootstrap.Modal(document.getElementById("removeFromCartModal"));
-        const cartProducts = '<%- JSON.stringify(cartProducts) %>'
-        const cartPdArr = JSON.parse(cartProducts)
-        console.log(cartPdArr);
-        // const presentQty = cartPdArr[0].productQuantity
 
-        // console.log(presentQty);
-        // const parsedGrandSum = parseInt(grandSum.innerHTML)
-        // console.log(parsedGrandSum);
-        let grandTotal = 0;
-        for (let i = 0; i < cartPdArr.length; i++) {
-            let totalCostPer = document.getElementById(`totalCostPerProduct${cartPdArr[i].productId._id}`)
-            let quantity = document.getElementById(`productQuantity${cartPdArr[i].productId._id}`).value
-            let productPrice = cartPdArr[i].productId.productPrice
-            let totalCostPerVal = quantity * productPrice
-            grandTotal += cartPdArr[i].totalCostPerProduct
-            totalCostPer.innerHTML = totalCostPerVal
-            // console.log(grandTotal);
-        }
-
-        document.getElementById('grand-total').innerHTML = grandTotal
-        // grandTotal += cartPdArr[i].totalCostPerProduct
-        // grandSum.innerHTML = parsedGrandSum + grandTotal
-
-        async function removeFromCart(productId, userId) {
-            removeFromCartModal.show()
-
-            document.getElementById("cancel-remove-btn").addEventListener("click", function () {
-                removeFromCartModal.hide()
-            })
-
-            document.getElementById("confirm-remove-from-cart").addEventListener("click", async function () {
-                try {
-                    const response = await fetch(`/removePdCart?productID=${productId}&userID=${userId}`, {
-                        method: "GET",
-                    });
-
-                    const data = await response.json();
-                    if (data.success) {
-                        removeFromCartModal.hide()
-                        successModal.show()
-                        document.getElementById("btn-success").addEventListener("click", function () {
-                            successModal.hide()
-                            $('#cart-table').load('/cartPage #cart-table > *', function () {
-                                let grandTotal = 0; // Declare grandTotal
-
-                                console.log("Grand TOT! before loop: ", grandTotal); // Initial grandTotal
-
-                                // Iterate over the cartPdArr
-                                for (let i = 0; i < cartPdArr.length; i++) {
-                                    // Retrieve elements and values
-                                    let totalCostPer = document.getElementById(`totalCostPerProduct${cartPdArr[i].productId._id}`);
-                                    let quantity = document.getElementById(`productQuantity${cartPdArr[i].productId._id}`).value;
-                                    console.log(quantity)
-                                    let productPrice = cartPdArr[i].productId.productPrice;
-
-                                    // Calculate total cost per product
-                                    let totalCostPerVal = quantity * productPrice;
-
-                                    // Update innerHTML
-                                    totalCostPer.innerHTML = totalCostPerVal;
-
-                                    // Update grandTotal
-                                    grandTotal += totalCostPerVal;
-                                    document.getElementById('grand-total').innerHTML = grandTotal
-                                    // Log the current iteration and total cost per product
-                                    console.log(`Iteration ${i}, totalCostPerVal: ${totalCostPerVal}`);
-                                }
-
-                                // Log the final grandTotal
-                                console.log("Grand TOT after loop: ", grandTotal);
-
-                                // Check if grandTotal is accessible
-                                if (typeof grandTotal !== 'undefined') {
-                                    console.log("Grand Total is accessible and its value is: ", grandTotal);
-                                } else {
-                                    console.error("Grand Total is not accessible after the loop.");
-                                }
-
-                            });
-
-
-                        })
-                        console.log("Item was Removed from the Cart ::");
-                    } else {
-                        console.log("THe Opeeration was Unsuccessfull:: success is not true");
-                    }
-
-                } catch (error) {
-                    console.log("Error while Attemp to Remove the Product from the Cart: " + error);
-                }
-            })
-
-        }
-
-
-
-        document.getElementById('proceed-to-checkout').addEventListener("click", () => {
+        async function handlePlaceOrder() {
             const cartData = [];
             document.querySelectorAll(".dataClass").forEach(ele => {
                 const obj = {
@@ -752,20 +658,77 @@
             form.appendChild(input);
             document.body.appendChild(form);
             form.submit();
-        })
+        }
 
+        const successModal = new bootstrap.Modal(document.getElementById("successModal"));
+        const removeFromCartModal = new bootstrap.Modal(document.getElementById("removeFromCartModal"));
+        const cartProducts = '<%- JSON.stringify(cartProducts) %>'
+        const cartPdArr = JSON.parse(cartProducts)
+        recalculateCartTotals()
+        function recalculateCartTotals() {
+            let grandTotal = 0;
+
+            const quantityInputs = document.querySelectorAll('input.dataClass');
+
+            quantityInputs.forEach((input) => {
+                const productId = input.dataset.pid;
+                const quantity = parseInt(input.value);
+                const price = parseFloat(input.getAttribute('data-price'));
+                const totalCost = quantity * price;
+
+                const totalCostElem = document.getElementById(`totalCostPerProduct${productId}`);
+                if (totalCostElem) totalCostElem.innerHTML = totalCost;
+
+                grandTotal += totalCost;
+            });
+
+            document.getElementById('grand-total').innerHTML = grandTotal;
+        }
+
+
+        async function removeFromCart(productId, userId) {
+            removeFromCartModal.show()
+
+            document.getElementById("cancel-remove-btn").addEventListener("click", function () {
+                removeFromCartModal.hide()
+            })
+
+            document.getElementById("confirm-remove-from-cart").addEventListener("click", async function () {
+                try {
+                    const response = await fetch(`/removePdCart?productID=${productId}&userID=${userId}`, {
+                        method: "GET",
+                    });
+
+                    const data = await response.json();
+                    if (data.success) {
+                        removeFromCartModal.hide()
+                        successModal.show()
+                        document.getElementById("btn-success").addEventListener("click", function () {
+                            successModal.hide()
+                            $('#cart-table').load('/cartPage #cart-table > *', function () {
+                                recalculateCartTotals();
+                            });
+                        })
+                        console.log("Item was Removed from the Cart ::");
+                    } else {
+                        console.log("THe Opeeration was Unsuccessfull:: success is not true");
+                    }
+
+                } catch (error) {
+                    console.log("Error while Attemp to Remove the Product from the Cart: " + error);
+                }
+            })
+
+        }
 
         async function cartQuantityUpdate(action, productId, index) {
             let totalCostPerProduct = document.getElementById(`totalCostPerProduct${productId}`);
-
 
             let inputValue = document.getElementById(`productQuantity${productId}`).value;
             const productPrice = cartPdArr[index].productId.productPrice
 
             let originalValue = inputValue;
             try {
-
-
                 const response = await fetch(`/cartIncBtn?action=${action}&productID=${productId}&quantity=${inputValue}`, {
                     method: "GET",
                 });
@@ -773,19 +736,13 @@
                 const data = await response.json();
                 if (data.success) {
 
-                    // console.log(data.quantity);
-                    // console.log(data.success);
-                    // const c = parseInt(data.quantity)
-                    // console.log(c);
-                    // console.log(data.totalCostPerProduct);
                     const grandSum = document.getElementById('grand-total')
                     let grandSumVal = parseInt(grandSum.innerHTML)
                     document.getElementById(`productQuantity${productId}`).value = data.quantity
 
                     let totalCostPerProductVal = parseInt(data.quantity) * productPrice
                     totalCostPerProduct.innerHTML = totalCostPerProductVal
-                    // console.log(totalCostPerProductVal)
-                    // console.log(data.totalCostPerProduct);
+
                     if (data.action == "plus") {
                         grandSumVal += productPrice
                         grandSum.innerHTML = grandSumVal
@@ -793,7 +750,6 @@
                         grandSumVal -= productPrice
                         grandSum.innerHTML = grandSumVal
                     }
-                    console.log("Sending and coming");
                 }
 
                 if (data.exceed) {
@@ -812,8 +768,6 @@
             } catch (err) {
                 console.log("The /cartIncBtn interrupted with an error:", err);
             }
-
-            // Your fetch request and logic here
         }
 
     </script>

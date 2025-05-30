@@ -300,7 +300,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="table-responsive cart_table">
-                                        <table>
+                                        <table id="user-table">
                                             <thead>
                                                 <tr>
                                                     <th>User Name</th>
@@ -409,6 +409,7 @@
     </div>
     <!-- Copyright End -->
     <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
     <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="assets/js/plugins/slick.min.js"></script>
@@ -429,7 +430,9 @@
                     title: "User unblocked",
                 });
             }
-            window.location.reload();
+
+            $('#user-table').load('/admin/userManagement/usersList #user-table');
+
         }
 
         async function fnUnBlock(userId) {
@@ -444,7 +447,9 @@
                     confirmButtonText: "OK",
                 });
             }
-            window.location.reload();
+
+            $('#user-table').load('/admin/userManagement/usersList #user-table');
+
         }
     </script>
 </body>

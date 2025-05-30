@@ -118,26 +118,28 @@ const salesReportDownloadPDF = async (req, res, next) => {
       endDate = new Date();
     }
 
-    const salesData = await orderCollection
-      .find({
-        orderDate: { $gte: startDate, $lte: endDate },
-        orderStatus: "Delivered",
-      })
-      .populate({
-        path: "cartData.productId",
-        model: "products",
-        as: "productDetails",
-      })
-      .populate({
-        path: "userId",
-        model: "users",
-        as: "userDetails",
-      })
-      .populate({
-        path: "couponApplied",
-        model: "coupons",
-        as: "couponDetails",
-      });
+    const salesData =
+      req.session.salesDetails ||
+      (await orderCollection
+        .find({
+          orderDate: { $gte: startDate, $lte: endDate },
+          orderStatus: "Delivered",
+        })
+        .populate({
+          path: "cartData.productId",
+          model: "products",
+          as: "productDetails",
+        })
+        .populate({
+          path: "userId",
+          model: "users",
+          as: "userDetails",
+        })
+        .populate({
+          path: "couponApplied",
+          model: "coupons",
+          as: "couponDetails",
+        }));
 
     const browser = await puppeteer.launch({
       channel: "chrome",

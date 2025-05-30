@@ -146,6 +146,12 @@ userRouter.get(
   cartController.placeOrder
 );
 userRouter.get(
+  "/order-success",
+  isLogged,
+  blockUserCheck,
+  cartController.orderSuccess
+);
+userRouter.get(
   "/removePdCart",
   isLogged,
   blockUserCheck,

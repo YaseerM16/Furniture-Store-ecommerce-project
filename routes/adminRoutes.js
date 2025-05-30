@@ -163,6 +163,7 @@ adminRouter.get(
 );
 adminRouter.get(
   "/admin/categoryManagement/category-offers-page",
+  isAdmin,
   offersController.categoryOffersPage
 );
 adminRouter.post(

@@ -392,11 +392,12 @@
                                                 <div class="d-flex justify-content-center">
                                                     <select name="parentCategory" class="form-control"
                                                         id="parentCategory" style="max-width: 250px;">
-                                                        <option disabled selected>
+                                                        <option value="<%= categoryDet.categoryName %>" selected>
                                                             <%= categoryDet.categoryName %>
                                                         </option>
+
                                                         <% for(let i=0;i<categoryDetail.length;i++){ %>
-                                                            <option value="<%= categoryDetail[i]._id %>">
+                                                            <option value="<%= categoryDetail[i].categoryName %>">
 
                                                                 <%= categoryDetail[i].categoryName %>
                                                             </option>
@@ -508,7 +509,7 @@
         const parsePro = JSON.parse(product)
         const cate = '<%- JSON.stringify(categoryDet) %>'
         const parseCat = JSON.parse(cate)
-        console.log(parseCat);
+        console.log("parseCatpat", parseCat);
         var cropperImage = document.getElementById('cropperImage');
         var croppedImageInput = document.getElementById('croppedImageInput');
         console.log(document.getElementById('image1'));
@@ -657,10 +658,6 @@
                 return null;
             }
         }
-
-
-
-
 
         $('#editProduct').validate({
             rules: {

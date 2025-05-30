@@ -17,6 +17,7 @@ const categoryList = async (req, res, next) => {
 
     const catCollection = await categoryCollection
       .find()
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit);
 

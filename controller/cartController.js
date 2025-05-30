@@ -157,20 +157,19 @@ const cartIncDecBtn = async (req, res, next) => {
     const productStock = parseInt(product.productStock);
     const updateTotalCostPerProduct = quantity * productPrice;
     if (action === "minus") {
-      // If action is 'minus' and quantity > 0, decrement the cart
       if (quantity > 1) {
+        const userId = req.session.currentUser._id;
         const cartProduct = await cartCollection.findOneAndUpdate(
-          { productId },
+          { userId, productId },
           {
             $inc: { productQuantity: -1 },
             $set: {
               totalCostPerProduct: updateTotalCostPerProduct - productPrice,
             },
           },
-          { new: true } // Return the updated document
+          { new: true }
         );
 
-        // Send success response with updated cart product
         res.send({
           success: true,
           quantity: quantity - 1,
@@ -185,20 +184,19 @@ const cartIncDecBtn = async (req, res, next) => {
         });
       }
     } else if (action === "plus") {
-      // If action is 'plus' and quantity < productStock, increment the cart
       if (quantity < productStock) {
+        const userId = req.session.currentUser._id;
         const cartProduct = await cartCollection.findOneAndUpdate(
-          { productId },
+          { userId, productId },
           {
             $inc: { productQuantity: 1 },
             $set: {
               totalCostPerProduct: updateTotalCostPerProduct + productPrice,
             },
           },
-          { new: true } // Return the updated document
+          { new: true }
         );
 
-        // Send success response with updated cart product
         res.send({
           success: true,
           quantity: quantity + 1,
@@ -427,6 +425,50 @@ const placeOrder = async (req, res, next) => {
     const cartDet = await cartCollection.find({
       userId: req.session.currentUser._id,
     });
+
+    const sessionCart = JSON.parse(req.session.cartData);
+
+    if (!sessionCart || !Array.isArray(sessionCart)) {
+      return res
+        .status(400)
+        .json({ error: "Invalid or missing session cart." });
+    }
+
+    const normalizeCart = (cart) =>
+      cart
+        .map((item) => ({
+          productId: item.productId.toString(),
+          quantity: item.productQuantity,
+        }))
+        .sort((a, b) => a.productId.localeCompare(b.productId));
+
+    const dbCart = normalizeCart(cartDet);
+    const sessCart = normalizeCart(sessionCart);
+
+    // Deep compare
+    const isEqual = JSON.stringify(dbCart) === JSON.stringify(sessCart);
+
+    if (!isEqual) {
+      return res.status(409).json({
+        success: false,
+        cartMismatch: true,
+        message:
+          "Cart mismatch. Some items were changed or removed. Please return to cart and proceed.",
+      });
+    }
+
+    for (let cart of cartDet) {
+      const product = await productCollection.findOne({ _id: cart.productId });
+
+      if (product.productStock < cart.productQuantity) {
+        return res.json({
+          success: false,
+          message:
+            "❗ Oops! One or more products in your cart have limited stock now.",
+        });
+      }
+    }
+
     for (let cart of cartDet) {
       await productCollection.updateOne(
         { _id: cart.productId },
@@ -461,13 +503,13 @@ const placeOrder = async (req, res, next) => {
         { new: true }
       );
     }
+
     req.session.paymentId = null;
 
     if (req.session.paymentMethod == "paypal") {
-      // res.redirect(`/payPalPaymentPage?total=${req.session.cartTotal}`);
       return await paymentController.doPayment(req, res);
-      // console.log(req.session.paymentId);
     }
+
     const address = await addressCollection.findById(req.session.addressId);
 
     await cartCollection.deleteMany({ userId: req.session.currentUser._id });
@@ -489,6 +531,14 @@ const placeOrder = async (req, res, next) => {
     req.session.couponApplied = false;
     req.session.save();
 
+    res.json({ success: true, message: "Order Placed Successfully. :)" });
+  } catch (error) {
+    next(new AppError(error, 500));
+  }
+};
+
+const orderSuccess = async (req, res, next) => {
+  try {
     const email = req.session.currentUser.email;
     let user = await userCollection.findOne({ email: email });
 
@@ -511,4 +561,5 @@ module.exports = {
   placeOrder,
   cartIncDecBtn,
   removeFromCart,
+  orderSuccess,
 };

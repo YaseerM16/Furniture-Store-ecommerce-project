@@ -50,16 +50,11 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Bootstrap JS -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <!-- jQuery Validation plugin -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 
@@ -483,7 +478,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div id="product-offers-table" class="row">
                                 <div class="col-12">
                                     <div class="table-responsive cart_table">
                                         <table>
@@ -678,19 +673,6 @@
                                 const startDateElement = $(startDateSelector);
                                 const endDateElement = $(endDateSelector);
 
-                                // startDateElement.attr('min', today);
-                                // endDateElement.attr('min', today);
-
-                                // startDateElement.on('change', function () {
-                                //     let startDateValue = startDateElement.val();
-                                //     endDateElement.attr('min', startDateValue);
-                                // });
-
-                                // endDateElement.on('change', function () {
-                                //     let endDateValue = endDateElement.val();
-                                //     startDateElement.attr('max', endDateValue);
-                                // });
-
                                 $(formId).validate({
                                     rules: {
                                         productName: "required",
@@ -729,7 +711,10 @@
                                                     showConfirmButton: true,
                                                 }).then((result) => {
                                                     if (result.isConfirmed) {
-                                                        window.location.href = "/admin/productManagement/product-offers-page" // Reload the page after user confirms
+                                                        $('#product-offers-table').load('/admin/productManagement/product-offers-page #product-offers-table');
+                                                        const modalElement = document.getElementById(`editModal${index}`);
+                                                        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                                        if (modalInstance) modalInstance.hide();
                                                     }
                                                 });
                                             } else {
@@ -786,21 +771,6 @@
             </div>
         </div>
     </section>
-    <!-- Category Nav Start -->
-
-    <!-- Category Nav End -->
-    <!-- Section Start -->
-
-
-
-
-
-
-
-    <!-- Section End -->
-    <!-- Footer Start -->
-    <!-- Footer End -->
-    <!-- Copyright Start -->
     <div class="copyright">
         <div class="container-fluid">
             <p class="mb-0">@Copyright 2022. <a href="#" class="thm-color-one">Website.com</a> All Rights Reserved</p>
@@ -809,12 +779,6 @@
     <!-- Copyright End -->
     <!-- Scripts -->
     <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/plugins/slick.min.js"></script>
-    <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/plugins/jquery.counterup.min.js"></script>
-    <script src="assets/js/plugins/jquery.inview.min.js"></script>
-    <script src="assets/js/custom.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
@@ -879,7 +843,11 @@
                             showConfirmButton: true,
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                window.location.href = "/admin/productManagement/product-offers-page" // Reload the page after user confirms
+                                $('#product-offers-table').load('/admin/productManagement/product-offers-page #product-offers-table');
+                                const modalElement = document.getElementById(`addProductOfferModal`);
+                                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                if (modalInstance) modalInstance.hide();
+                                // window.location.href = "/admin/productManagement/product-offers-page" // Reload the page after user confirms
                             }
                         })
                     } else {

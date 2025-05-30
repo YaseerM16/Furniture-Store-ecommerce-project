@@ -708,10 +708,10 @@
 
 
                                                 <div class="items_box">
-                                                    <a href="/placeOrder"
-                                                        class="thm-btn btn-rectangle thm-bg-color-one w-100 mb-4">Place
-                                                        The
-                                                        Order</a>
+                                                    <button onclick="handlePlaceOrder()"
+                                                        class="thm-btn btn-rectangle thm-bg-color-one w-100 mb-4">
+                                                        Place The Order
+                                                    </button>
                                                 </div>
                                     </div>
                                 </div>
@@ -882,7 +882,7 @@
                             const couponsDet = JSON.parse(couponsData)
                             const parsedCartTot = parseInt(cartTotal)
                             const cartPdArr = JSON.parse(cartProducts)
-                            console.log(cartPdArr);
+                            console.log("CartProducts", cartPdArr);
                             console.log(couponDet);
 
                             async function couponFunc(couponId) {
@@ -972,6 +972,42 @@
                                 }
                                 catch (error) {
                                     console.log("Error while sending the apply coupon request :" + error);
+                                }
+                            }
+
+
+                            async function handlePlaceOrder() {
+                                try {
+                                    const response = await fetch('/placeOrder', {
+                                        method: 'GET',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                    });
+
+                                    const data = await response.json();
+
+                                    if (response.ok && data.success) {
+                                        window.location.href = "/order-success";
+                                    } else if (data.cartMismatch) {
+                                        await Swal.fire({
+                                            icon: "warning",
+                                            iconHtml: '<i class="fas fa-exclamation-triangle"></i>',
+                                            text: data.message
+                                        }).then(() => {
+                                            window.location.href = "/cartPage";
+                                        });
+                                    }
+                                    else {
+                                        await Swal.fire({
+                                            icon: "warning",
+                                            iconHtml: '<i class="fas fa-exclamation-triangle"></i>',
+                                            text: data.message
+                                        });
+                                    }
+                                } catch (error) {
+                                    console.error("Error while placing order:", error);
+                                    alert("An error occurred while placing the order.");
                                 }
                             }
 

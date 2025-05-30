@@ -21,6 +21,7 @@ const productList = async (req, res, next) => {
 
     const proCollection = await productCollection
       .find()
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .populate("parentCategory");
@@ -171,12 +172,19 @@ const editProduct = async (req, res, next) => {
     else if (productDetails && productDetails._id != req.params.id) {
       res.send({ exists: true });
     } else {
+      const parentCategoryId = await categoryCollection.findOne({
+        categoryName: req.body.parentCategory,
+      });
+
+      if (!parentCategoryId._id)
+        return res.send({ success: false, message: "Category was not found" });
+
       await productCollection.updateOne(
         { _id: req.params.id },
         {
           $set: {
             productName: req.body.productName,
-            parentCategory: req.body.parentCategory,
+            parentCategory: parentCategoryId._id,
             productPrice: req.body.productPrice,
             productStock: req.body.productStock,
             priceBeforeOffer: req.body.productPrice,

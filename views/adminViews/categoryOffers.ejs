@@ -46,16 +46,11 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Bootstrap JS -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <!-- jQuery Validation plugin -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 
@@ -333,71 +328,76 @@
                                 <h3 class="title">Category Offers</h3>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                            data-target="#addCategoryOfferModal" style="margin-bottom: 15px;">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#addCategoryOfferModal" style="margin-bottom: 15px;">
                             Add new Category Offer
                         </button>
+
 
                         <!--Category Offer Modal -->
                         <div class="modal fade" id="addCategoryOfferModal" tabindex="-1"
                             aria-labelledby="addCategoryOfferModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
+
+                                    <!-- Modal Header -->
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="addCategoryOfferModalLabel">Add Category Offer</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
+
+                                    <!-- Modal Form -->
                                     <form id="addCategoryOfferForm" role="form">
                                         <div class="modal-body">
 
-                                            <div class="input-group mb-3">
-                                                <label class="container">
-                                                    <label for="categoryName" class="mb-2">Category Name: </label>
-                                                    <select name="categoryName" id="categoryName" class="form-select">
-                                                        <% categoryDet.forEach(category=> { %>
-                                                            <option value="<%= category.categoryName %>">
-                                                                <%= category.categoryName %>
-                                                            </option>
-                                                            <% }); %>
-                                                    </select>
-                                                </label>
+                                            <!-- Category Name -->
+                                            <div class="mb-3">
+                                                <label for="categoryName" class="form-label">Category Name:</label>
+                                                <select name="categoryName" id="categoryName" class="form-select">
+                                                    <% categoryDet.forEach(category=> { %>
+                                                        <option value="<%= category.categoryName %>">
+                                                            <%= category.categoryName %>
+                                                        </option>
+                                                        <% }); %>
+                                                </select>
                                             </div>
 
-                                            <div class="offerPercentageInput p-2">
-                                                <label for="categoryOfferPercentage" class="mb-2">Category Offer
-                                                    Percentage: </label>
-                                                <div class="input-group">
-                                                    <input id="categoryOfferPercentage" name="categoryOfferPercentage"
-                                                        class="form-control" placeholder="Enter the offer percentage">
-                                                </div>
+                                            <!-- Offer Percentage -->
+                                            <div class="mb-3">
+                                                <label for="categoryOfferPercentage" class="form-label">Category Offer
+                                                    Percentage:</label>
+                                                <input id="categoryOfferPercentage" name="categoryOfferPercentage"
+                                                    class="form-control" placeholder="Enter the offer percentage">
                                                 <div class="form-text">Choose a percentage to be discounted. Between 5%
                                                     and 90%.</div>
                                             </div>
 
-                                            <div class="startDateInput p-2">
-                                                <label for="categoryOfferStartDate">Offer Start Date: </label>
-                                                <div class="input-group">
-                                                    <input id="categoryOfferStartDate" name="categoryOfferStartDate"
-                                                        type="date" class="form-control">
-                                                </div>
+                                            <!-- Start Date -->
+                                            <div class="mb-3">
+                                                <label for="categoryOfferStartDate" class="form-label">Offer Start
+                                                    Date:</label>
+                                                <input id="categoryOfferStartDate" name="categoryOfferStartDate"
+                                                    type="date" class="form-control">
                                                 <div class="form-text">Choose a start date for the offer to be
                                                     considered.</div>
                                             </div>
 
-                                            <div class="endDateInput p-2">
-                                                <label for="categoryOfferEndDate">Offer Expiry Date : </label>
-                                                <div class="input-group">
-                                                    <input id="categoryOfferEndDate" name="categoryOfferEndDate"
-                                                        type="date" class="form-control">
-                                                </div>
-                                                <div class="form-text">Choose an exipry date for offer to end.</div>
+                                            <!-- End Date -->
+                                            <div class="mb-3">
+                                                <label for="categoryOfferEndDate" class="form-label">Offer Expiry
+                                                    Date:</label>
+                                                <input id="categoryOfferEndDate" name="categoryOfferEndDate" type="date"
+                                                    class="form-control">
+                                                <div class="form-text">Choose an expiry date for offer to end.</div>
                                             </div>
 
                                         </div>
+
+                                        <!-- Modal Footer -->
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close</button>
+                                                data-bs-dismiss="modal">Close</button>
                                             <button id="addCouponBtn" type="submit" class="btn btn-info">Save
                                                 changes</button>
                                         </div>
@@ -405,6 +405,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                         <script>
                             const category = '<%- JSON.stringify(categoryOffersDet) %>'
@@ -429,8 +430,6 @@
                                     submitHandler: async function (form, event) {
                                         event.preventDefault()
 
-
-
                                         let formData = {
                                             categoryName: form.categoryName.value,
                                             categoryOfferPercentage: form.categoryOfferPercentage.value,
@@ -449,15 +448,19 @@
                                         if (result.success) {
                                             await Swal.fire({
                                                 icon: "success",
-                                                title: "Category offer succesfully added",
-                                                showConfirmButton: false,
-                                                timer: 3000
-                                            }).then(() => location.reload())
+                                                title: "Category Offer Added"
+                                            }).then(() => {
+                                                $('#category-offer-table').load('/admin/categoryManagement/category-offers-page #category-offer-table');
+                                                const modalElement = document.getElementById(`addCategoryOfferModal`);
+                                                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                                if (modalInstance) modalInstance.hide();
+                                                form.reset()
+                                            })
                                         } else {
                                             await Swal.fire({
                                                 icon: "error",
-                                                title: "Product Offer Already Exists for This Product",
-                                                text: "Please try editing the offer of this particular product",
+                                                title: "Category Offer Already Exists for This Category",
+                                                text: "Please try editing the offer of this particular categotry",
                                             });
                                         }
                                     }
@@ -465,7 +468,7 @@
                             });
                         </script>
 
-                        <table class="table">
+                        <table id="category-offer-table" class="table">
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">
@@ -724,7 +727,12 @@
                                     showConfirmButton: true,
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        window.location.href = "/admin/categoryManagement/category-offers-page" // Reload the page after user confirms
+                                        $('#category-offer-table').load('/admin/categoryManagement/category-offers-page #category-offer-table');
+                                        // Bootstrap 5 modal hide (using Modal instance)
+                                        const modalElement = document.getElementById(`editModal${index}`);
+                                        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                        if (modalInstance) modalInstance.hide();
+                                        // window.location.href = "/admin/categoryManagement/category-offers-page" // Reload the page after user confirms
                                     }
                                 });
                             } else {
@@ -791,6 +799,7 @@
     </div>
     <!-- Copyright End -->
     <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
     <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="assets/js/plugins/slick.min.js"></script>
@@ -837,8 +846,6 @@
             }
             window.location.reload();
         }
-
-
 
     </script>
 </body>
