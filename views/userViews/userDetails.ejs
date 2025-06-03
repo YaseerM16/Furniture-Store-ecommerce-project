@@ -217,39 +217,74 @@
   </div>
   <!-- Category Nav End -->
   <!-- Section Start -->
-  <section class="user_account">
+  <section id="component" class="user_account">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-xl-3 col-lg-4">
+        <div id="side-bar" class="col-xl-3 col-lg-4">
           <div class="account_sidebar section pb-0 h-100">
             <h4 class="title">My Account</h4>
             <ul>
-              <li class="active">
+              <!-- <li class="active">
                 <a href="/userDetails">
                   <i class="fal fa-user"></i>
                   User Info
                 </a>
-              </li>
-              <li>
+              </li> -->
+              <!-- <li>
                 <a href="/addressPage">
                   <i class="fal fa-book"></i>
                   Address
                 </a>
+              </li> -->
+
+              <!-- <li>
+                              <a href="/myOrdersPage">
+                                <i class="fal fa-luggage-cart"></i>
+                                Order
+                              </a>
+                            </li> -->
+              <!-- <li>
+                              <a href="/walletPage">
+                                <i class="fas fa-wallet"></i>
+                                Wallet
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/wishListPage">
+                                <i class="fal fa-star"></i>
+                                Wishlist
+                              </a>
+                            </li> -->
+              <li class="nav-link">
+                <a href="javascript:void(0)"  onclick="navigateTo('/userDetails', this)">
+                  <i class="fal fa-user"></i>
+                  User Info
+                </a>
               </li>
-              <li>
-                <a href="/myOrdersPage">
+              
+              <li class="nav-link">
+                <a href="javascript:void(0)"  onclick="navigateTo('/addressPage', this)">
+                  <i class="fal fa-book"></i>
+                  Address
+                </a>
+              </li>
+
+              <li class="nav-link">
+                <a href="javascript:void(0)"  onclick="navigateTo('/myOrdersPage', this)">
                   <i class="fal fa-luggage-cart"></i>
                   Order
                 </a>
               </li>
-              <li>
-                <a href="/walletPage">
+
+              <li class="nav-link">
+                <a href="javascript:void(0)"  onclick="navigateTo('/walletPage', this)">
                   <i class="fas fa-wallet"></i>
                   Wallet
                 </a>
               </li>
-              <li>
-                <a href="/wishListPage">
+
+              <li class="nav-link">
+                <a href="javascript:void(0)"  onclick="navigateTo('/wishListPage', this)">
                   <i class="fal fa-star"></i>
                   Wishlist
                 </a>
@@ -269,7 +304,7 @@
             </ul>
           </div>
         </div>
-        <div class="col-xl-9 col-lg-8">
+        <div id="content-bar" class="col-xl-9 col-lg-8">
           <div class="section">
             <div class="user_info_box">
               <!-- User -->
@@ -575,6 +610,37 @@
     integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
+    initializeUserDetails()
+    function navigateTo(path, element) {
+        $('#component').load(`${path} #component`, function (response, status, xhr) {
+          if (status === "error") {
+            $('#component').html('<p class="text-danger">Failed to load content.</p>');
+            return;
+          }
+          document.querySelectorAll('li .nav-link').forEach(link => {
+            link.style.backgroundColor = '';
+            link.style.color = '';
+            link.style.fontWeight = '';
+            link.parentElement.classList.remove('active'); // remove from all <li>
+          });
+
+          // Highlight the clicked element
+          element.style.backgroundColor = '#f0f0f0';
+          element.style.color = '#0d6efd';
+          element.style.fontWeight = 'bold';
+
+          // Add "active" class to parent <li>
+          element.parentElement.classList.add('active');
+
+          // Only initialize if the form exists (means we're on userDetails)
+          if (document.querySelector('#my-form')) {
+            initializeUserDetails();
+          }
+        });
+
+        history.pushState(null, '', path);
+    }
+
     function copyReferralCode() {
         const referralCodeValue = document.getElementById('ReferalCode').value;
 
@@ -587,107 +653,112 @@
 
         // Show a notification to indicate the code has been copied
         Swal.fire('Referral link copied to clipboard!');
-      }
+    }
 
-    const successModal = new bootstrap.Modal(document.getElementById("successModal"));
-    const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
-    $(document).ready(function () {
-      $('#my-form').validate({
-        rules: {
-          username: {
-            required: true,
-            pattern: /^[a-zA-Z]+(?: [a-zA-Z]+)*$/,
-          },
-          phone: {
-            required: true,
-            pattern: /^\+?[1-9][0-9]{9}$/,
-          },
-        },
-        messages: {
-          username: {
-            required: "Please enter your username.",
-            pattern: "Username should only contain letters and spaces.",
-          },
-          phone: {
-            required: "Please enter your phone number.",
-            pattern: "Invalid phone number format.",
-          },
-        },
-        submitHandler: function (form) {
-          // Handle form submission if validation passes
-          const name = document.querySelector(".field-name").value.trim();
-          const phone = document.querySelector(".field-phone").value.trim();
-          const email = "<%= user.email %>";
+    function initializeUserDetails() {
 
-          const obj = {
-            username: name,
-            email: email,
-            phone: phone,
-          };
-
-          fetch('/editProfile', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
+      const successModal = new bootstrap.Modal(document.getElementById("successModal"));
+      const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+        $('#my-form').validate({
+          rules: {
+            username: {
+              required: true,
+              pattern: /^[a-zA-Z]+(?: [a-zA-Z]+)*$/,
             },
-            body: JSON.stringify(obj),
-          })
-            .then(response => response.json())
-            .then(data => {
-              if (data.success) {
-                successModal.show();
-                document.getElementById("btn-success").addEventListener("click", function () {
-                  successModal.hide();
-                  console.log(data.name);
-                  console.log(data.phone);
-                  document.querySelector(".field-name").value = data.name;
-                  document.querySelector(".field-phone").value = data.phone;
-                  document.querySelector(".field-name").disabled = true;
-                  document.querySelector(".field-phone").disabled = true;
-                  document.querySelector("#edit_profile_btn").style.display = "block";
-                  document.querySelector(".save_changes_btn").style.display = "none";
-                  // Optionally, you can redirect the user to another page here
-                  // window.location.href = "/userDetails";
-                });
-                console.log("Profile updated successfully.");
-              } else if (data.error) {
-                errorModal.show();
-                console.error("Failed to update profile:", data.error);
-              }
+            phone: {
+              required: true,
+              pattern: /^\+?[1-9][0-9]{9}$/,
+            },
+          },
+          messages: {
+            username: {
+              required: "Please enter your username.",
+              pattern: "Username should only contain letters and spaces.",
+            },
+            phone: {
+              required: "Please enter your phone number.",
+              pattern: "Invalid phone number format.",
+            },
+          },
+          submitHandler: function (form) {
+            // Handle form submission if validation passes
+            const name = document.querySelector(".field-name").value.trim();
+            const phone = document.querySelector(".field-phone").value.trim();
+            const email = "<%= user.email %>";
+  
+            const obj = {
+              username: name,
+              email: email,
+              phone: phone,
+            };
+  
+            fetch('/editProfile', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(obj),
             })
-            .catch(error => {
-              console.error('Error:', error);
+              .then(response => response.json())
+              .then(data => {
+                if (data.success) {
+                  successModal.show();
+                  document.getElementById("btn-success").addEventListener("click", function () {
+                    successModal.hide();
+                    console.log(data.name);
+                    console.log(data.phone);
+                    document.querySelector(".field-name").value = data.name;
+                    document.querySelector(".field-phone").value = data.phone;
+                    document.querySelector(".field-name").disabled = true;
+                    document.querySelector(".field-phone").disabled = true;
+                    document.querySelector("#edit_profile_btn").style.display = "block";
+                    document.querySelector(".save_changes_btn").style.display = "none";
+                    // Optionally, you can redirect the user to another page here
+                    // window.location.href = "/userDetails";
+                  });
+                  console.log("Profile updated successfully.");
+                } else if (data.error) {
+                  errorModal.show();
+                  console.error("Failed to update profile:", data.error);
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+              });
+          },
+        });
+  
+        document.getElementById("edit_profile_btn").addEventListener("click", function () {
+          let inputs = document.querySelectorAll(".user_form input");
+          for (let i = 0; i < inputs.length; i++) {
+            inputs[i].disabled = false;
+          }
+          document.querySelector("#edit_profile_btn").style.display = "none";
+          document.querySelector(".save_changes_btn").style.display = "block";
+        });
+  
+        document.querySelector(".save_changes_btn").addEventListener("click", function () {
+          // Trigger form submission when the "Save Changes" button is clicked
+          if ($('#my-form').valid()) {
+            // Trigger form submission when the form is valid
+            $('#my-form').submit();
+          } else {
+            // Handle validation errors or show a message to the user
+            // For example, you can display an alert or error message
+            var myModal = new bootstrap.Modal(document.getElementById('customAlertModal'));
+            myModal.show();
+  
+            document.getElementById("alert-ok").addEventListener("click", function (event) {
+              // Prevent the default action (form submission)
+              event.preventDefault();
             });
-        },
-      });
+          }
+        });
 
-      document.getElementById("edit_profile_btn").addEventListener("click", function () {
-        let inputs = document.querySelectorAll(".user_form input");
-        for (let i = 0; i < inputs.length; i++) {
-          inputs[i].disabled = false;
-        }
-        document.querySelector("#edit_profile_btn").style.display = "none";
-        document.querySelector(".save_changes_btn").style.display = "block";
-      });
+    }
 
-      document.querySelector(".save_changes_btn").addEventListener("click", function () {
-        // Trigger form submission when the "Save Changes" button is clicked
-        if ($('#my-form').valid()) {
-          // Trigger form submission when the form is valid
-          $('#my-form').submit();
-        } else {
-          // Handle validation errors or show a message to the user
-          // For example, you can display an alert or error message
-          var myModal = new bootstrap.Modal(document.getElementById('customAlertModal'));
-          myModal.show();
 
-          document.getElementById("alert-ok").addEventListener("click", function (event) {
-            // Prevent the default action (form submission)
-            event.preventDefault();
-          });
-        }
-      });
-    });
+      
 
 
     // const form = document.getElementById("my-form");

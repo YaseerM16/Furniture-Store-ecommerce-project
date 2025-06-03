@@ -29,6 +29,8 @@ const profileEdit = async (req, res, next) => {
           },
         }
       );
+      req.session.currentUser.username = username;
+      req.session.currentUser.phonenumber = phone;
       res.send({ success: true, name: username, phone: phone });
     }
   } catch (error) {

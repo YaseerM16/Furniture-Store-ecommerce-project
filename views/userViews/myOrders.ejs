@@ -223,39 +223,43 @@
     </div>
     <!-- Category Nav End -->
     <!-- Section Start -->
-    <section class="order-list">
+    <section id="component" class="order-list">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-3 col-lg-4">
                     <div class="account_sidebar section pb-0 h-100">
                         <h4 class="title">My Account</h4>
                         <ul>
-                            <li class="active">
-                                <a href="/userDetails">
+                            <li class="nav-link">
+                                <a href="javascript:void(0)" onclick="navigateTo('/userDetails', this)">
                                     <i class="fal fa-user"></i>
                                     User Info
                                 </a>
                             </li>
-                            <li>
-                                <a href="/addressPage">
+
+                            <li class="nav-link">
+                                <a href="javascript:void(0)" onclick="navigateTo('/addressPage', this)">
                                     <i class="fal fa-book"></i>
                                     Address
                                 </a>
                             </li>
-                            <li>
-                                <a href="/myOrdersPage">
+
+                            <li class="nav-link">
+                                <a href="javascript:void(0)" onclick="navigateTo('/myOrdersPage', this)">
                                     <i class="fal fa-luggage-cart"></i>
                                     Order
                                 </a>
                             </li>
-                            <li>
-                                <a href="/walletPage">
+
+                            <li class="nav-link">
+                                <a href="javascript:void(0)" onclick="navigateTo('/walletPage', this)">
                                     <i class="fas fa-wallet"></i>
                                     Wallet
                                 </a>
                             </li>
-                            <li>
-                                <a href="/wishListPage">
+
+                            <li class="nav-link">
+                                <a href="javascript:void(0)" onclick="navigateTo('/wishListPage', this)">
                                     <i class="fal fa-star"></i>
                                     Wishlist
                                 </a>
@@ -298,10 +302,13 @@
                                             style="margin-bottom: 30px;">
                                             <p class="mb-0 d-flex justify-content-center">Order Id</p>
                                             <div class="info">
-                                                <h6 class="mb-0 name"><a
-                                                        href="/orderDetail?orderID=<%= orders[i]._id%>">
-                                                        <%= orders[i].orderId%>
-                                                    </a></h6>
+                                                <h6 class="mb-0 name">
+                                                    <button class="nav-link"
+                                                        onclick="navigateTo('/orderDetail?orderID=<%= orders[i]._id %>', this)">
+                                                        <%= orders[i].orderId %>
+                                                    </button>
+
+                                                </h6>
                                             </div>
                                         </div>
 
@@ -514,6 +521,36 @@
     <!-- Copyright End -->
     <!-- Scripts -->
     <script>
+        function navigateTo(path, element) {
+            $('#component').load(`${path} #component`, function (response, status, xhr) {
+                if (status === "error") {
+                    $('#component').html('<p class="text-danger">Failed to load content.</p>');
+                    return;
+                }
+                document.querySelectorAll('li .nav-link').forEach(link => {
+                    link.style.backgroundColor = '';
+                    link.style.color = '';
+                    link.style.fontWeight = '';
+                    link.parentElement.classList.remove('active'); // remove from all <li>
+                });
+
+                // Highlight the clicked element
+                element.style.backgroundColor = '#f0f0f0';
+                element.style.color = '#0d6efd';
+                element.style.fontWeight = 'bold';
+
+                // Add "active" class to parent <li>
+                element.parentElement.classList.add('active');
+
+                // Only initialize if the form exists (means we're on userDetails)
+                if (document.querySelector('#my-form')) {
+                    initializeUserDetails();
+                }
+            });
+
+            history.pushState(null, '', path);
+        }
+
         const orders = '<%- JSON.stringify(orders) %>'
         const parsedOrders = JSON.parse(orders)
         function loadPage(pageNumber) {
