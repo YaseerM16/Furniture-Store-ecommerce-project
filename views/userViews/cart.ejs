@@ -155,7 +155,6 @@
                             </li>
                             <li class="cart">
                                 <a href="/cartPage">
-                                    <span class="cart_value">0</span>
                                     <i class="far fa-shopping-cart"></i>
                                     <div class="cart_text">
                                         My Cart
@@ -637,6 +636,27 @@
     <script>
 
         async function handlePlaceOrder() {
+            // const cartData = [];
+            // document.querySelectorAll(".dataClass").forEach(ele => {
+            //     const obj = {
+            //         productId: ele.getAttribute('data-pid'),
+            //         quantity: parseInt(ele.value)
+            //     };
+            //     cartData.push(obj);
+            // })
+            // const form = document.createElement('form');
+            // const grndTt = parseInt(document.getElementById('grand-total').innerHTML);
+            // form.method = 'POST';
+            // form.action = `/selectAddress?grandTotal=${grndTt}`;
+
+            // const input = document.createElement('input');
+            // input.type = 'hidden';
+            // input.name = 'cartData';
+            // input.value = JSON.stringify(cartData);
+
+            // form.appendChild(input);
+            // document.body.appendChild(form);
+            // form.submit();
             const cartData = [];
             document.querySelectorAll(".dataClass").forEach(ele => {
                 const obj = {
@@ -644,20 +664,16 @@
                     quantity: parseInt(ele.value)
                 };
                 cartData.push(obj);
-            })
-            const form = document.createElement('form');
+            });
+
             const grndTt = parseInt(document.getElementById('grand-total').innerHTML);
-            form.method = 'POST';
-            form.action = `/selectAddress?grandTotal=${grndTt}`;
 
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'cartData';
-            input.value = JSON.stringify(cartData);
+            // Encode cartData and build the URL
+            const cartQuery = encodeURIComponent(JSON.stringify(cartData));
+            const url = `/selectAddress?grandTotal=${grndTt}&cartData=${cartQuery}`;
 
-            form.appendChild(input);
-            document.body.appendChild(form);
-            form.submit();
+            // Redirect with GET
+            window.location.href = url;
         }
 
         const successModal = new bootstrap.Modal(document.getElementById("successModal"));

@@ -82,17 +82,20 @@ const orderPage = async (req, res, next) => {
     let pages;
 
     await orderCollection
+      .find({ userId: new ObjectId(user._id) })
       .countDocuments()
       .then((count) => {
         pages = count;
       })
       .catch((err) => console.log("Error while counting the docment" + err));
 
+    pages = Math.ceil(pages / limit);
+
     res.render("userViews/myOrders", {
       orders: orders,
       user: user,
       page: page,
-      pages: Math.ceil(pages / limit),
+      pages,
     });
   } catch (error) {
     next(new AppError(error, 500));

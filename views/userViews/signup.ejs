@@ -28,11 +28,6 @@
     <meta name="twitter:description" content="Description website">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/fav2.png">
     <!-- Css -->
-    <style>
-        .error {
-            color: red;
-        }
-    </style>
     <link href="assets/css/plugins/bootstrap.min.css" rel="stylesheet">
     <link href="assets/fonts/font-awesome.min.css" rel="stylesheet">
     <link href="assets/css/plugins/magnific-popup.css" rel="stylesheet">
@@ -169,9 +164,12 @@
             color: green;
         }
 
-        .error {
+        /* .alert-danger {
+            color: #721c24 !important;
+        } */
+
+        label.error {
             color: red;
-            font-size: 14px;
         }
 
         .header .topbar .inner {
@@ -318,7 +316,8 @@
                                                                     <% if (errors && errors.length> 0) { %>
                                                                         <% errors.forEach(error=> { %>
                                                                             <% if (error.path==='username' ) { %>
-                                                                                <div class="alert alert-danger">
+                                                                                <div class="alert-danger"
+                                                                                    style="background-color: red;">
                                                                                     <%= error.msg %>
                                                                                 </div>
                                                                                 <% } %>
@@ -336,7 +335,7 @@
                                                                     <% if (errors && errors.length> 0) { %>
                                                                         <% errors.forEach(error=> { %>
                                                                             <% if (error.path==='email' ) { %>
-                                                                                <div class="alert alert-danger">
+                                                                                <div class="alert-danger">
                                                                                     <%= error.msg %>
                                                                                 </div>
                                                                                 <% } %>
@@ -354,7 +353,7 @@
                                                                     <% if (errors && errors.length> 0) { %>
                                                                         <% errors.forEach(error=> { %>
                                                                             <% if (error.path==='phonenumber' ) { %>
-                                                                                <div class="alert alert-danger">
+                                                                                <div class="alert-danger">
                                                                                     <%= error.msg %>
                                                                                 </div>
                                                                                 <% } %>
@@ -375,7 +374,8 @@
                                                                     <% if (errors && errors.length> 0) { %>
                                                                         <% errors.forEach(error=> { %>
                                                                             <% if (error.path==='password' ) { %>
-                                                                                <div class="alert alert-danger">
+                                                                                <div style="background-color: red;"
+                                                                                    class="alert-danger">
                                                                                     <%= error.msg %>
                                                                                 </div>
                                                                                 <% } %>
@@ -395,7 +395,7 @@
                                                                     <% if (errors && errors.length> 0) { %>
                                                                         <% errors.forEach(error=> { %>
                                                                             <% if (error.path==='confirmPassword' ) { %>
-                                                                                <div class="alert alert-danger">
+                                                                                <div class="alert-danger">
                                                                                     <%= error.msg %>
                                                                                 </div>
                                                                                 <% } %>
@@ -480,6 +480,16 @@
         const userDet = '<%- JSON.stringify(user) %>'
         const parsedUsr = JSON.parse(userDet)
         console.log(userDet);
+
+        $.validator.addMethod("noWeakPassword", function (value, element) {
+            const weakPasswords = [
+                "123456", "12345678", "123456789", "qwerty", "password",
+                "111111", "abc123", "123123", "000000", "iloveyou"
+            ];
+            return this.optional(element) || !weakPasswords.includes(value.toLowerCase());
+        }, "Please choose a stronger password.");
+
+
         $.validator.addMethod("passwordStrength", function (value, element) {
             const password = $(element).val();
             let strength = 0;
@@ -525,15 +535,17 @@
                     required: true
                 },
                 password: {
-                    passwordStrength: true,
+                    required: true,
                     minlength: 6,
-                    required: true
+                    passwordStrength: true, // if you're already using another validator
+                    noWeakPassword: true
                 },
                 confirmPassword: {
                     equalTo: '#password',
                     required: true
                 },
                 phonenumber: {
+                    pattern: /^(?!0{10})\d{10}$/,
                     required: true,
                     minlength: 10,
                     maxlength: 10,

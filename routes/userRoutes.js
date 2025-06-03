@@ -120,7 +120,7 @@ userRouter.delete("/deleteAddress", accountController.deleteAddress);
 userRouter.post("/addToCart", cartController.addToCart);
 userRouter.get("/cartPage", isLogged, blockUserCheck, cartController.cartPage);
 userRouter.get("/cartIncBtn", cartController.cartIncDecBtn);
-userRouter.post(
+userRouter.get(
   "/selectAddress",
   isLogged,
   blockUserCheck,

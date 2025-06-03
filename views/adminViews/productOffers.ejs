@@ -275,7 +275,7 @@
                                             <a href="/adimDashBoard">Dashboard</a>
                                         </li>
                                         <li>
-                                            <a href="/logout">Logout</a>
+                                            <a href="/adminLogout">Logout</a>
                                         </li>
                                     </ul>
                                     <% } else { %>
@@ -741,27 +741,29 @@
                     <div class="row">
                         <div class="col-12">
 
-                            <nav>
+                            <nav id="pagination">
                                 <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page=<%= page - 1 %>" aria-label="Previous">
+                                    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+                                        <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
+                                            aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
+                                        </button>
                                     </li>
-                                    <% for(let i=1; i <=pages; i++){ %>
-                                        <li class="page-item <%= page == i? 'active' : '' %>"><a class="page-link"
-                                                href="?page=<%= i %>">
+                                    <% for(let i=1; i <=pages; i++) { %>
+                                        <li class="page-item <%= page === i ? 'active' : '' %>">
+                                            <button class="page-link" onclick="loadPage('<%= i %>')">
                                                 <%= i %>
-                                            </a></li>
-
+                                            </button>
+                                        </li>
                                         <% } %>
-                                            <li class="page-item">
-                                                <a class="page-link" href="?page=<%= page + 1 %>" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
-                                            </li>
+                                            <% if (page < pages) { %>
+                                                <li class="page-item">
+                                                    <button class="page-link" onclick="loadPage('<%= page + 1 %>')"
+                                                        aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </button>
+                                                </li>
+                                                <% } %>
                                 </ul>
                             </nav>
                         </div>
@@ -789,10 +791,17 @@
         integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        // const productOfferData = '<%- JSON.stringify(productOfferData) %>'
-        // const parsedProdOffer = JSON.parse(productOfferData)
-        // console.log(parsedProdOffer);
+        function loadPage(pageNumber) {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('page', pageNumber); // set new page number
 
+            const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+
+            window.history.replaceState({}, '', newUrl);
+
+            $('#product-offers-table').load(`${newUrl} #product-offers-table`);
+            $('#pagination').load(`${newUrl} #pagination`);
+        }
 
         $(document).ready(function () {
             $('.select-item').click(function () {

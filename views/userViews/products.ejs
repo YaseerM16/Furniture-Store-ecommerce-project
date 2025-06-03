@@ -29,6 +29,9 @@
     <link href="assets/css/plugins/slick.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,6 +39,25 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <style>
+        .search-icon {
+            color: #555;
+            transition: color 0.3s ease;
+        }
+
+        .search-icon:hover {
+            color: #007bff;
+            /* or any hover color you want */
+            transform: scale(1.1);
+            transition: all 0.2s;
+        }
+
+        #clearIcon:hover {
+            color: #dc3545;
+            /* red or highlight color on hover */
+        }
+
+
+
         #brand-name {
             font-family: "Bungee Spice", sans-serif;
             font-weight: 400;
@@ -109,32 +131,30 @@
                     </div>
                     <!-- Logo -->
                     <!-- Search Form -->
+                    <!-- Search Form -->
                     <div class="search-form">
-                        <form onsubmit="redirectToSearch(event)">
-                            <!-- Location -->
-                            <div class="location">
-                                <label>Your Location</label>
-                                <select>
-                                    <option selected>Select A Location</option>
-                                    <option value="New Delhi">New Delhi</option>
-                                    <option value="Mumbai">Mumbai</option>
-                                    <option value="Kolkata">Kolkata</option>
-                                    <option value="Chennai">Chennai</option>
-                                </select>
-                            </div>
-                            <!-- Location -->
-                            <!-- Search -->
-                            <div class="input-group">
-                                <input type="text" name="searchQuery" class="form-control"
-                                    placeholder="Search for products..." autocomplete="off" required>
-                                <div class="input-group-append input-group-text">
-                                    <button type="submit">
-                                        <i class="fal fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- Search -->
-                        </form>
+                        <div class="search-form ml-3" style="width: 300px;">
+                            <form onsubmit="redirectToSearch(event)"
+                                class="d-flex align-items-center position-relative">
+
+                                <!-- Search Input -->
+                                <input type="text" name="searchQuery" id="searchInput" class="form-control me-2"
+                                    placeholder="Search for products..." autocomplete="off" required
+                                    oninput="toggleClearBtn()">
+
+                                <!-- Clear (×) Icon -->
+                                <span id="clearIcon" onclick="clearSearch()"
+                                    style="display: none; position: absolute; right: 70px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #888;">
+                                    &times;
+                                </span>
+
+                                <!-- Search Button -->
+                                <button type="submit" class="btn btn-outline-secondary">
+                                    <i class="fal fa-search"></i>
+                                </button>
+                            </form>
+                        </div>
+
                     </div>
                     <!-- Search Form -->
                     <!-- Header Action -->
@@ -147,7 +167,6 @@
                             </li>
                             <li class="cart">
                                 <a href="/cartPage">
-                                    <span class="cart_value">0</span>
                                     <i class="far fa-shopping-cart"></i>
                                     <div class="cart_text">
                                         My Cart
@@ -258,7 +277,7 @@
     <div>
         <section class="order-list">
             <div>
-                <div class="row d-flex">
+                <div class="row d-flex" id="products-fill">
                     <div class="col-xl-3 col-lg-4">
                         <div class="account_sidebar style_2 section pb-0 h-100" style="margin-left: 67px;">
                             <h4 class="title">Filter</h4>
@@ -372,9 +391,10 @@
                                 style="margin-right: 67px;max-width: 200px;">
                                 <div class="d-flex justify-content-center flex-column">
                                     <button id="apply-filters" class="btn btn-primary my-3"
-                                        style="font-size: 1.2em; padding: 0.5em 1em;">Apply
+                                        style="font-size: 1.2em; padding: 0.5em 1em;" onclick="applyfilters()">Apply
                                         filters</button>
-                                    <button id="remove-filters" class="btn btn-secondary">Remove filters</button>
+                                    <button id="remove-filters" class="btn btn-secondary"
+                                        onclick="removeFilters()">Remove filters</button>
                                 </div>
                             </div>
                         </div>
@@ -385,7 +405,7 @@
                             <h3 class="title">Products</h3>
                             <p class="text">Here are there unique products</p>
                         </div>
-                        <div class="row mx-3">
+                        <div id="products" class="row mx-3">
                             <!-- Item -->
                             <% for(let i=0; i<productDet.length; i++){ %>
                                 <div class="col-lg-4 col-sm-6">
@@ -445,7 +465,7 @@
                                         </div>
                                         <!-- <div class="product_qty"><span>1</span>PC</div> -->
                                         <% if (productDet[i].productStock===productQtyLimit) { %>
-                                            <strong class="text-danger" style="margin-bottom:100px ;">
+                                            <strong class="product_action text-danger" style="font-size: x-large;">
                                                 Out of Stock!!</strong>
                                             <span></span>
 
@@ -472,43 +492,30 @@
                                         <div class="col-12">
                                             <nav>
                                                 <ul class="pagination">
-                                                    <li class="page-item">
-                                                        <a class="page-link" onclick="pageClick('<%= page - 1 %>')"
+                                                    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+                                                        <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
                                                             aria-label="Previous">
                                                             <span aria-hidden="true">&laquo;</span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
+                                                        </button>
                                                     </li>
-                                                    <% for(let i=1; i <=pages; i++){ %>
-                                                        <li class="page-item <%= page == i? 'active' : '' %>"><a
-                                                                class="page-link" onclick="pageClick('<%= i %>')">
+                                                    <% for(let i=1; i <=pages; i++) { %>
+                                                        <li class="page-item <%= page === i ? 'active' : '' %>">
+                                                            <button class="page-link" onclick="loadPage('<%= i %>')">
                                                                 <%= i %>
-                                                            </a></li>
+                                                            </button>
+                                                        </li>
                                                         <% } %>
-                                                            <% if(page==pages){ %>
+                                                            <% if (page < pages) { %>
                                                                 <li class="page-item">
-                                                                    <a class="page-link"
-                                                                        onclick="pageClick('<%= page %>')"
+                                                                    <button class="page-link"
+                                                                        onclick="loadPage('<%= page + 1 %>')"
                                                                         aria-label="Next">
                                                                         <span aria-hidden="true">&raquo;</span>
-                                                                        <span class="sr-only">Next</span>
-                                                                    </a>
+                                                                    </button>
                                                                 </li>
-                                                                <% } else { %>
-
-                                                                    <li class="page-item">
-                                                                        <a class="page-link"
-                                                                            onclick="pageClick('<%= page + 1 %>')"
-                                                                            aria-label="Next">
-                                                                            <span aria-hidden="true">&raquo;</span>
-                                                                            <span class="sr-only">Next</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <% } %>
+                                                                <% } %>
                                                 </ul>
                                             </nav>
-
-
                                         </div>
                                     </div>
                         </div>
@@ -765,13 +772,26 @@
     <script>
         const productDet = '<%- JSON.stringify(productDet) %>'
         const productDetArr = JSON.parse(productDet)
-        console.log(productDetArr);
+        function loadPage(pageNumber) {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('page', pageNumber); // set new page number
+
+            // Optional: retain existing filters/search parameters
+            const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+
+            // Update browser URL (no reload)
+            window.history.replaceState({}, '', newUrl);
+
+            // Load new product data into #products
+            $('#products').load(`${newUrl} #products`);
+        }
+        // console.log(productDetArr);
         const filterDet = '<%- JSON.stringify(queryFilters) %>'
         const parsedFilters = JSON.parse(filterDet)
         // console.log(parsedFilters);
         const addToCart = async (index) => {
-            console.log(index);
-            console.log("Indexed Product :", productDetArr[index]);
+            // console.log(index);
+            // console.log("Indexed Product :", productDetArr[index]);
             const product = productDetArr[index];
             const prodId = product._id;
             const prodStock = product.productStock;
@@ -830,8 +850,8 @@
         const removeSuccessModal = new bootstrap.Modal(document.getElementById("removeSuccessModal"));
 
 
-        const applyFiltersButton = document.getElementById('apply-filters');
-        const removeFiltersButton = document.getElementById('remove-filters');
+        // const applyFiltersButton = document.getElementById('apply-filters');
+        // const removeFiltersButton = document.getElementById('remove-filters');
         async function nonUserAddCart() {
             signupLoginModal.show();
             document
@@ -844,8 +864,12 @@
         const selectedFilters = {};
         let url = `/filterProduct?`;
 
+        async function applyfilters() {
+            // Re-select radio buttons dynamically to ensure fresh references
+            const radios = document.querySelectorAll('input[type="radio"]');
 
-        applyFiltersButton.addEventListener('click', async () => {
+            const selectedFilters = {}; // Reset inside the function
+
             radios.forEach(radio => {
                 if (radio.checked) {
                     const val = radio.id;
@@ -867,14 +891,75 @@
                 url += `${filterType}=${selectedFilters[filterType]}${index < Object.keys(selectedFilters).length - 1 ? '&' : ''}`;
             });
 
-            console.log(url);
-            window.location.href = url;
-            console.log("Heolloe");
-        });
-        removeFiltersButton.addEventListener('click', () => {
-            window.location.href = '/filterProduct';
+            window.history.replaceState({}, '', url);
+            console.log("Url by applyfilters: ", url);
+
+            // $('#products-fill').load(`${url} #products-fill`);
+            $('#products').load(`${url} #products`);
+        }
+
+
+
+        // applyFiltersButton.addEventListener('click', async () => {
+        //     radios.forEach(radio => {
+        //         if (radio.checked) {
+        //             const val = radio.id;
+        //             const filterType = radio.name;
+        //             selectedFilters[filterType] = val;
+        //         }
+        //     });
+
+        //     const urlParams = new URLSearchParams(window.location.search);
+        //     const searchQuery = urlParams.get('bySearch');
+
+        //     let url = `/filterProduct?`;
+
+        //     if (searchQuery) {
+        //         url += `bySearch=${searchQuery}&`;
+        //     }
+
+        //     Object.keys(selectedFilters).forEach((filterType, index) => {
+        //         url += `${filterType}=${selectedFilters[filterType]}${index < Object.keys(selectedFilters).length - 1 ? '&' : ''}`;
+        //     });
+        //     window.history.replaceState({}, '', url);
+
+        //     console.log("Url by applyfilters: ", url);
+
+        //     $('#products').load(`${url} #products`);
+        // });
+        function removeFilters() {
+            $('#products-fill').load(`/filterProduct #products-fill`);
+
+            // Clear selected filters from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.delete('category');
+            urlParams.delete('price-range');
+            urlParams.delete('bySearch');
+
+            // Update the browser's URL
+            const newUrl = `${location.pathname}?${urlParams.toString()}`;
+            window.history.replaceState({}, '', newUrl);
+
             console.log('Filters removed');
-        });
+        }
+
+        // document.getElementById('remove-filters').addEventListener('click', () => {
+        //     // Load default state
+        //     $('#products-fill').load(`/filterProduct #products-fill`);
+
+        //     // Clear selected filters from the URL
+        //     const urlParams = new URLSearchParams(window.location.search);
+        //     urlParams.delete('category');
+        //     urlParams.delete('price-range');
+        //     urlParams.delete('bySearch');
+
+        //     // Update the browser's URL
+        //     const newUrl = `${location.pathname}?${urlParams.toString()}`;
+        //     window.history.replaceState({}, '', newUrl);
+
+        //     console.log('Filters removed');
+        // });
+
 
         function pageClick(page) {
             const currentPage = parseInt(page);
@@ -895,11 +980,46 @@
             event.preventDefault();
             const searchQuery = document.querySelector('input[name="searchQuery"]').value;
             const urlParams = new URLSearchParams(window.location.search);
-            urlParams.set('bySearch', searchQuery); // update the query string
-            const newUrl = `${urlSearch.split('?')[0]}?${urlParams.toString()}`;
-            console.log(newUrl); // reconstruct the URL
-            window.location.href = newUrl;
+            urlParams.set('bySearch', searchQuery);
+            const newUrl = `${location.pathname}?${urlParams.toString()}`;
+            window.history.replaceState({}, '', newUrl);
+            $('#products').load(`${newUrl} #products`);
         }
+
+        function clearSearch() {
+            const input = document.querySelector('input[name="searchQuery"]');
+            input.value = '';
+            // Remove 'bySearch' from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.delete('bySearch');
+
+            const newUrl = `${location.pathname}?${urlParams.toString()}`;
+            window.history.replaceState({}, '', newUrl); // Update the address bar
+
+            // Reload the #products section via AJAX
+            $('#products').load(`${newUrl} #products`);
+            toggleClearBtn();
+        }
+
+        function toggleClearBtn() {
+            const input = document.querySelector('input[name="searchQuery"]');
+            const clearIcon = document.getElementById('clearIcon');
+            const urlParams = new URLSearchParams(window.location.search);
+
+            if (input.value.trim()) {
+                clearIcon.style.display = 'block';
+            } else {
+                clearIcon.style.display = 'none';
+
+                // Remove 'bySearch' from URL
+                urlParams.delete('bySearch');
+                const newUrl = `${location.pathname}?${urlParams.toString()}`;
+                window.history.replaceState({}, '', newUrl);
+
+            }
+        }
+
+
         window.addEventListener('load', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const searchQuery = urlParams.get('bySearch');

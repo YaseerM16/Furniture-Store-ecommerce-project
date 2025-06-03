@@ -14,13 +14,19 @@ const productList = async (req, res, next) => {
     } else {
       user = {};
     }
-
     const page = Number(req.query.page) || 1;
     const limit = 9;
     const skip = (page - 1) * limit;
+    const productName = req.query.bySearch;
+
+    let searchQuery = {};
+    if (productName) {
+      searchQuery.productName = { $regex: productName, $options: "i" };
+    }
+    console.log("Prodname< :", productName);
 
     const proCollection = await productCollection
-      .find()
+      .find(searchQuery)
       .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
@@ -29,14 +35,13 @@ const productList = async (req, res, next) => {
     let pages;
 
     await productCollection
-      .countDocuments()
+      .countDocuments(searchQuery)
       .then((count) => {
         pages = count;
       })
       .catch((err) => console.log("Error while counting the docment" + err));
 
-    // console.log(proCollection);
-    res.render("adminViews/productList", {
+    return res.render("adminViews/productList", {
       productDet: proCollection,
       page: page,
       pages: Math.ceil(pages / limit),

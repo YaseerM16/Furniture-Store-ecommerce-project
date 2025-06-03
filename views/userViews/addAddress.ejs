@@ -107,7 +107,6 @@
               </li>
               <li class="cart">
                 <a href="/cartPage">
-                  <span class="cart_value">0</span>
                   <i class="far fa-shopping-cart"></i>
                   <div class="cart_text">
                     My Cart
@@ -560,6 +559,9 @@
     integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
+    const searchParams = new URLSearchParams(window.location.search);
+    const redirectPath = searchParams.get("redirect");
+
     $(document).ready(function () {
       $("#address-form").validate({
         rules: {
@@ -692,7 +694,11 @@
                   document
                     .getElementById("okButton")
                     .addEventListener("click", () => {
-                      window.location.href = "/addressPage";
+                      if (redirectPath) {
+                        window.location.href = redirectPath;
+                      } else {
+                        window.location.href = "/addressPage";
+                      }
                     });
                 } else {
                   // Handle the error

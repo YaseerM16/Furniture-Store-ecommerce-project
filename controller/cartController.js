@@ -241,7 +241,13 @@ const addressCheckOutPage = async (req, res, next) => {
     } else {
       user = {};
     }
-    req.session.cartData = req.body.cartData;
+
+    const cartDataRaw = req.query.cartData;
+    console.log("cartDataby Query: ", cartDataRaw);
+
+    const cartData = JSON.parse(cartDataRaw);
+
+    req.session.cartData = cartData;
     req.session.cartTotal = req.query.grandTotal;
 
     req.session.save();
@@ -341,7 +347,7 @@ const checkoutPage = async (req, res, next) => {
     if (!cartProducts && !addressDet) {
       console.log("The Cart product or Address is not getting");
     } else {
-      res.render("userViews/checkOutPage", {
+      return res.render("userViews/checkOutPage", {
         cartProducts: cartProducts,
         addressDet: addressDet,
         user: user,
@@ -434,18 +440,17 @@ const placeOrder = async (req, res, next) => {
         .json({ error: "Invalid or missing session cart." });
     }
 
-    const normalizeCart = (cart) =>
+    const normalizeCart = (cart, isFromDb = false) =>
       cart
         .map((item) => ({
           productId: item.productId.toString(),
-          quantity: item.productQuantity,
+          quantity: isFromDb ? item.productQuantity : item.quantity,
         }))
         .sort((a, b) => a.productId.localeCompare(b.productId));
 
-    const dbCart = normalizeCart(cartDet);
-    const sessCart = normalizeCart(sessionCart);
+    const dbCart = normalizeCart(cartDet, true);
+    const sessCart = normalizeCart(sessionCart); // isFromDb defaults to false
 
-    // Deep compare
     const isEqual = JSON.stringify(dbCart) === JSON.stringify(sessCart);
 
     if (!isEqual) {
@@ -533,6 +538,8 @@ const placeOrder = async (req, res, next) => {
 
     res.json({ success: true, message: "Order Placed Successfully. :)" });
   } catch (error) {
+    console.log("Error while the place order: ", error);
+
     next(new AppError(error, 500));
   }
 };

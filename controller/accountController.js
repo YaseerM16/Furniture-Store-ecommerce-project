@@ -60,7 +60,12 @@ const addAddressPage = async (req, res, next) => {
     } else {
       user = {};
     }
-    res.render("userViews/addAddress", { user: user });
+    const redirect = req.query.redirect;
+
+    res.render("userViews/addAddress", {
+      user: user,
+      redireactPath: redirect ? redirect : null,
+    });
   } catch (error) {
     next(new AppError(error, 500));
   }

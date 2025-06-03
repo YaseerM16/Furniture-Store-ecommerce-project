@@ -11,12 +11,26 @@ const productOfferPage = async (req, res, next) => {
     let user = await adminCollection.findOne({
       _id: req.session.adminUser._id,
     });
+    const page = Number(req.query.page) || 1;
+    const limit = 4;
+    const skip = (page - 1) * limit;
 
     const productDet = await productCollection.find();
     let productOfferData = await productOfferCollection
       .find()
       .populate("productId")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    let pages;
+
+    await productOfferCollection
+      .countDocuments()
+      .then((count) => {
+        pages = count;
+      })
+      .catch((err) => console.log("Error while counting the docment" + err));
 
     productOfferData.forEach(async (v) => {
       await productOfferCollection.updateOne(
@@ -41,8 +55,8 @@ const productOfferPage = async (req, res, next) => {
     res.render("adminViews/productOffers", {
       productOfferData,
       productDet,
-      page: 1,
-      pages: 2,
+      page: page,
+      pages: Math.ceil(pages / limit),
       user: user,
     });
   } catch (error) {

@@ -239,7 +239,6 @@ const logout = (req, res, next) => {
   try {
     req.session.adminLog = false;
     req.session.save();
-
     res.redirect("/adminLogin");
   } catch (error) {
     next(new AppError(error, 500));

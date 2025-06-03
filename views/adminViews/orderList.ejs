@@ -241,7 +241,7 @@
                                     <ul class="sub-menu">
 
                                         <li>
-                                            <a href="/logout">Logout</a>
+                                            <a href="/adminLogout">Logout</a>
                                         </li>
                                     </ul>
                                     <% } else { %>
@@ -363,8 +363,6 @@
                             <div class="col-10">
                                 <div class="col-12">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <!-- <div class="d-flex justify-content-between">
-                                        </div> -->
                                         <div class="section-header">
                                             <h3 class="title">Orders List</h3>
                                         </div>
@@ -376,12 +374,6 @@
                                                     Requests</h3>
                                             </a>
                                         </div>
-                                        <!-- <div style="padding: 0 30px 0 0;margin: 0; width: 300px;height: 100px;">
-                                            <button class="title flex-end product-offers-button">
-                                                <h3>Product Offer
-                                                    Management</h3>
-                                            </button>
-                                        </div> -->
                                     </div>
                                 </div>
                                 <% for(let i=0;i<orders.length;i++){ %>
@@ -443,17 +435,15 @@
                                             href="?page=<%= i %>">
                                             <%= i %>
                                         </a></li>
-                                    <!-- <% if(i < pages){ %> -->
-                                    <!-- <li class="page-item disabled"><a class="page-link"
-                                                                                            href="#">&hellip;</a></li>
-                                                                                    <% } %> -->
                                     <% } %>
-                                        <li class="page-item">
-                                            <a class="page-link" href="?page=<%= page + 1 %>" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                                <span class="sr-only">Next</span>
-                                            </a>
-                                        </li>
+                                        <% if (page < pages) { %>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page=<%= page + 1 %>" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </li>
+                                            <% } %>
                             </ul>
                         </nav>
                     </div>
@@ -462,10 +452,6 @@
         </div>
     </section>
     <!-- Category Nav End -->
-    <!-- Section Start -->
-
-
-
     </div>
     <!-- Footer End -->
     <!-- Copyright Start -->

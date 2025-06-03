@@ -11,13 +11,31 @@ const couponsPage = async (req, res, next) => {
 
     await updateCouponsStatus();
 
-    const coupons = await couponCollection.find({ isDelete: false });
+    const page = Number(req.query.page) || 1;
+    const limit = 6;
+    const skip = (page - 1) * limit;
+
+    const coupons = await couponCollection
+      .find({ isDelete: false })
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    let pages;
+
+    await couponCollection
+      .countDocuments({ isDelete: false })
+      .then((count) => {
+        pages = count;
+      })
+      .catch((err) => console.log("Error while counting the docment" + err));
+
     const deletedCoupons = await couponCollection.find({ isDelete: true });
 
     res.render("adminViews/couponsList", {
       user,
-      page: 1,
-      pages: 2,
+      page: page,
+      pages: Math.ceil(pages / limit),
       coupons,
       deletedCoupons,
     });

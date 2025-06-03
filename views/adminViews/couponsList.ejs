@@ -51,7 +51,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Bootstrap JS -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -250,9 +250,6 @@
                     <!-- Search Form -->
                     <div class="search-form">
                         <form>
-                            <!-- Location -->
-
-                            <!-- Location -->
                             <!-- Search -->
                             <div class="input-group">
                                 <input type="text" name="#" class="form-control" placeholder="Search for products..."
@@ -284,7 +281,7 @@
                                             <a href="/adimDashBoard">Dashboard</a>
                                         </li>
                                         <li>
-                                            <a href="/logout">Logout</a>
+                                            <a href="/adminLogout">Logout</a>
                                         </li>
                                     </ul>
                                     <% } else { %>
@@ -310,7 +307,7 @@
     <!-- Header End -->
     <section class="order-list">
         <div class="container-fluid" style="padding: 0;">
-            <div class="row">
+            <div class="row" id="coupon-table2">
                 <div class="col-xl-3 col-lg-4">
                     <div class="h-100">
                         <nav class="navbar navbar-expand-lg navbar-dark justify-content-around"
@@ -397,7 +394,7 @@
                 </div>
                 <div class="col-xl-9 col-lg-8">
 
-                    <section class="section-padding">
+                    <section style="padding: 15px;">
                         <div class="container-fluid">
                             <div class="d-flex w-100 justify-content-between">
                                 <div class="section-header">
@@ -525,7 +522,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="table-responsive cart_table">
-                                        <table>
+                                        <table id="coupon-table">
                                             <thead class="thead-dark">
                                                 <tr>
                                                     <th scope="col">S No</th>
@@ -602,109 +599,87 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Edit Coupons Modal  -->
+
                             <% coupons.forEach(function(coupon, index) { %>
+                                <!-- Edit Coupons Modal  -->
                                 <div class="modal fade" id="editModal<%= index %>" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    aria-labelledby="editModalLabel<%= index %>" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
+
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Edit Coupon</h5>
+                                                <h5 class="modal-title" id="editModalLabel<%= index %>">Edit Coupon</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
+
                                             <form id="editCouponForm<%= index %>">
                                                 <div class="modal-body">
-
-                                                    <!-- <div class="couponCodeInput p-2">
-                                                        <label for="couponCodeEdit<%= index %>" class="mb-2">Coupon
-                                                            Code: </label>
-                                                        <div class="input-group">
-                                                            <input id="couponCodeEdit<%= index %>" name="couponCode"
-                                                                type="text" class="form-control"
-                                                                value="<%= coupon.couponCode %>" required minlength="5"
-                                                                maxlength="16">
-                                                        </div>
-                                                        <div class="form-text">Add a relevant coupon code eg:
-                                                            NEWYEAR2024, PONGAL2024, VYZ548</div>
-                                                    </div> -->
-
-                                                    <div class="discountPercentageInput p-2">
+                                                    <!-- Discount Percentage -->
+                                                    <div class="p-2">
                                                         <label for="discountPercentageEdit<%= index %>"
-                                                            class="mb-2">Discount Percentage: </label>
-                                                        <div class="input-group">
-                                                            <input id="discountPercentageEdit<%= index %>"
-                                                                name="discountPercentage" type="text"
-                                                                class="form-control"
-                                                                value="<%= coupon.discountPercentage %>" required>
-                                                        </div>
-                                                        <div class="form-text">Choose a percentage to be discounted.
-                                                            Between 5% and 90%.</div>
+                                                            class="form-label">Discount Percentage</label>
+                                                        <input id="discountPercentageEdit<%= index %>"
+                                                            name="discountPercentage" type="text" class="form-control"
+                                                            value="<%= coupon.discountPercentage %>" required>
+                                                        <div class="form-text">Between 5% and 90%.</div>
                                                     </div>
 
-                                                    <div class="startDateInput p-2">
-                                                        <label for="startDate<%= index %>">Coupon Start
-                                                            Date:</label>
-                                                        <div class="input-group">
-                                                            <input name="startDate" id="startDate<%= index %>"
-                                                                type="date" class="form-control"
-                                                                value="<%= coupon.startDate.toISOString().substring(0, 10) %>"
-                                                                required>
-                                                        </div>
-                                                        <div class="form-text">Choose a start date for the discount
-                                                            to be considered.</div>
-                                                    </div>
-                                                    <div class="expiryDateInput p-2">
-                                                        <label for="expiryDate<%= index %>">Coupon Expiry Date :
-                                                        </label>
-                                                        <div class="input-group">
-                                                            <input id="expiryDate<%= index %>" name="expiryDate"
-                                                                type="date" class="form-control"
-                                                                value="<%= coupon.expiryDate.toISOString().substring(0, 10) %>"
-                                                                required>
-                                                        </div>
-                                                        <div class="form-text">Choose an exipry date for the
-                                                            discount to end.</div>
+                                                    <!-- Start Date -->
+                                                    <div class="p-2">
+                                                        <label for="startDate<%= index %>" class="form-label">Coupon
+                                                            Start Date</label>
+                                                        <input id="startDate<%= index %>" name="startDate" type="date"
+                                                            class="form-control"
+                                                            value="<%= coupon.startDate.toISOString().substring(0, 10) %>"
+                                                            required>
+                                                        <div class="form-text">Choose when the discount begins.</div>
                                                     </div>
 
-                                                    <div class="minimumPurchaseInput p-2">
-                                                        <label for="minimumPurchaseEdit<%= index %>">Minimum
-                                                            Purchase: </label>
-                                                        <div class="input-group">
-                                                            <input id="minimumPurchaseEdit<%= index %>"
-                                                                name="minimumPurchase" type="text" class="form-control"
-                                                                placeholder="Enter minimum purchase required"
-                                                                value="<%= coupon.minimumPurchase %>" required>
-                                                        </div>
-                                                        <div class="form-text">Minimum amount of purchase to be done
-                                                            to allow the coupon discount.
+                                                    <!-- Expiry Date -->
+                                                    <div class="p-2">
+                                                        <label for="expiryDate<%= index %>" class="form-label">Coupon
+                                                            Expiry Date</label>
+                                                        <input id="expiryDate<%= index %>" name="expiryDate" type="date"
+                                                            class="form-control"
+                                                            value="<%= coupon.expiryDate.toISOString().substring(0, 10) %>"
+                                                            required>
+                                                        <div class="form-text">Set when the discount ends.</div>
+                                                    </div>
+
+                                                    <!-- Minimum Purchase -->
+                                                    <div class="p-2">
+                                                        <label for="minimumPurchaseEdit<%= index %>"
+                                                            class="form-label">Minimum Purchase</label>
+                                                        <input id="minimumPurchaseEdit<%= index %>"
+                                                            name="minimumPurchase" type="text" class="form-control"
+                                                            value="<%= coupon.minimumPurchase %>" required>
+                                                        <div class="form-text">Minimum amount to apply this coupon.
                                                         </div>
                                                     </div>
 
-                                                    <div class="maximumDiscount p-2">
-                                                        <label for="maximumDiscountEdit<%= index %>">Maximum
-                                                            Discount: </label>
-                                                        <div class="input-group">
-                                                            <input id="maximumDiscountEdit<%= index %>"
-                                                                name="maximumDiscount" type="text" class="form-control"
-                                                                placeholder="Maximum discount applicable"
-                                                                value="<%= coupon.maximumDiscount %>" required>
-                                                        </div>
-                                                        <div class="form-text">Maximum amount of discount to be
-                                                            allowed while using the coupon.
-                                                        </div>
+                                                    <!-- Maximum Discount -->
+                                                    <div class="p-2">
+                                                        <label for="maximumDiscountEdit<%= index %>"
+                                                            class="form-label">Maximum Discount</label>
+                                                        <input id="maximumDiscountEdit<%= index %>"
+                                                            name="maximumDiscount" type="text" class="form-control"
+                                                            value="<%= coupon.maximumDiscount %>" required>
+                                                        <div class="form-text">Cap for the coupon discount.</div>
                                                     </div>
-
                                                 </div>
+
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Close</button>
                                                     <button type="submit" class="btn btn-info">Save changes</button>
                                                 </div>
                                             </form>
+
                                         </div>
                                     </div>
                                 </div>
+
                                 <% }); %>
                         </div>
 
@@ -806,19 +781,8 @@
                                 const endDateSelector = `#expiryDate${index}`;
                                 const startDateElement = $(startDateSelector);
                                 const endDateElement = $(endDateSelector);
-
                                 startDateElement.attr('max', today);
                                 endDateElement.attr('min', today);
-
-                                // startDateElement.on('change', function () {
-                                //     let startDateValue = startDateElement.val();
-                                //     endDateElement.attr('min', startDateValue);
-                                // });
-
-                                // endDateElement.on('change', function () {
-                                //     let endDateValue = endDateElement.val();
-                                //     startDateElement.attr('max', endDateValue);
-                                // });
 
                                 $(formId).validate({
                                     rules: {
@@ -838,8 +802,6 @@
 
                                     submitHandler: async function (form, event) {
                                         event.preventDefault();
-
-
 
                                         const formData = {
                                             discountPercentage: $(form.discountPercentage).val(),
@@ -866,7 +828,14 @@
                                                     showConfirmButton: true,
                                                 }).then((result) => {
                                                     if (result.isConfirmed) {
-                                                        window.location.reload() // Reload the page after user confirms
+                                                        $('#coupon-table').load('/admin/couponManagement/coupons #coupon-table');
+
+                                                        // Properly close the already-open modal
+                                                        const modalElement = document.getElementById(`editModal${index}`);
+                                                        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                                        if (modalInstance) {
+                                                            modalInstance.hide();
+                                                        }
                                                     }
                                                 })
                                             } else if (result.couponCodeExists) {
@@ -884,8 +853,6 @@
                                                 text: "Please try again"
                                             });
                                         }
-
-
                                     }
                                 });
                             });
@@ -909,40 +876,25 @@
                                                 href="?page=<%= i %>">
                                                 <%= i %>
                                             </a></li>
-                                        <!-- <% if(i < pages){ %> -->
-                                        <!-- <li class="page-item disabled"><a class="page-link"
-                                                                                                    href="#">&hellip;</a></li>
-                                                                                            <% } %> -->
+
                                         <% } %>
-                                            <li class="page-item">
-                                                <a class="page-link" href="?page=<%= page + 1 %>" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
-                                            </li>
+                                            <% if (page < pages) { %>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<%= page + 1 %>" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </li>
+                                                <%} %>
                                 </ul>
                             </nav>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
-    <!-- Category Nav Start -->
 
-    <!-- Category Nav End -->
-    <!-- Section Start -->
-
-
-
-
-
-
-
-    <!-- Section End -->
-    <!-- Footer Start -->
-    <!-- Footer End -->
     <!-- Copyright Start -->
     <div class="copyright">
         <div class="container-fluid">
@@ -952,13 +904,13 @@
     <!-- Copyright End -->
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
+    <!-- <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
     <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
     <script src="assets/js/plugins/slick.min.js"></script>
     <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
     <script src="assets/js/plugins/jquery.counterup.min.js"></script>
     <script src="assets/js/plugins/jquery.inview.min.js"></script>
-    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/custom.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
@@ -996,11 +948,17 @@
                         if (result.couponAdded) {
                             Swal.fire({
                                 icon: "success",
-                                title: "Your new coupon has been added",
+                                title: "Your new coupon has been Added Successfully",
                                 showConfirmButton: true,
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    window.location.reload() // Reload the page after user confirms
+                                    $('#coupon-table2').load('/admin/couponManagement/coupons #coupon-table2');
+                                    const modalElement = document.getElementById('exampleModal');
+                                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                    if (modalInstance) {
+                                        modalInstance.hide();
+                                    }
+                                    // window.location.reload() // Reload the page after user confirms
                                 }
                             });
                         } else if (result.couponCodeExists) {

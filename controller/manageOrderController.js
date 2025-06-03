@@ -273,7 +273,9 @@ const returnOrdersPage = async (req, res, next) => {
     let pages;
 
     await orderCollection
-      .countDocuments()
+      .countDocuments({
+        cartData: { $elemMatch: { productStatus: "Requested Return" } },
+      })
       .then((count) => {
         pages = count;
       })

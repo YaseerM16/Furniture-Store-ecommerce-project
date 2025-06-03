@@ -368,7 +368,6 @@ const shopSort = async (req, res, next) => {
     const priceRange = req.query["price-range"];
     const sort = req.query.sort;
     const productName = req.query.bySearch; // Get the search query from req.query
-    console.log(productName);
 
     const filters = {
       category: {

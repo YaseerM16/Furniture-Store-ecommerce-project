@@ -284,7 +284,7 @@
                                             <a href="/adimDashBoard">Dashboard</a>
                                         </li>
                                         <li>
-                                            <a href="/logout">Logout</a>
+                                            <a href="/adminLogout">Logout</a>
                                         </li>
                                     </ul>
                                     <% } else { %>
@@ -467,14 +467,42 @@
                         </div>
 
                         <script>
+                            $.validator.addMethod("validNamePattern", function (value, element) {
+                                return this.optional(element) || /^[a-zA-Z]+(?: [a-zA-Z]+)*$/.test(value.trim());
+                            }, "Enter a valid name (no leading/trailing/multiple spaces).");
+
                             $('#addCat').validate({
                                 rules: {
                                     category: {
-                                        required: true
+                                        required: true,
+                                        validNamePattern: true
+
                                     },
                                     categorydes: {
-                                        required: true
+                                        required: true,
+                                        validNamePattern: true
                                     }
+                                },
+                                messages: {
+                                    category: {
+                                        required: "Category name is required",
+                                        validNamePattern: "Only letters with one space allowed, no leading/trailing spaces"
+                                    },
+                                    categorydes: {
+                                        required: "Description is required",
+                                        validNamePattern: "Only letters with one space allowed, no leading/trailing spaces"
+                                    }
+                                },
+                                errorElement: 'div',
+                                errorClass: 'invalid-feedback',
+                                highlight: function (element) {
+                                    $(element).addClass('is-invalid');
+                                },
+                                unhighlight: function (element) {
+                                    $(element).removeClass('is-invalid');
+                                },
+                                errorPlacement: function (error, element) {
+                                    error.insertAfter(element);
                                 },
                                 submitHandler: async (form, event) => {
                                     event.preventDefault();
@@ -533,10 +561,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <script>
-                                    const modals = [];
-                                </script>
-
                                 <% for(let i=0;i<categoryDet.length;i++){ %>
                                     <tr>
                                         <th scope="row">
@@ -589,7 +613,7 @@
                                                 </div>
 
                                                 <div class="modal-body">
-                                                    <form id="categoryEdit<%= i %>">
+                                                    <form id="categoryEdit<%= i %>" novalidate>
 
                                                         <div class="form-outline mb-4">
                                                             <input type="text" class="form-control"
@@ -621,19 +645,41 @@
                                     </div>
 
                                     <script>
-                                        // let categoryModal = new bootstrap.Modal(document.getElementById(`categoryModal<%=i%>`));
-                                        // categoryModal.show();
-                                        var arr = [$('#categoryModal<%=i%>')]
-                                        modals['<%= i %>'] = $('#categoryModal<%= i %>');
-                                        console.log("Check ajax is work: ", arr[0]); // should print "function"
+                                        $.validator.addMethod("validNamePattern", function (value, element) {
+                                            return this.optional(element) || /^[A-Za-z]+(?: [A-Za-z]+)*$/.test(value.trim());
+                                        }, "Enter a valid name.");
+
                                         $('#categoryEdit<%= i %>').validate({
                                             rules: {
                                                 'categoryNameEdit<%= i %>': {
                                                     required: true,
+                                                    validNamePattern: true
                                                 },
                                                 'categorydesEdit<%= i %>': {
-                                                    required: true
+                                                    required: true,
+                                                    validNamePattern: true
                                                 }
+                                            },
+                                            messages: {
+                                                'categoryNameEdit<%= i %>': {
+                                                    required: "Category name is required",
+                                                    validNamePattern: "Only letters with one space allowed, no leading/trailing spaces"
+                                                },
+                                                'categorydesEdit<%= i %>': {
+                                                    required: "Description is required",
+                                                    validNamePattern: "Only letters with one space allowed, no leading/trailing spaces"
+                                                }
+                                            },
+                                            errorElement: 'div',
+                                            errorClass: 'invalid-feedback',
+                                            highlight: function (element) {
+                                                $(element).addClass('is-invalid');
+                                            },
+                                            unhighlight: function (element) {
+                                                $(element).removeClass('is-invalid');
+                                            },
+                                            errorPlacement: function (error, element) {
+                                                error.insertAfter(element);
                                             },
                                             submitHandler: async (form, event) => {
                                                 event.preventDefault();
@@ -659,7 +705,6 @@
                                                     });
                                                     $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
 
-                                                    // Bootstrap 5 modal hide (using Modal instance)
                                                     const modalElement = document.getElementById('categoryModal<%= i %>');
                                                     const modalInstance = bootstrap.Modal.getInstance(modalElement);
                                                     if (modalInstance) modalInstance.hide();
@@ -680,6 +725,9 @@
                                                 }
                                             }
                                         });
+                                        // $('#categoryModal<%= i %>').on('shown.bs.modal', function () {
+
+                                        // })
 
                                     </script>
                                     <% } %>
@@ -696,26 +744,27 @@
     <div class="row">
         <div class="col-12">
 
-            <nav>
+            <nav id="pagination">
                 <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="?page=<%= page - 1 %>" aria-label="Previous">
+                    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+                        <button class="page-link" onclick="loadPage('<%= page - 1 %>')" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
+                        </button>
                     </li>
-                    <% for(let i=1; i <=pages; i++){ %>
-                        <li class="page-item <%= page == i? 'active' : '' %>"><a class="page-link"
-                                href="?page=<%= i %>">
+                    <% for(let i=1; i <=pages; i++) { %>
+                        <li class="page-item <%= page === i ? 'active' : '' %>">
+                            <button class="page-link" onclick="loadPage('<%= i %>')">
                                 <%= i %>
-                            </a></li>
+                            </button>
+                        </li>
                         <% } %>
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<%= page + 1 %>" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
+                            <% if (page < pages) { %>
+                                <li class="page-item">
+                                    <button class="page-link" onclick="loadPage('<%= page + 1 %>')" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </button>
+                                </li>
+                                <% } %>
                 </ul>
             </nav>
         </div>
@@ -732,34 +781,69 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
+        function loadPage(pageNumber) {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('page', pageNumber); // set new page number
+
+            const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+
+            window.history.replaceState({}, '', newUrl);
+
+            $('#category-table').load(`${newUrl} #category-table`);
+            $('#pagination').load(`${newUrl} #pagination`);
+        }
 
         async function fnList(catName) {
-            let response = await fetch(`/admin/categoryManagement/listCategory?id=${catName}`, {
-                method: 'GET',
-            })
-            let result = await response.json()
-            if (result.list) {
-                await Swal.fire({
-                    icon: "error",
-                    title: "Category Unlisted",
-                });
+            const confirmResult = await Swal.fire({
+                title: "Are you sure?",
+                text: "You can revert this action later.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, proceed",
+                cancelButtonText: "Cancel",
+                reverseButtons: true,
+            });
+
+            if (confirmResult.isConfirmed) {
+                let response = await fetch(`/admin/categoryManagement/listCategory?id=${catName}`, {
+                    method: 'GET',
+                })
+                let result = await response.json()
+                if (result.list) {
+                    await Swal.fire({
+                        icon: "error",
+                        title: "Category Unlisted",
+                    });
+                }
+                $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
             }
-            $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
         }
 
         async function fnUnlist(catName) {
-            let response = await fetch(`/admin/categoryManagement/unListCategory?id=${catName}`, {
-                method: 'GET',
-            })
-            let result = await response.json()
-            if (result.unlist) {
-                await Swal.fire({
-                    icon: "success",
-                    title: "Category listed",
-                    confirmButtonText: "OK",
-                });
+            const confirmResult = await Swal.fire({
+                title: "Are you sure?",
+                text: "You can revert this action later.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, proceed",
+                cancelButtonText: "Cancel",
+                reverseButtons: true,
+            });
+
+            if (confirmResult.isConfirmed) {
+                let response = await fetch(`/admin/categoryManagement/unListCategory?id=${catName}`, {
+                    method: 'GET',
+                })
+                let result = await response.json()
+                if (result.unlist) {
+                    await Swal.fire({
+                        icon: "success",
+                        title: "Category listed",
+                        confirmButtonText: "OK",
+                    });
+                }
+                $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
             }
-            $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
 
         }
 

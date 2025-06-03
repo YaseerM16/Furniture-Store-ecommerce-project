@@ -39,9 +39,9 @@ adminRouter.get(
   isAdmin,
   adminController.adminDashBoardData
 );
-adminRouter.get("/admin/dashBoard/topProducts", topProductsData);
-adminRouter.get("/admin/dashBoard/topCategories", topCategories);
-adminRouter.get("/adminLogout", adminController.logout);
+adminRouter.get("/admin/dashBoard/topProducts", isAdmin, topProductsData);
+adminRouter.get("/admin/dashBoard/topCategories", isAdmin, topCategories);
+adminRouter.get("/adminLogout", isAdmin, adminController.logout);
 
 ////User Management
 adminRouter.get(
@@ -121,6 +121,7 @@ adminRouter.get(
 );
 adminRouter.post(
   "/admin/productManagement/editProduct/:id",
+  isAdmin,
   upload.any(),
   productController.editProduct
 );
@@ -148,10 +149,12 @@ adminRouter.post(
 );
 adminRouter.get(
   "/admin/orderManagement/returnedOrders",
+  isAdmin,
   manageOrderController.returnOrdersPage
 );
 adminRouter.post(
   "/admin/orderManagement/returnApproval",
+  isAdmin,
   manageOrderController.orderReturnApproval
 );
 
@@ -168,18 +171,22 @@ adminRouter.get(
 );
 adminRouter.post(
   "/productOfferManagement/addOffer",
+  isAdmin,
   offersController.addProductOffer
 );
 adminRouter.put(
   "/productOfferManagement/editOffer/:id",
+  isAdmin,
   offersController.editProductOffer
 );
 adminRouter.post(
   "/categoryOfferManagement/addOffer",
+  isAdmin,
   offersController.addCategoryOffer
 );
 adminRouter.put(
   "/categoryOfferManagement/editOffer/:id",
+  isAdmin,
   offersController.editCategoryOffer
 );
 
@@ -190,21 +197,30 @@ adminRouter.get(
   isAdmin,
   couponController.couponsPage
 );
-adminRouter.post("/couponManagement/addCoupon", couponController.addCoupon);
+adminRouter.post(
+  "/couponManagement/addCoupon",
+  isAdmin,
+  couponController.addCoupon
+);
 adminRouter.put(
   "/couponManagement/editCoupon/:id",
+  isAdmin,
   couponController.editCoupon
 );
-adminRouter.patch("/deleteCoupon", couponController.deleteCounpon);
-adminRouter.patch("/admin/restoreCoupon", couponController.restoreCounpon);
+adminRouter.patch("/deleteCoupon", isAdmin, couponController.deleteCounpon);
+adminRouter.patch(
+  "/admin/restoreCoupon",
+  isAdmin,
+  couponController.restoreCounpon
+);
 
 /// Sales Report
 
 adminRouter.get("/admin/salesReport", isAdmin, SalesReportGet);
-adminRouter.get("/salesReport/download/pdf", salesReportDownloadPDF);
-adminRouter.get("/salesReport/download/xlsx", salesReportDownload);
+adminRouter.get("/salesReport/download/pdf", isAdmin, salesReportDownloadPDF);
+adminRouter.get("/salesReport/download/xlsx", isAdmin, salesReportDownload);
 adminRouter.post("/filterdate", filterDate);
-adminRouter.post("/admin/salesReport/filterOptions", filterOptions);
-adminRouter.get("/removefilter", removeAllFillters);
+adminRouter.post("/admin/salesReport/filterOptions", isAdmin, filterOptions);
+adminRouter.get("/removefilter", isAdmin, removeAllFillters);
 
 module.exports = adminRouter;
