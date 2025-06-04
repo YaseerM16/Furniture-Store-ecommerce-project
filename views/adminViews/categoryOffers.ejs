@@ -653,6 +653,36 @@
                             </tbody>
                         </table>
                     </section>
+                    <div class="row">
+                        <div class="col-12">
+
+                            <nav id="pagination">
+                                <ul class="pagination">
+                                    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+                                        <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
+                                            aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </button>
+                                    </li>
+                                    <% for(let i=1; i <=pages; i++) { %>
+                                        <li class="page-item <%= page === i ? 'active' : '' %>">
+                                            <button class="page-link" onclick="loadPage('<%= i %>')">
+                                                <%= i %>
+                                            </button>
+                                        </li>
+                                        <% } %>
+                                            <% if (page < pages) { %>
+                                                <li class="page-item">
+                                                    <button class="page-link" onclick="loadPage('<%= page + 1 %>')"
+                                                        aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </button>
+                                                </li>
+                                                <% } %>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -758,36 +788,6 @@
 
     <!-- Section End -->
 
-    <!-- Footer Start -->
-    <div class="row">
-        <div class="col-12">
-
-            <nav id="pagination">
-                <ul class="pagination">
-                    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-                        <button class="page-link" onclick="loadPage('<%= page - 1 %>')" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </button>
-                    </li>
-                    <% for(let i=1; i <=pages; i++) { %>
-                        <li class="page-item <%= page === i ? 'active' : '' %>">
-                            <button class="page-link" onclick="loadPage('<%= i %>')">
-                                <%= i %>
-                            </button>
-                        </li>
-                        <% } %>
-                            <% if (page < pages) { %>
-                                <li class="page-item">
-                                    <button class="page-link" onclick="loadPage('<%= page + 1 %>')" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </button>
-                                </li>
-                                <% } %>
-                </ul>
-            </nav>
-        </div>
-    </div>
-    <!-- Footer End -->
     <!-- Copyright Start -->
     <div class="copyright">
         <div class="container-fluid">

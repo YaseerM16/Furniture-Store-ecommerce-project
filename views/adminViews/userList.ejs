@@ -204,7 +204,7 @@
     <!-- Category Nav Start -->
     <section class="order-list">
         <div class="container-fluid" style="padding: 0;">
-            <div class="row">
+            <div id="component" class="row">
                 <div class="col-xl-3 col-lg-4">
                     <div class="h-100">
                         <nav class="navbar navbar-expand-lg navbar-dark justify-content-around"
@@ -228,6 +228,11 @@
                                         </li>
                                         <li class="nav-item my-3 fs-5">
                                             <div class="d-flex" id="user">
+                                                <!-- <a class="nav-link" href="/admin/userManagement/usersList">User
+                                                    Management</a> -->
+                                                <!-- <a href="javascript:void(0)" class="nav-link"
+                                                    onclick="navigateTo('/admin/userManagement/usersList', this)">
+                                                    User Management </a> -->
                                                 <a class="nav-link" href="/admin/userManagement/usersList">User
                                                     Management</a>
                                                 <div class="iconx d-flex align-items-center justify-content-center">
@@ -237,6 +242,11 @@
                                         </li>
                                         <li class="nav-item my-3 fs-5">
                                             <div class="d-flex" id="user">
+                                                <!-- <a class="nav-link" href="/admin/productManagement/productList">Product
+                                                    Management</a> -->
+                                                <!-- <a href="javascript:void(0)" class="nav-link"
+                                                    onclick="navigateTo('/admin/productManagement/productList', this)">
+                                                    Product Management </a> -->
                                                 <a class="nav-link" href="/admin/productManagement/productList">Product
                                                     Management</a>
                                                 <div class="iconx d-flex align-items-center justify-content-center">
@@ -282,9 +292,6 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="nav-item my-3 fs-5">
-                                            <a class="nav-link" href="#">Banner Management</a>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -299,8 +306,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="table-responsive cart_table">
-                                        <table id="user-table">
+                                    <div class="table-responsive cart_table" id="user-table">
+                                        <table>
                                             <thead>
                                                 <tr>
                                                     <th>User Name</th>
@@ -349,12 +356,48 @@
                                                     <% } %>
                                             </tbody>
                                         </table>
+                                        <!-- Section Start -->
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <nav id="pagination">
+                                                    <ul class="pagination">
+                                                        <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+                                                            <button class="page-link"
+                                                                onclick="loadPage('<%= page - 1 %>')"
+                                                                aria-label="Previous">
+                                                                <span aria-hidden="true">&laquo;</span>
+                                                            </button>
+                                                        </li>
+                                                        <% for(let i=1; i <=pages; i++) { %>
+                                                            <li class="page-item <%= page === i ? 'active' : '' %>">
+                                                                <button class="page-link"
+                                                                    onclick="loadPage('<%= i %>')">
+                                                                    <%= i %>
+                                                                </button>
+                                                            </li>
+                                                            <% } %>
+                                                                <% if (page < pages) { %>
+                                                                    <li class="page-item">
+                                                                        <button class="page-link"
+                                                                            onclick="loadPage('<%= page + 1 %>')"
+                                                                            aria-label="Next">
+                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                        </button>
+                                                                    </li>
+                                                                    <% } %>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                        <!-- Section End -->
                                     </div>
                                 </div>
 
                             </div>
                         </div>
                     </section>
+
 
                 </div>
             </div>
@@ -363,37 +406,6 @@
 
 
     <!-- Category Nav End -->
-    <!-- Section Start -->
-
-    <div class="row">
-        <div class="col-12">
-
-            <nav id="pagination">
-                <ul class="pagination">
-                    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-                        <button class="page-link" onclick="loadPage('<%= page - 1 %>')" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </button>
-                    </li>
-                    <% for(let i=1; i <=pages; i++) { %>
-                        <li class="page-item <%= page === i ? 'active' : '' %>">
-                            <button class="page-link" onclick="loadPage('<%= i %>')">
-                                <%= i %>
-                            </button>
-                        </li>
-                        <% } %>
-                            <% if (page < pages) { %>
-                                <li class="page-item">
-                                    <button class="page-link" onclick="loadPage('<%= page + 1 %>')" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </button>
-                                </li>
-                                <% } %>
-                </ul>
-            </nav>
-        </div>
-    </div>
-    <!-- Section End -->
 
     <!-- Copyright Start -->
     <div class="copyright">
@@ -413,6 +425,37 @@
     <script src="assets/js/custom.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
+        // function navigateTo(path, element) {
+        //     $('#component').load(`${path} #component`, function (response, status, xhr) {
+        //         if (status === "error") {
+        //             $('#component').html('<p class="text-danger">Failed to load content.</p>');
+        //             return;
+        //         }
+        //         document.querySelectorAll('li .nav-link').forEach(link => {
+        //             link.style.backgroundColor = '';
+        //             link.style.color = '';
+        //             link.style.fontWeight = '';
+        //             link.parentElement.classList.remove('active'); // remove from all <li>
+        //         });
+
+        //         // Highlight the clicked element
+        //         element.style.backgroundColor = '#f0f0f0';
+        //         element.style.color = '#0d6efd';
+        //         element.style.fontWeight = 'bold';
+
+        //         // Add "active" class to parent <li>
+        //         element.parentElement.classList.add('active');
+
+        //         // Only initialize if the form exists (means we're on userDetails)
+        //         if (document.querySelector('#my-form')) {
+        //             initializeUserDetails();
+        //         }
+        //     });
+
+        //     history.pushState(null, '', path);
+        // }
+
+
         function loadPage(pageNumber) {
             const urlParams = new URLSearchParams(window.location.search);
             urlParams.set('page', pageNumber); // set new page number
@@ -448,7 +491,12 @@
                     });
                 }
 
-                $('#user-table').load('/admin/userManagement/usersList #user-table');
+                // Get current page number from the URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const currentPage = urlParams.get('page') || 1;
+
+                // Reload the user table with the current page
+                $('#user-table').load(`/admin/userManagement/usersList?page=${currentPage} #user-table`);
             }
 
         }
@@ -477,7 +525,12 @@
                     });
                 }
 
-                $('#user-table').load('/admin/userManagement/usersList #user-table');
+                // Get current page number from the URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const currentPage = urlParams.get('page') || 1;
+
+                // Reload the user table with the current page
+                $('#user-table').load(`/admin/userManagement/usersList?page=${currentPage} #user-table`);
             }
         }
     </script>

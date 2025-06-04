@@ -230,7 +230,38 @@
                     <div class="account_sidebar section pb-0 h-100">
                         <h4 class="title">My Account</h4>
                         <ul>
-                            <li class="nav-link">
+                            <li class="active">
+                                <a href="/userDetails">
+                                    <i class="fal fa-user"></i>
+                                    User Info
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/addressPage">
+                                    <i class="fal fa-book"></i>
+                                    Address
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/myOrdersPage">
+                                    <i class="fal fa-luggage-cart"></i>
+                                    Order
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/walletPage">
+                                    <i class="fas fa-wallet"></i>
+                                    Wallet
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/wishListPage">
+                                    <i class="fal fa-star"></i>
+                                    Wishlist
+                                </a>
+                            </li>
+                            <!-- <li class="nav-link">
                                 <a href="javascript:void(0)" onclick="navigateTo('/userDetails', this)">
                                     <i class="fal fa-user"></i>
                                     User Info
@@ -263,7 +294,7 @@
                                     <i class="fal fa-star"></i>
                                     Wishlist
                                 </a>
-                            </li>
+                            </li> -->
 
                             <li>
 
@@ -303,10 +334,10 @@
                                             <p class="mb-0 d-flex justify-content-center">Order Id</p>
                                             <div class="info">
                                                 <h6 class="mb-0 name">
-                                                    <button class="nav-link"
-                                                        onclick="navigateTo('/orderDetail?orderID=<%= orders[i]._id %>', this)">
+                                                    <a class="nav-link"
+                                                        href="/orderDetail?orderID=<%= orders[i]._id %>">
                                                         <%= orders[i].orderId %>
-                                                    </button>
+                                                    </a>
 
                                                 </h6>
                                             </div>
@@ -341,7 +372,7 @@
                         <!-- Item -->
                         <div class="row">
                             <div class="col-12">
-                                <nav>
+                                <nav id="pagination">
                                     <ul class="pagination">
                                         <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
                                             <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
@@ -366,6 +397,7 @@
                                                     <% } %>
                                     </ul>
                                 </nav>
+
                             </div>
                         </div>
                     </div>
@@ -521,51 +553,74 @@
     <!-- Copyright End -->
     <!-- Scripts -->
     <script>
-        function navigateTo(path, element) {
-            $('#component').load(`${path} #component`, function (response, status, xhr) {
-                if (status === "error") {
-                    $('#component').html('<p class="text-danger">Failed to load content.</p>');
-                    return;
-                }
-                document.querySelectorAll('li .nav-link').forEach(link => {
-                    link.style.backgroundColor = '';
-                    link.style.color = '';
-                    link.style.fontWeight = '';
-                    link.parentElement.classList.remove('active'); // remove from all <li>
-                });
+        initializePagination();
 
-                // Highlight the clicked element
-                element.style.backgroundColor = '#f0f0f0';
-                element.style.color = '#0d6efd';
-                element.style.fontWeight = 'bold';
+        // function navigateTo(path, element) {
+        //     $('#component').load(`${path} #component`, function (response, status, xhr) {
+        //         console.log("Component loaded!");
+        //         console.log("Pagination exists?", document.querySelector('#pagination')); // <-- This will be null or the actual node
+        //         if (status === "error") {
+        //             $('#component').html('<p class="text-danger">Failed to load content.</p>');
+        //             return;
+        //         }
 
-                // Add "active" class to parent <li>
-                element.parentElement.classList.add('active');
+        //         console.log("path Name: ", path);
 
-                // Only initialize if the form exists (means we're on userDetails)
-                if (document.querySelector('#my-form')) {
-                    initializeUserDetails();
+        //         if (document.querySelector('#pagination')) {
+        //             console.log("Got Pagination :)");
+        //             initializePagination(); // Re-attach listeners
+        //         }
+        //     });
+
+        //     history.pushState(null, '', path);
+        // }
+
+        function initializePagination() {
+            const pagination = document.querySelector('#pagination');
+            if (!pagination) {
+                console.warn("Pagination not found.");
+                return;
+            }
+
+            // Optional: Replace event listeners by cloning (to avoid duplicates)
+            const newPagination = pagination.cloneNode(true);
+            pagination.parentNode.replaceChild(newPagination, pagination);
+
+            newPagination.addEventListener('click', function (e) {
+                if (e.target.classList.contains('page-link')) {
+                    const page = e.target.getAttribute('data-page');
+                    if (page) loadPage(page); // ✅ This is now defined globally
                 }
             });
 
-            history.pushState(null, '', path);
+            console.log("Pagination initialized");
         }
+
+        // ✅ Define loadPage globally
+        function loadPage(pageNumber) {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('page', pageNumber);
+
+            const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+            window.history.replaceState({}, '', newUrl);
+
+            $('#orders').load(`${newUrl} #orders`);
+            $('#pagination').load(`${newUrl} #pagination`, initializePagination); // reattach events
+        }
+
+        // window.loadPage = function (pageNumber) {
+        //     const urlParams = new URLSearchParams(window.location.search);
+        //     urlParams.set('page', pageNumber);
+        //     const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+        //     window.history.replaceState({}, '', newUrl);
+
+        //     $('#orders').load(`${newUrl} #orders`, function () {
+        //         initializePagination(); // reattach listeners after content is loaded
+        //     });
+        // };
 
         const orders = '<%- JSON.stringify(orders) %>'
         const parsedOrders = JSON.parse(orders)
-        function loadPage(pageNumber) {
-            const urlParams = new URLSearchParams(window.location.search);
-            urlParams.set('page', pageNumber); // set new page number
-
-            // Optional: retain existing filters/search parameters
-            const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
-
-            // Update browser URL (no reload)
-            window.history.replaceState({}, '', newUrl);
-
-            // Load new product data into #products
-            $('#orders').load(`${newUrl} #orders`);
-        }
 
     </script>
     <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>

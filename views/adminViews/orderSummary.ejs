@@ -36,6 +36,9 @@
     <link href="/assets/css/plugins/slick.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
     <link href="/assets/css/responsive.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -432,7 +435,7 @@
                         </div>
                     </section>
                     <div class="order_list_box sidebar">
-                        <div class="row justify-content-center">
+                        <div id="orders-list" class="row justify-content-center">
                             <!-- Item -->
                             <div class="col-12 d-flex" style="margin-left: 100px; margin-bottom: 50px;">
                                 <div class="col-2">
@@ -578,6 +581,27 @@
                                             </div>
                                         </div>
                             </div>
+                            <!-- Success Modal -->
+                            <div class="modal fade" id="successModal" tabindex="-1" role="dialog"
+                                aria-labelledby="successModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-success text-white">
+                                            <h5 class="modal-title" id="successModalLabel">Success</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            The Status has been Successfully Updated.
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-success" id="success-ok"
+                                                data-dismiss="modal">OK</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -589,26 +613,7 @@
 
     <!-- Section End -->
 
-    <!-- Success Modal -->
-    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title" id="successModalLabel">Success</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    The Status has been Successfully Updated.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" id="success-ok" data-dismiss="modal">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
 
 
@@ -684,6 +689,13 @@
                     document.getElementById('success-ok').addEventListener("click", () => {
                         successModal.hide()
                         window.location.reload()
+                        // const urlParams = new URLSearchParams(window.location.search);
+                        // // urlParams.set('page', pageNumber); // set new page number
+
+                        // const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+
+                        // window.history.replaceState({}, '', newUrl);
+                        // $('#orders-list').load(`${newUrl} #orders-list`);
                     })
 
                 } catch (error) {

@@ -937,8 +937,10 @@
                                     });
 
                                     const data = await response.json();
-
-                                    if (response.ok && data.success) {
+                                    if (data.paypalPayment) {
+                                        window.location.href = data.approval_url;
+                                    }
+                                    else if (response.ok && data.success) {
                                         window.location.href = "/order-success";
                                     } else if (data.cartMismatch) {
                                         await Swal.fire({

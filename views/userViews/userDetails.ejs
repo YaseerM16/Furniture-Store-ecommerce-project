@@ -33,7 +33,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
-      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 
   <style>
@@ -224,38 +224,38 @@
           <div class="account_sidebar section pb-0 h-100">
             <h4 class="title">My Account</h4>
             <ul>
-              <!-- <li class="active">
+              <li class="active">
                 <a href="/userDetails">
                   <i class="fal fa-user"></i>
                   User Info
                 </a>
-              </li> -->
-              <!-- <li>
+              </li>
+              <li>
                 <a href="/addressPage">
                   <i class="fal fa-book"></i>
                   Address
                 </a>
-              </li> -->
+              </li>
 
-              <!-- <li>
-                              <a href="/myOrdersPage">
-                                <i class="fal fa-luggage-cart"></i>
-                                Order
-                              </a>
-                            </li> -->
-              <!-- <li>
-                              <a href="/walletPage">
-                                <i class="fas fa-wallet"></i>
-                                Wallet
-                              </a>
-                            </li>
-                            <li>
-                              <a href="/wishListPage">
-                                <i class="fal fa-star"></i>
-                                Wishlist
-                              </a>
-                            </li> -->
-              <li class="nav-link">
+              <li>
+                <a href="/myOrdersPage">
+                  <i class="fal fa-luggage-cart"></i>
+                  Order
+                </a>
+              </li>
+              <li>
+                <a href="/walletPage">
+                  <i class="fas fa-wallet"></i>
+                  Wallet
+                </a>
+              </li>
+              <li>
+                <a href="/wishListPage">
+                  <i class="fal fa-star"></i>
+                  Wishlist
+                </a>
+              </li>
+              <!-- <li class="nav-link">
                 <a href="javascript:void(0)"  onclick="navigateTo('/userDetails', this)">
                   <i class="fal fa-user"></i>
                   User Info
@@ -288,7 +288,7 @@
                   <i class="fal fa-star"></i>
                   Wishlist
                 </a>
-              </li>
+              </li> -->
               
               <li>
 
@@ -594,13 +594,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
-  <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
-  <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
-  <script src="assets/js/plugins/slick.min.js"></script>
-  <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
-  <script src="assets/js/plugins/jquery.counterup.min.js"></script>
-  <script src="assets/js/plugins/jquery.inview.min.js"></script>
-  <script src="assets/js/custom.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
@@ -610,36 +603,37 @@
     integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
-    initializeUserDetails()
-    function navigateTo(path, element) {
-        $('#component').load(`${path} #component`, function (response, status, xhr) {
-          if (status === "error") {
-            $('#component').html('<p class="text-danger">Failed to load content.</p>');
-            return;
-          }
-          document.querySelectorAll('li .nav-link').forEach(link => {
-            link.style.backgroundColor = '';
-            link.style.color = '';
-            link.style.fontWeight = '';
-            link.parentElement.classList.remove('active'); // remove from all <li>
-          });
+    // function navigateTo(path, element) {
+    //     $('#component').load(`${path} #component`, function (response, status, xhr) {
+    //       console.log("Helloy from component load");
+          
+    //       if (status === "error") {
+    //         $('#component').html('<p class="text-danger">Failed to load content.</p>');
+    //         return;
+    //       }
+    //       document.querySelectorAll('li .nav-link').forEach(link => {
+    //         link.style.backgroundColor = '';
+    //         link.style.color = '';
+    //         link.style.fontWeight = '';
+    //         link.parentElement.classList.remove('active'); // remove from all <li>
+    //       });
 
-          // Highlight the clicked element
-          element.style.backgroundColor = '#f0f0f0';
-          element.style.color = '#0d6efd';
-          element.style.fontWeight = 'bold';
+    //       // Highlight the clicked element
+    //       element.style.backgroundColor = '#f0f0f0';
+    //       element.style.color = '#0d6efd';
+    //       element.style.fontWeight = 'bold';
 
-          // Add "active" class to parent <li>
-          element.parentElement.classList.add('active');
+    //       // Add "active" class to parent <li>
+    //       element.parentElement.classList.add('active');
 
-          // Only initialize if the form exists (means we're on userDetails)
-          if (document.querySelector('#my-form')) {
-            initializeUserDetails();
-          }
-        });
+    //       // Only initialize if the form exists (means we're on userDetails)
+    //       if (document.querySelector('#my-form')) {
+    //         initializeUserDetails();
+    //       }
+    //     });
 
-        history.pushState(null, '', path);
-    }
+    //     history.pushState(null, '', path);
+    // }
 
     function copyReferralCode() {
         const referralCodeValue = document.getElementById('ReferalCode').value;
@@ -654,6 +648,7 @@
         // Show a notification to indicate the code has been copied
         Swal.fire('Referral link copied to clipboard!');
     }
+    initializeUserDetails()
 
     function initializeUserDetails() {
 
@@ -757,10 +752,6 @@
 
     }
 
-
-      
-
-
     // const form = document.getElementById("my-form");
     // form.addEventListener("submit", (event) => {
     //     event.preventDefault();
@@ -817,15 +808,8 @@
     //     console.error('Error:', error);
     //   }
     // });
-
-
     
-    
-    
-    
-    
-    
-    ///////     MY    TRY //////////////////////
+    ///////     MY    TRY    //////////////////////
     
     // document
     // document
@@ -898,6 +882,13 @@
     //     document.querySelector(".save_changes_btn").style.display = "none";
     //   });
   </script>
+  <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
+  <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/plugins/slick.min.js"></script>
+  <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
+  <script src="assets/js/plugins/jquery.counterup.min.js"></script>
+  <script src="assets/js/plugins/jquery.inview.min.js"></script>
+  <script src="assets/js/custom.js"></script>
 </body>
 
 </html>

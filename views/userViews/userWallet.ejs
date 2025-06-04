@@ -240,7 +240,38 @@
                     <div class="account_sidebar section pb-0 h-100">
                         <h4 class="title">My Account</h4>
                         <ul>
-                            <li class="nav-link">
+                            <li class="active">
+                                <a href="/userDetails">
+                                    <i class="fal fa-user"></i>
+                                    User Info
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/addressPage">
+                                    <i class="fal fa-book"></i>
+                                    Address
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/myOrdersPage">
+                                    <i class="fal fa-luggage-cart"></i>
+                                    Order
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/walletPage">
+                                    <i class="fas fa-wallet"></i>
+                                    Wallet
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/wishListPage">
+                                    <i class="fal fa-star"></i>
+                                    Wishlist
+                                </a>
+                            </li>
+                            <!-- <li class="nav-link">
                                 <a href="javascript:void(0)" onclick="navigateTo('/userDetails', this)">
                                     <i class="fal fa-user"></i>
                                     User Info
@@ -273,7 +304,7 @@
                                     <i class="fal fa-star"></i>
                                     Wishlist
                                 </a>
-                            </li>
+                            </li> -->
 
                             <li>
 
@@ -362,26 +393,26 @@
                     </div>
                     <nav>
                         <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<%= page - 1 %>" aria-label="Previous">
+                            <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+                                <button class="page-link" onclick="loadPage('<%= page - 1 %>')" aria-label="Previous">
                                     <span aria-hidden="true">&laquo;</span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
+                                </button>
                             </li>
-                            <% for(let i=1; i <=pages; i++){ %>
-                                <li class="page-item <%= page == i? 'active' : '' %>"><a class="page-link"
-                                        href="?page=<%= i %>">
+                            <% for(let i=1; i <=pages; i++) { %>
+                                <li class="page-item <%= page === i ? 'active' : '' %>">
+                                    <button class="page-link" onclick="loadPage('<%= i %>')">
                                         <%= i %>
-                                    </a></li>
+                                    </button>
+                                </li>
                                 <% } %>
                                     <% if (page < pages) { %>
                                         <li class="page-item">
-                                            <a class="page-link" href="?page=<%= page + 1 %>" aria-label="Next">
+                                            <button class="page-link" onclick="loadPage('<%= page + 1 %>')"
+                                                aria-label="Next">
                                                 <span aria-hidden="true">&raquo;</span>
-                                                <span class="sr-only">Next</span>
-                                            </a>
+                                            </button>
                                         </li>
-                                        <%} %>
+                                        <% } %>
                         </ul>
                     </nav>
                 </div>
@@ -438,8 +469,6 @@
             </div>
         </div>
     </div>
-
-
 
     <!-- Footer Start -->
     <footer class="footer section-padding border-top">
@@ -619,6 +648,19 @@
             });
 
             history.pushState(null, '', path);
+        }
+        function loadPage(pageNumber) {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('page', pageNumber); // set new page number
+
+            // Optional: retain existing filters/search parameters
+            const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+
+            // Update browser URL (no reload)
+            window.history.replaceState({}, '', newUrl);
+
+            // Load new product data into #products
+            $('#orders').load(`${newUrl} #orders`);
         }
 
     </script>

@@ -51,7 +51,10 @@ const doPayment = async (req, res) => {
           MODE === "development"
             ? `http://localhost:3000/paymentSucess?orderId=${orderId}`
             : `https://furniturehub.shop/paymentSucess?orderId=${orderId}`,
-        cancel_url: `https://furniturehub.shop/paymentFailed?orderId=${orderId}`,
+        cancel_url:
+          MODE === "development"
+            ? `http://localhost:3000/paymentFailed?orderId=${orderId}`
+            : `https://furniturehub.shop/paymentFailed?orderId=${orderId}`,
       },
       transactions: [
         {
@@ -84,7 +87,10 @@ const doPayment = async (req, res) => {
 
         for (let i = 0; i < payment.links.length; i++) {
           if (payment.links[i].rel === "approval_url") {
-            res.redirect(payment.links[i].href);
+            return res.json({
+              paypalPayment: true,
+              approval_url: payment.links[i].href,
+            });
           }
         }
       }

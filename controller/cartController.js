@@ -432,7 +432,7 @@ const placeOrder = async (req, res, next) => {
       userId: req.session.currentUser._id,
     });
 
-    const sessionCart = JSON.parse(req.session.cartData);
+    const sessionCart = req.session.cartData;
 
     if (!sessionCart || !Array.isArray(sessionCart)) {
       return res
