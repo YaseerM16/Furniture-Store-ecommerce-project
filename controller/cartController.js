@@ -243,7 +243,6 @@ const addressCheckOutPage = async (req, res, next) => {
     }
 
     const cartDataRaw = req.query.cartData;
-    console.log("cartDataby Query: ", cartDataRaw);
 
     const cartData = JSON.parse(cartDataRaw);
 
@@ -291,8 +290,8 @@ const paymentMethodPage = async (req, res, next) => {
     req.session.appliedCouponId = null;
     req.session.discountAmout ??= 0;
     req.session.couponID = null;
-    req.session.cartTotal =
-      parseInt(req.session.cartTotal) + parseInt(req.session.discountAmout);
+    // req.session.cartTotal =
+    //   parseInt(req.session.cartTotal) + parseInt(req.session.discountAmout);
 
     // console.log("address Id is retrieved in session:" + req.session.addressId);
 
