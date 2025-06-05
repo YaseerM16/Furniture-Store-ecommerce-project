@@ -3,6 +3,104 @@ const orderCollection = require("../models/orderModel");
 const puppeteer = require("puppeteer");
 const exceljs = require("exceljs");
 const AppError = require("../middlewares/errorHandling");
+// const { invoicePdf } = require("../services/invoicePdf");
+const PDFDocument = require("pdfkit");
+
+const invoicePdf = (res, salesData) => {
+  const PDFDocument = require("pdfkit");
+  const doc = new PDFDocument({ size: "A4", layout: "landscape", margin: 30 });
+  doc.pipe(res);
+
+  doc.fontSize(16).text("Sales Report", { align: "center" });
+  doc.moveDown();
+
+  // Header titles
+  const headers = [
+    "Order #",
+    "User",
+    "Date",
+    "Product",
+    "Offer",
+    "Qty",
+    "Before Offer",
+    "Total",
+    "Payment",
+    "Status",
+    "Coupon",
+    "Before Coupon",
+    "Final",
+  ];
+
+  const startX = doc.x;
+  const rowHeight = 20;
+  let currentY = doc.y;
+
+  // Fit within ~570px width
+  const colWidths = [50, 50, 45, 80, 35, 25, 55, 50, 40, 40, 40, 55, 55]; // Adds to ~555
+
+  // Header Row
+  headers.forEach((header, i) => {
+    doc
+      .fontSize(7.5)
+      .text(
+        header,
+        startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0),
+        currentY,
+        {
+          width: colWidths[i],
+          align: "left",
+        }
+      );
+  });
+  currentY += rowHeight;
+  console.log("One Sale: ", salesData[0]);
+
+  // Row Data
+  salesData.forEach((order) => {
+    order.cartData.forEach((item) => {
+      const product = item.productId;
+
+      const row = [
+        order.orderId,
+        order.userId?.username || "N/A",
+        new Date(order.orderDate).toLocaleDateString(),
+        product?.productName || "N/A",
+        product?.productOffer || "Nil",
+        item.productQuantity,
+        `Rs.${item.totalCostPerProduct || 0}`,
+        `Rs.${item.totalCostPerProduct || 0}`,
+        order.paymentType,
+        order.orderStatus,
+        order.couponApplied?.couponName || "Nil",
+        `Rs.${item.beforeCouponPrice || 0}`,
+        `Rs.${item.finalPrice || 0}`,
+      ];
+
+      row.forEach((text, i) => {
+        doc
+          .fontSize(7)
+          .text(
+            String(text),
+            startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0),
+            currentY,
+            {
+              width: colWidths[i],
+              align: "left",
+            }
+          );
+      });
+
+      currentY += rowHeight;
+
+      if (currentY > doc.page.height - 50) {
+        doc.addPage();
+        currentY = doc.y;
+      }
+    });
+  });
+
+  doc.end();
+};
 
 const SalesReportGet = async (req, res, next) => {
   try {
@@ -11,6 +109,7 @@ const SalesReportGet = async (req, res, next) => {
     });
 
     let startDate, endDate;
+
     if (req.session.startDate && req.session.endDate) {
       startDate = req.session.startDate;
       endDate = req.session.endDate;
@@ -25,8 +124,12 @@ const SalesReportGet = async (req, res, next) => {
       endDate2 = new Date(req.session.endDate2);
     }
 
+    const page = Number(req.query.page) || 1;
+    const limit = 4;
+    const skip = (page - 1) * limit;
+
     var salesDetails =
-      req.session.salesDetails ||
+      (req.session.salesDetails && req.session.salesDetails.length > 0) ||
       (await orderCollection
         .find({
           orderDate: { $gte: startDate, $lte: endDate },
@@ -47,19 +150,10 @@ const SalesReportGet = async (req, res, next) => {
           path: "couponApplied",
           model: "coupons",
           as: "couponDetails",
-        }));
+        })
+        .skip(skip)
+        .limit(limit));
 
-    const productsPerPage = 6;
-    const totalPages = salesDetails.length / productsPerPage;
-    const pageNo = Number(req.query.page) || 1;
-    const start = (pageNo - 1) * productsPerPage;
-    const end = start + productsPerPage;
-    let allSales = salesDetails;
-    salesDetails = salesDetails.slice(start, end);
-    let totalSales = salesDetails.reduce(
-      (total, sale) => total + sale.grandTotalCost,
-      0
-    );
     let totalSum = [];
     let total = [];
     let totalSum1 = [];
@@ -70,36 +164,31 @@ const SalesReportGet = async (req, res, next) => {
       totalSum1 = salesDetails[i].cartData.map((item) => item.priceBeforeOffer);
       total2.push(totalSum1);
     }
-    let sum = total.flat();
-    let sum2 = total2.flat();
-    let totalSales1 = sum.reduce((total, sale) => (total = total + sale), 0);
-    let totalSales2 = sum2.reduce((total, sale) => (total = total + sale), 0);
-    let coupontotal = salesDetails.reduce(
-      (total, sale) => (total = total + sale.couponApplied),
-      0
-    );
-
-    let totalDiscount = coupontotal + totalSales2 - totalSales1;
 
     req.session.sreportLen = salesDetails.length;
 
     const products = await orderCollection
-      .find({ orderStatus: "Delivered" })
+      .find({
+        orderDate: { $gte: startDate, $lte: endDate },
+        orderStatus: "Delivered",
+      })
       .populate("userId")
       .sort({ _id: -1 });
-    const totalcount = products.reduce((total, item) => total + item.Total, 0);
+    const totalcount = products.length;
+    console.log("Totalcount: ", products.length);
 
     res.render("adminViews/salesReport", {
       Sreports: salesDetails,
-      totalPages,
+      totalPages: Math.ceil(req.session.sreportLen / limit),
       user,
       orders: [],
-      page: pageNo,
-      pages: Math.ceil(salesDetails.length / productsPerPage),
+      page: page,
+      pages: Math.ceil(totalcount / limit),
       totalcount,
       startDate2,
       endDate2,
       products,
+      success: true,
     });
   } catch (error) {
     next(new AppError(error, 500));
@@ -108,147 +197,51 @@ const SalesReportGet = async (req, res, next) => {
 
 const salesReportDownloadPDF = async (req, res, next) => {
   try {
-    let startDate, endDate;
-    if (req.session.startDate && req.session.endDate) {
-      startDate = req.session.startDate;
-      endDate = req.session.endDate;
-    } else {
+    let { startDate, endDate } = req.query;
+
+    if (!startDate || !endDate) {
       startDate = new Date();
       startDate.setDate(startDate.getDate() - 7);
       endDate = new Date();
+    } else {
+      startDate = new Date(startDate);
+      endDate = new Date(endDate);
     }
 
-    const salesData =
-      req.session.salesDetails ||
-      (await orderCollection
-        .find({
-          orderDate: { $gte: startDate, $lte: endDate },
-          orderStatus: "Delivered",
-        })
-        .populate({
-          path: "cartData.productId",
-          model: "products",
-          as: "productDetails",
-        })
-        .populate({
-          path: "userId",
-          model: "users",
-          as: "userDetails",
-        })
-        .populate({
-          path: "couponApplied",
-          model: "coupons",
-          as: "couponDetails",
-        }));
-
-    const browser = await puppeteer.launch({
-      channel: "chrome",
-    });
-
-    const page = await browser.newPage();
-
-    let htmlContent = `
-
-    <h1 style="text-align: center;">Sales Report</h1>
-    <table style="width:100%; border-collapse: collapse;" border="1">
-
-  <tr>
-    <th>Order Number</th>
-    <th>UserName</th>
-    <th>Order Date</th>
-    <th>Products</th>
-    <th>Product Offer</th>
-    <th>Quantity</th>
-    <th>Before Offer</th>
-    <th>Total Cost</th>
-    <th>Payment Method</th>
-    <th>Status</th>
-    <th>Coupons</th>
-    <th>Before Coupon</th>
-    <th>Ordered Price</th>
-  </tr>`;
-
-    salesData.forEach((order) => {
-      let i = 0;
-      htmlContent += `
-    <tr>
-      <td rowspan="${order.cartData.length}" style="text-align: center;">${
-        order._id
-      }</td>
-      <td rowspan="${order.cartData.length}" style="text-align: center;">${
-        order.userId.username
-      }</td>
-      <td rowspan="${
-        order.cartData.length
-      }" style="text-align: center;">${formatDate(order.orderDate)}</td>
-  `;
-
-      order.cartData.forEach((cartItem) => {
-        htmlContent += `
-      <td style="text-align: center;">${cartItem.productId.productName}</td>
-      <td style="text-align: center;">${
-        cartItem.productId.productOfferPercentage
-          ? `${cartItem.productId.productOfferPercentage}%`
-          : "Nil"
-      }</td>
-      <td style="text-align: center;">${cartItem.productQuantity}</td>
-      <td style="text-align: center;">Rs.${
-        cartItem.totalCostPerProduct +
-        (cartItem.productId.priceBeforeOffer * cartItem.productQuantity -
-          cartItem.totalCostPerProduct)
-      }</td>
-      <td style="text-align: center;">Rs.${cartItem.totalCostPerProduct}</td>
-    `;
-
-        if (i === 0) {
-          htmlContent += `
-        <td rowspan="${order.cartData.length}" style="text-align: center;">${
-            order.paymentType
-          }</td>
-        <td rowspan="${order.cartData.length}" style="text-align: center;">${
-            order.orderStatus
-          }</td>
-        <td rowspan="${order.cartData.length}" style="text-align: center;">${
-            order.couponApplied
-              ? `${order.couponApplied.discountPercentage}%`
-              : "Nil"
-          }</td>
-        <td rowspan="${order.cartData.length}" style="text-align: center;">${
-            order.couponApplied
-              ? `Rs.${Math.round(
-                  order.grandTotalCost /
-                    (1 - order.couponApplied.discountPercentage / 100)
-                )}`
-              : "Nil"
-          }</td>
-          <td rowspan="${
-            order.cartData.length
-          }" style="text-align: center;">Rs.${order.grandTotalCost}</td>
-      `;
-        }
-
-        htmlContent += `
-    </tr>
-  `;
-        i++;
+    const salesData = await orderCollection
+      .find({
+        orderDate: { $gte: startDate, $lte: endDate },
+        orderStatus: "Delivered",
+      })
+      .populate({
+        path: "cartData.productId",
+        model: "products",
+        as: "productDetails",
+      })
+      .populate({
+        path: "userId",
+        model: "users",
+        as: "userDetails",
+      })
+      .populate({
+        path: "couponApplied",
+        model: "coupons",
+        as: "couponDetails",
       });
-    });
 
-    htmlContent += "</table>";
+    if (!salesData.length) {
+      return res
+        .status(404)
+        .send("No sales data found for the selected period.");
+    }
 
-    await page.setContent(htmlContent);
-    const pdfBuffer = await page.pdf({ format: "A4" });
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-      "Content-Disposition",
-      "attachment; filename=salesReport.pdf"
-    );
-    res.send(pdfBuffer);
-
-    await browser.close();
+    invoicePdf(res, salesData);
   } catch (error) {
-    next(new AppError(error, 500));
+    if (!res.headersSent) {
+      return next(new AppError(error.message || "Download failed", 500));
+    } else {
+      console.error("Error after headers sent:", error.message);
+    }
   }
 };
 
@@ -257,74 +250,19 @@ const formatDate = (date) => {
   return date.toISOString().split("T")[0]; // Example implementation
 };
 
-const filterDate = async (req, res) => {
+const filterDate = async (req, res, next) => {
   try {
-    const startOfDay = (date) => {
-      return new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        6,
-        0,
-        0,
-        0
-      );
-    };
-
-    const endOfDay = (date) => {
-      return new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        23,
-        59,
-        59,
-        999
-      );
-    };
-    if (req.body.filterDateFrom && req.body.filterDateTo) {
-      let startDate = new Date(req.body.filterDateFrom);
-      let endDate = new Date(req.body.filterDateTo);
-      startDate = startOfDay(new Date(startDate));
-      endDate = endOfDay(new Date(endDate));
-      if (startDate > endDate) {
-        res.send({ dateInvalid: true });
-      }
-      const salesData = await orderCollection
-        .find({
-          orderDate: { $gte: startDate, $lte: endDate },
-          orderStatus: "Delivered",
-        })
-        .sort({ orderDate: -1 })
-        .populate({
-          path: "cartData.productId",
-          model: "products",
-          as: "productDetails",
-        })
-        .populate({
-          path: "userId",
-          model: "users",
-          as: "userDetails",
-        })
-        .populate({
-          path: "couponApplied",
-          model: "coupons",
-          as: "couponDetails",
-        });
-      req.session.salesDetails = salesData;
-      req.session.filterDates = { datevalues: {} };
-      req.session.startDate = startDate;
-      req.session.endDate = endDate;
-      req.session.startDate2 = startDate;
-      req.session.endDate2 = endDate;
-      req.session.filterDates.datevalues = { startDate, endDate };
-      req.session.save();
-      res.send({ success: true });
+    if (req.query.filterDateFrom && req.query.filterDateTo) {
+      req.session.startDate = req.query.filterDateFrom;
+      req.session.endDate = req.query.filterDateTo;
+      return await SalesReportGet(req, res, next);
     }
   } catch (error) {
     console.log(error);
+    next(new AppError("Somthing went Wrong", 500));
   }
 };
+
 const salesReportDownload = async (req, res, next) => {
   try {
     let startDate, endDate;
@@ -564,81 +502,31 @@ const removeAllFillters = async (req, res, next) => {
 
 const filterOptions = async (req, res, next) => {
   try {
-    let { filterOption } = req.body;
+    const { option } = req.query;
+
     let startDate, endDate;
 
-    const startOfDay = (date) => {
-      return new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        6,
-        0,
-        0,
-        0
-      );
-    };
-
-    const endOfDay = (date) => {
-      return new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        23,
-        59,
-        59,
-        999
-      );
-    };
-
-    if (filterOption === "month") {
+    if (option === "month") {
       endDate = new Date();
       startDate = new Date(endDate);
       startDate.setDate(endDate.getDate() - 30);
-    } else if (filterOption === "week") {
+    } else if (option === "week") {
       let currentDate = new Date();
       let currentDay = currentDate.getDay();
       let diff = currentDate.getDate() - currentDay - 7;
       startDate = new Date(currentDate.setDate(diff));
       endDate = new Date(startDate);
       endDate.setDate(startDate.getDate() + 6);
-    } else if (filterOption === "year") {
+    } else if (option === "year") {
       let today = new Date();
       endDate = today;
       startDate = new Date();
       startDate.setFullYear(today.getFullYear() - 1);
     }
+    req.session.startDate = startDate;
+    req.session.endDate = endDate;
 
-    const startDateVal = startOfDay(startDate);
-    const endDateVal = endOfDay(endDate);
-
-    let salesDataFiltered = await orderCollection
-      .find({
-        orderDate: { $gte: startDateVal, $lte: endDateVal },
-        orderStatus: "Delivered",
-      })
-      .sort({ orderDate: -1 })
-      .populate({
-        path: "cartData.productId",
-        model: "products",
-        as: "productDetails",
-      })
-      .populate({
-        path: "userId",
-        model: "users",
-        as: "userDetails",
-      })
-      .populate({
-        path: "couponApplied",
-        model: "coupons",
-        as: "couponDetails",
-      });
-
-    req.session.admin = {};
-    req.session.admin.dateValues = { startDateVal, endDateVal };
-    req.session.salesDetails = salesDataFiltered;
-
-    res.status(200).json({ success: true });
+    return await SalesReportGet(req, res, next);
   } catch (error) {
     next(new AppError("Somthing went Wrong", 500));
   }

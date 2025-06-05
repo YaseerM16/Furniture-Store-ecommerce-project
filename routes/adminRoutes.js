@@ -219,8 +219,8 @@ adminRouter.patch(
 adminRouter.get("/admin/salesReport", isAdmin, SalesReportGet);
 adminRouter.get("/salesReport/download/pdf", isAdmin, salesReportDownloadPDF);
 adminRouter.get("/salesReport/download/xlsx", isAdmin, salesReportDownload);
-adminRouter.post("/filterdate", filterDate);
-adminRouter.post("/admin/salesReport/filterOptions", isAdmin, filterOptions);
+adminRouter.get("/filterdate", isAdmin, filterDate);
+adminRouter.get("/admin/salesReport/filterOptions", isAdmin, filterOptions);
 adminRouter.get("/removefilter", isAdmin, removeAllFillters);
 
 module.exports = adminRouter;

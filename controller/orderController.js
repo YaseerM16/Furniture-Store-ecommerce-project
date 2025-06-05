@@ -407,6 +407,7 @@ const downloadInvoice = async (req, res, next) => {
       () => stream.end(),
       orderData
     );
+    return;
   } catch (err) {
     console.error("Error generating invoice:", err);
     next(new AppError("Sorry...Something went wrong", 500));
