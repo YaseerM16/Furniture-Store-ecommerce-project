@@ -53,12 +53,21 @@ const invoicePdf = (res, salesData) => {
       );
   });
   currentY += rowHeight;
-  console.log("One Sale: ", salesData[0]);
+  console.log("One Sale: ", salesData);
 
   // Row Data
   salesData.forEach((order) => {
     order.cartData.forEach((item) => {
       const product = item.productId;
+      let beforeCoupRate = null;
+      let appliedCoupon = null;
+      if (order.couponApplied) {
+        beforeCoupRate = Math.round(
+          order.grandTotalCost /
+            (1 - order.couponApplied.discountPercentage / 100)
+        );
+        appliedCoupon = order.couponApplied?.discountPercentage;
+      }
 
       const row = [
         order.orderId,
@@ -71,9 +80,9 @@ const invoicePdf = (res, salesData) => {
         `Rs.${item.totalCostPerProduct || 0}`,
         order.paymentType,
         order.orderStatus,
-        order.couponApplied?.couponName || "Nil",
-        `Rs.${item.beforeCouponPrice || 0}`,
-        `Rs.${item.finalPrice || 0}`,
+        appliedCoupon ? `${appliedCoupon} %` : "Nil",
+        beforeCoupRate ? `Rs.${beforeCoupRate}` : 0,
+        `Rs.${order.grandTotalCost || 0}`,
       ];
 
       row.forEach((text, i) => {
@@ -197,12 +206,13 @@ const SalesReportGet = async (req, res, next) => {
 
 const salesReportDownloadPDF = async (req, res, next) => {
   try {
-    let { startDate, endDate } = req.query;
+    // let { startDate, endDate } = req.query;
 
-    if (!startDate || !endDate) {
-      startDate = new Date();
-      startDate.setDate(startDate.getDate() - 7);
-      endDate = new Date();
+    let startDate, endDate;
+
+    if (req.session.startDate && req.session.endDate) {
+      startDate = req.session.startDate;
+      endDate = req.session.endDate;
     } else {
       startDate = new Date(startDate);
       endDate = new Date(endDate);

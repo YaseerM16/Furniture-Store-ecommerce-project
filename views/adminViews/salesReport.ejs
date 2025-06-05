@@ -856,26 +856,12 @@
     </script>
     <script>
         document.getElementById('downloadPdf').addEventListener('click', async () => {
-            console.log('hai')
             const filterDateFrom = document.getElementById('filterDateFrom').value;
             const filterDateTo = document.getElementById('filterDateTo').value;
             try {
-                console.log("filterDateFrom in downloadpf:", filterDateFrom);
-                console.log("filterDateTo in downloadpf:", filterDateTo);
 
                 window.location.href = `/salesReport/download/pdf?startDate=${filterDateFrom}&endDate=${filterDateTo}`
-                // const response = await fetch(`/salesReport/download/pdf?startDate=${filterDateFrom}&endDate=${filterDateTo}`, {
-                //     method: 'GET'
-                // });
-                // const blob = await response.blob();
-                // const url = window.URL.createObjectURL(blob);
-                // const a = document.createElement('a');
-                // a.href = url;
-                // a.download = 'salesReport.pdf';
-                // document.body.appendChild(a);
-                // a.click();
-                // window.URL.revokeObjectURL(url);
-                // document.body.removeChild(a);
+
             } catch (error) {
                 console.error('Error downloading PDF:', error);
             }
