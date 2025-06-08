@@ -248,7 +248,7 @@
                     <div class="account_sidebar section pb-0 h-100">
                         <h4 class="title">My Account</h4>
                         <ul>
-                            <li class="active">
+                            <li>
                                 <a href="/userDetails">
                                     <i class="fal fa-user"></i>
                                     User Info
@@ -261,7 +261,7 @@
                                 </a>
                             </li>
 
-                            <li>
+                            <li class="active">
                                 <a href="/myOrdersPage">
                                     <i class="fal fa-luggage-cart"></i>
                                     Order
@@ -613,7 +613,7 @@
                                                                                     data-pid="<%=orders[i].cartData._id%>"
                                                                                     data-rid="<%=orders[i]._id%>"
                                                                                     class="thm-btn btn-rectangle thm-bg-color-one bg-danger">Cancel
-                                                                                    Order</button>
+                                                                                    Product</button>
                                                                                 <% } %>
                                                 </div>
 
@@ -954,35 +954,60 @@
 
             // Hide the button if more than 14 days have passed
         });
+        function attachCancelListeners() {
+            // Use event delegation for future-proofing (recommended)
+            document.getElementById('component').addEventListener('click', async function (event) {
+                if (event.target && event.target.id === 'singleProCancel') {
+                    const prodId = event.target.getAttribute("data-pid");
+                    const orderId = event.target.getAttribute("data-rid");
+                    cancelOrderModal.show();
 
-        document.querySelectorAll('#singleProCancel').forEach(btn => {
-            btn.addEventListener("click", (event) => {
-                const prodId = event.target.getAttribute("data-pid")
-                const orderId = event.target.getAttribute("data-rid")
-                console.log(prodId);
-                cancelOrderModal.show();
-                document.getElementById('cancelConfirm').addEventListener("click", async () => {
-                    cancelOrderModal.hide()
-                    const response = await fetch(`/singleProdCancel?cartProdId=${prodId}&orderId=${orderId}`, {
-                        method: "DELETE",
+                    // Remove any previous click listeners from cancelConfirm
+                    const oldConfirmBtn = document.getElementById('cancelConfirm');
+                    const newConfirmBtn = oldConfirmBtn.cloneNode(true);
+                    oldConfirmBtn.parentNode.replaceChild(newConfirmBtn, oldConfirmBtn);
+
+                    newConfirmBtn.addEventListener("click", async () => {
+                        cancelOrderModal.hide();
+
+                        // Simulated delay
+                        const response = await fetch(`/singleProdCancel?cartProdId=${prodId}&orderId=${orderId}`, {
+                            method: "DELETE",
+                        });
+
+                        const data = await response.json();
+                        if (data.success) {
+                            successModal.show();
+
+                            // Remove old listener for success-btn
+                            const oldSuccessBtn = document.getElementById('success-btn');
+                            const newSuccessBtn = oldSuccessBtn.cloneNode(true);
+                            oldSuccessBtn.parentNode.replaceChild(newSuccessBtn, oldSuccessBtn);
+
+                            newSuccessBtn.addEventListener("click", () => {
+                                successModal.hide();
+
+                                // Reload component and re-attach listeners only after it loads
+                                $('#component').load(`/orderDetail?orderID=${orderId} #component`, () => {
+                                    // reattachCancelListeners is not needed because we use delegation
+                                });
+                            });
+                        }
+                        if (data.failed) {
+                            await Swal.fire({
+                                icon: "error",
+                                title: "Something went wrong",
+                                text: "Unable to process the cancel at the moment."
+                            });
+                        }
                     });
+                }
+            });
+        }
 
-                    const data = await response.json();
-                    if (data.success) {
-                        successModal.show()
-                        document.getElementById('success-btn').addEventListener("click", () => {
-                            successModal.hide();
-                            // window.location.reload()
-                            $('#component').load(`${window.location.href} #component`);
-                        })
-                    }
-                    if (data.failed) {
-                        console.log("There is Failed to cancel that product form user side: ");
-                    }
+        // Only needs to be called once on initial load
+        attachCancelListeners();
 
-                })
-            })
-        })
         async function returnOrder(cartId, orderId) {
             const { value: returnReason } = await Swal.fire({
                 title: 'Return Reason',
@@ -1007,20 +1032,43 @@
                     confirmButtonText: "Yes, Return this order!"
                 }).then(async (result) => {
                     if (result.isConfirmed) {
-                        let response = await fetch(`/user/returnOrder?cartId=${cartId}&orderId=${orderId}&reason=${returnReason}`, {
-                            method: 'POST'
-                        })
-                        let result = await response.json()
-                        await Swal.fire({
+                        try {
+                            const response = await fetch(`/user/returnOrder?cartId=${cartId}&orderId=${orderId}&reason=${returnReason}`, {
+                                method: 'POST'
+                            });
 
-                            icon: "success",
-                            title: "Order Returned",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+                            const result = await response.json();
+                            // const response = await new Promise((resolve) =>
+                            //     setTimeout(() => resolve({ success: true }), 2000)
+                            // );
 
-                        if (result.success) {
-                            window.location.reload()
+                            if (result.success) {
+                                await Swal.fire({
+                                    icon: "success",
+                                    title: "Order Return Requested Successfully",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                $('#component').load(`/orderDetail?orderID=${orderId} #component`, () => {
+                                    // reattachCancelListeners is not needed because we use delegation
+                                });
+
+                                // window.location.reload();
+                            } else {
+                                // Optional: show error alert if result.success is false
+                                await Swal.fire({
+                                    icon: "error",
+                                    title: "Failed to return order",
+                                    text: result.message || "Please try again later"
+                                });
+                            }
+                        } catch (error) {
+                            console.error("Return order failed:", error);
+                            await Swal.fire({
+                                icon: "error",
+                                title: "Something went wrong",
+                                text: "Unable to process the return at the moment."
+                            });
                         }
                     }
                 });

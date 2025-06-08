@@ -58,7 +58,7 @@ const dashBoard = async (req, res, next) => {
     if (req.session.adminLog) {
       user = await adminCollection.findOne({ _id: req.session.adminUser._id });
     } else {
-      user = {};
+      user = null;
     }
 
     const salesData = [
@@ -183,19 +183,29 @@ const userListing = async (req, res, next) => {
     if (req.session.adminLog) {
       user = await adminCollection.findOne({ _id: req.session.adminUser._id });
     } else {
-      user = {};
+      user = null;
     }
 
     const page = Number(req.query.page) || 1;
     const limit = 9;
     const skip = (page - 1) * limit;
+    const username = req.query.bySearch;
 
-    const userDetail = await userCollection.find().skip(skip).limit(limit);
+    let searchQuery = {};
+    if (username) {
+      searchQuery.username = { $regex: username, $options: "i" };
+    }
+
+    const userDetail = await userCollection
+      .find(searchQuery)
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(limit);
 
     let pages;
 
     await userCollection
-      .countDocuments()
+      .countDocuments(searchQuery)
       .then((count) => {
         pages = count;
       })

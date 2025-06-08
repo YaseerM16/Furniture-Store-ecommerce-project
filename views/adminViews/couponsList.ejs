@@ -249,19 +249,27 @@
                     <!-- Logo -->
                     <!-- Search Form -->
                     <div class="search-form">
-                        <form>
-                            <!-- Search -->
-                            <div class="input-group">
-                                <input type="text" name="#" class="form-control" placeholder="Search for products..."
-                                    autocomplete="off" required>
-                                <div class="input-group-append input-group-text">
-                                    <button type="submit">
-                                        <i class="fal fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- Search -->
-                        </form>
+                        <div class="search-form ml-3" style="width: 300px;">
+                            <form onsubmit="redirectToSearch(event)"
+                                class="d-flex align-items-center position-relative">
+
+                                <!-- Search Input -->
+                                <input type="text" name="searchQuery" id="searchInput" class="form-control me-2"
+                                    placeholder="Search for products..." autocomplete="off" oninput="toggleClearBtn()">
+
+                                <!-- Clear (×) Icon -->
+                                <span id="clearIcon" onclick="clearSearch()"
+                                    style="display: none; position: absolute; right: 70px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #888;">
+                                    &times;
+                                </span>
+
+                                <!-- Search Button -->
+                                <button type="submit" class="btn btn-outline-secondary">
+                                    <i class="fal fa-search"></i>
+                                </button>
+                            </form>
+                        </div>
+
                     </div>
                     <!-- Search Form -->
                     <!-- Header Action -->
@@ -919,16 +927,66 @@
         integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+
+        function redirectToSearch(event) {
+            event.preventDefault();
+            const searchQuery = document.querySelector('input[name="searchQuery"]').value;
+            console.log("searchQuery : ", searchQuery);
+
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('bySearch', searchQuery);
+            const newUrl = `${location.pathname}?${urlParams.toString()}`;
+
+            window.location.href = newUrl; // 🔄 Perform full page reload
+
+        }
+
+        function clearSearch() {
+            const input = document.querySelector('input[name="searchQuery"]');
+            input.value = '';
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.delete('bySearch');
+
+            // Optionally, update the browser URL without reloading:
+            const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+            window.location.href = newUrl; // 🔄 Perform full page reload
+
+            toggleClearBtn();
+        }
+
+        function toggleClearBtn() {
+            const input = document.querySelector('input[name="searchQuery"]');
+            const clearIcon = document.getElementById('clearIcon');
+            const urlParams = new URLSearchParams(window.location.search);
+
+            if (input.value.trim()) {
+                clearIcon.style.display = 'block';
+            } else {
+                clearIcon.style.display = 'none';
+
+                // Remove 'bySearch' from URL
+                urlParams.delete('bySearch');
+                const newUrl = `${location.pathname}?${urlParams.toString()}`;
+                window.history.replaceState({}, '', newUrl);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('bySearch');
+            if (searchQuery) {
+                document.querySelector('input[name="searchQuery"]').value = searchQuery;
+            }
+        });
+
         function loadPage(pageNumber) {
             const urlParams = new URLSearchParams(window.location.search);
             urlParams.set('page', pageNumber); // set new page number
 
             const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
 
-            window.history.replaceState({}, '', newUrl);
+            window.location.href = newUrl; // 🔄 Triggers full page refresh
 
-            $('#coupons-table').load(`${newUrl} #coupons-table`);
-            $('#pagination').load(`${newUrl} #pagination`);
         }
 
         // $("#addCouponForm").validate();

@@ -207,22 +207,27 @@
                     <!-- Logo -->
                     <!-- Search Form -->
                     <div class="search-form">
-                        <form>
-                            <!-- Location -->
+                        <div class="search-form ml-3" style="width: 300px;">
+                            <form onsubmit="redirectToSearch(event)"
+                                class="d-flex align-items-center position-relative">
 
-                            <!-- Location -->
-                            <!-- Search -->
-                            <div class="input-group">
-                                <input type="text" name="#" class="form-control" placeholder="Search for products..."
-                                    autocomplete="off" required>
-                                <div class="input-group-append input-group-text">
-                                    <button type="submit">
-                                        <i class="fal fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- Search -->
-                        </form>
+                                <!-- Search Input -->
+                                <input type="text" name="searchQuery" id="searchInput" class="form-control me-2"
+                                    placeholder="Search for products..." autocomplete="off" oninput="toggleClearBtn()">
+
+                                <!-- Clear (×) Icon -->
+                                <span id="clearIcon" onclick="clearSearch()"
+                                    style="display: none; position: absolute; right: 70px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #888;">
+                                    &times;
+                                </span>
+
+                                <!-- Search Button -->
+                                <button type="submit" class="btn btn-outline-secondary">
+                                    <i class="fal fa-search"></i>
+                                </button>
+                            </form>
+                        </div>
+
                     </div>
                     <!-- Search Form -->
                     <!-- Header Action -->
@@ -358,99 +363,148 @@
 
                     </div>
                 </div>
-                <div class="col-xl-9 col-lg-8">
-                    <div class="order_list_box sidebar">
-                        <div id="orders-table" class="row justify-content-center">
-                            <!-- Item -->
-                            <div class="col-10">
-                                <div class="col-12">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <div class="section-header">
-                                            <h3 class="title">Orders List</h3>
-                                        </div>
-                                        <div>
-                                            <a href="/admin/orderManagement/returnedOrders">
-                                                <h3 class="title product-offers-button"
-                                                    style="width: 250px; height: 50px;">
-                                                    Return
-                                                    Requests</h3>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <% for(let i=0;i<orders.length;i++){ %>
-                                    <div class="order_list_block">
-                                        <div class="image_info_box d-flex flex-column justify-content-around"
-                                            style="margin-bottom: 30px;">
-                                            <p class="mb-0 d-flex justify-content-center">Order Id</p>
-                                            <div class="info">
-                                                <h6 class="mb-0 name"><a
-                                                        href="/admin/orderManagement/orderSummary?orderID=<%= orders[i]._id%>">
-                                                        <%= orders[i].orderId%>
-                                                    </a></h6>
-                                            </div>
-                                        </div>
-                                        <div class="order_info">
-                                            <p class="mb-0 d-flex justify-content-center">Name</p>
-                                            <div class="price">
-                                                <%= orders[i].userId.username%>
-                                            </div>
-                                        </div>
-                                        <div class="order_info">
-                                            <p class="mb-0 d-flex justify-content-center">Payment method</p>
-                                            <div class="price" style="text-align: center;">
-                                                <%= orders[i].paymentType%>
-                                            </div>
-                                        </div>
-                                        <div class="order_info">
-                                            <p class="mb-0 d-flex justify-content-center">Status</p>
-                                            <div class="price">
-                                                <%= orders[i].orderStatus%>
-                                            </div>
-                                        </div>
-                                        <div class="order_info">
-                                            <p class="mb-0 d-flex justify-content-center">Amount</p>
-                                            <div class="price">
-                                                ₹&nbsp;<%= orders[i].grandTotalCost%>
-                                            </div>
-                                        </div>
+                <% if (!orders || orders.length===0) { %>
+                    <div class="col-lg-6 mx-auto text-center p-5 mt-4">
+                        <!-- Order search icon with gradient -->
+                        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" class="mb-4">
+                            <linearGradient id="order-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#f8f9fa" />
+                                <stop offset="100%" stop-color="#e9ecef" />
+                            </linearGradient>
+                            <path
+                                d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"
+                                fill="url(#order-gradient)" stroke="#adb5bd" stroke-width="1" />
+                            <path d="M13 12h3m-3 3h3m-6-3h.01M10 15h.01" fill="none" stroke="#6c757d"
+                                stroke-width="1.5" />
+                            <path d="M21 21l-4.35-4.35" fill="none" stroke="#6c757d" stroke-width="1.5" />
+                        </svg>
 
-                                    </div>
-                                    <% } %>
-                            </div>
+                        <h5 class="text-dark mb-3 fw-semibold">
+                            <%= searchQuery ? 'No Orders Found' : 'No Recent Orders' %>
+                        </h5>
+
+                        <p class="text-muted mb-4">
+                            <% if (searchQuery) { %>
+                                No orders match "<%= searchQuery %>". Try different search criteria.
+                                    <% } else if (dateFilter) { %>
+                                        No orders found for the selected date range. Try adjusting your filters.
+                                        <% } else { %>
+                                            There are no orders to display. New orders will appear here as they're
+                                            placed.
+                                            <% } %>
+                        </p>
+
+                        <div class="d-flex justify-content-center gap-3 mt-1">
+                            <% if (searchQuery || dateFilter) { %>
+                                <button onclick="clearSearch()"
+                                    class="thm-btn btn-rectangle thm-bg-color-one lh-normal btn-small">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="me-2">
+                                        <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                                        <path
+                                            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                                    </svg>
+                                    Reset Search
+                                </button>
+                                <% } %>
                         </div>
                     </div>
-                    <!-- Section End -->
-                    <!-- Footer Start -->
-                    <div class="row">
+                    <% } else { %>
+                        <!-- Your orders listing code -->
+                        <div class="col-xl-9 col-lg-8">
+                            <div class="order_list_box sidebar">
+                                <div id="orders-table" class="row justify-content-center">
+                                    <!-- Item -->
+                                    <div class="col-10">
+                                        <div class="col-12">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <div class="section-header">
+                                                    <h3 class="title">Orders List</h3>
+                                                </div>
+                                                <div>
+                                                    <a href="/admin/orderManagement/returnedOrders">
+                                                        <h3 class="title product-offers-button"
+                                                            style="width: 250px; height: 50px;">
+                                                            Return
+                                                            Requests</h3>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% for(let i=0;i<orders.length;i++){ %>
+                                            <div class="order_list_block">
+                                                <div class="image_info_box d-flex flex-column justify-content-around"
+                                                    style="margin-bottom: 30px;">
+                                                    <p class="mb-0 d-flex justify-content-center">Order Id</p>
+                                                    <div class="info">
+                                                        <h6 class="mb-0 name"><a
+                                                                href="/admin/orderManagement/orderSummary?orderID=<%= orders[i]._id%>">
+                                                                <%= orders[i].orderId%>
+                                                            </a></h6>
+                                                    </div>
+                                                </div>
+                                                <div class="order_info">
+                                                    <p class="mb-0 d-flex justify-content-center">Name</p>
+                                                    <div class="price">
+                                                        <%= orders[i].userId.username%>
+                                                    </div>
+                                                </div>
+                                                <div class="order_info">
+                                                    <p class="mb-0 d-flex justify-content-center">Payment method</p>
+                                                    <div class="price" style="text-align: center;">
+                                                        <%= orders[i].paymentType%>
+                                                    </div>
+                                                </div>
+                                                <div class="order_info">
+                                                    <p class="mb-0 d-flex justify-content-center">Status</p>
+                                                    <div class="price">
+                                                        <%= orders[i].orderStatus%>
+                                                    </div>
+                                                </div>
+                                                <div class="order_info">
+                                                    <p class="mb-0 d-flex justify-content-center">Amount</p>
+                                                    <div class="price">
+                                                        ₹&nbsp;<%= orders[i].grandTotalCost%>
+                                                    </div>
+                                                </div>
 
-                        <nav id="pagination">
-                            <ul class="pagination">
-                                <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-                                    <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
-                                        aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </button>
-                                </li>
-                                <% for(let i=1; i <=pages; i++) { %>
-                                    <li class="page-item <%= page === i ? 'active' : '' %>">
-                                        <button class="page-link" onclick="loadPage('<%= i %>')">
-                                            <%= i %>
-                                        </button>
-                                    </li>
-                                    <% } %>
-                                        <% if (page < pages) { %>
-                                            <li class="page-item">
-                                                <button class="page-link" onclick="loadPage('<%= page + 1 %>')"
-                                                    aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
+                                            </div>
+                                            <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Section End -->
+                            <!-- Footer Start -->
+                            <div class="row">
+
+                                <nav id="pagination">
+                                    <ul class="pagination">
+                                        <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+                                            <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
+                                                aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </button>
+                                        </li>
+                                        <% for(let i=1; i <=pages; i++) { %>
+                                            <li class="page-item <%= page === i ? 'active' : '' %>">
+                                                <button class="page-link" onclick="loadPage('<%= i %>')">
+                                                    <%= i %>
                                                 </button>
                                             </li>
                                             <% } %>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
+                                                <% if (page < pages) { %>
+                                                    <li class="page-item">
+                                                        <button class="page-link" onclick="loadPage('<%= page + 1 %>')"
+                                                            aria-label="Next">
+                                                            <span aria-hidden="true">&raquo;</span>
+                                                        </button>
+                                                    </li>
+                                                    <% } %>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <% } %>
+
             </div>
         </div>
     </section>
@@ -474,6 +528,58 @@
     <script src="assets/js/custom.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
+
+        function redirectToSearch(event) {
+            event.preventDefault();
+            const searchQuery = document.querySelector('input[name="searchQuery"]').value;
+            console.log("searchQuery : ", searchQuery);
+
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('bySearch', searchQuery);
+            const newUrl = `${location.pathname}?${urlParams.toString()}`;
+
+            window.location.href = newUrl; // 🔄 Perform full page reload
+
+        }
+
+        function clearSearch() {
+            const input = document.querySelector('input[name="searchQuery"]');
+            input.value = '';
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.delete('bySearch');
+
+            // Optionally, update the browser URL without reloading:
+            const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+            window.location.href = newUrl; // 🔄 Perform full page reload
+
+            toggleClearBtn();
+        }
+
+        function toggleClearBtn() {
+            const input = document.querySelector('input[name="searchQuery"]');
+            const clearIcon = document.getElementById('clearIcon');
+            const urlParams = new URLSearchParams(window.location.search);
+
+            if (input.value.trim()) {
+                clearIcon.style.display = 'block';
+            } else {
+                clearIcon.style.display = 'none';
+
+                // Remove 'bySearch' from URL
+                urlParams.delete('bySearch');
+                const newUrl = `${location.pathname}?${urlParams.toString()}`;
+                window.history.replaceState({}, '', newUrl);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('bySearch');
+            if (searchQuery) {
+                document.querySelector('input[name="searchQuery"]').value = searchQuery;
+            }
+        });
+
         const orderDet = '<%- JSON.stringify(orders) %>'
         const orders = JSON.parse(orderDet)
         console.log(orders);
@@ -483,10 +589,8 @@
 
             const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
 
-            window.history.replaceState({}, '', newUrl);
+            window.location.href = newUrl; // 🔄 Triggers full page refresh
 
-            $('#orders-table').load(`${newUrl} #orders-table`);
-            $('#pagination').load(`${newUrl} #pagination`);
         }
     </script>
 </body>

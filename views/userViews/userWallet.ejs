@@ -246,7 +246,7 @@
                     <div class="account_sidebar section pb-0 h-100">
                         <h4 class="title">My Account</h4>
                         <ul>
-                            <li class="active">
+                            <li>
                                 <a href="/userDetails">
                                     <i class="fal fa-user"></i>
                                     User Info
@@ -265,7 +265,7 @@
                                     Order
                                 </a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a href="/walletPage">
                                     <i class="fas fa-wallet"></i>
                                     Wallet
@@ -326,102 +326,128 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-xl-9 col-lg-8">
+                <% if (!walletTransData || walletTransData.length===0) { %>
+                    <div class="col-lg-6 mx-auto text-center p-5 mt-4">
+                        <!-- Wallet icon with subtle gradient -->
+                        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" class="mb-4">
+                            <linearGradient id="wallet-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#f8f9fa" />
+                                <stop offset="100%" stop-color="#e9ecef" />
+                            </linearGradient>
+                            <path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+                                fill="url(#wallet-gradient)" stroke="#adb5bd" stroke-width="1" />
+                            <path d="M19 9h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-2" fill="none" stroke="#6c757d"
+                                stroke-width="1.5" />
+                        </svg>
 
-                    <div class="order_list_box sidebar">
-                        <div class="row justify-content-center">
-                            <!-- Item -->
-                            <div class="col-12 d-flex" style="margin-left: 100px; margin-bottom: 50px;">
-                                <div class="col-4">
-                                    <div
-                                        style="font-weight: 900;margin-top: 3px; margin-top: 18px;;display: flex; justify-content: center; align-items: center;color: black;">
-                                        <h4>
-                                            Wallet Balance :
-                                        </h4>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="order_list_block"
-                                        style="font-weight: 900;margin-top: 3px; display: flex; justify-content: center; align-items: center;color: black; background-color: #f9e7d1;">
-                                        <div>
-                                            <div class="price" style="font-size: 24px;">
-                                                <%= userWallet.walletBalance %>
-                                            </div>
-                                            <div class="price" style="font-size: 24px;">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-10">
-                                <div class="section-header">
-                                    <h3 class="title">Transaction History</h3>
-                                </div>
-                                <% for(let i=0;i<walletTransData.length;i++){ %>
-                                    <div class="col-12">
-                                        <div class="order_list_block">
-
-                                            <div class="order_info">
-                                                <p class="mb-0 d-flex justify-content-center">Transaction Amount</p>
-                                                <div class="price d-flex justify-content-center">
-                                                    <%= walletTransData[i].transactionAmount%>
-                                                </div>
-                                            </div>
-                                            <div class="order_info">
-                                                <p class="mb-0 d-flex justify-content-center">Transaction Method</p>
-                                                <div class="price d-flex justify-content-center">
-                                                    <%= walletTransData[i].transactionMethod%>
-                                                </div>
-                                            </div>
-                                            <div class="order_info">
-                                                <p class="mb-0 d-flex justify-content-center">Transaction Date</p>
-                                                <div class="price">
-                                                    <%= walletTransData[i].transactionDate.toLocaleDateString('en-US', {
-                                                        year: 'numeric' , month: '2-digit' , day: '2-digit' })%>
-                                                </div>
-                                            </div>
-                                            <div class="order_info" style="margin-bottom: 32px;">
-                                                <p class="mb-0 d-flex justify-content-center">Transaction Type</p>
-                                                <div class="name fs-4" id="date"
-                                                    style="font-weight: 900;margin-top: 3px; display: flex; justify-content: center;">
-                                                    <%= walletTransData[i].transactionType%>
-                                                </div>
-                                                <!-- <p class="mb-0">Your Item has been delivered</p> -->
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <% } %>
-                            </div>
-
-                        </div>
+                        <h5 class="text-dark mb-3 fw-semibold">Wallet Empty</h5>
+                        <p class="text-muted mb-4">No transaction history to show..</p>
                     </div>
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-                                <button class="page-link" onclick="loadPage('<%= page - 1 %>')" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </button>
-                            </li>
-                            <% for(let i=1; i <=pages; i++) { %>
-                                <li class="page-item <%= page === i ? 'active' : '' %>">
-                                    <button class="page-link" onclick="loadPage('<%= i %>')">
-                                        <%= i %>
-                                    </button>
-                                </li>
-                                <% } %>
-                                    <% if (page < pages) { %>
-                                        <li class="page-item">
-                                            <button class="page-link" onclick="loadPage('<%= page + 1 %>')"
-                                                aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
+
+                    <% } else { %>
+                        <div class="col-xl-9 col-lg-8">
+
+                            <div class="order_list_box sidebar">
+                                <div class="row justify-content-center">
+                                    <!-- Item -->
+                                    <div class="col-12 d-flex" style="margin-left: 100px; margin-bottom: 50px;">
+                                        <div class="col-4">
+                                            <div
+                                                style="font-weight: 900;margin-top: 3px; margin-top: 18px;;display: flex; justify-content: center; align-items: center;color: black;">
+                                                <h4>
+                                                    Wallet Balance :
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <div class="order_list_block"
+                                                style="font-weight: 900;margin-top: 3px; display: flex; justify-content: center; align-items: center;color: black; background-color: #f9e7d1;">
+                                                <div>
+                                                    <div class="price" style="font-size: 24px;">
+                                                        <%= userWallet.walletBalance %>
+                                                    </div>
+                                                    <div class="price" style="font-size: 24px;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-10">
+                                        <div class="section-header">
+                                            <h3 class="title">Transaction History</h3>
+                                        </div>
+                                        <% for(let i=0;i<walletTransData.length;i++){ %>
+                                            <div class="col-12">
+                                                <div class="order_list_block">
+
+                                                    <div class="order_info">
+                                                        <p class="mb-0 d-flex justify-content-center">Transaction Amount
+                                                        </p>
+                                                        <div class="price d-flex justify-content-center">
+                                                            <%= walletTransData[i].transactionAmount%>
+                                                        </div>
+                                                    </div>
+                                                    <div class="order_info">
+                                                        <p class="mb-0 d-flex justify-content-center">Transaction Method
+                                                        </p>
+                                                        <div class="price d-flex justify-content-center">
+                                                            <%= walletTransData[i].transactionMethod%>
+                                                        </div>
+                                                    </div>
+                                                    <div class="order_info">
+                                                        <p class="mb-0 d-flex justify-content-center">Transaction Date
+                                                        </p>
+                                                        <div class="price">
+                                                            <%= walletTransData[i].transactionDate.toLocaleDateString('en-US',
+                                                                { year: 'numeric' , month: '2-digit' , day: '2-digit'
+                                                                })%>
+                                                        </div>
+                                                    </div>
+                                                    <div class="order_info" style="margin-bottom: 32px;">
+                                                        <p class="mb-0 d-flex justify-content-center">Transaction Type
+                                                        </p>
+                                                        <div class="name fs-4" id="date"
+                                                            style="font-weight: 900;margin-top: 3px; display: flex; justify-content: center;">
+                                                            <%= walletTransData[i].transactionType%>
+                                                        </div>
+                                                        <!-- <p class="mb-0">Your Item has been delivered</p> -->
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <% } %>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+                                        <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
+                                            aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </button>
+                                    </li>
+                                    <% for(let i=1; i <=pages; i++) { %>
+                                        <li class="page-item <%= page === i ? 'active' : '' %>">
+                                            <button class="page-link" onclick="loadPage('<%= i %>')">
+                                                <%= i %>
                                             </button>
                                         </li>
                                         <% } %>
-                        </ul>
-                    </nav>
-                </div>
+                                            <% if (page < pages) { %>
+                                                <li class="page-item">
+                                                    <button class="page-link" onclick="loadPage('<%= page + 1 %>')"
+                                                        aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </button>
+                                                </li>
+                                                <% } %>
+                                </ul>
+                            </nav>
+                        </div>
+                        <% } %>
             </div>
         </div>
     </section>

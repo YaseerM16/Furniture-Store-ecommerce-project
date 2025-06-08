@@ -240,22 +240,27 @@
                     <!-- Logo -->
                     <!-- Search Form -->
                     <div class="search-form">
-                        <form>
-                            <!-- Location -->
+                        <div class="search-form ml-3" style="width: 300px;">
+                            <form onsubmit="redirectToSearch(event)"
+                                class="d-flex align-items-center position-relative">
 
-                            <!-- Location -->
-                            <!-- Search -->
-                            <div class="input-group">
-                                <input type="text" name="#" class="form-control" placeholder="Search for products..."
-                                    autocomplete="off" required>
-                                <div class="input-group-append input-group-text">
-                                    <button type="submit">
-                                        <i class="fal fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- Search -->
-                        </form>
+                                <!-- Search Input -->
+                                <input type="text" name="searchQuery" id="searchInput" class="form-control me-2"
+                                    placeholder="Search for products..." autocomplete="off" oninput="toggleClearBtn()">
+
+                                <!-- Clear (×) Icon -->
+                                <span id="clearIcon" onclick="clearSearch()"
+                                    style="display: none; position: absolute; right: 70px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #888;">
+                                    &times;
+                                </span>
+
+                                <!-- Search Button -->
+                                <button type="submit" class="btn btn-outline-secondary">
+                                    <i class="fal fa-search"></i>
+                                </button>
+                            </form>
+                        </div>
+
                     </div>
                     <!-- Search Form -->
                     <!-- Header Action -->
@@ -386,390 +391,462 @@
 
                     </div>
                 </div>
-                <div class="col-xl-9 col-lg-8">
+                <% if (!productOfferData || productOfferData.length===0) { %>
+                    <div class="col-lg-6 mx-auto text-center p-5 mt-4">
+                        <!-- Discount tag icon with subtle gradient -->
+                        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" class="mb-4">
+                            <linearGradient id="offer-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#f8f9fa" />
+                                <stop offset="100%" stop-color="#e9ecef" />
+                            </linearGradient>
+                            <path d="M3 7l8.5-4.5L20 7l-8.5 4.5L3 7z" fill="url(#offer-gradient)" stroke="#adb5bd"
+                                stroke-width="1" />
+                            <path d="M20 7l-8.5 4.5V20M3 7l8.5 4.5V20" fill="none" stroke="#6c757d"
+                                stroke-width="1.5" />
+                            <path d="M10.5 4.5L16 7l-5.5 3" fill="none" stroke="#6c757d" stroke-width="1"
+                                stroke-dasharray="2,2" />
+                        </svg>
 
-                    <section class="section-padding">
-                        <div class="container-fluid">
-                            <div class="col-12">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <div class="section-header">
-                                        <h3 class="title">Product Offers</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#addProductOfferModal" style="margin-bottom: 10px;">
-                                Add New Product Offer
+                        <h5 class="text-dark mb-3 fw-semibold">
+                            No Matching Offers Found
+                        </h5>
+
+                        <p class="text-muted mb-4">
+                            No offers match your current search filters. Try adjusting your selection.
+                        </p>
+
+                        <div class="d-flex justify-content-center gap-3 mt-1">
+
+                            <button onclick="clearSearch()"
+                                class="thm-btn btn-rectangle btn-outline-secondary lh-normal btn-small">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="me-2">
+                                    <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                                    <path
+                                        d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                                </svg>
+                                Reset Search
+
                             </button>
 
-                            <!--Add Product Offer Modal -->
-                            <div class="modal fade" id="addProductOfferModal" tabindex="-1"
-                                aria-labelledby="addProductOfferModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="addProductOfferModalLabel">Add New Product Offer
-                                            </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <form id="addProductOfferForm" role="form">
-                                            <div class="modal-body">
-
-                                                <div class="custom-select">
-                                                    <div class="select-selected">Select a Product</div>
-                                                    <div class="select-items">
-                                                        <% for(let i=0; i<productDet.length; i++){ %>
-                                                            <div class="select-item"
-                                                                data-value="<%=productDet[i]._id%>">
-                                                                <img src="/assets/uploadimages/uploads/<%=productDet[i].productImage[0]%>"
-                                                                    alt="<%=productDet[i].productName%>"
-                                                                    class="product-image">
-                                                                <%=productDet[i].productName%>
-                                                            </div>
-                                                            <% } %>
-                                                    </div>
-                                                </div>
-                                                <input readonly id="selectedProductName" name="selectedProductName"
-                                                    style="border: none;">
-
-
-
-                                                <div class="offerPercentageInput p-2">
-                                                    <label for="productOfferPercentage" class="mb-2">Product Offer
-                                                        Percentage: </label>
-                                                    <div class="input-group">
-                                                        <input id="productOfferPercentage" name="productOfferPercentage"
-                                                            class="form-control"
-                                                            placeholder="Enter the offer percentage">
-                                                    </div>
-                                                    <div class="form-text">Choose a percentage to be discounted. Between
-                                                        5% and 90%.</div>
-                                                </div>
-
-                                                <div class="startDateInput p-2">
-                                                    <label for="startDate">Offer Start Date: </label>
-                                                    <div class="input-group">
-                                                        <input id="startDate" name="startDate" type="date"
-                                                            class="form-control">
-                                                    </div>
-                                                    <div class="form-text">Choose a start date for the offer to be
-                                                        considered.</div>
-                                                </div>
-
-                                                <div class="endDateInput p-2">
-                                                    <label for="endDate">Offer Expiry Date : </label>
-                                                    <div class="input-group">
-                                                        <input id="endDate" name="endDate" type="date"
-                                                            class="form-control">
-                                                    </div>
-                                                    <div class="form-text">Choose an exipry date for offer to end.</div>
-                                                </div>
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
-                                                <button id="addCouponBtn" type="submit" class="btn btn-info">Save
-                                                    changes</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="product-offers-table" class="row">
-                                <div class="col-12">
-                                    <div class="table-responsive cart_table">
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">
-                                                        <div class="d-flex justify-content-center">
-                                                            Product
-                                                        </div>
-                                                    </th>
-                                                    <th scope="col">
-                                                        <div class="d-flex justify-content-center">Offer Percentage
-                                                        </div>
-                                                    </th>
-                                                    <th scope="col">
-                                                        <div class="d-flex justify-content-center">Start Date</div>
-                                                    </th>
-                                                    <th scope="col">
-                                                        <div class="d-flex justify-content-center">End Date</div>
-                                                    </th>
-                                                    <th scope="col">
-                                                        <div class="d-flex justify-content-center">Current Status</div>
-                                                    </th>
-                                                    <th scope="col">
-                                                        <div class="d-flex justify-content-center">Action</div>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-
-                                                <% for(let i=0;i<productOfferData.length;i++){ %>
-                                                    <tr>
-                                                        <th scope="row">
-                                                            <div class="d-flex w-100 justify-content-start align-items-center flex-wrap"
-                                                                style="padding-left: 10px;">
-                                                                <div style="margin-right: 20px;">
-                                                                    <img src="/assets/uploadimages/uploads/<%=productOfferData[i].productId.productImage[0]%>"
-                                                                        style="height: 60px; width: 60px; border-radius: 0;">
-                                                                </div>
-                                                                <div>
-                                                                    <%= productOfferData[i].productName %>
-                                                                </div>
-                                                            </div>
-                                                        </th>
-                                                        <td>
-                                                            <div class="d-flex justify-content-center">
-                                                                <%= productOfferData[i].productOfferPercentage%>&nbsp;%
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex justify-content-center">
-                                                                <%= productOfferData[i].startDate.toLocaleDateString('en-US',
-                                                                    { year: 'numeric' , month: '2-digit' ,
-                                                                    day: '2-digit' })%>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex justify-content-center">
-                                                                <%= productOfferData[i].endDate.toLocaleDateString('en-US',
-                                                                    { year: 'numeric' , month: '2-digit' ,
-                                                                    day: '2-digit' })%>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex justify-content-center">
-                                                                <%= productOfferData[i].currentStatus%>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex justify-content-center">
-                                                                <button type="button" class="btn btn-info"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#editModal<%= i %>">
-                                                                    <i class="fas fa-edit"></i>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <% } %>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Edit Product Offer Modal  -->
-                            <% productOfferData.forEach(function(productOffer, index) { %>
-                                <div class="modal fade" id="editModal<%= index %>" tabindex="-1"
-                                    aria-labelledby="modalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="modalLabel">Edit Offer</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <form id="editProductOfferForm<%= index %>" role="form">
-                                                <div class="modal-body">
-                                                    <div class="input-group mb-3">
-                                                        <label class="container">
-                                                            <label for="productName" class="mb-2">Product Name:</label>
-                                                            <select name="productName" id="productName<%= index %>"
-                                                                class="form-select" aria-label="Default select example"
-                                                                disabled>
-                                                                <% productDet.forEach(function(product) { %>
-                                                                    <% if
-                                                                        (product.productName===productOffer.productName)
-                                                                        { %>
-                                                                        <option selected>
-                                                                            <div>
-                                                                                <%= product.productName %>
-                                                                            </div>
-                                                                        </option>
-                                                                        <% } else { %>
-                                                                            <option>
-                                                                                <div>
-                                                                                    <%= product.productName %>
-                                                                                </div>
-                                                                            </option>
-                                                                            <% } %>
-                                                                                <% }); %>
-                                                            </select>
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="offerPercentageInput p-2">
-                                                        <label for="productOfferPercentage" class="mb-2">Product Offer
-                                                            Percentage: </label>
-                                                        <div class="input-group">
-                                                            <input id="productOfferPercentage<%= index %>"
-                                                                name="productOfferPercentage" class="form-control"
-                                                                placeholder="Enter the offer percentage"
-                                                                value="<%= productOffer.productOfferPercentage %>">
-                                                        </div>
-                                                        <div class="form-text">Choose a percentage to be discounted.
-                                                            Between 5% and 90%.</div>
-                                                    </div>
-
-                                                    <div class="startDateInput p-2">
-                                                        <label for="startDate">Offer Start Date: </label>
-                                                        <div class="input-group">
-                                                            <input id="startDate<%= index %>" name="startDate"
-                                                                type="date" class="form-control"
-                                                                value="<%= productOffer.startDateFormatted %>">
-                                                        </div>
-                                                        <div class="form-text">Choose a start date for the offer to be
-                                                            considered.</div>
-                                                    </div>
-
-                                                    <div class="endDateInput p-2">
-                                                        <label for="endDate">Offer Expiry Date : </label>
-                                                        <div class="input-group">
-                                                            <input id="endDate<%= index %>" name="endDate" type="date"
-                                                                class="form-control"
-                                                                value="<%= productOffer.endDateFormatted %>">
-                                                        </div>
-                                                        <div class="form-text">Choose an exipry date for offer to end.
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <button id="editOfferBtn" type="submit" class="btn btn-info">Save
-                                                        changes</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <% }); %>
                         </div>
-                    </section>
-                    <!-- Edit Product Script- form validation and submit  -->
+                    </div>
+                    <% } else { %>
+                        <!-- Your offers listing code goes here -->
+                        <div class="col-xl-9 col-lg-8">
 
-                    <script>
-                        console.log("Sdfrevevbv dsgtr");
-                        var today = new Date().toISOString().split('T')[0];
-                        const productOfferData = '<%- JSON.stringify(productOfferData) %>';
-                        const productDetData = '<%- JSON.stringify(productDet) %>';
-                        const parsedProdOffer = JSON.parse(productOfferData);
-                        const parsedProdDet = JSON.parse(productOfferData);
-                        console.log(parsedProdOffer);
-                        console.log(parsedProdDet);
+                            <section class="section-padding">
+                                <div class="container-fluid">
+                                    <div class="col-12">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="section-header">
+                                                <h3 class="title">Product Offers</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#addProductOfferModal" style="margin-bottom: 10px;">
+                                        Add New Product Offer
+                                    </button>
 
-                        $(document).ready(function () {
-                            parsedProdOffer.forEach((productOffer, index) => {
-                                const formId = `#editProductOfferForm${index}`;
-                                const startDateSelector = `#startDate${index}`;
-                                const endDateSelector = `#endDate${index}`;
-                                const startDateElement = $(startDateSelector);
-                                const endDateElement = $(endDateSelector);
+                                    <!--Add Product Offer Modal -->
+                                    <div class="modal fade" id="addProductOfferModal" tabindex="-1"
+                                        aria-labelledby="addProductOfferModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="addProductOfferModalLabel">Add New
+                                                        Product Offer
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <form id="addProductOfferForm" role="form">
+                                                    <div class="modal-body">
 
-                                $(formId).validate({
-                                    rules: {
-                                        productName: "required",
-                                        productOfferPercentage: {
-                                            required: true,
-                                            min: 5,
-                                            max: 90
-                                        },
-                                        startDate: "required",
-                                        endDate: "required"
-                                    },
+                                                        <div class="custom-select">
+                                                            <div class="select-selected">Select a Product</div>
+                                                            <div class="select-items">
+                                                                <% for(let i=0; i<productDet.length; i++){ %>
+                                                                    <div class="select-item"
+                                                                        data-value="<%=productDet[i]._id%>">
+                                                                        <img src="/assets/uploadimages/uploads/<%=productDet[i].productImage[0]%>"
+                                                                            alt="<%=productDet[i].productName%>"
+                                                                            class="product-image">
+                                                                        <%=productDet[i].productName%>
+                                                                    </div>
+                                                                    <% } %>
+                                                            </div>
+                                                        </div>
+                                                        <input readonly id="selectedProductName"
+                                                            name="selectedProductName" style="border: none;">
 
-                                    submitHandler: async function (form, event) {
-                                        event.preventDefault();
 
-                                        const formData = {
-                                            productName: $(form.productName).val(),
-                                            productOfferPercentage: $(form.productOfferPercentage).val(),
-                                            startDate: $(form.startDate).val(),
-                                            endDate: $(form.endDate).val()
-                                        };
 
-                                        try {
-                                            const response = await fetch(`/admin/productOfferManagement/editOffer/${productOffer._id}`, {
-                                                method: 'PUT',
-                                                headers: { "Content-Type": "application/json" },
-                                                body: JSON.stringify(formData)
-                                            });
+                                                        <div class="offerPercentageInput p-2">
+                                                            <label for="productOfferPercentage" class="mb-2">Product
+                                                                Offer
+                                                                Percentage: </label>
+                                                            <div class="input-group">
+                                                                <input id="productOfferPercentage"
+                                                                    name="productOfferPercentage" class="form-control"
+                                                                    placeholder="Enter the offer percentage">
+                                                            </div>
+                                                            <div class="form-text">Choose a percentage to be discounted.
+                                                                Between
+                                                                5% and 90%.</div>
+                                                        </div>
 
-                                            const result = await response.json();
+                                                        <div class="startDateInput p-2">
+                                                            <label for="startDate">Offer Start Date: </label>
+                                                            <div class="input-group">
+                                                                <input id="startDate" name="startDate" type="date"
+                                                                    class="form-control">
+                                                            </div>
+                                                            <div class="form-text">Choose a start date for the offer to
+                                                                be
+                                                                considered.</div>
+                                                        </div>
 
-                                            if (result.success) {
-                                                Swal.fire({
-                                                    icon: "success",
-                                                    title: "Your Product Offer has been updated",
-                                                    showConfirmButton: true,
-                                                }).then((result) => {
-                                                    if (result.isConfirmed) {
-                                                        $('#product-offers-table').load('/admin/productManagement/product-offers-page #product-offers-table');
-                                                        const modalElement = document.getElementById(`editModal${index}`);
-                                                        const modalInstance = bootstrap.Modal.getInstance(modalElement);
-                                                        if (modalInstance) modalInstance.hide();
+                                                        <div class="endDateInput p-2">
+                                                            <label for="endDate">Offer Expiry Date : </label>
+                                                            <div class="input-group">
+                                                                <input id="endDate" name="endDate" type="date"
+                                                                    class="form-control">
+                                                            </div>
+                                                            <div class="form-text">Choose an exipry date for offer to
+                                                                end.</div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button id="addCouponBtn" type="submit"
+                                                            class="btn btn-info">Save
+                                                            changes</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="product-offers-table" class="row">
+                                        <div class="col-12">
+                                            <div class="table-responsive cart_table">
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">
+                                                                <div class="d-flex justify-content-center">
+                                                                    Product
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="d-flex justify-content-center">Offer
+                                                                    Percentage
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="d-flex justify-content-center">Start Date
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="d-flex justify-content-center">End Date
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="d-flex justify-content-center">Current
+                                                                    Status</div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="d-flex justify-content-center">Action</div>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+
+                                                        <% for(let i=0;i<productOfferData.length;i++){ %>
+                                                            <tr>
+                                                                <th scope="row">
+                                                                    <div class="d-flex w-100 justify-content-start align-items-center flex-wrap"
+                                                                        style="padding-left: 10px;">
+                                                                        <div style="margin-right: 20px;">
+                                                                            <img src="/assets/uploadimages/uploads/<%=productOfferData[i].productId.productImage[0]%>"
+                                                                                style="height: 60px; width: 60px; border-radius: 0;">
+                                                                        </div>
+                                                                        <div>
+                                                                            <%= productOfferData[i].productName %>
+                                                                        </div>
+                                                                    </div>
+                                                                </th>
+                                                                <td>
+                                                                    <div class="d-flex justify-content-center">
+                                                                        <%= productOfferData[i].productOfferPercentage%>
+                                                                            &nbsp;%
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="d-flex justify-content-center">
+                                                                        <%= productOfferData[i].startDate.toLocaleDateString('en-US',
+                                                                            { year: 'numeric' , month: '2-digit' ,
+                                                                            day: '2-digit' })%>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="d-flex justify-content-center">
+                                                                        <%= productOfferData[i].endDate.toLocaleDateString('en-US',
+                                                                            { year: 'numeric' , month: '2-digit' ,
+                                                                            day: '2-digit' })%>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="d-flex justify-content-center">
+                                                                        <%= productOfferData[i].currentStatus%>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="d-flex justify-content-center">
+                                                                        <button type="button" class="btn btn-info"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#editModal<%= i %>">
+                                                                            <i class="fas fa-edit"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <% } %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Edit Product Offer Modal  -->
+                                    <% productOfferData.forEach(function(productOffer, index) { %>
+                                        <div class="modal fade" id="editModal<%= index %>" tabindex="-1"
+                                            aria-labelledby="modalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalLabel">Edit Offer</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <form id="editProductOfferForm<%= index %>" role="form">
+                                                        <div class="modal-body">
+                                                            <div class="input-group mb-3">
+                                                                <label class="container">
+                                                                    <label for="productName" class="mb-2">Product
+                                                                        Name:</label>
+                                                                    <select name="productName"
+                                                                        id="productName<%= index %>" class="form-select"
+                                                                        aria-label="Default select example" disabled>
+                                                                        <% productDet.forEach(function(product) { %>
+                                                                            <% if
+                                                                                (product.productName===productOffer.productName)
+                                                                                { %>
+                                                                                <option selected>
+                                                                                    <div>
+                                                                                        <%= product.productName %>
+                                                                                    </div>
+                                                                                </option>
+                                                                                <% } else { %>
+                                                                                    <option>
+                                                                                        <div>
+                                                                                            <%= product.productName %>
+                                                                                        </div>
+                                                                                    </option>
+                                                                                    <% } %>
+                                                                                        <% }); %>
+                                                                    </select>
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="offerPercentageInput p-2">
+                                                                <label for="productOfferPercentage" class="mb-2">Product
+                                                                    Offer
+                                                                    Percentage: </label>
+                                                                <div class="input-group">
+                                                                    <input id="productOfferPercentage<%= index %>"
+                                                                        name="productOfferPercentage"
+                                                                        class="form-control"
+                                                                        placeholder="Enter the offer percentage"
+                                                                        value="<%= productOffer.productOfferPercentage %>">
+                                                                </div>
+                                                                <div class="form-text">Choose a percentage to be
+                                                                    discounted.
+                                                                    Between 5% and 90%.</div>
+                                                            </div>
+
+                                                            <div class="startDateInput p-2">
+                                                                <label for="startDate">Offer Start Date: </label>
+                                                                <div class="input-group">
+                                                                    <input id="startDate<%= index %>" name="startDate"
+                                                                        type="date" class="form-control"
+                                                                        value="<%= productOffer.startDateFormatted %>">
+                                                                </div>
+                                                                <div class="form-text">Choose a start date for the offer
+                                                                    to be
+                                                                    considered.</div>
+                                                            </div>
+
+                                                            <div class="endDateInput p-2">
+                                                                <label for="endDate">Offer Expiry Date : </label>
+                                                                <div class="input-group">
+                                                                    <input id="endDate<%= index %>" name="endDate"
+                                                                        type="date" class="form-control"
+                                                                        value="<%= productOffer.endDateFormatted %>">
+                                                                </div>
+                                                                <div class="form-text">Choose an exipry date for offer
+                                                                    to end.
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <button id="editOfferBtn" type="submit"
+                                                                class="btn btn-info">Save
+                                                                changes</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                </div>
+                            </section>
+                            <!-- Edit Product Script- form validation and submit  -->
+
+                            <script>
+                                console.log("Sdfrevevbv dsgtr");
+                                var today = new Date().toISOString().split('T')[0];
+                                const productOfferData = '<%- JSON.stringify(productOfferData) %>';
+                                const productDetData = '<%- JSON.stringify(productDet) %>';
+                                const parsedProdOffer = JSON.parse(productOfferData);
+                                const parsedProdDet = JSON.parse(productOfferData);
+                                console.log(parsedProdOffer);
+                                console.log(parsedProdDet);
+
+                                $(document).ready(function () {
+                                    parsedProdOffer.forEach((productOffer, index) => {
+                                        const formId = `#editProductOfferForm${index}`;
+                                        const startDateSelector = `#startDate${index}`;
+                                        const endDateSelector = `#endDate${index}`;
+                                        const startDateElement = $(startDateSelector);
+                                        const endDateElement = $(endDateSelector);
+
+                                        $(formId).validate({
+                                            rules: {
+                                                productName: "required",
+                                                productOfferPercentage: {
+                                                    required: true,
+                                                    min: 5,
+                                                    max: 90
+                                                },
+                                                startDate: "required",
+                                                endDate: "required"
+                                            },
+
+                                            submitHandler: async function (form, event) {
+                                                event.preventDefault();
+
+                                                const formData = {
+                                                    productName: $(form.productName).val(),
+                                                    productOfferPercentage: $(form.productOfferPercentage).val(),
+                                                    startDate: $(form.startDate).val(),
+                                                    endDate: $(form.endDate).val()
+                                                };
+
+                                                try {
+                                                    const response = await fetch(`/admin/productOfferManagement/editOffer/${productOffer._id}`, {
+                                                        method: 'PUT',
+                                                        headers: { "Content-Type": "application/json" },
+                                                        body: JSON.stringify(formData)
+                                                    });
+
+                                                    const result = await response.json();
+
+                                                    if (result.success) {
+                                                        Swal.fire({
+                                                            icon: "success",
+                                                            title: "Your Product Offer has been updated",
+                                                            showConfirmButton: true,
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                const urlParams = new URLSearchParams(window.location.search);
+                                                                const currentPage = urlParams.get('page') || 1;
+                                                                const bySearch = urlParams.get('bySearch') || '';
+
+                                                                const queryString = new URLSearchParams({
+                                                                    page: currentPage,
+                                                                    ...(bySearch && { bySearch })  // include bySearch only if it exists
+                                                                }).toString();
+
+                                                                $('#product-offers-table').load(`/admin/productManagement/product-offers-page?${queryString} #product-offers-table`);
+
+                                                                // window.location.reload()
+                                                                const modalElement = document.getElementById(`editModal${index}`);
+                                                                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                                                if (modalInstance) modalInstance.hide();
+                                                            }
+                                                        });
+                                                    } else {
+                                                        Swal.fire({
+                                                            icon: "error",
+                                                            title: "Failed to update the product offer",
+                                                            text: "Please try again"
+                                                        });
                                                     }
-                                                });
-                                            } else {
-                                                Swal.fire({
-                                                    icon: "error",
-                                                    title: "Failed to update the product offer",
-                                                    text: "Please try again"
-                                                });
+                                                } catch (error) {
+                                                    console.error(error);
+                                                    Swal.fire({
+                                                        icon: "error",
+                                                        title: "Failed to update the product offer",
+                                                        text: "Please try again"
+                                                    });
+                                                }
                                             }
-                                        } catch (error) {
-                                            console.error(error);
-                                            Swal.fire({
-                                                icon: "error",
-                                                title: "Failed to update the product offer",
-                                                text: "Please try again"
-                                            });
-                                        }
-                                    }
+                                        });
+                                    });
                                 });
-                            });
-                        });
-                    </script>
+                            </script>
 
-                    <div class="row">
-                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-12">
 
-                            <nav id="pagination">
-                                <ul class="pagination">
-                                    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-                                        <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
-                                            aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </button>
-                                    </li>
-                                    <% for(let i=1; i <=pages; i++) { %>
-                                        <li class="page-item <%= page === i ? 'active' : '' %>">
-                                            <button class="page-link" onclick="loadPage('<%= i %>')">
-                                                <%= i %>
-                                            </button>
-                                        </li>
-                                        <% } %>
-                                            <% if (page < pages) { %>
-                                                <li class="page-item">
-                                                    <button class="page-link" onclick="loadPage('<%= page + 1 %>')"
-                                                        aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
+                                    <nav id="pagination">
+                                        <ul class="pagination">
+                                            <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+                                                <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
+                                                    aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </button>
+                                            </li>
+                                            <% for(let i=1; i <=pages; i++) { %>
+                                                <li class="page-item <%= page === i ? 'active' : '' %>">
+                                                    <button class="page-link" onclick="loadPage('<%= i %>')">
+                                                        <%= i %>
                                                     </button>
                                                 </li>
                                                 <% } %>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
+                                                    <% if (page < pages) { %>
+                                                        <li class="page-item">
+                                                            <button class="page-link"
+                                                                onclick="loadPage('<%= page + 1 %>')" aria-label="Next">
+                                                                <span aria-hidden="true">&raquo;</span>
+                                                            </button>
+                                                        </li>
+                                                        <% } %>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
 
-                </div>
+                        </div>
+                        <% } %>
+
             </div>
         </div>
     </section>
@@ -791,16 +868,66 @@
         integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+
+        function redirectToSearch(event) {
+            event.preventDefault();
+            const searchQuery = document.querySelector('input[name="searchQuery"]').value;
+            console.log("searchQuery : ", searchQuery);
+
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('bySearch', searchQuery);
+            const newUrl = `${location.pathname}?${urlParams.toString()}`;
+
+            window.location.href = newUrl; // 🔄 Perform full page reload
+
+        }
+
+        function clearSearch() {
+            const input = document.querySelector('input[name="searchQuery"]');
+            input.value = '';
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.delete('bySearch');
+
+            // Optionally, update the browser URL without reloading:
+            const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+            window.location.href = newUrl; // 🔄 Perform full page reload
+
+            toggleClearBtn();
+        }
+
+        function toggleClearBtn() {
+            const input = document.querySelector('input[name="searchQuery"]');
+            const clearIcon = document.getElementById('clearIcon');
+            const urlParams = new URLSearchParams(window.location.search);
+
+            if (input.value.trim()) {
+                clearIcon.style.display = 'block';
+            } else {
+                clearIcon.style.display = 'none';
+
+                // Remove 'bySearch' from URL
+                urlParams.delete('bySearch');
+                const newUrl = `${location.pathname}?${urlParams.toString()}`;
+                window.history.replaceState({}, '', newUrl);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('bySearch');
+            if (searchQuery) {
+                document.querySelector('input[name="searchQuery"]').value = searchQuery;
+            }
+        });
+
         function loadPage(pageNumber) {
             const urlParams = new URLSearchParams(window.location.search);
             urlParams.set('page', pageNumber); // set new page number
 
             const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
 
-            window.history.replaceState({}, '', newUrl);
+            window.location.href = newUrl; // 🔄 Triggers full page refresh
 
-            $('#product-offers-table').load(`${newUrl} #product-offers-table`);
-            $('#pagination').load(`${newUrl} #pagination`);
         }
 
         $(document).ready(function () {
@@ -852,7 +979,11 @@
                             showConfirmButton: true,
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                $('#product-offers-table').load('/admin/productManagement/product-offers-page #product-offers-table');
+                                const urlParams = new URLSearchParams(window.location.search);
+                                const currentPage = urlParams.get('page') || 1;
+
+                                $('#product-offers-table').load(`/admin/productManagement/product-offers-page?page=${currentPage} #product-offers-table`);
+                                // window.location.reload()
                                 const modalElement = document.getElementById(`addProductOfferModal`);
                                 const modalInstance = bootstrap.Modal.getInstance(modalElement);
                                 if (modalInstance) modalInstance.hide();

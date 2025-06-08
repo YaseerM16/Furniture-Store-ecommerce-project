@@ -43,6 +43,13 @@
 
 <body>
     <style>
+        .error {
+            color: red;
+            font-size: 14px;
+            /* optional: adjust size as needed */
+            margin-top: 5px;
+        }
+
         #brand-name {
             font-family: "Bungee Spice", sans-serif;
             font-weight: 400;
@@ -164,12 +171,8 @@
             color: green;
         }
 
-        /* .alert-danger {
+        .alert-danger {
             color: #721c24 !important;
-        } */
-
-        label.error {
-            color: red;
         }
 
         .header .topbar .inner {
@@ -328,16 +331,6 @@
                                                                         class="form-control form-control-custom"
                                                                         placeholder="Username" autocomplete="off"
                                                                         required>
-                                                                    <% if (errors && errors.length> 0) { %>
-                                                                        <% errors.forEach(error=> { %>
-                                                                            <% if (error.path==='username' ) { %>
-                                                                                <div class="alert-danger"
-                                                                                    style="background-color: red;">
-                                                                                    <%= error.msg %>
-                                                                                </div>
-                                                                                <% } %>
-                                                                                    <% }); %>
-                                                                                        <% } %>
                                                                 </div>
                                                             </div>
                                                             <div class="col-12">
@@ -347,15 +340,6 @@
                                                                         style="font-size: 22px;"
                                                                         class="form-control form-control-custom"
                                                                         placeholder="Email" autocomplete="off" required>
-                                                                    <% if (errors && errors.length> 0) { %>
-                                                                        <% errors.forEach(error=> { %>
-                                                                            <% if (error.path==='email' ) { %>
-                                                                                <div class="alert-danger">
-                                                                                    <%= error.msg %>
-                                                                                </div>
-                                                                                <% } %>
-                                                                                    <% }); %>
-                                                                                        <% } %>
                                                                 </div>
                                                             </div>
                                                             <div class="col-12">
@@ -365,15 +349,7 @@
                                                                         id="phonenumber" style="font-size: 22px;"
                                                                         class="form-control form-control-custom"
                                                                         placeholder="Phone" autocomplete="off" required>
-                                                                    <% if (errors && errors.length> 0) { %>
-                                                                        <% errors.forEach(error=> { %>
-                                                                            <% if (error.path==='phonenumber' ) { %>
-                                                                                <div class="alert-danger">
-                                                                                    <%= error.msg %>
-                                                                                </div>
-                                                                                <% } %>
-                                                                                    <% }); %>
-                                                                                        <% } %>
+
                                                                 </div>
                                                             </div>
                                                             <div class="col-12">
@@ -386,17 +362,6 @@
                                                                         required>
                                                                     <span id="passwordStrength"
                                                                         class="mt-2 d-block"></span>
-                                                                    <% if (errors && errors.length> 0) { %>
-                                                                        <% errors.forEach(error=> { %>
-                                                                            <% if (error.path==='password' ) { %>
-                                                                                <div style="background-color: red;"
-                                                                                    class="alert-danger">
-                                                                                    <%= error.msg %>
-                                                                                </div>
-                                                                                <% } %>
-                                                                                    <% }); %>
-                                                                                        <% } %>
-
                                                                 </div>
                                                             </div>
                                                             <div class="col-12">
@@ -407,15 +372,7 @@
                                                                         class="form-control form-control-custom"
                                                                         id="confirmPassword" placeholder="password"
                                                                         autocomplete="off" required>
-                                                                    <% if (errors && errors.length> 0) { %>
-                                                                        <% errors.forEach(error=> { %>
-                                                                            <% if (error.path==='confirmPassword' ) { %>
-                                                                                <div class="alert-danger">
-                                                                                    <%= error.msg %>
-                                                                                </div>
-                                                                                <% } %>
-                                                                                    <% }); %>
-                                                                                        <% } %>
+
 
                                                                 </div>
                                                             </div>
@@ -591,7 +548,7 @@
                     maxlength: "Phone number must be equals 10 Digits"
                 }
             },
-            errorClass: "error",
+            errorClass: "text-danger",
             submitHandler: function (form) {
                 if ($('#myForm').valid()) { // Check if the form is valid
                     form.submit(); // Submit the form

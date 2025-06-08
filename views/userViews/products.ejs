@@ -29,9 +29,6 @@
     <link href="assets/css/plugins/slick.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,25 +36,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <style>
-        .search-icon {
-            color: #555;
-            transition: color 0.3s ease;
-        }
-
-        .search-icon:hover {
-            color: #007bff;
-            /* or any hover color you want */
-            transform: scale(1.1);
-            transition: all 0.2s;
-        }
-
-        #clearIcon:hover {
-            color: #dc3545;
-            /* red or highlight color on hover */
-        }
-
-
-
         #brand-name {
             font-family: "Bungee Spice", sans-serif;
             font-weight: 400;
@@ -131,7 +109,6 @@
                     </div>
                     <!-- Logo -->
                     <!-- Search Form -->
-                    <!-- Search Form -->
                     <div class="search-form">
                         <div class="search-form ml-3" style="width: 300px;">
                             <form onsubmit="redirectToSearch(event)"
@@ -156,6 +133,7 @@
                         </div>
 
                     </div>
+
                     <!-- Search Form -->
                     <!-- Header Action -->
                     <div class="header_action">
@@ -277,7 +255,7 @@
     <div>
         <section class="order-list">
             <div>
-                <div class="row d-flex" id="products-fill">
+                <div class="row d-flex">
                     <div class="col-xl-3 col-lg-4">
                         <div class="account_sidebar style_2 section pb-0 h-100" style="margin-left: 67px;">
                             <h4 class="title">Filter</h4>
@@ -391,135 +369,185 @@
                                 style="margin-right: 67px;max-width: 200px;">
                                 <div class="d-flex justify-content-center flex-column">
                                     <button id="apply-filters" class="btn btn-primary my-3"
-                                        style="font-size: 1.2em; padding: 0.5em 1em;" onclick="applyfilters()">Apply
+                                        style="font-size: 1.2em; padding: 0.5em 1em;">Apply
                                         filters</button>
-                                    <button id="remove-filters" class="btn btn-secondary"
-                                        onclick="removeFilters()">Remove filters</button>
+                                    <button id="remove-filters" class="btn btn-secondary">Remove filters</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-xl-9 col-lg-8" style="margin-top: 80px;">
-                        <div class="section-header">
-                            <h3 class="title">Products</h3>
-                            <p class="text">Here are there unique products</p>
+                    <% if (!productDet || productDet.length===0) { %>
+                        <div class="col-lg-6 mx-auto text-center p-5 mt-4">
+                            <!-- Search icon with subtle gradient -->
+                            <svg width="96" height="96" viewBox="0 0 24 24" fill="none" class="mb-4">
+                                <linearGradient id="search-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#f8f9fa" />
+                                    <stop offset="100%" stop-color="#e9ecef" />
+                                </linearGradient>
+                                <circle cx="11" cy="11" r="8" fill="url(#search-gradient)" stroke="#adb5bd"
+                                    stroke-width="1" />
+                                <path d="M21 21l-4.35-4.35" fill="none" stroke="#6c757d" stroke-width="1.5" />
+                            </svg>
+
+                            <h5 class="text-dark mb-3 fw-semibold">No Products Found</h5>
+                            <p class="text-muted mb-4">We couldn't find any products matching your search. Try different
+                                keywords or browse
+                                our categories.</p>
+
+                            <div class="text-center mt-1">
+                                <a href="/products" class="thm-btn btn-rectangle thm-bg-color-one lh-normal btn-small">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="me-2">
+                                        <path
+                                            d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+                                    </svg>
+                                    Browse All Products
+                                </a>
+                            </div>
                         </div>
-                        <div id="products" class="row mx-3">
-                            <!-- Item -->
-                            <% for(let i=0; i<productDet.length; i++){ %>
-                                <div class="col-lg-4 col-sm-6">
-                                    <div class="product_block">
-                                        <div class="product_top">
-                                            <div>
-                                                <% if (productDet[i].productOfferPercentage ) { %>
-                                                    <span class="product_tag">
-                                                        <%=productDet[i].productOfferPercentage%>% Off
-                                                    </span>
-                                                    <% } else { %>
-                                                        <% } %>
+                        <% } else { %>
+                            <!-- Your products listing code goes here -->
 
-                                            </div>
-                                            <div>
-                                                <% if (productDet[i].isWishListed ) { %>
-                                                    <button type="button" class="icon active whisListIcon"
-                                                        prod-id="<%= productDet[i]._id %>" index="<%= i %>"
-                                                        id="wishIcon_<%= i %>">
-                                                        <i class="fal fa-heart activei"></i>
-                                                    </button>
-                                                    <% } else { %>
-                                                        <button type="button" class="icon whisListIcon"
-                                                            prod-id="<%= productDet[i]._id %>" index="<%= i %>"
-                                                            id="wishIcon_<%= i %>">
-                                                            <i class="fal fa-heart"></i>
-                                                        </button>
-                                                        <% } %>
-                                            </div>
+                            <div class="col-xl-9 col-lg-8" style="margin-top: 80px;">
+                                <div class="section-header">
+                                    <h3 class="title">Products</h3>
+                                    <p class="text">Here are there unique products</p>
+                                </div>
+                                <div class="row mx-3">
+                                    <!-- Item -->
+                                    <% for(let i=0; i<productDet.length; i++){ %>
+                                        <div class="col-lg-4 col-sm-6">
+                                            <div class="product_block">
+                                                <div class="product_top">
+                                                    <div>
+                                                        <% if (productDet[i].productOfferPercentage ) { %>
+                                                            <span class="product_tag">
+                                                                <%=productDet[i].productOfferPercentage%>% Off
+                                                            </span>
+                                                            <% } else { %>
+                                                                <% } %>
 
+                                                    </div>
+                                                    <div>
+                                                        <% if (productDet[i].isWishListed ) { %>
+                                                            <button type="button" class="icon active whisListIcon"
+                                                                prod-id="<%= productDet[i]._id %>" index="<%= i %>"
+                                                                id="wishIcon_<%= i %>">
+                                                                <i class="fal fa-heart activei"></i>
+                                                            </button>
+                                                            <% } else { %>
+                                                                <button type="button" class="icon whisListIcon"
+                                                                    prod-id="<%= productDet[i]._id %>" index="<%= i %>"
+                                                                    id="wishIcon_<%= i %>">
+                                                                    <i class="fal fa-heart"></i>
+                                                                </button>
+                                                                <% } %>
+                                                    </div>
 
-                                        </div>
-
-                                        <div class="product_image">
-                                            <a href="/singleProduct?id=<%=productDet[i]._id %>" class="click_img">
-                                                <img src="assets/uploadimages/uploads/<%=productDet[i].productImage[0]%>"
-                                                    class="image-fit-contain" alt="img">
-                                            </a>
-                                        </div>
-                                        <div class="product_categories">
-                                            <span>
-                                                <%=productDet[i].parentCategory.categoryName%>
-                                            </span>
-                                        </div>
-                                        <h4 class="title"><a href="#">
-                                                <%=productDet[i].productName%>
-                                            </a></h4>
-                                        <div class="price">
-                                            <span>
-                                                &#8377
-                                                <%=productDet[i].productPrice%>
-                                            </span>
-                                            <% if (productDet[i].priceBeforeOffer !==productDet[i].productPrice ) { %>
-                                                <span>&#8377&nbsp;<%=productDet[i].priceBeforeOffer%></span>
-                                                <% } else { %>
-                                                    <% } %>
-                                        </div>
-                                        <!-- <div class="product_qty"><span>1</span>PC</div> -->
-                                        <% if (productDet[i].productStock===productQtyLimit) { %>
-                                            <strong class="product_action text-danger" style="font-size: x-large;">
-                                                Out of Stock!!</strong>
-                                            <span></span>
-
-                                            <% } else { %>
-                                                <div class="product_action">
-                                                    <% if (user) { %>
-                                                        <button type="button" onclick="addToCart('<%= i %>')"
-                                                            class="product_btn">ADD to
-                                                            Cart <i class="fal fa-plus"></i></button>
-                                                        <% } else { %>
-                                                            <button type="button" onclick="nonUserAddCart()"
-                                                                class="product_btn">ADD to Cart <i
-                                                                    class="fal fa-plus"></i></button>
-                                                            <% } %>
 
                                                 </div>
-                                                <% } %>
-                                    </div>
-                                </div>
-                                <% } %>
-                                    <!-- Item -->
 
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <nav>
-                                                <ul class="pagination">
-                                                    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-                                                        <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
-                                                            aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                        </button>
-                                                    </li>
-                                                    <% for(let i=1; i <=pages; i++) { %>
-                                                        <li class="page-item <%= page === i ? 'active' : '' %>">
-                                                            <button class="page-link" onclick="loadPage('<%= i %>')">
-                                                                <%= i %>
-                                                            </button>
-                                                        </li>
+                                                <div class="product_image">
+                                                    <a href="/singleProduct?id=<%=productDet[i]._id %>"
+                                                        class="click_img">
+                                                        <img src="assets/uploadimages/uploads/<%=productDet[i].productImage[0]%>"
+                                                            class="image-fit-contain" alt="img">
+                                                    </a>
+                                                </div>
+                                                <div class="product_categories">
+                                                    <span>
+                                                        <%=productDet[i].parentCategory.categoryName%>
+                                                    </span>
+                                                </div>
+                                                <h4 class="title"><a href="#">
+                                                        <%=productDet[i].productName%>
+                                                    </a></h4>
+                                                <div class="price">
+                                                    <span>
+                                                        &#8377
+                                                        <%=productDet[i].productPrice%>
+                                                    </span>
+                                                    <% if (productDet[i].priceBeforeOffer !==productDet[i].productPrice
+                                                        ) { %>
+                                                        <span>&#8377&nbsp;<%=productDet[i].priceBeforeOffer%></span>
+                                                        <% } else { %>
+                                                            <% } %>
+                                                </div>
+                                                <!-- <div class="product_qty"><span>1</span>PC</div> -->
+                                                <% if (productDet[i].productStock===productQtyLimit) { %>
+                                                    <strong class="text-danger" style="margin-bottom:100px ;">
+                                                        Out of Stock!!</strong>
+                                                    <span></span>
+
+                                                    <% } else { %>
+                                                        <div class="product_action">
+                                                            <% if (user) { %>
+                                                                <button type="button" onclick="addToCart('<%= i %>')"
+                                                                    class="product_btn">ADD to
+                                                                    Cart <i class="fal fa-plus"></i></button>
+                                                                <% } else { %>
+                                                                    <button type="button" onclick="nonUserAddCart()"
+                                                                        class="product_btn">ADD to Cart <i
+                                                                            class="fal fa-plus"></i></button>
+                                                                    <% } %>
+
+                                                        </div>
                                                         <% } %>
-                                                            <% if (page < pages) { %>
-                                                                <li class="page-item">
-                                                                    <button class="page-link"
-                                                                        onclick="loadPage('<%= page + 1 %>')"
-                                                                        aria-label="Next">
-                                                                        <span aria-hidden="true">&raquo;</span>
-                                                                    </button>
-                                                                </li>
-                                                                <% } %>
-                                                </ul>
-                                            </nav>
+                                            </div>
                                         </div>
-                                    </div>
-                        </div>
-                    </div>
+                                        <% } %>
+                                            <!-- Item -->
+
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <nav>
+                                                        <ul class="pagination">
+                                                            <li class="page-item">
+                                                                <a class="page-link"
+                                                                    onclick="pageClick('<%= page - 1 %>')"
+                                                                    aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                    <span class="sr-only">Previous</span>
+                                                                </a>
+                                                            </li>
+                                                            <% for(let i=1; i <=pages; i++){ %>
+                                                                <li class="page-item <%= page == i? 'active' : '' %>"><a
+                                                                        class="page-link"
+                                                                        onclick="pageClick('<%= i %>')">
+                                                                        <%= i %>
+                                                                    </a></li>
+                                                                <% } %>
+                                                                    <% if(page==pages){ %>
+                                                                        <li class="page-item">
+                                                                            <a class="page-link"
+                                                                                onclick="pageClick('<%= page %>')"
+                                                                                aria-label="Next">
+                                                                                <span aria-hidden="true">&raquo;</span>
+                                                                                <span class="sr-only">Next</span>
+                                                                            </a>
+                                                                        </li>
+                                                                        <% } else { %>
+
+                                                                            <li class="page-item">
+                                                                                <a class="page-link"
+                                                                                    onclick="pageClick('<%= page + 1 %>')"
+                                                                                    aria-label="Next">
+                                                                                    <span
+                                                                                        aria-hidden="true">&raquo;</span>
+                                                                                    <span class="sr-only">Next</span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <% } %>
+                                                        </ul>
+                                                    </nav>
+
+
+                                                </div>
+                                            </div>
+                                </div>
+                            </div>
+                            <% } %>
+
                 </div>
             </div>
         </section>
@@ -772,39 +800,40 @@
     <script>
         const productDet = '<%- JSON.stringify(productDet) %>'
         const productDetArr = JSON.parse(productDet)
-        function loadPage(pageNumber) {
-            const urlParams = new URLSearchParams(window.location.search);
-            urlParams.set('page', pageNumber); // set new page number
-
-            // Optional: retain existing filters/search parameters
-            const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
-
-            // Update browser URL (no reload)
-            window.history.replaceState({}, '', newUrl);
-
-            // Load new product data into #products
-            $('#products').load(`${newUrl} #products`);
-        }
-        // console.log(productDetArr);
+        console.log(productDetArr);
+        const User = '<%- JSON.stringify(user) %>'
+        console.log("User in Producst Page: ", User);
         const filterDet = '<%- JSON.stringify(queryFilters) %>'
         const parsedFilters = JSON.parse(filterDet)
         // console.log(parsedFilters);
         const addToCart = async (index) => {
             // console.log(index);
             // console.log("Indexed Product :", productDetArr[index]);
+            // console.log("ADD to CART is CAlling..");
+
             const product = productDetArr[index];
             const prodId = product._id;
             const prodStock = product.productStock;
             const prodQty = 1;
             const prodPrice = product.productPrice;
-            console.log("Product Qty: ", prodQty);
+            // console.log("Product Qty: ", prodQty);
             try {
                 const response = await fetch(`/addToCart?pid=${prodId}&stock=${prodStock}&quantity=${prodQty}&productPrice=${prodPrice}`, {
                     method: 'POST',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
                 })
                 const data = await response.json();
+                console.log("REsponse in addToCart: ", data);
 
-                if (data.success) {
+
+                if (data.userBlocked) {
+                    console.log("Uuujer Blocked: true", "reidrect URL : ", data.redirectUrl);
+
+                    window.location.href = data.redirectUrl;
+                }
+                else if (data.success) {
                     Swal.fire({
                         icon: 'success',
                         title: 'Product Added to Cart',
@@ -850,9 +879,11 @@
         const removeSuccessModal = new bootstrap.Modal(document.getElementById("removeSuccessModal"));
 
 
-        // const applyFiltersButton = document.getElementById('apply-filters');
-        // const removeFiltersButton = document.getElementById('remove-filters');
+        const applyFiltersButton = document.getElementById('apply-filters');
+        const removeFiltersButton = document.getElementById('remove-filters');
         async function nonUserAddCart() {
+            console.log("NON-User Add to CART is CAlling..");
+
             signupLoginModal.show();
             document
                 .getElementById("closeNonUserModal")
@@ -864,12 +895,8 @@
         const selectedFilters = {};
         let url = `/filterProduct?`;
 
-        async function applyfilters() {
-            // Re-select radio buttons dynamically to ensure fresh references
-            const radios = document.querySelectorAll('input[type="radio"]');
 
-            const selectedFilters = {}; // Reset inside the function
-
+        applyFiltersButton.addEventListener('click', async () => {
             radios.forEach(radio => {
                 if (radio.checked) {
                     const val = radio.id;
@@ -891,75 +918,14 @@
                 url += `${filterType}=${selectedFilters[filterType]}${index < Object.keys(selectedFilters).length - 1 ? '&' : ''}`;
             });
 
-            window.history.replaceState({}, '', url);
-            console.log("Url by applyfilters: ", url);
-
-            // $('#products-fill').load(`${url} #products-fill`);
-            $('#products').load(`${url} #products`);
-        }
-
-
-
-        // applyFiltersButton.addEventListener('click', async () => {
-        //     radios.forEach(radio => {
-        //         if (radio.checked) {
-        //             const val = radio.id;
-        //             const filterType = radio.name;
-        //             selectedFilters[filterType] = val;
-        //         }
-        //     });
-
-        //     const urlParams = new URLSearchParams(window.location.search);
-        //     const searchQuery = urlParams.get('bySearch');
-
-        //     let url = `/filterProduct?`;
-
-        //     if (searchQuery) {
-        //         url += `bySearch=${searchQuery}&`;
-        //     }
-
-        //     Object.keys(selectedFilters).forEach((filterType, index) => {
-        //         url += `${filterType}=${selectedFilters[filterType]}${index < Object.keys(selectedFilters).length - 1 ? '&' : ''}`;
-        //     });
-        //     window.history.replaceState({}, '', url);
-
-        //     console.log("Url by applyfilters: ", url);
-
-        //     $('#products').load(`${url} #products`);
-        // });
-        function removeFilters() {
-            $('#products-fill').load(`/filterProduct #products-fill`);
-
-            // Clear selected filters from the URL
-            const urlParams = new URLSearchParams(window.location.search);
-            urlParams.delete('category');
-            urlParams.delete('price-range');
-            urlParams.delete('bySearch');
-
-            // Update the browser's URL
-            const newUrl = `${location.pathname}?${urlParams.toString()}`;
-            window.history.replaceState({}, '', newUrl);
-
+            console.log(url);
+            window.location.href = url;
+            console.log("Heolloe");
+        });
+        removeFiltersButton.addEventListener('click', () => {
+            window.location.href = '/filterProduct';
             console.log('Filters removed');
-        }
-
-        // document.getElementById('remove-filters').addEventListener('click', () => {
-        //     // Load default state
-        //     $('#products-fill').load(`/filterProduct #products-fill`);
-
-        //     // Clear selected filters from the URL
-        //     const urlParams = new URLSearchParams(window.location.search);
-        //     urlParams.delete('category');
-        //     urlParams.delete('price-range');
-        //     urlParams.delete('bySearch');
-
-        //     // Update the browser's URL
-        //     const newUrl = `${location.pathname}?${urlParams.toString()}`;
-        //     window.history.replaceState({}, '', newUrl);
-
-        //     console.log('Filters removed');
-        // });
-
+        });
 
         function pageClick(page) {
             const currentPage = parseInt(page);
@@ -993,7 +959,9 @@
             }
 
             window.history.replaceState({}, '', newUrl);
-            $('#products').load(`${newUrl} #products`);
+            window.location.reload()
+            // $('#products').load(`${newUrl} #products`);
+            // attachWishListIcons()
         }
 
         function clearSearch() {
@@ -1007,7 +975,8 @@
             window.history.replaceState({}, '', newUrl); // Update the address bar
 
             // Reload the #products section via AJAX
-            $('#products').load(`${newUrl} #products`);
+            window.location.reload()
+            // $('#products').load(`${newUrl} #products`);
             toggleClearBtn();
         }
 
@@ -1028,7 +997,6 @@
 
             }
         }
-
 
         window.addEventListener('load', () => {
             const urlParams = new URLSearchParams(window.location.search);

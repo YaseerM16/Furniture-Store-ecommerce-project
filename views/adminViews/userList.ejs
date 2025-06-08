@@ -140,26 +140,6 @@
                         </a>
                     </div>
                     <!-- Logo -->
-                    <!-- Search Form -->
-                    <div class="search-form">
-                        <form>
-                            <!-- Location -->
-
-                            <!-- Location -->
-                            <!-- Search -->
-                            <div class="input-group">
-                                <input type="text" name="#" class="form-control" placeholder="Search for products..."
-                                    autocomplete="off" required>
-                                <div class="input-group-append input-group-text">
-                                    <button type="submit">
-                                        <i class="fal fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- Search -->
-                        </form>
-                    </div>
-                    <!-- Search Form -->
                     <!-- Header Action -->
                     <div class="header_action">
                         <ul>
@@ -300,101 +280,169 @@
                 </div>
                 <div class="col-xl-9 col-lg-8">
                     <section class="section-padding pb-0">
+                        <!-- Search Form -->
+                        <div style="display: flex;justify-content: center;" class="search-form">
+                            <div class="search-form ml-3" style="width: 300px;">
+                                <form onsubmit="redirectToSearch(event)"
+                                    class="d-flex align-items-center position-relative">
+
+                                    <!-- Search Input -->
+                                    <input type="text" name="searchQuery" id="searchInput" class="form-control me-2"
+                                        placeholder="Search for user by User name..." autocomplete="off"
+                                        oninput="toggleClearBtn()">
+
+                                    <!-- Clear (×) Icon -->
+                                    <span id="clearIcon" onclick="clearSearch()"
+                                        style="display: none; position: absolute; right: 70px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #888;">
+                                        &times;
+                                    </span>
+
+                                    <!-- Search Button -->
+                                    <button type="submit" class="btn btn-outline-secondary">
+                                        <i class="fal fa-search"></i>
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+                        <!-- Search Form -->
                         <div class="container-fluid">
                             <div class="section-header">
                                 <h3 class="title">Users List</h3>
                             </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="table-responsive cart_table" id="user-table">
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>User Name</th>
-                                                    <th>Email</th>
-                                                    <th>Phone Number</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <% for(let i=0;i<userDet.length;i++){ %>
-                                                    <tr>
-                                                        <th scope="row">
-                                                            <%= userDet[i].username %>
-                                                        </th>
-                                                        <td>
-                                                            <%= userDet[i].email %>
-                                                        </td>
-                                                        <td>
-                                                            <%= userDet[i].phonenumber %>
-                                                        </td>
-                                                        <% if(userDet[i].isBlocked){ %>
-                                                            <td>
-                                                                <div
-                                                                    class="d-flex justify-content-center align-items-center">
-                                                                    <button id="unblock<%i%>"
-                                                                        onclick="fnBlock('<%=userDet[i]._id %>')"
-                                                                        type="button" class="btn btn-success"><i
-                                                                            class="fas fa-unlock"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                            <% }else{ %>
+                            <% if (!userDet || userDet.length===0) { %>
+                                <div class="col-lg-6 mx-auto text-center p-5 mt-4">
+                                    <!-- User search icon with subtle gradient -->
+                                    <svg width="96" height="96" viewBox="0 0 24 24" fill="none" class="mb-4">
+                                        <linearGradient id="user-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#f8f9fa" />
+                                            <stop offset="100%" stop-color="#e9ecef" />
+                                        </linearGradient>
+                                        <circle cx="12" cy="6" r="4" fill="url(#user-gradient)" stroke="#adb5bd"
+                                            stroke-width="1" />
+                                        <path
+                                            d="M19 17.5c0 2.485 0 4.5-7 4.5S5 19.985 5 17.5C5 15.015 8.582 13 12 13s7 2.015 7 4.5z"
+                                            fill="url(#user-gradient)" stroke="#adb5bd" stroke-width="1" />
+                                        <path d="M21 21l-2.5-2.5" fill="none" stroke="#6c757d" stroke-width="1.5" />
+                                    </svg>
+
+                                    <h5 class="text-dark mb-3 fw-semibold">No Users Found</h5>
+                                    <p class="text-muted mb-4">We couldn't find any users matching . Try a
+                                        different username.</p>
+
+                                    <div class="d-flex justify-content-center gap-3 mt-1">
+
+                                        <button onclick="clearSearch()"
+                                            class="thm-btn btn-rectangle btn-outline-secondary lh-normal btn-small">
+                                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+                                                class="me-2">
+                                                <path
+                                                    d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                                                <path
+                                                    d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                                            </svg>
+                                            Clear Search
+                                        </button>
+                                    </div>
+                                </div>
+                                <% } else { %>
+                                    <!-- Your users listing code goes here -->
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="table-responsive cart_table" id="user-table">
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>User Name</th>
+                                                            <th>Email</th>
+                                                            <th>Phone Number</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% for(let i=0;i<userDet.length;i++){ %>
+                                                            <tr>
+                                                                <th scope="row">
+                                                                    <%= userDet[i].username %>
+                                                                </th>
                                                                 <td>
-                                                                    <div
-                                                                        class="d-flex justify-content-center align-items-center">
-                                                                        <button id="block<%i%>"
-                                                                            onclick="fnUnBlock('<%=userDet[i]._id %>')"
-                                                                            type="button" class="btn btn-danger"><i
-                                                                                class="fas fa-ban"></i>
-                                                                        </button>
-                                                                    </div>
+                                                                    <%= userDet[i].email %>
                                                                 </td>
-                                                                <% } %>
+                                                                <td>
+                                                                    <%= userDet[i].phonenumber %>
+                                                                </td>
+                                                                <% if(userDet[i].isBlocked){ %>
+                                                                    <td>
+                                                                        <div
+                                                                            class="d-flex justify-content-center align-items-center">
+                                                                            <button id="unblock<%i%>"
+                                                                                onclick="fnBlock('<%=userDet[i]._id %>')"
+                                                                                type="button" class="btn btn-success"><i
+                                                                                    class="fas fa-unlock"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                    <% }else{ %>
+                                                                        <td>
+                                                                            <div
+                                                                                class="d-flex justify-content-center align-items-center">
+                                                                                <button id="block<%i%>"
+                                                                                    onclick="fnUnBlock('<%=userDet[i]._id %>')"
+                                                                                    type="button"
+                                                                                    class="btn btn-danger"><i
+                                                                                        class="fas fa-ban"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                        <% } %>
 
-                                                    </tr>
-                                                    <% } %>
-                                            </tbody>
-                                        </table>
-                                        <!-- Section Start -->
-
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <nav id="pagination">
-                                                    <ul class="pagination">
-                                                        <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-                                                            <button class="page-link"
-                                                                onclick="loadPage('<%= page - 1 %>')"
-                                                                aria-label="Previous">
-                                                                <span aria-hidden="true">&laquo;</span>
-                                                            </button>
-                                                        </li>
-                                                        <% for(let i=1; i <=pages; i++) { %>
-                                                            <li class="page-item <%= page === i ? 'active' : '' %>">
-                                                                <button class="page-link"
-                                                                    onclick="loadPage('<%= i %>')">
-                                                                    <%= i %>
-                                                                </button>
-                                                            </li>
+                                                            </tr>
                                                             <% } %>
-                                                                <% if (page < pages) { %>
-                                                                    <li class="page-item">
+                                                    </tbody>
+                                                </table>
+                                                <!-- Section Start -->
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <nav id="pagination">
+                                                            <ul class="pagination">
+                                                                <li
+                                                                    class="page-item <%= page === 1 ? 'disabled' : '' %>">
+                                                                    <button class="page-link"
+                                                                        onclick="loadPage('<%= page - 1 %>')"
+                                                                        aria-label="Previous">
+                                                                        <span aria-hidden="true">&laquo;</span>
+                                                                    </button>
+                                                                </li>
+                                                                <% for(let i=1; i <=pages; i++) { %>
+                                                                    <li
+                                                                        class="page-item <%= page === i ? 'active' : '' %>">
                                                                         <button class="page-link"
-                                                                            onclick="loadPage('<%= page + 1 %>')"
-                                                                            aria-label="Next">
-                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                            onclick="loadPage('<%= i %>')">
+                                                                            <%= i %>
                                                                         </button>
                                                                     </li>
                                                                     <% } %>
-                                                    </ul>
-                                                </nav>
+                                                                        <% if (page < pages) { %>
+                                                                            <li class="page-item">
+                                                                                <button class="page-link"
+                                                                                    onclick="loadPage('<%= page + 1 %>')"
+                                                                                    aria-label="Next">
+                                                                                    <span
+                                                                                        aria-hidden="true">&raquo;</span>
+                                                                                </button>
+                                                                            </li>
+                                                                            <% } %>
+                                                            </ul>
+                                                        </nav>
+                                                    </div>
+                                                </div>
+                                                <!-- Section End -->
                                             </div>
                                         </div>
-                                        <!-- Section End -->
-                                    </div>
-                                </div>
 
-                            </div>
+                                    </div>
+                                    <% } %>
                         </div>
                     </section>
 
@@ -425,6 +473,57 @@
     <script src="assets/js/custom.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
+        function redirectToSearch(event) {
+            event.preventDefault();
+            const searchQuery = document.querySelector('input[name="searchQuery"]').value;
+            console.log("searchQuery...:::))) ", searchQuery);
+
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('bySearch', searchQuery);
+            const newUrl = `${location.pathname}?${urlParams.toString()}`;
+
+            window.location.href = newUrl
+
+            // $('#products-table').load(`${newUrl} #products-table`);
+
+        }
+
+        function clearSearch() {
+            const input = document.querySelector('input[name="searchQuery"]');
+            input.value = '';
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.delete('bySearch');
+
+            // Optionally, update the browser URL without reloading:
+            const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+            window.location.href = newUrl
+            toggleClearBtn();
+        }
+
+        function toggleClearBtn() {
+            const input = document.querySelector('input[name="searchQuery"]');
+            const clearIcon = document.getElementById('clearIcon');
+            const urlParams = new URLSearchParams(window.location.search);
+
+            if (input.value.trim()) {
+                clearIcon.style.display = 'block';
+            } else {
+                clearIcon.style.display = 'none';
+
+                // Remove 'bySearch' from URL
+                urlParams.delete('bySearch');
+                const newUrl = `${location.pathname}?${urlParams.toString()}`;
+                window.history.replaceState({}, '', newUrl);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('bySearch');
+            if (searchQuery) {
+                document.querySelector('input[name="searchQuery"]').value = searchQuery;
+            }
+        });
         // function navigateTo(path, element) {
         //     $('#component').load(`${path} #component`, function (response, status, xhr) {
         //         if (status === "error") {
@@ -462,10 +561,8 @@
 
             const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
 
-            window.history.replaceState({}, '', newUrl);
+            window.location.href = newUrl; // 🔄 Triggers full page refresh
 
-            $('#user-table').load(`${newUrl} #user-table`);
-            $('#pagination').load(`${newUrl} #pagination`);
         }
 
         async function fnBlock(userId) {
@@ -519,7 +616,7 @@
                 let result = await response.json()
                 if (result.success) {
                     await Swal.fire({
-                        icon: "error",
+                        icon: "success",
                         title: "User blocked",
                         confirmButtonText: "OK",
                     });

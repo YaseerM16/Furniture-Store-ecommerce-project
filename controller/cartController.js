@@ -13,7 +13,6 @@ const AppError = require("../middlewares/errorHandling");
 
 const addToCart = async (req, res, next) => {
   try {
-    console.log(typeof req.query.pid);
     const productExist = await cartCollection.findOne({
       userId: req.session.currentUser._id,
       productId: req.query.pid,
@@ -22,10 +21,13 @@ const addToCart = async (req, res, next) => {
     if (productExist) {
       const presentQty = parseInt(productExist.productQuantity);
       const qty = parseInt(req.query.quantity);
+
       const productPrice = parseInt(req.query.productPrice);
+      console.log("The updated Qty: ", presentQty + qty);
+      console.log("The updated Prc: ", (presentQty + qty) * productPrice);
 
       await cartCollection.updateOne(
-        { productId: req.query.pid },
+        { userId: req.session.currentUser._id, productId: req.query.pid },
         {
           $set: {
             productQuantity: presentQty + qty,
@@ -35,6 +37,8 @@ const addToCart = async (req, res, next) => {
       );
     } else {
       const qty = parseInt(req.query.quantity);
+      console.log("New Prod Qty: ", req.query.quantity);
+
       const productPrice = parseInt(req.query.productPrice);
       const product = {
         userId: req.session.currentUser._id,
@@ -77,7 +81,7 @@ const cartPage = async (req, res, next) => {
       const email = req.session.currentUser.email;
       user = await userCollection.findOne({ email: email });
     } else {
-      user = {};
+      user = null;
     }
     const cartProducts = await cartCollection
       .find({
@@ -239,7 +243,7 @@ const addressCheckOutPage = async (req, res, next) => {
       const email = req.session.currentUser.email;
       user = await userCollection.findOne({ email: email });
     } else {
-      user = {};
+      user = null;
     }
 
     const cartDataRaw = req.query.cartData;
@@ -247,6 +251,7 @@ const addressCheckOutPage = async (req, res, next) => {
     const cartData = JSON.parse(cartDataRaw);
 
     req.session.cartData = cartData;
+    console.log("CART DATA: ", req.session.cartData);
     req.session.cartTotal = req.query.grandTotal;
 
     req.session.save();
@@ -284,7 +289,7 @@ const paymentMethodPage = async (req, res, next) => {
       const email = req.session.currentUser.email;
       user = await userCollection.findOne({ email: email });
     } else {
-      user = {};
+      user = null;
     }
     req.session.couponApplied = false;
     req.session.appliedCouponId = null;
@@ -308,7 +313,7 @@ const checkoutPage = async (req, res, next) => {
       const email = req.session.currentUser.email;
       user = await userCollection.findOne({ email: email });
     } else {
-      user = {};
+      user = null;
     }
 
     req.session.paymentMethod = req.query.paymentmethod;

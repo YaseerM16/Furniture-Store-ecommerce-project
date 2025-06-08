@@ -8,15 +8,21 @@ const categoryList = async (req, res, next) => {
     if (req.session.adminLog) {
       user = await adminCollection.findOne({ _id: req.session.adminUser._id });
     } else {
-      user = {};
+      user = null;
     }
 
     const page = Number(req.query.page) || 1;
     const limit = 9;
     const skip = (page - 1) * limit;
+    const categoryName = req.query.bySearch;
+
+    let searchQuery = {};
+    if (categoryName) {
+      searchQuery.categoryName = { $regex: categoryName, $options: "i" };
+    }
 
     const catCollection = await categoryCollection
-      .find()
+      .find(searchQuery)
       .sort({ _id: -1 })
       .skip(skip)
       .limit(limit);
@@ -24,7 +30,7 @@ const categoryList = async (req, res, next) => {
     let pages;
 
     await categoryCollection
-      .countDocuments()
+      .countDocuments(searchQuery)
       .then((count) => {
         pages = count;
       })
@@ -34,6 +40,7 @@ const categoryList = async (req, res, next) => {
       categoryDet: catCollection,
       page: page,
       pages: Math.ceil(pages / limit),
+      bySearch: categoryName, // Pass the search query to template
       user: user,
     });
   } catch (error) {

@@ -476,17 +476,19 @@ async function offerExistsAndActiveFn(v, offerExists, action) {
       v.productPrice * (1 - greaterOfferPercentage * 0.01)
     );
 
-    await productCollection.updateOne(
-      { _id: v._id },
-      {
-        $set: {
-          productPrice,
-          productOfferId: offerExists._id,
-          productOfferPercentage: greaterOfferPercentage,
-          priceBeforeOffer: v.productPrice,
-        },
-      }
-    );
+    if (currentOfferPercentage !== newOfferPercentage) {
+      await productCollection.updateOne(
+        { _id: v._id },
+        {
+          $set: {
+            productPrice,
+            productOfferId: offerExists._id,
+            productOfferPercentage: greaterOfferPercentage,
+            priceBeforeOffer: v.productPrice,
+          },
+        }
+      );
+    }
   } else if (action === "editOffer" || action === "landingPage") {
     productPrice = Math.round(
       v.priceBeforeOffer * (1 - greaterOfferPercentage * 0.01)
@@ -565,7 +567,7 @@ const applyOffers = async () => {
         await havingBothOffers(productName, categoryName, prod);
       } else if (isInCatOffer || isInProdOffer) {
         let availOffer = isInProdOffer ? "productOffer" : "categoryOffer";
-        // console.log("Calling the SinglwOfferS");
+        // console.log("Calling the SinglwOfferS : ", prod);
         await havingSingleOffer(availOffer, productName, categoryName, prod);
       }
     }
@@ -594,7 +596,9 @@ const checkOfferAvailability = async (req, res) => {
         if (ifProdOffer || ifCatOffer) {
           let availOffer = ifProdOffer ? ifProdOffer : ifCatOffer;
           let priceBefore = prod.priceBeforeOffer;
-          if (!availOffer.currentStatus) {
+          if (!availOffer[0].currentStatus) {
+            console.log("I'm checkAvail doing NULL :)", availOffer);
+
             result = await productCollection.updateOne(
               { _id: prod._id },
               {
@@ -666,6 +670,10 @@ const havingSingleOffer = async (
   try {
     if (availOffer === "productOffer") {
       let prodOffer = await productOfferCollection.findOne({ productName });
+      console.log("Having Single Offer :");
+      console.log("Having Percent: ", prod.productOfferPercentage);
+      console.log("Incoming Percent: ", prodOffer.productOfferPercentage);
+
       if (prod.productOfferPercentage !== prodOffer.productOfferPercentage) {
         let productPrice = Math.round(
           prod.priceBeforeOffer * (1 - prodOffer.productOfferPercentage * 0.01)

@@ -33,7 +33,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 
   <style>
@@ -71,39 +71,32 @@
           </div>
           <!-- Logo -->
           <!-- Search Form -->
-          <div
-            class="d-flex align-items-center justify-content-center gap-3 bg-light border border-light px-4 py-2 rounded-pill mx-auto shadow-sm"
-            style="
-                                  max-width: 768px;
-                                  background-color: #F9F9F7;
-                                  border-color: #EAEAEA !important;
-                              ">
-            <!-- Icon -->
-            <div style="color: #C09B6A; font-size: 16px;">
-              <i class="fas fa-couch"></i>
-            </div>
-          
-            <!-- Message -->
-            <div class="text-dark" style="
-                                    font-size: 14px;
-                                    font-weight: 500;
-                                    letter-spacing: 0.025em;
-                                    line-height: 1.3;
-                                ">
-              Elevate Your Living Space — Modern, Minimal, Comfortable
-            </div>
-          
-            <!-- CTA -->
-            <a href="/products" class="text-decoration-none" style="
-                                    color: #C09B6A;
-                                    font-size: 14px;
-                                    font-weight: 600;
-                                    text-decoration: underline !important;
-                                    text-underline-offset: 3px;
-                                    text-decoration-thickness: 1px !important;
-                                ">
-              Explore
-            </a>
+          <div class="search-form">
+            <form>
+              <!-- Location -->
+              <div class="location">
+                <label>Your Location</label>
+                <select>
+                  <option selected>Select A Location</option>
+                  <option value="New Delhi">New Delhi</option>
+                  <option value="Mumbai">Mumbai</option>
+                  <option value="Kolkata">Kolkata</option>
+                  <option value="Chennai">Chennai</option>
+                </select>
+              </div>
+              <!-- Location -->
+              <!-- Search -->
+              <div class="input-group">
+                <input type="text" name="#" class="form-control" placeholder="Search for products..." autocomplete="off"
+                  required>
+                <div class="input-group-append input-group-text">
+                  <button type="submit">
+                    <i class="fal fa-search"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- Search -->
+            </form>
           </div>
           <!-- Search Form -->
           <!-- Header Action -->
@@ -116,6 +109,7 @@
               </li>
               <li class="cart">
                 <a href="/cartPage">
+                  <span class="cart_value">0</span>
                   <i class="far fa-shopping-cart"></i>
                   <div class="cart_text">
                     My Cart
@@ -224,10 +218,10 @@
   </div>
   <!-- Category Nav End -->
   <!-- Section Start -->
-  <section id="component" class="user_account">
+  <section class="user_account">
     <div class="container-fluid">
       <div class="row">
-        <div id="side-bar" class="col-xl-3 col-lg-4">
+        <div class="col-xl-3 col-lg-4">
           <div class="account_sidebar section pb-0 h-100">
             <h4 class="title">My Account</h4>
             <ul>
@@ -243,7 +237,6 @@
                   Address
                 </a>
               </li>
-
               <li>
                 <a href="/myOrdersPage">
                   <i class="fal fa-luggage-cart"></i>
@@ -262,40 +255,6 @@
                   Wishlist
                 </a>
               </li>
-              <!-- <li class="nav-link">
-                <a href="javascript:void(0)"  onclick="navigateTo('/userDetails', this)">
-                  <i class="fal fa-user"></i>
-                  User Info
-                </a>
-              </li>
-              
-              <li class="nav-link">
-                <a href="javascript:void(0)"  onclick="navigateTo('/addressPage', this)">
-                  <i class="fal fa-book"></i>
-                  Address
-                </a>
-              </li>
-
-              <li class="nav-link">
-                <a href="javascript:void(0)"  onclick="navigateTo('/myOrdersPage', this)">
-                  <i class="fal fa-luggage-cart"></i>
-                  Order
-                </a>
-              </li>
-
-              <li class="nav-link">
-                <a href="javascript:void(0)"  onclick="navigateTo('/walletPage', this)">
-                  <i class="fas fa-wallet"></i>
-                  Wallet
-                </a>
-              </li>
-
-              <li class="nav-link">
-                <a href="javascript:void(0)"  onclick="navigateTo('/wishListPage', this)">
-                  <i class="fal fa-star"></i>
-                  Wishlist
-                </a>
-              </li> -->
               
               <li>
 
@@ -311,7 +270,7 @@
             </ul>
           </div>
         </div>
-        <div id="content-bar" class="col-xl-9 col-lg-8">
+        <div class="col-xl-9 col-lg-8">
           <div class="section">
             <div class="user_info_box">
               <!-- User -->
@@ -320,7 +279,7 @@
                   <img src="assets/images/header/user.png" class="image-fit" alt="img" />
                 </div>
                 <div class="user_text">
-                  <h6 class="name mb-0">
+                  <h6 class="name mb-0 user-name-div">
                     <%= user.username %>
                   </h6>
                 </div>
@@ -601,6 +560,13 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
+  <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
+  <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/plugins/slick.min.js"></script>
+  <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
+  <script src="assets/js/plugins/jquery.counterup.min.js"></script>
+  <script src="assets/js/plugins/jquery.inview.min.js"></script>
+  <script src="assets/js/custom.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
@@ -610,38 +576,6 @@
     integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
-    // function navigateTo(path, element) {
-    //     $('#component').load(`${path} #component`, function (response, status, xhr) {
-    //       console.log("Helloy from component load");
-          
-    //       if (status === "error") {
-    //         $('#component').html('<p class="text-danger">Failed to load content.</p>');
-    //         return;
-    //       }
-    //       document.querySelectorAll('li .nav-link').forEach(link => {
-    //         link.style.backgroundColor = '';
-    //         link.style.color = '';
-    //         link.style.fontWeight = '';
-    //         link.parentElement.classList.remove('active'); // remove from all <li>
-    //       });
-
-    //       // Highlight the clicked element
-    //       element.style.backgroundColor = '#f0f0f0';
-    //       element.style.color = '#0d6efd';
-    //       element.style.fontWeight = 'bold';
-
-    //       // Add "active" class to parent <li>
-    //       element.parentElement.classList.add('active');
-
-    //       // Only initialize if the form exists (means we're on userDetails)
-    //       if (document.querySelector('#my-form')) {
-    //         initializeUserDetails();
-    //       }
-    //     });
-
-    //     history.pushState(null, '', path);
-    // }
-
     function copyReferralCode() {
         const referralCodeValue = document.getElementById('ReferalCode').value;
 
@@ -654,110 +588,112 @@
 
         // Show a notification to indicate the code has been copied
         Swal.fire('Referral link copied to clipboard!');
-    }
-    initializeUserDetails()
+      }
 
-    function initializeUserDetails() {
+    const successModal = new bootstrap.Modal(document.getElementById("successModal"));
+    const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+    $(document).ready(function () {
+      $('#my-form').validate({
+        rules: {
+          username: {
+            required: true,
+            pattern: /^[a-zA-Z]+(?: [a-zA-Z]+)*$/,
+            minlength: 4,
+          },
+          phone: {
+            required: true,
+            pattern: /^\+?[1-9][0-9]{9}$/,
+          },
+        },
+        messages: {
+          username: {
+            required: "Please enter your username.",
+            pattern: "Username should only contain letters and spaces.",
+            minlength: "Username must atleast 4 characters",
+          },
+          phone: {
+            required: "Please enter your phone number.",
+            pattern: "Invalid phone number format.",
+          },
+        },
+        errorClass: "text-danger",
+        submitHandler: function (form) {
+          // Handle form submission if validation passes
+          const name = document.querySelector(".field-name").value.trim();
+          const phone = document.querySelector(".field-phone").value.trim();
+          const email = "<%= user.email %>";
 
-      const successModal = new bootstrap.Modal(document.getElementById("successModal"));
-      const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
-        $('#my-form').validate({
-          rules: {
-            username: {
-              required: true,
-              pattern: /^[a-zA-Z]+(?: [a-zA-Z]+)*$/,
+          const obj = {
+            username: name,
+            email: email,
+            phone: phone,
+          };
+
+          fetch('/editProfile', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
             },
-            phone: {
-              required: true,
-              pattern: /^\+?[1-9][0-9]{9}$/,
-            },
-          },
-          messages: {
-            username: {
-              required: "Please enter your username.",
-              pattern: "Username should only contain letters and spaces.",
-            },
-            phone: {
-              required: "Please enter your phone number.",
-              pattern: "Invalid phone number format.",
-            },
-          },
-          submitHandler: function (form) {
-            // Handle form submission if validation passes
-            const name = document.querySelector(".field-name").value.trim();
-            const phone = document.querySelector(".field-phone").value.trim();
-            const email = "<%= user.email %>";
-  
-            const obj = {
-              username: name,
-              email: email,
-              phone: phone,
-            };
-  
-            fetch('/editProfile', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(obj),
+            body: JSON.stringify(obj),
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                successModal.show();
+                document.getElementById("btn-success").addEventListener("click", function () {
+                  successModal.hide();
+                  console.log(data.name);
+                  console.log(data.phone);
+                  document.querySelector(".field-name").value = data.name;
+                  document.querySelector(".field-phone").value = data.phone;
+                  document.querySelector(".field-name").disabled = true;
+                  document.querySelector(".field-phone").disabled = true;
+                  document.querySelector("#edit_profile_btn").style.display = "block";
+                  document.querySelector(".save_changes_btn").style.display = "none";
+                  document.querySelector(".user-name-div").innerHTML = data.name
+                  // Optionally, you can redirect the user to another page here
+                  // window.location.href = "/userDetails";
+                });
+                console.log("Profile updated successfully.");
+              } else if (data.error) {
+                errorModal.show();
+                console.error("Failed to update profile:", data.error);
+              }
             })
-              .then(response => response.json())
-              .then(data => {
-                if (data.success) {
-                  successModal.show();
-                  document.getElementById("btn-success").addEventListener("click", function () {
-                    successModal.hide();
-                    console.log(data.name);
-                    console.log(data.phone);
-                    document.querySelector(".field-name").value = data.name;
-                    document.querySelector(".field-phone").value = data.phone;
-                    document.querySelector(".field-name").disabled = true;
-                    document.querySelector(".field-phone").disabled = true;
-                    document.querySelector("#edit_profile_btn").style.display = "block";
-                    document.querySelector(".save_changes_btn").style.display = "none";
-                    // Optionally, you can redirect the user to another page here
-                    // window.location.href = "/userDetails";
-                  });
-                  console.log("Profile updated successfully.");
-                } else if (data.error) {
-                  errorModal.show();
-                  console.error("Failed to update profile:", data.error);
-                }
-              })
-              .catch(error => {
-                console.error('Error:', error);
-              });
-          },
-        });
-  
-        document.getElementById("edit_profile_btn").addEventListener("click", function () {
-          let inputs = document.querySelectorAll(".user_form input");
-          for (let i = 0; i < inputs.length; i++) {
-            inputs[i].disabled = false;
-          }
-          document.querySelector("#edit_profile_btn").style.display = "none";
-          document.querySelector(".save_changes_btn").style.display = "block";
-        });
-  
-        document.querySelector(".save_changes_btn").addEventListener("click", function () {
-          // Trigger form submission when the "Save Changes" button is clicked
-          if ($('#my-form').valid()) {
-            // Trigger form submission when the form is valid
-            $('#my-form').submit();
-          } else {
-            // Handle validation errors or show a message to the user
-            // For example, you can display an alert or error message
-            var myModal = new bootstrap.Modal(document.getElementById('customAlertModal'));
-            myModal.show();
-  
-            document.getElementById("alert-ok").addEventListener("click", function (event) {
-              // Prevent the default action (form submission)
-              event.preventDefault();
+            .catch(error => {
+              console.error('Error:', error);
             });
-          }
-        });
+        },
+      });
 
-    }
+      document.getElementById("edit_profile_btn").addEventListener("click", function () {
+        let inputs = document.querySelectorAll(".user_form input");
+        for (let i = 0; i < inputs.length; i++) {
+          inputs[i].disabled = false;
+        }
+        document.querySelector("#edit_profile_btn").style.display = "none";
+        document.querySelector(".save_changes_btn").style.display = "block";
+      });
+
+      document.querySelector(".save_changes_btn").addEventListener("click", function () {
+        // Trigger form submission when the "Save Changes" button is clicked
+        if ($('#my-form').valid()) {
+          // Trigger form submission when the form is valid
+          $('#my-form').submit();
+        // } else {
+        //   // Handle validation errors or show a message to the user
+        //   // For example, you can display an alert or error message
+        //   var myModal = new bootstrap.Modal(document.getElementById('customAlertModal'));
+        //   myModal.show();
+
+        //   document.getElementById("alert-ok").addEventListener("click", function (event) {
+        //     // Prevent the default action (form submission)
+        //     event.preventDefault();
+        //   });
+        }
+      });
+    });
+
 
     // const form = document.getElementById("my-form");
     // form.addEventListener("submit", (event) => {
@@ -815,8 +751,15 @@
     //     console.error('Error:', error);
     //   }
     // });
+
+
     
-    ///////     MY    TRY    //////////////////////
+    
+    
+    
+    
+    
+    ///////     MY    TRY //////////////////////
     
     // document
     // document
@@ -889,13 +832,6 @@
     //     document.querySelector(".save_changes_btn").style.display = "none";
     //   });
   </script>
-  <script src="assets/js/plugins/jquery-3.6.0.min.js"></script>
-  <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
-  <script src="assets/js/plugins/slick.min.js"></script>
-  <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
-  <script src="assets/js/plugins/jquery.counterup.min.js"></script>
-  <script src="assets/js/plugins/jquery.inview.min.js"></script>
-  <script src="assets/js/custom.js"></script>
 </body>
 
 </html>

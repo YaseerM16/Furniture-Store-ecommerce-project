@@ -98,7 +98,12 @@ userRouter.get(
   blockUserCheck,
   accountController.userDetailsPage
 );
-userRouter.post("/editProfile", accountController.profileEdit);
+userRouter.post(
+  "/editProfile",
+  isLogged,
+  blockUserCheck,
+  accountController.profileEdit
+);
 
 userRouter.get(
   "/addressPage",
@@ -112,21 +117,51 @@ userRouter.get(
   blockUserCheck,
   accountController.addAddressPage
 );
-userRouter.post("/addAddress", accountController.addAddress);
-userRouter.post("/editAddress", accountController.editAddress);
-userRouter.delete("/deleteAddress", accountController.deleteAddress);
+userRouter.post(
+  "/addAddress",
+  isLogged,
+  blockUserCheck,
+  accountController.addAddress
+);
+userRouter.post(
+  "/editAddress",
+  isLogged,
+  blockUserCheck,
+  accountController.editAddress
+);
+userRouter.delete(
+  "/deleteAddress",
+  isLogged,
+  blockUserCheck,
+  accountController.deleteAddress
+);
 
 //Cart
-userRouter.post("/addToCart", cartController.addToCart);
+userRouter.post(
+  "/addToCart",
+  isLogged,
+  blockUserCheck,
+  cartController.addToCart
+);
 userRouter.get("/cartPage", isLogged, blockUserCheck, cartController.cartPage);
-userRouter.get("/cartIncBtn", cartController.cartIncDecBtn);
+userRouter.get(
+  "/cartIncBtn",
+  isLogged,
+  blockUserCheck,
+  cartController.cartIncDecBtn
+);
 userRouter.get(
   "/selectAddress",
   isLogged,
   blockUserCheck,
   cartController.addressCheckOutPage
 );
-userRouter.get("/RedirectPaymentPage", cartController.redirecPaymentMethod);
+userRouter.get(
+  "/RedirectPaymentPage",
+  isLogged,
+  blockUserCheck,
+  cartController.redirecPaymentMethod
+);
 userRouter.get(
   "/payMethodPage",
   isLogged,
@@ -199,14 +234,31 @@ userRouter.delete(
 //Download Invoice
 userRouter.get(
   "/user/account/myOrders/orderDetails/downloadInvoice",
+  isLogged,
+  blockUserCheck,
   orderController.downloadInvoice
 );
 
 ///WishList
 
-userRouter.get("/wishList", userController.wishListing);
-userRouter.get("/removeWishList", userController.removeWishList);
-userRouter.get("/wishListPage", isLogged, userController.wishListPage);
+userRouter.get(
+  "/wishList",
+  isLogged,
+  blockUserCheck,
+  userController.wishListing
+);
+userRouter.get(
+  "/removeWishList",
+  isLogged,
+  blockUserCheck,
+  userController.removeWishList
+);
+userRouter.get(
+  "/wishListPage",
+  isLogged,
+  blockUserCheck,
+  userController.wishListPage
+);
 
 //Wallet page
 userRouter.get(
@@ -217,12 +269,17 @@ userRouter.get(
 );
 
 ///Order Return
-userRouter.post("/user/returnOrder", orderController.returnSingleProd);
+userRouter.post(
+  "/user/returnOrder",
+  isLogged,
+  blockUserCheck,
+  orderController.returnSingleProd
+);
 
 //Payment Page
 userRouter.get("/payPalPaymentPage", isLogged, blockUserCheck, doPayment);
-userRouter.get("/paymentSucess", paymentSucessPage);
-userRouter.get("/paymentFailed", paymentFailed);
+userRouter.get("/paymentSucess", isLogged, blockUserCheck, paymentSucessPage);
+userRouter.get("/paymentFailed", isLogged, blockUserCheck, paymentFailed);
 userRouter.get("/user/myOrders/resumePayment");
 
 module.exports = userRouter;

@@ -252,19 +252,27 @@
                     <!-- Logo -->
                     <!-- Search Form -->
                     <div class="search-form">
-                        <form>
-                            <!-- Search -->
-                            <div class="input-group">
-                                <input type="text" name="#" class="form-control" placeholder="Search for products..."
-                                    autocomplete="off" required>
-                                <div class="input-group-append input-group-text">
-                                    <button type="submit">
-                                        <i class="fal fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- Search -->
-                        </form>
+                        <div class="search-form ml-3" style="width: 300px;">
+                            <form onsubmit="redirectToSearch(event)"
+                                class="d-flex align-items-center position-relative">
+
+                                <!-- Search Input -->
+                                <input type="text" name="searchQuery" id="searchInput" class="form-control me-2"
+                                    placeholder="Search for products..." autocomplete="off" oninput="toggleClearBtn()">
+
+                                <!-- Clear (×) Icon -->
+                                <span id="clearIcon" onclick="clearSearch()"
+                                    style="display: none; position: absolute; right: 70px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #888;">
+                                    &times;
+                                </span>
+
+                                <!-- Search Button -->
+                                <button type="submit" class="btn btn-outline-secondary">
+                                    <i class="fal fa-search"></i>
+                                </button>
+                            </form>
+                        </div>
+
                     </div>
                     <!-- Search Form -->
                     <!-- Header Action -->
@@ -395,377 +403,426 @@
 
                     </div>
                 </div>
-                <div class="col-xl-9 col-lg-8">
-                    <section class="section-padding pb-0">
-                        <div class="d-flex w-100 justify-content-between">
-                            <div class="section-header">
-                                <h3 class="title">Category List</h3>
-                            </div>
-                            <div class="category-offers-button"
-                                style="padding: 5px 20px 5px 0; margin: 0; display: flex; justify-content: flex-end; align-items: center;">
-                                <button class="title" style="
-                                                                display: flex;
-                                                                justify-content: center;
-                                                                align-items: center;
-                                                                font-size: small;
-                                                                background-color: #8a5d2a;
-                                                                color: #ffffff;
-                                                                padding: 8px;
-                                                                border-radius: 10px;
-                                                                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-                                                                cursor: pointer;
-                                                                transition: background-color 0.3s ease-in-out;
-                                                                border: none;
-                                                              " onmouseover="this.style.backgroundColor='#ff564e'"
-                                    onmouseout="this.style.backgroundColor='#8a5d2a'">
-                                    <h5 style="margin: 0; color: #ffffff;">Category Offer Management</h5>
+                <% if (!categoryDet || categoryDet.length===0) { %>
+                    <div class="col-lg-6 mx-auto text-center p-5 mt-4">
+                        <!-- Category folder icon with subtle gradient -->
+                        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" class="mb-4">
+                            <linearGradient id="category-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#f8f9fa" />
+                                <stop offset="100%" stop-color="#e9ecef" />
+                            </linearGradient>
+                            <path
+                                d="M3 5a2 2 0 0 1 2-2h4.586a2 2 0 0 1 1.414.586l1.414 1.414A2 2 0 0 0 12.914 6H19a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5z"
+                                fill="url(#category-gradient)" stroke="#adb5bd" stroke-width="1" />
+                            <path d="M3 5h6.586a1 1 0 0 1 .707.293l1.414 1.414a1 1 0 0 0 .707.293H19a1 1 0 0 1 1 1v1H3V5z"
+                                fill="#f8f9fa" stroke="#adb5bd" stroke-width="0.5" />
+                        </svg>
+                
+                        <h5 class="text-dark mb-3 fw-semibold">
+                            No Categories Found
+                        </h5>
+                
+                        <p class="text-muted mb-4">
+                            No categories match your search. Try a different search term.
+                        </p>
+                
+                        <div class="d-flex justify-content-center gap-3 mt-1">
+                            
+                
+                            <% if (bySearch) { %>
+                                <button onclick="clearSearch()" class="thm-btn btn-rectangle btn-outline-secondary lh-normal btn-small">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="me-2">
+                                        <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                                        <path
+                                            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                                    </svg>
+                                    Reset Search
                                 </button>
-                            </div>
-
-
+                                <% } else { %>
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="thm-btn btn-rectangle thm-bg-color-one lh-normal btn-small">
+                                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="me-2">
+                                            <path
+                                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                                        </svg>
+                                        Create First Category    
+                                    </a>
+                                    <% } %>
                         </div>
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">
-                            Add Category
-                        </button>
-
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
+                    </div>
+                    <% } else { %>
+                        <!-- Your categories listing code goes here -->         
+                        <div class="col-xl-9 col-lg-8">
+                            <section class="section-padding pb-0">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <div class="section-header">
+                                        <h3 class="title">Category List</h3>
                                     </div>
-
-                                    <div class="modal-body">
-                                        <form id="addCat">
-                                            <div class="form-outline mb-4">
-                                                <input type="text" placeholder="Category" name="category" id="category"
-                                                    class="form-control" />
-                                            </div>
-
-                                            <div class="form-outline mb-4">
-                                                <input type="text" placeholder="Category Description" name="categorydes"
-                                                    id="categorydes" class="form-control pb-5" />
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Save changes</button>
-                                            </div>
-                                        </form>
+                                    <div class="category-offers-button"
+                                        style="padding: 5px 20px 5px 0; margin: 0; display: flex; justify-content: flex-end; align-items: center;">
+                                        <button class="title" style="
+                                                                        display: flex;
+                                                                        justify-content: center;
+                                                                        align-items: center;
+                                                                        font-size: small;
+                                                                        background-color: #8a5d2a;
+                                                                        color: #ffffff;
+                                                                        padding: 8px;
+                                                                        border-radius: 10px;
+                                                                        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                                                                        cursor: pointer;
+                                                                        transition: background-color 0.3s ease-in-out;
+                                                                        border: none;
+                                                                      " onmouseover="this.style.backgroundColor='#ff564e'"
+                                            onmouseout="this.style.backgroundColor='#8a5d2a'">
+                                            <h5 style="margin: 0; color: #ffffff;">Category Offer Management</h5>
+                                        </button>
                                     </div>
-
+        
+        
                                 </div>
-                            </div>
-                        </div>
-
-                        <script>
-                            $.validator.addMethod("validNamePattern", function (value, element) {
-                                return this.optional(element) || /^[a-zA-Z]+(?: [a-zA-Z]+)*$/.test(value.trim());
-                            }, "Enter a valid name (no leading/trailing/multiple spaces).");
-
-                            $('#addCat').validate({
-                                rules: {
-                                    category: {
-                                        required: true,
-                                        validNamePattern: true
-
-                                    },
-                                    categorydes: {
-                                        required: true,
-                                        validNamePattern: true
-                                    }
-                                },
-                                messages: {
-                                    category: {
-                                        required: "Category name is required",
-                                        validNamePattern: "Only letters with one space allowed, no leading/trailing spaces"
-                                    },
-                                    categorydes: {
-                                        required: "Description is required",
-                                        validNamePattern: "Only letters with one space allowed, no leading/trailing spaces"
-                                    }
-                                },
-                                errorElement: 'div',
-                                errorClass: 'invalid-feedback',
-                                highlight: function (element) {
-                                    $(element).addClass('is-invalid');
-                                },
-                                unhighlight: function (element) {
-                                    $(element).removeClass('is-invalid');
-                                },
-                                errorPlacement: function (error, element) {
-                                    error.insertAfter(element);
-                                },
-                                submitHandler: async (form, event) => {
-                                    event.preventDefault();
-
-                                    let formData = {
-                                        categoryName: form.category.value.trim(),
-                                        categoryDes: form.categorydes.value.trim()
-                                    };
-                                    if (!formData.categoryName) {
-                                        Swal.fire({
-                                            icon: "error",
-                                            title: "Provide category Name"
-                                        });
-                                        return
-                                    }
-
-                                    let response = await fetch('/admin/categoryManagement/addCategory', {
-                                        method: 'POST',
-                                        headers: { 'Content-Type': 'application/json' },
-                                        body: JSON.stringify(formData)
-                                    });
-
-                                    let result = await response.json();
-
-                                    if (result.success) {
-                                        await Swal.fire({
-                                            icon: "success",
-                                            title: "Category Added"
-                                        });
-                                        $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
-
-                                        const modalEl = document.getElementById('exampleModal');
-                                        const modalInstance = bootstrap.Modal.getInstance(modalEl);
-                                        if (modalInstance) modalInstance.hide();
-                                        form.reset()
-
-                                    } else {
-                                        await Swal.fire({
-                                            icon: "error",
-                                            title: "Category Already Exists"
-                                        });
-                                        $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
-                                    }
-                                }
-                            });
-                        </script>
-
-
-                        <table id="category-table" class="table">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Category Name</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">List/Unlist</th>
-                                    <th scope="col">Actions </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% for(let i=0;i<categoryDet.length;i++){ %>
-                                    <tr>
-                                        <th scope="row">
-                                            <%= categoryDet[i].categoryName %>
-                                        </th>
-                                        <td>
-                                            <%= categoryDet[i].categoryDescription %>
-                                        </td>
-                                        <% if(categoryDet[i].isListed){ %>
-                                            <td>
-                                                <div class="d-flex justify-content-center align-items-center">
-                                                    <button id="unList<%i%>" type="button"
-                                                        onclick="fnList('<%=categoryDet[i].categoryName %>')"
-                                                        class="btn btn-danger"><i class="fas fa-times-circle"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <% }else{ %>
-                                                <td>
-                                                    <div class="d-flex justify-content-center align-items-center">
-                                                        <button id="list<%i%>" type="button"
-                                                            onclick="fnUnlist('<%=categoryDet[i].categoryName %>')"
-                                                            class="btn btn-success"><i class="fas fa-list"></i>
-                                                        </button>
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                    Add Category
+                                </button>
+        
+        
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+        
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+        
+                                            <div class="modal-body">
+                                                <form id="addCat">
+                                                    <div class="form-outline mb-4">
+                                                        <input type="text" placeholder="Category" name="category" id="category"
+                                                            class="form-control" />
                                                     </div>
+        
+                                                    <div class="form-outline mb-4">
+                                                        <input type="text" placeholder="Category Description" name="categorydes"
+                                                            id="categorydes" class="form-control pb-5" />
+                                                    </div>
+        
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+        
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <script>
+                                    $.validator.addMethod("validNamePattern", function (value, element) {
+                                        return this.optional(element) || /^[a-zA-Z]+(?: [a-zA-Z]+)*$/.test(value.trim());
+                                    }, "Enter a valid name (no leading/trailing/multiple spaces).");
+        
+                                    $('#addCat').validate({
+                                        rules: {
+                                            category: {
+                                                required: true,
+                                                validNamePattern: true
+        
+                                            },
+                                            categorydes: {
+                                                required: true,
+                                                validNamePattern: true
+                                            }
+                                        },
+                                        messages: {
+                                            category: {
+                                                required: "Category name is required",
+                                                validNamePattern: "Only letters with one space allowed, no leading/trailing spaces"
+                                            },
+                                            categorydes: {
+                                                required: "Description is required",
+                                                validNamePattern: "Only letters with one space allowed, no leading/trailing spaces"
+                                            }
+                                        },
+                                        errorElement: 'div',
+                                        errorClass: 'invalid-feedback',
+                                        highlight: function (element) {
+                                            $(element).addClass('is-invalid');
+                                        },
+                                        unhighlight: function (element) {
+                                            $(element).removeClass('is-invalid');
+                                        },
+                                        errorPlacement: function (error, element) {
+                                            error.insertAfter(element);
+                                        },
+                                        submitHandler: async (form, event) => {
+                                            event.preventDefault();
+        
+                                            let formData = {
+                                                categoryName: form.category.value.trim(),
+                                                categoryDes: form.categorydes.value.trim()
+                                            };
+                                            if (!formData.categoryName) {
+                                                Swal.fire({
+                                                    icon: "error",
+                                                    title: "Provide category Name"
+                                                });
+                                                return
+                                            }
+        
+                                            let response = await fetch('/admin/categoryManagement/addCategory', {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify(formData)
+                                            });
+        
+                                            let result = await response.json();
+        
+                                            if (result.success) {
+                                                await Swal.fire({
+                                                    icon: "success",
+                                                    title: "Category Added"
+                                                });
+                                                $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
+        
+                                                const modalEl = document.getElementById('exampleModal');
+                                                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                                                if (modalInstance) modalInstance.hide();
+                                                form.reset()
+        
+                                            } else {
+                                                await Swal.fire({
+                                                    icon: "error",
+                                                    title: "Category Already Exists"
+                                                });
+                                                $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
+                                            }
+                                        }
+                                    });
+                                </script>
+        
+        
+                                <table id="category-table" class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">Category Name</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">List/Unlist</th>
+                                            <th scope="col">Actions </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for(let i=0;i<categoryDet.length;i++){ %>
+                                            <tr>
+                                                <th scope="row">
+                                                    <%= categoryDet[i].categoryName %>
+                                                </th>
+                                                <td>
+                                                    <%= categoryDet[i].categoryDescription %>
                                                 </td>
-                                                <% } %>
+                                                <% if(categoryDet[i].isListed){ %>
                                                     <td>
                                                         <div class="d-flex justify-content-center align-items-center">
-                                                            <button id="unblock<%= i %>" data-bs-toggle="modal"
-                                                                data-bs-target="#categoryModal<%= i %>" type="button"
-                                                                class="btn btn-info">
-                                                                <i class="fas fa-edit"></i>
+                                                            <button id="unList<%i%>" type="button"
+                                                                onclick="fnList('<%=categoryDet[i].categoryName %>')"
+                                                                class="btn btn-danger"><i class="fas fa-times-circle"></i>
                                                             </button>
                                                         </div>
                                                     </td>
-
-                                    </tr>
-                                    <!-- Edit Category Modal -->
-                                    <div class="modal fade" id="categoryModal<%= i %>" tabindex="-1"
-                                        aria-labelledby="categoryModalLabel<%= i %>" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="categoryModalLabel<%= i %>">Edit
-                                                        Category</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
+                                                    <% }else{ %>
+                                                        <td>
+                                                            <div class="d-flex justify-content-center align-items-center">
+                                                                <button id="list<%i%>" type="button"
+                                                                    onclick="fnUnlist('<%=categoryDet[i].categoryName %>')"
+                                                                    class="btn btn-success"><i class="fas fa-list"></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                        <% } %>
+                                                            <td>
+                                                                <div class="d-flex justify-content-center align-items-center">
+                                                                    <button id="unblock<%= i %>" data-bs-toggle="modal"
+                                                                        data-bs-target="#categoryModal<%= i %>" type="button"
+                                                                        class="btn btn-info">
+                                                                        <i class="fas fa-edit"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+        
+                                            </tr>
+                                            <!-- Edit Category Modal -->
+                                            <div class="modal fade" id="categoryModal<%= i %>" tabindex="-1"
+                                                aria-labelledby="categoryModalLabel<%= i %>" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+        
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="categoryModalLabel<%= i %>">Edit
+                                                                Category</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+        
+                                                        <div class="modal-body">
+                                                            <form id="categoryEdit<%= i %>" novalidate>
+        
+                                                                <div class="form-outline mb-4">
+                                                                    <input type="text" class="form-control"
+                                                                        id="categoryNameEdit<%= i %>"
+                                                                        name="categoryNameEdit<%= i %>" placeholder="Category"
+                                                                        value="<%= categoryDet[i].categoryName %>" />
+                                                                </div>
+        
+                                                                <div class="form-outline mb-4">
+                                                                    <input type="text" class="form-control pb-5"
+                                                                        id="categorydesEdit<%= i %>"
+                                                                        name="categorydesEdit<%= i %>"
+                                                                        placeholder="Category Description"
+                                                                        value="<%= categoryDet[i].categoryDescription %>" />
+                                                                </div>
+        
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Save
+                                                                        changes</button>
+                                                                </div>
+        
+                                                            </form>
+                                                        </div>
+        
+                                                    </div>
                                                 </div>
-
-                                                <div class="modal-body">
-                                                    <form id="categoryEdit<%= i %>" novalidate>
-
-                                                        <div class="form-outline mb-4">
-                                                            <input type="text" class="form-control"
-                                                                id="categoryNameEdit<%= i %>"
-                                                                name="categoryNameEdit<%= i %>" placeholder="Category"
-                                                                value="<%= categoryDet[i].categoryName %>" />
-                                                        </div>
-
-                                                        <div class="form-outline mb-4">
-                                                            <input type="text" class="form-control pb-5"
-                                                                id="categorydesEdit<%= i %>"
-                                                                name="categorydesEdit<%= i %>"
-                                                                placeholder="Category Description"
-                                                                value="<%= categoryDet[i].categoryDescription %>" />
-                                                        </div>
-
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-primary">Save
-                                                                changes</button>
-                                                        </div>
-
-                                                    </form>
-                                                </div>
-
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <script>
-                                        $.validator.addMethod("validNamePattern", function (value, element) {
-                                            return this.optional(element) || /^[A-Za-z]+(?: [A-Za-z]+)*$/.test(value.trim());
-                                        }, "Enter a valid name.");
-
-                                        $('#categoryEdit<%= i %>').validate({
-                                            rules: {
-                                                'categoryNameEdit<%= i %>': {
-                                                    required: true,
-                                                    validNamePattern: true
-                                                },
-                                                'categorydesEdit<%= i %>': {
-                                                    required: true,
-                                                    validNamePattern: true
-                                                }
-                                            },
-                                            messages: {
-                                                'categoryNameEdit<%= i %>': {
-                                                    required: "Category name is required",
-                                                    validNamePattern: "Only letters with one space allowed, no leading/trailing spaces"
-                                                },
-                                                'categorydesEdit<%= i %>': {
-                                                    required: "Description is required",
-                                                    validNamePattern: "Only letters with one space allowed, no leading/trailing spaces"
-                                                }
-                                            },
-                                            errorElement: 'div',
-                                            errorClass: 'invalid-feedback',
-                                            highlight: function (element) {
-                                                $(element).addClass('is-invalid');
-                                            },
-                                            unhighlight: function (element) {
-                                                $(element).removeClass('is-invalid');
-                                            },
-                                            errorPlacement: function (error, element) {
-                                                error.insertAfter(element);
-                                            },
-                                            submitHandler: async (form, event) => {
-                                                event.preventDefault();
-
-                                                let formData = {
-                                                    categoryName: form[`categoryNameEdit<%= i %>`].value.trim(),
-                                                    categoryDes: form[`categorydesEdit<%= i %>`].value.trim(),
-                                                    categoryId: '<%= categoryDet[i]._id %>'
-                                                };
-
-                                                let response = await fetch('/admin/categoryManagement/editCategory', {
-                                                    method: 'POST',
-                                                    headers: { 'Content-Type': 'application/json' },
-                                                    body: JSON.stringify(formData)
+        
+                                            <script>
+                                                $.validator.addMethod("validNamePattern", function (value, element) {
+                                                    return this.optional(element) || /^[A-Za-z]+(?: [A-Za-z]+)*$/.test(value.trim());
+                                                }, "Enter a valid name.");
+        
+                                                $('#categoryEdit<%= i %>').validate({
+                                                    rules: {
+                                                        'categoryNameEdit<%= i %>': {
+                                                            required: true,
+                                                            validNamePattern: true
+                                                        },
+                                                        'categorydesEdit<%= i %>': {
+                                                            required: true,
+                                                            validNamePattern: true
+                                                        }
+                                                    },
+                                                    messages: {
+                                                        'categoryNameEdit<%= i %>': {
+                                                            required: "Category name is required",
+                                                            validNamePattern: "Only letters with one space allowed, no leading/trailing spaces"
+                                                        },
+                                                        'categorydesEdit<%= i %>': {
+                                                            required: "Description is required",
+                                                            validNamePattern: "Only letters with one space allowed, no leading/trailing spaces"
+                                                        }
+                                                    },
+                                                    errorElement: 'div',
+                                                    errorClass: 'invalid-feedback',
+                                                    highlight: function (element) {
+                                                        $(element).addClass('is-invalid');
+                                                    },
+                                                    unhighlight: function (element) {
+                                                        $(element).removeClass('is-invalid');
+                                                    },
+                                                    errorPlacement: function (error, element) {
+                                                        error.insertAfter(element);
+                                                    },
+                                                    submitHandler: async (form, event) => {
+                                                        event.preventDefault();
+        
+                                                        let formData = {
+                                                            categoryName: form[`categoryNameEdit<%= i %>`].value.trim(),
+                                                            categoryDes: form[`categorydesEdit<%= i %>`].value.trim(),
+                                                            categoryId: '<%= categoryDet[i]._id %>'
+                                                        };
+        
+                                                        let response = await fetch('/admin/categoryManagement/editCategory', {
+                                                            method: 'POST',
+                                                            headers: { 'Content-Type': 'application/json' },
+                                                            body: JSON.stringify(formData)
+                                                        });
+        
+                                                        let result = await response.json();
+        
+                                                        if (result.success) {
+                                                            await Swal.fire({
+                                                                icon: "success",
+                                                                title: "Category Edited"
+                                                            });
+                                                            $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
+        
+                                                            const modalElement = document.getElementById('categoryModal<%= i %>');
+                                                            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                                            if (modalInstance) modalInstance.hide();
+        
+                                                        } else if (result.exists) {
+                                                            await Swal.fire({
+                                                                icon: "error",
+                                                                title: "Category Already Exists"
+                                                            });
+                                                            $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
+        
+                                                        } else if (result.noValue) {
+                                                            await Swal.fire({
+                                                                icon: "error",
+                                                                title: "Give any value"
+                                                            });
+                                                            $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
+                                                        }
+                                                    }
                                                 });
-
-                                                let result = await response.json();
-
-                                                if (result.success) {
-                                                    await Swal.fire({
-                                                        icon: "success",
-                                                        title: "Category Edited"
-                                                    });
-                                                    $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
-
-                                                    const modalElement = document.getElementById('categoryModal<%= i %>');
-                                                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
-                                                    if (modalInstance) modalInstance.hide();
-
-                                                } else if (result.exists) {
-                                                    await Swal.fire({
-                                                        icon: "error",
-                                                        title: "Category Already Exists"
-                                                    });
-                                                    $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
-
-                                                } else if (result.noValue) {
-                                                    await Swal.fire({
-                                                        icon: "error",
-                                                        title: "Give any value"
-                                                    });
-                                                    $('#category-table').load('/admin/categoryManagement/categoryList #category-table');
-                                                }
-                                            }
-                                        });
-                                        // $('#categoryModal<%= i %>').on('shown.bs.modal', function () {
-
-                                        // })
-
-                                    </script>
-                                    <% } %>
-
-                            </tbody>
-                        </table>
-                    </section>
-                    <div class="row">
-                        <div class="col-12">
-
-                            <nav id="pagination">
-                                <ul class="pagination">
-                                    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-                                        <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
-                                            aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </button>
-                                    </li>
-                                    <% for(let i=1; i <=pages; i++) { %>
-                                        <li class="page-item <%= page === i ? 'active' : '' %>">
-                                            <button class="page-link" onclick="loadPage('<%= i %>')">
-                                                <%= i %>
-                                            </button>
-                                        </li>
-                                        <% } %>
-                                            <% if (page < pages) { %>
-                                                <li class="page-item">
-                                                    <button class="page-link" onclick="loadPage('<%= page + 1 %>')"
-                                                        aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
+                                                // $('#categoryModal<%= i %>').on('shown.bs.modal', function () {
+        
+                                                // })
+        
+                                            </script>
+                                            <% } %>
+        
+                                    </tbody>
+                                </table>
+                            </section>
+                            <div class="row">
+                                <div class="col-12">
+        
+                                    <nav id="pagination">
+                                        <ul class="pagination">
+                                            <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+                                                <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
+                                                    aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </button>
+                                            </li>
+                                            <% for(let i=1; i <=pages; i++) { %>
+                                                <li class="page-item <%= page === i ? 'active' : '' %>">
+                                                    <button class="page-link" onclick="loadPage('<%= i %>')">
+                                                        <%= i %>
                                                     </button>
                                                 </li>
                                                 <% } %>
-                                </ul>
-                            </nav>
+                                                    <% if (page < pages) { %>
+                                                        <li class="page-item">
+                                                            <button class="page-link" onclick="loadPage('<%= page + 1 %>')"
+                                                                aria-label="Next">
+                                                                <span aria-hidden="true">&raquo;</span>
+                                                            </button>
+                                                        </li>
+                                                        <% } %>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                         <% } %>
             </div>
         </div>
     </section>
@@ -783,16 +840,66 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
+        function redirectToSearch(event) {
+            event.preventDefault();
+            const searchQuery = document.querySelector('input[name="searchQuery"]').value;
+            console.log("searchQuery : ", searchQuery);
+
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('bySearch', searchQuery);
+            const newUrl = `${location.pathname}?${urlParams.toString()}`;
+
+            window.location.href = newUrl; // 🔄 Perform full page reload
+
+        }
+
+        function clearSearch() {
+            const input = document.querySelector('input[name="searchQuery"]');
+            input.value = '';
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.delete('bySearch');
+
+            // Optionally, update the browser URL without reloading:
+            const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+            window.location.href = newUrl; // 🔄 Perform full page reload
+
+            toggleClearBtn();
+        }
+
+        function toggleClearBtn() {
+            const input = document.querySelector('input[name="searchQuery"]');
+            const clearIcon = document.getElementById('clearIcon');
+            const urlParams = new URLSearchParams(window.location.search);
+
+            if (input.value.trim()) {
+                clearIcon.style.display = 'block';
+            } else {
+                clearIcon.style.display = 'none';
+
+                // Remove 'bySearch' from URL
+                urlParams.delete('bySearch');
+                const newUrl = `${location.pathname}?${urlParams.toString()}`;
+                window.history.replaceState({}, '', newUrl);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('bySearch');
+            if (searchQuery) {
+                document.querySelector('input[name="searchQuery"]').value = searchQuery;
+            }
+        });
+
+
         function loadPage(pageNumber) {
             const urlParams = new URLSearchParams(window.location.search);
             urlParams.set('page', pageNumber); // set new page number
 
             const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
 
-            window.history.replaceState({}, '', newUrl);
+            window.location.href = newUrl; // 🔄 Triggers full page refresh
 
-            $('#category-table').load(`${newUrl} #category-table`);
-            $('#pagination').load(`${newUrl} #pagination`);
         }
 
         async function fnList(catName) {
@@ -813,7 +920,7 @@
                 let result = await response.json()
                 if (result.list) {
                     await Swal.fire({
-                        icon: "error",
+                        icon: "success",
                         title: "Category Unlisted",
                     });
                 }

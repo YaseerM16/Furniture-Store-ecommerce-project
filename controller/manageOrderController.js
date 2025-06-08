@@ -13,15 +13,21 @@ const orderListPage = async (req, res, next) => {
     if (req.session.adminLog) {
       user = await adminCollection.findOne({ _id: req.session.adminUser._id });
     } else {
-      user = {};
+      user = null;
     }
 
     const page = Number(req.query.page) || 1;
     const limit = 9;
     const skip = (page - 1) * limit;
+    const orderId = req.query.bySearch;
+
+    let searchQuery = {};
+    if (orderId) {
+      searchQuery.orderId = { $regex: orderId, $options: "i" };
+    }
 
     const orders = await orderCollection
-      .find()
+      .find(searchQuery)
       .populate("userId")
       .skip(skip)
       .limit(limit)
@@ -30,7 +36,7 @@ const orderListPage = async (req, res, next) => {
     let pages;
 
     await orderCollection
-      .countDocuments()
+      .countDocuments(searchQuery)
       .then((count) => {
         pages = count;
       })
@@ -41,6 +47,7 @@ const orderListPage = async (req, res, next) => {
       page: page,
       pages: Math.ceil(pages / limit),
       user: user,
+      searchQuery: orderId,
     });
   } catch (error) {
     next(new AppError(error, 500));
@@ -228,7 +235,7 @@ const returnOrdersPage = async (req, res, next) => {
     if (req.session.adminLog) {
       user = await adminCollection.findOne({ _id: req.session.adminUser._id });
     } else {
-      user = {};
+      user = null;
     }
 
     const page = Number(req.query.page) || 1;

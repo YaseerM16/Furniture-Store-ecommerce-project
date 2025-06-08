@@ -103,11 +103,23 @@ const blockUserCheck = async (req, res, next) => {
       _id: req.session?.currentUser?._id,
     });
     if (currentUser?.isBlocked) {
-      req.session.destroy();
-      res.redirect("/logout");
-    } else {
-      next();
+      if (req.headers.accept?.includes("application/json")) {
+        // 🔄 This is an AJAX/fetch call
+        console.log("BlockCheck midware: It includes appli/json header");
+
+        return res
+          .status(403)
+          .json({ userBlocked: true, redirectUrl: "/logout" });
+      } else {
+        console.log(
+          "BlockCheck midware: It doesn't ❌ includes appli/json header"
+        );
+
+        // 🔄 Normal browser request
+        return res.redirect("/logout");
+      }
     }
+    next();
   } catch (error) {
     console.error(error);
   }

@@ -308,8 +308,10 @@ const productDetail = async (req, res, next) => {
       const email = req.session.currentUser.email;
       user = await userCollection.findOne({ email: email });
     } else {
-      user = {};
+      user = null;
     }
+    await checkOfferAvailability();
+    await applyOffers();
     const existInCart = await cartCollection.findOne({
       productId: req.query.id,
     });
@@ -356,7 +358,7 @@ const shopSort = async (req, res, next) => {
     const email = req.session.currentUser.email;
     user = await userCollection.findOne({ email: email });
   } else {
-    user = {};
+    user = null;
   }
 
   const page = Number(req.query.page) || 1;

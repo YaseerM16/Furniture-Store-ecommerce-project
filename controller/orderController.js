@@ -60,7 +60,7 @@ const orderPage = async (req, res, next) => {
       const email = req.session.currentUser.email;
       user = await userCollection.findOne({ email: email });
     } else {
-      user = {};
+      user = null;
     }
     // const orders = await orderCollection
     //   .find({ userId: req.session.currentUser })
@@ -109,7 +109,7 @@ const orderDetailsPage = async (req, res, next) => {
       const email = req.session.currentUser.email;
       user = await userCollection.findOne({ email: email });
     } else {
-      user = {};
+      user = null;
     }
     const availOrders = await orderData(req);
     const orderTot = await orderCollection.findOne({ _id: req.query.orderID });
@@ -301,7 +301,7 @@ const singleProdCancel = async (req, res, next) => {
       {
         $set: {
           "cartData.$.productStatus": "Cancelled",
-          grandTotalCost: deductProdAmount,
+          // grandTotalCost: deductProdAmount,
         },
       }
     );
@@ -339,7 +339,7 @@ const returnSingleProd = async (req, res, next) => {
     //   "cartData._id": cartIdObject,
     // });
 
-    const res = await orderCollection.findOneAndUpdate(
+    const result = await orderCollection.findOneAndUpdate(
       {
         _id: orderId,
         "cartData._id": cartIdObject,
@@ -367,8 +367,7 @@ const returnSingleProd = async (req, res, next) => {
     //     { $set: { orderStatus: "Request Return" } }
     //   );
     // }
-    console.log(res);
-    // res.send({ success: true });
+    res.send({ success: true });
   } catch (error) {
     next(new AppError(error, 500));
   }

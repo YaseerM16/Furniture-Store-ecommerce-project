@@ -12,7 +12,7 @@ const productList = async (req, res, next) => {
     if (req.session.adminLog) {
       user = await adminCollection.findOne({ _id: req.session.adminUser._id });
     } else {
-      user = {};
+      user = null;
     }
     const page = Number(req.query.page) || 1;
     const limit = 9;
@@ -23,7 +23,6 @@ const productList = async (req, res, next) => {
     if (productName) {
       searchQuery.productName = { $regex: productName, $options: "i" };
     }
-    console.log("Prodname< :", productName);
 
     const proCollection = await productCollection
       .find(searchQuery)
@@ -58,7 +57,7 @@ const addProductPage = async (req, res, next) => {
     if (req.session.adminLog) {
       user = await adminCollection.findOne({ _id: req.session.adminUser._id });
     } else {
-      user = {};
+      user = null;
     }
     const categoryDetails = await categoryCollection.find();
     res.render("adminViews/addProduct", {
@@ -136,7 +135,7 @@ const editProductPage = async (req, res, next) => {
     if (req.session.adminLog) {
       user = await adminCollection.findOne({ _id: req.session.adminUser._id });
     } else {
-      user = {};
+      user = null;
     }
     const categoryDetail = await categoryCollection.find();
     const categoryDet = await categoryCollection.findOne({
@@ -192,7 +191,7 @@ const editProduct = async (req, res, next) => {
             parentCategory: parentCategoryId._id,
             productPrice: req.body.productPrice,
             productStock: req.body.productStock,
-            priceBeforeOffer: req.body.productPrice,
+            // priceBeforeOffer: req.body.productPrice,
           },
           $push: { productImage: { $each: imgFiles } },
         }

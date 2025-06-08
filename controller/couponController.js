@@ -14,9 +14,15 @@ const couponsPage = async (req, res, next) => {
     const page = Number(req.query.page) || 1;
     const limit = 6;
     const skip = (page - 1) * limit;
+    const couponCode = req.query.bySearch;
+
+    let searchQuery = {};
+    if (couponCode) {
+      searchQuery.couponCode = { $regex: couponCode, $options: "i" };
+    }
 
     const coupons = await couponCollection
-      .find({ isDelete: false })
+      .find(searchQuery, { isDelete: false })
       .sort({ _id: -1 })
       .skip(skip)
       .limit(limit);
@@ -24,7 +30,7 @@ const couponsPage = async (req, res, next) => {
     let pages;
 
     await couponCollection
-      .countDocuments({ isDelete: false })
+      .countDocuments(searchQuery, { isDelete: false })
       .then((count) => {
         pages = count;
       })

@@ -279,13 +279,13 @@
                     <div class="account_sidebar section pb-0 h-100">
                         <h4 class="title">My Account</h4>
                         <ul>
-                            <li class="active">
+                            <li>
                                 <a href="/userDetails">
                                     <i class="fal fa-user"></i>
                                     User Info
                                 </a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a href="/addressPage">
                                     <i class="fal fa-book"></i>
                                     Address
@@ -360,79 +360,108 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-xl-9 col-lg-8" data-addresses='<%= JSON.stringify(addresses) %>'>
-                    <div class="section">
-                        <div class="user_info_box">
-                            <!-- User -->
-                            <div class="user_box">
-                                <div class="image">
-                                    <img src="assets/images/header/user.png" class="image-fit" alt="img" />
-                                </div>
-                                <div class="user_text">
-                                    <h6 class="name mb-0">
-                                        <%= user.username %>
-                                    </h6>
-                                </div>
-                            </div>
-                            <!-- User Details -->
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <ul class="address_list" id="address-list">
-                                        <% for(let i=0;i<addresses.length;i++){ %>
-                                            <li class="d-flex align-items-center justify-content-between">
 
-                                                <div class="custom-control form-check me-sm-2 mb-2">
-                                                    <span class="title">Delivers To</span>
-                                                    <label class="custom-control-label" for="addressone">
-                                                        <span class="top">
-                                                            <i class="fal fa-briefcase"></i>
-                                                            <span class="fw-500 thm-color-two">
-                                                                <%= addresses[i].addressTitle %>
-                                                            </span>
-                                                        </span>
-                                                        <span class="mb-0 p">
-                                                            <%= addresses[i].addressLine1 %>
-                                                        </span>
-                                                        <span class="mb-0 p">
-                                                            <%= addresses[i].addressLine2 %>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                                <div class="d-flex flex-column">
-                                                    <a href="#" type="button"
-                                                        class="edit-buttons thm-btn btn-rectangle thm-bg-color-one lh-normal btn-small mr-2"
-                                                        data-bs-toggle="modal" data-bs-target="#editAddressModal"
-                                                        data-address-id="<%= addresses[i]._id %>" id="edit-btn">
-                                                        <i class="fal fa-edit"></i>
-                                                        Edit Address
-                                                    </a>
-                                                    <a href="#" type="button"
-                                                        class="thm-btn btn-rectangle thm-bg-color-danger lh-normal btn-small mt-2"
-                                                        data-address-id="<%= addresses[i]._id %>"
-                                                        id="delete-address-btn">
-                                                        <div class="d-flex justify-content-between">
-                                                            <i class="fal fa-trash-alt"></i>
-                                                            Delete Address
-                                                        </div>
-                                                    </a>
-                                                </div>
+                <% if (!addresses || addresses.length===0) { %>
+                    <div class="col-lg-6 mx-auto text-center p-5 mt-4">
+                        <!-- Modern home icon with subtle gradient -->
+                        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" class="mb-4">
+                            <linearGradient id="home-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#f8f9fa" />
+                                <stop offset="100%" stop-color="#e9ecef" />
+                            </linearGradient>
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="url(#home-gradient)"
+                                stroke="#adb5bd" stroke-width="1" />
+                            <path d="M9 22V12h6v10" fill="none" stroke="#6c757d" stroke-width="1.5" />
+                        </svg>
 
-                                            </li>
-                                            <% } %>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <a href="/addAddress" type="button"
-                                    class="thm-btn btn-rectangle thm-bg-color-one lh-normal btn-small"
-                                    id="edit_profile_btn">
-                                    Add Address
-                                </a>
-                            </div>
-                            </form>
+                        <h5 class="text-dark mb-3 fw-semibold">No Address Found</h5>
+                        <p class="text-muted mb-4">You haven't added any address yet. Add one to continue with your
+                            orders.</p>
+                        <div class="text-center mt-1">
+                            <a href="/addAddress" class="thm-btn btn-rectangle thm-bg-color-one lh-normal btn-small"
+                                id="edit_profile_btn">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="me-2">
+                                    <path
+                                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                                </svg>
+                                Add New Address
+                            </a>
                         </div>
                     </div>
-                </div>
+
+                    <% } else { %>
+                        <!-- Render list of addresses -->
+                        <div class="col-xl-9 col-lg-8" data-addresses='<%= JSON.stringify(addresses) %>'>
+                            <div class="section">
+                                <div class="user_info_box">
+                                    <!-- User -->
+                                    <div class="user_box">
+                                        <!-- Address Page -->
+                                        <div class="user_text">
+                                            <h4 class="mb-0">Manage Your Address</h4>
+                                        </div>
+                                    </div>
+                                    <!-- Address Details -->
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <ul class="address_list" id="address-list">
+                                                <% for(let i=0;i<addresses.length;i++){ %>
+                                                    <li class="d-flex align-items-center justify-content-between">
+
+                                                        <div class="custom-control form-check me-sm-2 mb-2">
+                                                            <span class="title">Delivers To</span>
+                                                            <label class="custom-control-label" for="addressone">
+                                                                <span class="top">
+                                                                    <i class="fal fa-briefcase"></i>
+                                                                    <span class="fw-500 thm-color-two">
+                                                                        <%= addresses[i].addressTitle %>
+                                                                    </span>
+                                                                </span>
+                                                                <span class="mb-0 p">
+                                                                    <%= addresses[i].addressLine1 %>
+                                                                </span>
+                                                                <span class="mb-0 p">
+                                                                    <%= addresses[i].addressLine2 %>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="d-flex flex-column">
+                                                            <a href="#" type="button"
+                                                                class="edit-buttons thm-btn btn-rectangle thm-bg-color-one lh-normal btn-small mr-2"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#editAddressModal"
+                                                                data-address-id="<%= addresses[i]._id %>" id="edit-btn">
+                                                                <i class="fal fa-edit"></i>
+                                                                Edit Address
+                                                            </a>
+                                                            <a href="#" type="button"
+                                                                class="thm-btn btn-rectangle thm-bg-color-danger lh-normal btn-small mt-2"
+                                                                data-address-id="<%= addresses[i]._id %>"
+                                                                id="delete-address-btn">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <i class="fal fa-trash-alt"></i>
+                                                                    Delete Address
+                                                                </div>
+                                                            </a>
+                                                        </div>
+
+                                                    </li>
+                                                    <% } %>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <a href="/addAddress" type="button"
+                                            class="thm-btn btn-rectangle thm-bg-color-one lh-normal btn-small"
+                                            id="edit_profile_btn">
+                                            Add Address
+                                        </a>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
             </div>
         </div>
         </div>
@@ -640,34 +669,34 @@
             //     history.pushState(null, '', path);
             // }
 
-            function navigateTo(path) {
-                $.get(path, function (response) {
-                    const $html = $('<div>').append($.parseHTML(response));
-                    const $newContent = $html.find('#component');
+            // function navigateTo(path) {
+            //     $.get(path, function (response) {
+            //         const $html = $('<div>').append($.parseHTML(response));
+            //         const $newContent = $html.find('#component');
 
-                    // Load HTML into #component
-                    $('#component').html($newContent.html());
+            //         // Load HTML into #component
+            //         $('#component').html($newContent.html());
 
-                    // Manually extract and run <script> tags
-                    $html.find('script').each(function () {
-                        const script = document.createElement('script');
-                        if (this.src) {
-                            script.src = this.src;
-                        } else {
-                            script.text = this.text;
-                        }
-                        document.body.appendChild(script);
-                    });
+            //         // Manually extract and run <script> tags
+            //         $html.find('script').each(function () {
+            //             const script = document.createElement('script');
+            //             if (this.src) {
+            //                 script.src = this.src;
+            //             } else {
+            //                 script.text = this.text;
+            //             }
+            //             document.body.appendChild(script);
+            //         });
 
-                    // Update URL
-                    history.pushState(null, '', path);
+            //         // Update URL
+            //         history.pushState(null, '', path);
 
-                    // Optional: re-initialize components if needed
-                    if (document.querySelector('#my-form')) {
-                        initializeUserDetails();
-                    }
-                });
-            }
+            //         // Optional: re-initialize components if needed
+            //         if (document.querySelector('#my-form')) {
+            //             initializeUserDetails();
+            //         }
+            //     });
+            // }
 
 
             const addresses = '<%- JSON.stringify(addresses) %>'
@@ -857,7 +886,8 @@
                                             document.body.style = "";
 
                                             // $('#component').load(`/addressPage #component`);
-                                            navigateTo(window.location.href)
+                                            // navigateTo(window.location.href)
+                                            window.location.reload()
                                         });
 
                                         console.log("Address updated successfully");
@@ -905,7 +935,8 @@
                             .getElementById("delOkButton")
                             .addEventListener("click", () => {
                                 deleteSuccessModal.hide();
-                                $('#address-table').load(`/addressPage #address-table`);
+                                window.location.reload();
+                                // $('#address-table').load(`/addressPage #address-table`);
                             });
                     } else {
                         // show error message in modal
@@ -1346,7 +1377,8 @@
                                         document.body.style = "";
 
                                         // $('#component').load(`/addressPage #component`);
-                                        navigateTo(window.location.href)
+                                        // navigateTo(window.location.href)
+                                        window.location.reload()
                                     });
 
                                     console.log("Address updated successfully");
@@ -1366,15 +1398,11 @@
             });
         });
 
-
         deleteAddressBtns2.forEach(btn => {
             btn.addEventListener("click", () => {
                 deleteAddressModal2.show();
             })
         })
-
-
-
 
         document.getElementById('confirm-delete-address').addEventListener('click', async () => {
             const addressId = document.getElementById('delete-address-btn').dataset.addressId;
@@ -1394,7 +1422,8 @@
                         .getElementById("delOkButton")
                         .addEventListener("click", () => {
                             deleteSuccessModal.hide();
-                            $('#address-table').load(`/addressPage #address-table`);
+                            // $('#address-table').load(`/addressPage #address-table`);
+                            window.location.reload()
                         });
                 } else {
                     // show error message in modal

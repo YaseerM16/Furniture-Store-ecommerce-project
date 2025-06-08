@@ -60,7 +60,7 @@ const addAddressPage = async (req, res, next) => {
       const email = req.session.currentUser.email;
       user = await userCollection.findOne({ email: email });
     } else {
-      user = {};
+      user = null;
     }
     const redirect = req.query.redirect;
 

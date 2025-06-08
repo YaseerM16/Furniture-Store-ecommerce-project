@@ -22,6 +22,9 @@
     <meta name="twitter:title" content="Title website">
     <meta name="twitter:description" content="Description website">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/fav2.png">
+    <!-- Include SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Css -->
     <link href="assets/css/plugins/bootstrap.min.css" rel="stylesheet">
     <link href="assets/fonts/font-awesome.min.css" rel="stylesheet">
@@ -331,7 +334,7 @@
                                                             <strong>₹&nbsp;<%= cartProducts[i].productId.productPrice %>
                                                             </strong>
                                                         </td>
-                                                        <% if (cartProducts[i].productQuantity==0) { %>
+                                                        <% if (cartProducts[i].productId.productStock==0) { %>
                                                             <td class="product_block product_details">
                                                                 <div class="product_action">
                                                                     <div
@@ -342,34 +345,45 @@
                                                                 </div>
                                                             </td>
                                                             <td>unavailable</td>
-                                                            <% } else { %>
-
+                                                            <% } else if (!cartProducts[i].productId.isListed) { %>
                                                                 <td class="product_block product_details">
                                                                     <div class="product_action">
-                                                                        <div class="quantity m-0">
-                                                                            <button class="btn qty-mins"
-                                                                                onclick="cartQuantityUpdate('minus','<%= cartProducts[i].productId._id %>','<%= i %>')"
-                                                                                index="<%= i %>" type="button"><i
-                                                                                    class="fal fa-minus"></i></button>
-                                                                            <input type="text" class="dataClass"
-                                                                                id="productQuantity<%= cartProducts[i].productId._id %>"
-                                                                                data-pid="<%= cartProducts[i].productId._id %>"
-                                                                                data-price="<%= cartProducts[i].productId.productPrice %>"
-                                                                                value="<%= cartProducts[i].productQuantity %>"
-                                                                                index="<%= i %>" autocomplete="off"
-                                                                                disabled>
-                                                                            <button class="btn qty-add"
-                                                                                onclick="cartQuantityUpdate('plus','<%= cartProducts[i].productId._id %>','<%= i %>')">
-                                                                                <i class="fal fa-plus"></i>
-                                                                            </button>
+                                                                        <div
+                                                                            class="m-3 py-1 rounded text-center bg-warning-subtle">
+                                                                            <strong class="text-warning">Product
+                                                                                Unavailable</strong>
                                                                         </div>
                                                                     </div>
                                                                 </td>
-                                                                <td>
-                                                                    <strong>₹</strong>&nbsp;<strong
-                                                                        id="totalCostPerProduct<%= cartProducts[i].productId._id %>"></strong>
-                                                                </td>
-                                                                <% } %>
+                                                                <td>Not Listed</td>
+                                                                <% } else { %>
+
+                                                                    <td class="product_block product_details">
+                                                                        <div class="product_action">
+                                                                            <div class="quantity m-0">
+                                                                                <button class="btn qty-mins"
+                                                                                    onclick="cartQuantityUpdate('minus','<%= cartProducts[i].productId._id %>','<%= i %>')"
+                                                                                    index="<%= i %>" type="button"><i
+                                                                                        class="fal fa-minus"></i></button>
+                                                                                <input type="text" class="dataClass"
+                                                                                    id="productQuantity<%= cartProducts[i].productId._id %>"
+                                                                                    data-pid="<%= cartProducts[i].productId._id %>"
+                                                                                    data-price="<%= cartProducts[i].productId.productPrice %>"
+                                                                                    value="<%= cartProducts[i].productQuantity %>"
+                                                                                    index="<%= i %>" autocomplete="off"
+                                                                                    disabled>
+                                                                                <button class="btn qty-add"
+                                                                                    onclick="cartQuantityUpdate('plus','<%= cartProducts[i].productId._id %>','<%= i %>')">
+                                                                                    <i class="fal fa-plus"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <strong>₹</strong>&nbsp;<strong
+                                                                            id="totalCostPerProduct<%= cartProducts[i].productId._id %>"></strong>
+                                                                    </td>
+                                                                    <% } %>
                                                     </tr>
                                                     <% } %>
                                             </tbody>
@@ -639,7 +653,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
+        const prods = '<%- JSON.stringify(cartProducts) %>'
+        const pprods = JSON.parse(prods)
+        console.log("Products :", pprods);
 
         async function handlePlaceOrder() {
             // const cartData = [];
@@ -673,9 +692,67 @@
             });
 
             const grndTt = parseInt(document.getElementById('grand-total').innerHTML);
+            let productData;
+            // Assuming pprods is already defined
+            const outOfStockProducts = pprods.filter(prod => prod.productId.productStock === 0);
+            const unlistedProducts = pprods.filter(prod => !prod.productId.isListed);
+
+            if (outOfStockProducts.length > 0 || unlistedProducts.length > 0) {
+                // Generate HTML for both cases
+                const stockHTML = outOfStockProducts
+                    .map(p => `
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <img src="assets/uploadimages/uploads/${p.productId.productImage[0]}" 
+                     alt="${p.productId.productName}" 
+                     style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px;" />
+                <div>
+                    <span style="font-weight: 500; color: #333;">${p.productId.productName}</span>
+                    <div style="font-size: 12px; color: red;">Out of Stock</div>
+                </div>
+            </div>
+        `)
+                    .join('');
+
+                const unlistedHTML = unlistedProducts
+                    .map(p => `
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <img src="assets/uploadimages/uploads/${p.productId.productImage[0]}" 
+                     alt="${p.productId.productName}" 
+                     style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px;" />
+                <div>
+                    <span style="font-weight: 500; color: #333;">${p.productId.productName}</span>
+                    <div style="font-size: 12px; color: orange;">Product Not Available</div>
+                </div>
+            </div>
+        `)
+                    .join('');
+
+                const finalHTML = `
+        <div style="max-height: 300px; overflow-y: auto; margin-bottom: 12px;">
+            ${stockHTML}
+            ${unlistedHTML}
+        </div>
+        <p style="font-size: 14px; color: #555;">Please remove the unavailable products from your cart to proceed with the order.</p>
+    `;
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Some Products Cannot Be Ordered',
+                    html: finalHTML,
+                });
+                return
+            } else {
+                productData = pprods.map(prod => ({
+                    productId: prod.productId._id,
+                    quantity: prod.productQuantity
+                }));
+
+                // Proceed to place the order with `productData`
+            }
+            console.log("Product Proceeding", productData);
 
             // Encode cartData and build the URL
-            const cartQuery = encodeURIComponent(JSON.stringify(cartData));
+            const cartQuery = encodeURIComponent(JSON.stringify(productData));
             const url = `/selectAddress?grandTotal=${grndTt}&cartData=${cartQuery}`;
 
             // Redirect with GET
@@ -727,9 +804,13 @@
                         successModal.show()
                         document.getElementById("btn-success").addEventListener("click", function () {
                             successModal.hide()
-                            $('#cart-table').load('/cartPage #cart-table > *', function () {
-                                recalculateCartTotals();
-                            });
+                            // $('#cart-table').load('/cartPage #cart-table > *', function () {
+                            //     recalculateCartTotals();
+                            //     const prods2 = '<%- JSON.stringify(cartProducts) %>'
+                            //     const pprods2 = JSON.parse(prods)
+                            //     console.log("PRODS 222 :", pprods2);
+                            // });
+                            window.location.reload()
                         })
                         console.log("Item was Removed from the Cart ::");
                     } else {

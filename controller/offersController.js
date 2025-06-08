@@ -14,10 +14,16 @@ const productOfferPage = async (req, res, next) => {
     const page = Number(req.query.page) || 1;
     const limit = 4;
     const skip = (page - 1) * limit;
+    const productName = req.query.bySearch;
+
+    let searchQuery = {};
+    if (productName) {
+      searchQuery.productName = { $regex: productName, $options: "i" };
+    }
 
     const productDet = await productCollection.find();
     let productOfferData = await productOfferCollection
-      .find()
+      .find(searchQuery)
       .populate("productId")
       .sort({ createdAt: -1 })
       .skip(skip)
@@ -26,7 +32,7 @@ const productOfferPage = async (req, res, next) => {
     let pages;
 
     await productOfferCollection
-      .countDocuments()
+      .countDocuments(searchQuery)
       .then((count) => {
         pages = count;
       })
@@ -142,10 +148,16 @@ const categoryOffersPage = async (req, res, next) => {
     const page = Number(req.query.page) || 1;
     const limit = 9;
     const skip = (page - 1) * limit;
+    const categoryName = req.query.bySearch;
+
+    let searchQuery = {};
+    if (categoryName) {
+      searchQuery.categoryName = { $regex: categoryName, $options: "i" };
+    }
 
     let categoryDet = await categoryCollection.find();
     const catOffersCollection = await categoryOffercollection
-      .find()
+      .find(searchQuery)
       .sort({ _id: -1 })
       .skip(skip)
       .limit(limit);
@@ -165,7 +177,7 @@ const categoryOffersPage = async (req, res, next) => {
 
     let pages;
     await categoryOffercollection
-      .countDocuments()
+      .countDocuments(searchQuery)
       .then((count) => {
         pages = count;
       })
@@ -177,6 +189,7 @@ const categoryOffersPage = async (req, res, next) => {
       page: page,
       pages: Math.ceil(pages / limit),
       user: user,
+      bySearch: categoryName,
     });
   } catch (error) {
     next(new AppError(error, 500));
