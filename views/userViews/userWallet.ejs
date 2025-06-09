@@ -692,7 +692,7 @@
             window.history.replaceState({}, '', newUrl);
 
             // Load new product data into #products
-            $('#orders').load(`${newUrl} #orders`);
+            window.location.href = newUrl
         }
 
     </script>

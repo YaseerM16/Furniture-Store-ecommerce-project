@@ -520,7 +520,10 @@ const walletPage = async (req, res, next) => {
     const limit = 6;
     const skip = (page - 1) * limit;
 
-    const transactions = userWallet.walletTransaction;
+    const transactions = userWallet.walletTransaction.sort((a, b) => {
+      return new Date(b.transactionDate) - new Date(a.transactionDate);
+    });
+
     const paginatedTransactions = transactions.slice(skip, skip + limit);
 
     let pages;

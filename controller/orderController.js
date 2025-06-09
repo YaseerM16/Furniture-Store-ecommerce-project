@@ -261,7 +261,9 @@ const singleProdCancel = async (req, res, next) => {
     const orderId = req.query.orderId;
     const cartProdId = req.query.cartProdId;
 
-    const order = await orderCollection.findOne({ _id: orderId });
+    const order = await orderCollection
+      .findOne({ _id: orderId })
+      .populate("couponApplied");
 
     const matchedCartData = order.cartData.find((cartItem) =>
       cartItem._id.equals(cartProdId)
@@ -270,16 +272,29 @@ const singleProdCancel = async (req, res, next) => {
     const productId = matchedCartData.productId;
     const prodQty = matchedCartData.productQuantity;
     const totalCostOfProd = matchedCartData.totalCostPerProduct;
+    const grandTotal = Number(order.grandTotalCost);
+
+    let refundAmount = totalCostOfProd;
+
+    if (order.couponApplied) {
+      const discountPercentage = Number(order.couponApplied.discountPercentage);
+
+      const fullDiscount = grandTotal * (discountPercentage / 100);
+      const productShare = totalCostOfProd / grandTotal;
+      const discountShare = productShare * fullDiscount;
+
+      refundAmount = Math.round(totalCostOfProd - discountShare);
+    }
 
     if (order.paymentType == "wallet" || order.paymentType == "paypal") {
       await walletCollection.findOneAndUpdate(
         { userId: req.session.currentUser._id },
         {
-          $inc: { walletBalance: +totalCostOfProd },
+          $inc: { walletBalance: refundAmount },
           $push: {
             walletTransaction: {
               transactionDate: new Date(),
-              transactionAmount: totalCostOfProd,
+              transactionAmount: refundAmount,
               transactionType: "credited",
               transactionMethod: "Cancelled Order",
             },
