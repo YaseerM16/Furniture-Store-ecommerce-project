@@ -50,11 +50,11 @@ const doPayment = async (req, res) => {
         return_url:
           MODE === "development"
             ? `http://localhost:3000/paymentSucess?orderId=${orderId}`
-            : `https://furniturehub.shop/paymentSucess?orderId=${orderId}`,
+            : `https://furniture-store-ecommerce-project.onrender.com/paymentSucess?orderId=${orderId}`,
         cancel_url:
           MODE === "development"
             ? `http://localhost:3000/paymentFailed?orderId=${orderId}`
-            : `https://furniturehub.shop/paymentFailed?orderId=${orderId}`,
+            : `https://furniture-store-ecommerce-project.onrender.com/paymentFailed?orderId=${orderId}`,
       },
       transactions: [
         {
