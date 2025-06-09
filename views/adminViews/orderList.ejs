@@ -205,31 +205,55 @@
                         </a>
                     </div>
                     <!-- Logo -->
-                    <!-- Search Form -->
-                    <div class="search-form">
-                        <div class="search-form ml-3" style="width: 300px;">
-                            <form onsubmit="redirectToSearch(event)"
-                                class="d-flex align-items-center position-relative">
+                    <div class="d-flex align-items-center justify-content-center gap-3 bg-light border px-4 py-3 rounded-pill mx-auto shadow-sm"
+                        style="
+                                                                                     max-width: 100%;
+                                                                                     background-color: #F9F9F7;
+                                                                                     border-color: #E0DED9 !important;
+                                                                                     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                                                                                 ">
+                        <!-- Brand + Icon Container -->
+                        <div class="d-flex align-items-center gap-2" style="color: #A67C52;">
+                            <!-- Brand Name -->
+                            <div style="
+                                                                                          font-size: 16px;
+                                                                                          font-weight: 700;
+                                                                                          letter-spacing: 0.5px;
+                                                                                          font-family: 'Inter', sans-serif;
+                                                                                      ">
+                                Y-FURNS
+                            </div>
 
-                                <!-- Search Input -->
-                                <input type="text" name="searchQuery" id="searchInput" class="form-control me-2"
-                                    placeholder="Search for products..." autocomplete="off" oninput="toggleClearBtn()">
-
-                                <!-- Clear (×) Icon -->
-                                <span id="clearIcon" onclick="clearSearch()"
-                                    style="display: none; position: absolute; right: 70px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #888;">
-                                    &times;
-                                </span>
-
-                                <!-- Search Button -->
-                                <button type="submit" class="btn btn-outline-secondary">
-                                    <i class="fal fa-search"></i>
-                                </button>
-                            </form>
+                            <!-- Furniture Icon -->
+                            <div style="font-size: 18px;">
+                                <i class="fas fa-couch"></i>
+                            </div>
                         </div>
 
+                        <!-- Admin Title -->
+                        <div style="
+                                                                                      font-size: 15px;
+                                                                                      font-weight: 600;
+                                                                                      letter-spacing: 0.4px;
+                                                                                      font-family: 'Inter', sans-serif;
+                                                                                      text-transform: uppercase;
+                                                                                      color: #5C504A;
+                                                                                      position: relative;
+                                                                                      padding-left: 16px;
+                                                                                  ">
+                            ADMIN CONSOLE
+                            <!-- Subtle separator line -->
+                            <span style="
+                                                                                          position: absolute;
+                                                                                          left: 0;
+                                                                                          top: 50%;
+                                                                                          transform: translateY(-50%);
+                                                                                          height: 60%;
+                                                                                          width: 1px;
+                                                                                          background-color: #E0DED9;
+                                                                                      "></span>
+                        </div>
                     </div>
-                    <!-- Search Form -->
                     <!-- Header Action -->
                     <div class="header_action">
                         <ul>
@@ -363,73 +387,104 @@
 
                     </div>
                 </div>
-                <% if (!orders || orders.length===0) { %>
-                    <div class="col-lg-6 mx-auto text-center p-5 mt-4">
-                        <!-- Order search icon with gradient -->
-                        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" class="mb-4">
-                            <linearGradient id="order-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#f8f9fa" />
-                                <stop offset="100%" stop-color="#e9ecef" />
-                            </linearGradient>
-                            <path
-                                d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"
-                                fill="url(#order-gradient)" stroke="#adb5bd" stroke-width="1" />
-                            <path d="M13 12h3m-3 3h3m-6-3h.01M10 15h.01" fill="none" stroke="#6c757d"
-                                stroke-width="1.5" />
-                            <path d="M21 21l-4.35-4.35" fill="none" stroke="#6c757d" stroke-width="1.5" />
-                        </svg>
 
-                        <h5 class="text-dark mb-3 fw-semibold">
-                            <%= searchQuery ? 'No Orders Found' : 'No Recent Orders' %>
-                        </h5>
+                <!-- Your orders listing code -->
+                <div class="col-xl-9 col-lg-8">
+                    <div class="order_list_box sidebar">
+                        <div id="orders-table" class="row justify-content-center">
+                            <!-- Item -->
+                            <!-- Search Form -->
+                            <div style="display: flex;justify-content: center;" class="search-form">
+                                <div class="search-form ml-3" style="width: 300px;">
+                                    <form onsubmit="redirectToSearch(event)"
+                                        class="d-flex align-items-center position-relative">
 
-                        <p class="text-muted mb-4">
-                            <% if (searchQuery) { %>
-                                No orders match "<%= searchQuery %>". Try different search criteria.
-                                    <% } else if (dateFilter) { %>
-                                        No orders found for the selected date range. Try adjusting your filters.
-                                        <% } else { %>
-                                            There are no orders to display. New orders will appear here as they're
-                                            placed.
-                                            <% } %>
-                        </p>
+                                        <!-- Search Input -->
+                                        <input type="text" name="searchQuery" id="searchInput" class="form-control me-2"
+                                            placeholder="Search for products..." autocomplete="off"
+                                            oninput="toggleClearBtn()">
 
-                        <div class="d-flex justify-content-center gap-3 mt-1">
-                            <% if (searchQuery || dateFilter) { %>
-                                <button onclick="clearSearch()"
-                                    class="thm-btn btn-rectangle thm-bg-color-one lh-normal btn-small">
-                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="me-2">
-                                        <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                                        <!-- Clear (×) Icon -->
+                                        <span id="clearIcon" onclick="clearSearch()"
+                                            style="display: none; position: absolute; right: 70px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #888;">
+                                            &times;
+                                        </span>
+
+                                        <!-- Search Button -->
+                                        <button type="submit" class="btn btn-outline-secondary">
+                                            <i class="fal fa-search"></i>
+                                        </button>
+                                    </form>
+                                </div>
+
+                            </div>
+                            <!-- Search Form -->
+                            <div class="col-10">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <div class="section-header">
+                                        <h3 class="title">Orders List</h3>
+                                    </div>
+                                    <div>
+                                        <a href="/admin/orderManagement/returnedOrders">
+                                            <h3 class="title product-offers-button" style="width: 250px; height: 50px;">
+                                                Return
+                                                Requests</h3>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <% if (!orders || orders.length===0) { %>
+                                <div class="col-lg-6 mx-auto text-center p-5 mt-4">
+                                    <!-- Order search icon with gradient -->
+                                    <svg width="96" height="96" viewBox="0 0 24 24" fill="none" class="mb-4">
+                                        <linearGradient id="order-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#f8f9fa" />
+                                            <stop offset="100%" stop-color="#e9ecef" />
+                                        </linearGradient>
                                         <path
-                                            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                                            d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"
+                                            fill="url(#order-gradient)" stroke="#adb5bd" stroke-width="1" />
+                                        <path d="M13 12h3m-3 3h3m-6-3h.01M10 15h.01" fill="none" stroke="#6c757d"
+                                            stroke-width="1.5" />
+                                        <path d="M21 21l-4.35-4.35" fill="none" stroke="#6c757d" stroke-width="1.5" />
                                     </svg>
-                                    Reset Search
-                                </button>
-                                <% } %>
-                        </div>
-                    </div>
-                    <% } else { %>
-                        <!-- Your orders listing code -->
-                        <div class="col-xl-9 col-lg-8">
-                            <div class="order_list_box sidebar">
-                                <div id="orders-table" class="row justify-content-center">
-                                    <!-- Item -->
+
+                                    <h5 class="text-dark mb-3 fw-semibold">
+                                        <%= searchQuery ? 'No Orders Found' : 'No Recent Orders' %>
+                                    </h5>
+
+                                    <p class="text-muted mb-4">
+                                        <% if (searchQuery) { %>
+                                            No orders match "<%= searchQuery %>". Try different search criteria.
+                                                <% } else if (dateFilter) { %>
+                                                    No orders found for the selected date range. Try adjusting your
+                                                    filters.
+                                                    <% } else { %>
+                                                        There are no orders to display. New orders will appear here as
+                                                        they're
+                                                        placed.
+                                                        <% } %>
+                                    </p>
+
+                                    <div class="d-flex justify-content-center gap-3 mt-1">
+                                        <% if (searchQuery || dateFilter) { %>
+                                            <button onclick="clearSearch()"
+                                                class="thm-btn btn-rectangle thm-bg-color-one lh-normal btn-small">
+                                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+                                                    class="me-2">
+                                                    <path
+                                                        d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                                                    <path
+                                                        d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                                                </svg>
+                                                Reset Search
+                                            </button>
+                                            <% } %>
+                                    </div>
+                                </div>
+                                <% } else { %>
                                     <div class="col-10">
-                                        <div class="col-12">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <div class="section-header">
-                                                    <h3 class="title">Orders List</h3>
-                                                </div>
-                                                <div>
-                                                    <a href="/admin/orderManagement/returnedOrders">
-                                                        <h3 class="title product-offers-button"
-                                                            style="width: 250px; height: 50px;">
-                                                            Return
-                                                            Requests</h3>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                         <% for(let i=0;i<orders.length;i++){ %>
                                             <div class="order_list_block">
                                                 <div class="image_info_box d-flex flex-column justify-content-around"
@@ -469,41 +524,45 @@
 
                                             </div>
                                             <% } %>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Section End -->
-                            <!-- Footer Start -->
-                            <div class="row">
+                                                <div class="row">
 
-                                <nav id="pagination">
-                                    <ul class="pagination">
-                                        <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-                                            <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
-                                                aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </button>
-                                        </li>
-                                        <% for(let i=1; i <=pages; i++) { %>
-                                            <li class="page-item <%= page === i ? 'active' : '' %>">
-                                                <button class="page-link" onclick="loadPage('<%= i %>')">
-                                                    <%= i %>
-                                                </button>
-                                            </li>
-                                            <% } %>
-                                                <% if (page < pages) { %>
-                                                    <li class="page-item">
-                                                        <button class="page-link" onclick="loadPage('<%= page + 1 %>')"
-                                                            aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                        </button>
-                                                    </li>
-                                                    <% } %>
-                                    </ul>
-                                </nav>
-                            </div>
+                                                    <nav id="pagination">
+                                                        <ul class="pagination">
+                                                            <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+                                                                <button class="page-link"
+                                                                    onclick="loadPage('<%= page - 1 %>')"
+                                                                    aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                </button>
+                                                            </li>
+                                                            <% for(let i=1; i <=pages; i++) { %>
+                                                                <li class="page-item <%= page === i ? 'active' : '' %>">
+                                                                    <button class="page-link"
+                                                                        onclick="loadPage('<%= i %>')">
+                                                                        <%= i %>
+                                                                    </button>
+                                                                </li>
+                                                                <% } %>
+                                                                    <% if (page < pages) { %>
+                                                                        <li class="page-item">
+                                                                            <button class="page-link"
+                                                                                onclick="loadPage('<%= page + 1 %>')"
+                                                                                aria-label="Next">
+                                                                                <span aria-hidden="true">&raquo;</span>
+                                                                            </button>
+                                                                        </li>
+                                                                        <% } %>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
+                                    </div>
+                                    <% } %>
+
+
                         </div>
-                        <% } %>
+                    </div>
+                    <!-- Section End -->
+                </div>
 
             </div>
         </div>

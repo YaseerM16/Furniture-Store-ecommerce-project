@@ -173,31 +173,55 @@
                         </a>
                     </div>
                     <!-- Logo -->
-                    <!-- Search Form -->
-                    <div class="search-form">
-                        <div class="search-form ml-3" style="width: 300px;">
-                            <form onsubmit="redirectToSearch(event)"
-                                class="d-flex align-items-center position-relative">
+                    <div class="d-flex align-items-center justify-content-center gap-3 bg-light border px-4 py-3 rounded-pill mx-auto shadow-sm"
+                        style="
+                                                                 max-width: 100%;
+                                                                 background-color: #F9F9F7;
+                                                                 border-color: #E0DED9 !important;
+                                                                 box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                                                             ">
+                        <!-- Brand + Icon Container -->
+                        <div class="d-flex align-items-center gap-2" style="color: #A67C52;">
+                            <!-- Brand Name -->
+                            <div style="
+                                                                      font-size: 16px;
+                                                                      font-weight: 700;
+                                                                      letter-spacing: 0.5px;
+                                                                      font-family: 'Inter', sans-serif;
+                                                                  ">
+                                Y-FURNS
+                            </div>
 
-                                <!-- Search Input -->
-                                <input type="text" name="searchQuery" id="searchInput" class="form-control me-2"
-                                    placeholder="Search for products..." autocomplete="off" oninput="toggleClearBtn()">
-
-                                <!-- Clear (×) Icon -->
-                                <span id="clearIcon" onclick="clearSearch()"
-                                    style="display: none; position: absolute; right: 70px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #888;">
-                                    &times;
-                                </span>
-
-                                <!-- Search Button -->
-                                <button type="submit" class="btn btn-outline-secondary">
-                                    <i class="fal fa-search"></i>
-                                </button>
-                            </form>
+                            <!-- Furniture Icon -->
+                            <div style="font-size: 18px;">
+                                <i class="fas fa-couch"></i>
+                            </div>
                         </div>
 
+                        <!-- Admin Title -->
+                        <div style="
+                                                                  font-size: 15px;
+                                                                  font-weight: 600;
+                                                                  letter-spacing: 0.4px;
+                                                                  font-family: 'Inter', sans-serif;
+                                                                  text-transform: uppercase;
+                                                                  color: #5C504A;
+                                                                  position: relative;
+                                                                  padding-left: 16px;
+                                                              ">
+                            ADMIN CONSOLE
+                            <!-- Subtle separator line -->
+                            <span style="
+                                                                      position: absolute;
+                                                                      left: 0;
+                                                                      top: 50%;
+                                                                      transform: translateY(-50%);
+                                                                      height: 60%;
+                                                                      width: 1px;
+                                                                      background-color: #E0DED9;
+                                                                  "></span>
+                        </div>
                     </div>
-                    <!-- Search Form -->
                     <!-- Header Action -->
                     <div class="header_action">
                         <ul>
@@ -326,436 +350,487 @@
 
                     </div>
                 </div>
-                <% if (!categoryOffersDet || categoryOffersDet.length===0) { %>
-                    <div class="col-lg-6 mx-auto text-center p-5 mt-4">
-                        <!-- Category offer icon with gradient -->
-                        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" class="mb-4">
-                            <linearGradient id="category-offer-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#f8f9fa" />
-                                <stop offset="100%" stop-color="#e9ecef" />
-                            </linearGradient>
-                            <path d="M5 8h14M5 8a2 2 0 1 1 0-4h14a2 2 0 1 1 0 4M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"
-                                fill="url(#category-offer-gradient)" stroke="#adb5bd" stroke-width="1" />
-                            <path d="M12 12l-3 3m0 0l3 3m-3-3h6" fill="none" stroke="#6c757d" stroke-width="1.5" />
-                        </svg>
 
-                        <h5 class="text-dark mb-3 fw-semibold">
-                            <%= bySearch ? 'No Category Offers Found' : 'No Active Category Offers' %>
-                        </h5>
+                <!-- Your category offers listing code -->
+                <div class="col-xl-9 col-lg-8">
+                    <section class="section-padding pb-0">
+                        <!-- Search Form -->
+                        <div style="display: flex;justify-content: center;" class=" w-100 search-form">
+                            <div class="search-form ml-3" style="width: 300px;">
+                                <form onsubmit="redirectToSearch(event)"
+                                    class="d-flex align-items-center position-relative">
 
-                        <p class="text-muted mb-4">
-                            <%= bySearch ? `No category offers match "${bySearch}" . Try different keywords.`
-                                : 'There are currently no active category offers. Create new offers to boost category sales.'
-                                %>
-                        </p>
+                                    <!-- Search Input -->
+                                    <input type="text" name="searchQuery" id="searchInput" class="form-control me-2"
+                                        placeholder="Search for category name..." autocomplete="off"
+                                        oninput="toggleClearBtn()">
 
-                        <div class="d-flex justify-content-center gap-3 mt-1">
+                                    <!-- Clear (×) Icon -->
+                                    <span id="clearIcon" onclick="clearSearch()"
+                                        style="display: none; position: absolute; right: 70px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #888;">
+                                        &times;
+                                    </span>
 
+                                    <!-- Search Button -->
+                                    <button type="submit" class="btn btn-outline-secondary">
+                                        <i class="fal fa-search"></i>
+                                    </button>
+                                </form>
+                            </div>
 
-                            <% if (bySearch) { %>
-                                <button onclick="clearSearch()"
-                                    class="thm-btn btn-rectangle btn-outline-secondary lh-normal btn-small">
-                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="me-2">
-                                        <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
-                                        <path
-                                            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-                                    </svg>
-                                    Reset Search
-                                </button>
-                                <% } else { %>
-                                    <a href="/admin/category-offers/new"
-                                        class="thm-btn btn-rectangle thm-bg-color-one lh-normal btn-small">
-                                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
-                                            class="me-2">
-                                            <path
-                                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                                        </svg>
-                                        Create Category Offer </a>
-                                    <% } %>
                         </div>
-                    </div>
-                    <% } else { %>
-                        <!-- Your category offers listing code -->
-                        <div class="col-xl-9 col-lg-8">
-                            <section class="section-padding pb-0">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <div class="section-header">
-                                        <h3 class="title">Category Offers</h3>
-                                    </div>
+
+                        <!-- Search Form -->
+
+                        <div class="d-flex w-100 justify-content-between">
+                            <div class="section-header">
+                                <h3 class="title">Category Offers</h3>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#addCategoryOfferModal" style="margin-bottom: 15px;">
+                            Add new Category Offer
+                        </button>
+                        <% if (!categoryOffersDet || categoryOffersDet.length===0) { %>
+                            <div class="col-lg-6 mx-auto text-center p-5 mt-4">
+                                <!-- Category offer icon with gradient -->
+                                <svg width="96" height="96" viewBox="0 0 24 24" fill="none" class="mb-4">
+                                    <linearGradient id="category-offer-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#f8f9fa" />
+                                        <stop offset="100%" stop-color="#e9ecef" />
+                                    </linearGradient>
+                                    <path
+                                        d="M5 8h14M5 8a2 2 0 1 1 0-4h14a2 2 0 1 1 0 4M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"
+                                        fill="url(#category-offer-gradient)" stroke="#adb5bd" stroke-width="1" />
+                                    <path d="M12 12l-3 3m0 0l3 3m-3-3h6" fill="none" stroke="#6c757d"
+                                        stroke-width="1.5" />
+                                </svg>
+
+                                <h5 class="text-dark mb-3 fw-semibold">
+                                    <%= bySearch ? 'No Category Offers Found' : 'No Active Category Offers' %>
+                                </h5>
+
+                                <p class="text-muted mb-4">
+                                    <%= bySearch ? `No category offers match "${bySearch}" . Try different keywords.`
+                                        : 'There are currently no active category offers. Create new offers to boost category sales.'
+                                        %>
+                                </p>
+
+                                <div class="d-flex justify-content-center gap-3 mt-1">
+
+
+                                    <% if (bySearch) { %>
+                                        <button onclick="clearSearch()"
+                                            class="thm-btn btn-rectangle btn-outline-secondary lh-normal btn-small">
+                                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+                                                class="me-2">
+                                                <path
+                                                    d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                                                <path
+                                                    d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                                            </svg>
+                                            Reset Search
+                                        </button>
+                                        <% } else { %>
+                                            <a href="/admin/category-offers/new"
+                                                class="thm-btn btn-rectangle thm-bg-color-one lh-normal btn-small">
+                                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+                                                    class="me-2">
+                                                    <path
+                                                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                                                </svg>
+                                                Create Category Offer </a>
+                                            <% } %>
                                 </div>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#addCategoryOfferModal" style="margin-bottom: 15px;">
-                                    Add new Category Offer
-                                </button>
+                            </div>
+                            <% } else { %>
+                                <div>
+                                    <!--Category Offer Modal -->
+                                    <div class="modal fade" id="addCategoryOfferModal" tabindex="-1"
+                                        aria-labelledby="addCategoryOfferModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
 
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="addCategoryOfferModalLabel">Add Category
+                                                        Offer</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
 
-                                <!--Category Offer Modal -->
-                                <div class="modal fade" id="addCategoryOfferModal" tabindex="-1"
-                                    aria-labelledby="addCategoryOfferModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
+                                                <!-- Modal Form -->
+                                                <form id="addCategoryOfferForm" role="form">
+                                                    <div class="modal-body">
 
-                                            <!-- Modal Header -->
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="addCategoryOfferModalLabel">Add Category
-                                                    Offer</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-
-                                            <!-- Modal Form -->
-                                            <form id="addCategoryOfferForm" role="form">
-                                                <div class="modal-body">
-
-                                                    <!-- Category Name -->
-                                                    <div class="mb-3">
-                                                        <label for="categoryName" class="form-label">Category
-                                                            Name:</label>
-                                                        <select name="categoryName" id="categoryName"
-                                                            class="form-select">
-                                                            <% categoryDet.forEach(category=> { %>
-                                                                <option value="<%= category.categoryName %>">
-                                                                    <%= category.categoryName %>
-                                                                </option>
-                                                                <% }); %>
-                                                        </select>
-                                                    </div>
-
-                                                    <!-- Offer Percentage -->
-                                                    <div class="mb-3">
-                                                        <label for="categoryOfferPercentage" class="form-label">Category
-                                                            Offer
-                                                            Percentage:</label>
-                                                        <input id="categoryOfferPercentage"
-                                                            name="categoryOfferPercentage" class="form-control"
-                                                            placeholder="Enter the offer percentage">
-                                                        <div class="form-text">Choose a percentage to be discounted.
-                                                            Between 5%
-                                                            and 90%.</div>
-                                                    </div>
-
-                                                    <!-- Start Date -->
-                                                    <div class="mb-3">
-                                                        <label for="categoryOfferStartDate" class="form-label">Offer
-                                                            Start
-                                                            Date:</label>
-                                                        <input id="categoryOfferStartDate" name="categoryOfferStartDate"
-                                                            type="date" class="form-control">
-                                                        <div class="form-text">Choose a start date for the offer to be
-                                                            considered.</div>
-                                                    </div>
-
-                                                    <!-- End Date -->
-                                                    <div class="mb-3">
-                                                        <label for="categoryOfferEndDate" class="form-label">Offer
-                                                            Expiry
-                                                            Date:</label>
-                                                        <input id="categoryOfferEndDate" name="categoryOfferEndDate"
-                                                            type="date" class="form-control">
-                                                        <div class="form-text">Choose an expiry date for offer to end.
+                                                        <!-- Category Name -->
+                                                        <div class="mb-3">
+                                                            <label for="categoryName" class="form-label">Category
+                                                                Name:</label>
+                                                            <select name="categoryName" id="categoryName"
+                                                                class="form-select">
+                                                                <% categoryDet.forEach(category=> { %>
+                                                                    <option value="<%= category.categoryName %>">
+                                                                        <%= category.categoryName %>
+                                                                    </option>
+                                                                    <% }); %>
+                                                            </select>
                                                         </div>
+
+                                                        <!-- Offer Percentage -->
+                                                        <div class="mb-3">
+                                                            <label for="categoryOfferPercentage"
+                                                                class="form-label">Category
+                                                                Offer
+                                                                Percentage:</label>
+                                                            <input id="categoryOfferPercentage"
+                                                                name="categoryOfferPercentage" class="form-control"
+                                                                placeholder="Enter the offer percentage">
+                                                            <div class="form-text">Choose a percentage to be discounted.
+                                                                Between 5%
+                                                                and 90%.</div>
+                                                        </div>
+
+                                                        <!-- Start Date -->
+                                                        <div class="mb-3">
+                                                            <label for="categoryOfferStartDate" class="form-label">Offer
+                                                                Start
+                                                                Date:</label>
+                                                            <input id="categoryOfferStartDate"
+                                                                name="categoryOfferStartDate" type="date"
+                                                                class="form-control">
+                                                            <div class="form-text">Choose a start date for the offer to
+                                                                be
+                                                                considered.</div>
+                                                        </div>
+
+                                                        <!-- End Date -->
+                                                        <div class="mb-3">
+                                                            <label for="categoryOfferEndDate" class="form-label">Offer
+                                                                Expiry
+                                                                Date:</label>
+                                                            <input id="categoryOfferEndDate" name="categoryOfferEndDate"
+                                                                type="date" class="form-control">
+                                                            <div class="form-text">Choose an expiry date for offer to
+                                                                end.
+                                                            </div>
+                                                        </div>
+
                                                     </div>
 
-                                                </div>
-
-                                                <!-- Modal Footer -->
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <button id="addCouponBtn" type="submit" class="btn btn-info">Save
-                                                        changes</button>
-                                                </div>
-                                            </form>
+                                                    <!-- Modal Footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button id="addCouponBtn" type="submit"
+                                                            class="btn btn-info">Save
+                                                            changes</button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
 
-                                <script>
-                                    const category = '<%- JSON.stringify(categoryOffersDet) %>'
-                                    const parsedData = JSON.parse(category)
-                                    console.log(parsedData);
-                                    $(document).ready(function () {
-                                        $("#addCategoryOfferForm").validate({
-                                            rules: {
-                                                categoryName: "required",
-                                                categoryOfferPercentage: {
-                                                    required: true,
-                                                    min: 5,
-                                                    max: 90
+                                    <script>
+                                        const category = '<%- JSON.stringify(categoryOffersDet) %>'
+                                        const parsedData = JSON.parse(category)
+                                        console.log(parsedData);
+                                        $(document).ready(function () {
+                                            $("#addCategoryOfferForm").validate({
+                                                rules: {
+                                                    categoryName: "required",
+                                                    categoryOfferPercentage: {
+                                                        required: true,
+                                                        min: 5,
+                                                        max: 90
+                                                    },
+                                                    categoryOfferStartDate: {
+                                                        required: true,
+                                                    },
+                                                    categoryOfferEndDate: {
+                                                        required: true,
+                                                    }
                                                 },
-                                                categoryOfferStartDate: {
-                                                    required: true,
-                                                },
-                                                categoryOfferEndDate: {
-                                                    required: true,
-                                                }
-                                            },
-                                            submitHandler: async function (form, event) {
-                                                event.preventDefault()
+                                                submitHandler: async function (form, event) {
+                                                    event.preventDefault()
 
-                                                let formData = {
-                                                    categoryName: form.categoryName.value,
-                                                    categoryOfferPercentage: form.categoryOfferPercentage.value,
-                                                    categoryOfferStartDate: form.categoryOfferStartDate.value,
-                                                    categoryOfferEndDate: form.categoryOfferEndDate.value
-                                                }
+                                                    let formData = {
+                                                        categoryName: form.categoryName.value,
+                                                        categoryOfferPercentage: form.categoryOfferPercentage.value,
+                                                        categoryOfferStartDate: form.categoryOfferStartDate.value,
+                                                        categoryOfferEndDate: form.categoryOfferEndDate.value
+                                                    }
 
-                                                let response = await fetch('/admin/categoryOfferManagement/addOffer', {
-                                                    method: 'POST',
-                                                    headers: { "Content-Type": "application/json" },
-                                                    body: JSON.stringify(formData)
-                                                })
-
-                                                let result = await response.json()
-
-                                                if (result.success) {
-                                                    await Swal.fire({
-                                                        icon: "success",
-                                                        title: "Category Offer Added"
-                                                    }).then(() => {
-                                                        $('#category-offer-table').load('/admin/categoryManagement/category-offers-page #category-offer-table');
-                                                        const modalElement = document.getElementById(`addCategoryOfferModal`);
-                                                        const modalInstance = bootstrap.Modal.getInstance(modalElement);
-                                                        if (modalInstance) modalInstance.hide();
-                                                        form.reset()
+                                                    let response = await fetch('/admin/categoryOfferManagement/addOffer', {
+                                                        method: 'POST',
+                                                        headers: { "Content-Type": "application/json" },
+                                                        body: JSON.stringify(formData)
                                                     })
-                                                } else {
-                                                    await Swal.fire({
-                                                        icon: "error",
-                                                        title: "Category Offer Already Exists for This Category",
-                                                        text: "Please try editing the offer of this particular categotry",
-                                                    });
-                                                }
-                                            }
-                                        });
-                                    });
-                                </script>
 
-                                <table id="category-offer-table" class="table">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col">
-                                                <div class="d-flex justify-content-center">
-                                                    Category
-                                                </div>
-                                            </th>
-                                            <th scope="col">
-                                                <div class="d-flex justify-content-center">Offer Percentage</div>
-                                            </th>
-                                            <th scope="col">
-                                                <div class="d-flex justify-content-center">Start Date</div>
-                                            </th>
-                                            <th scope="col">
-                                                <div class="d-flex justify-content-center">End Date</div>
-                                            </th>
-                                            <th scope="col">
-                                                <div class="d-flex justify-content-center">Current Status</div>
-                                            </th>
-                                            <th scope="col">
-                                                <div class="d-flex justify-content-center">Action</div>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% for(let i=0;i<categoryOffersDet.length;i++){ %>
+                                                    let result = await response.json()
+
+                                                    if (result.success) {
+                                                        await Swal.fire({
+                                                            icon: "success",
+                                                            title: "Category Offer Added"
+                                                        }).then(() => {
+                                                            $('#category-offer-table').load('/admin/categoryManagement/category-offers-page #category-offer-table');
+                                                            const modalElement = document.getElementById(`addCategoryOfferModal`);
+                                                            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                                            if (modalInstance) modalInstance.hide();
+                                                            form.reset()
+                                                        })
+                                                    } else {
+                                                        await Swal.fire({
+                                                            icon: "error",
+                                                            title: "Category Offer Already Exists for This Category",
+                                                            text: "Please try editing the offer of this particular categotry",
+                                                        });
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    </script>
+
+                                    <table id="category-offer-table" class="table">
+                                        <thead class="thead-dark">
                                             <tr>
-                                                <th scope="row">
+                                                <th scope="col">
                                                     <div class="d-flex justify-content-center">
-                                                        <%= categoryOffersDet[i].categoryName %>
+                                                        Category
                                                     </div>
                                                 </th>
-                                                <td>
-                                                    <div class="d-flex justify-content-center">
-                                                        <%= categoryOffersDet[i].categoryOfferPercentage %>&nbsp;%
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex justify-content-center">
-                                                        <%= categoryOffersDet[i].startDate.toLocaleDateString('en-US', {
-                                                            year: 'numeric' , month: '2-digit' , day: '2-digit' }) %>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex justify-content-center">
-                                                        <%= categoryOffersDet[i].endDate.toLocaleDateString('en-US', {
-                                                            year: 'numeric' , month: '2-digit' , day: '2-digit' }) %>
-                                                    </div>
-                                                </td>
-                                                <td id="currentStatus<%= i %>">
-                                                    <div class="d-flex justify-content-center">
-                                                        <%= categoryOffersDet[i].currentStatus %>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex justify-content-center">
-                                                        <button type="button" class="btn btn-info"
-                                                            data-bs-toggle="modal" data-bs-target="#editModal<%= i %>">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-
+                                                <th scope="col">
+                                                    <div class="d-flex justify-content-center">Offer Percentage</div>
+                                                </th>
+                                                <th scope="col">
+                                                    <div class="d-flex justify-content-center">Start Date</div>
+                                                </th>
+                                                <th scope="col">
+                                                    <div class="d-flex justify-content-center">End Date</div>
+                                                </th>
+                                                <th scope="col">
+                                                    <div class="d-flex justify-content-center">Current Status</div>
+                                                </th>
+                                                <th scope="col">
+                                                    <div class="d-flex justify-content-center">Action</div>
+                                                </th>
                                             </tr>
-                                            <% categoryOffersDet.forEach(function(categoryOffer, index) { %>
-                                                <div class="modal fade" id="editModal<%= index %>" tabindex="-1"
-                                                    aria-labelledby="modalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="modalLabel">Edit Offer</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </thead>
+                                        <tbody>
+                                            <% for(let i=0;i<categoryOffersDet.length;i++){ %>
+                                                <tr>
+                                                    <th scope="row">
+                                                        <div class="d-flex justify-content-center">
+                                                            <%= categoryOffersDet[i].categoryName %>
+                                                        </div>
+                                                    </th>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center">
+                                                            <%= categoryOffersDet[i].categoryOfferPercentage %>&nbsp;%
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center">
+                                                            <%= categoryOffersDet[i].startDate.toLocaleDateString('en-US',
+                                                                { year: 'numeric' , month: '2-digit' , day: '2-digit' })
+                                                                %>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center">
+                                                            <%= categoryOffersDet[i].endDate.toLocaleDateString('en-US',
+                                                                { year: 'numeric' , month: '2-digit' , day: '2-digit' })
+                                                                %>
+                                                        </div>
+                                                    </td>
+                                                    <td id="currentStatus<%= i %>">
+                                                        <div class="d-flex justify-content-center">
+                                                            <%= categoryOffersDet[i].currentStatus %>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center">
+                                                            <button type="button" class="btn btn-info"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#editModal<%= i %>">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+                                                <% categoryOffersDet.forEach(function(categoryOffer, index) { %>
+                                                    <div class="modal fade" id="editModal<%= index %>" tabindex="-1"
+                                                        aria-labelledby="modalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="modalLabel">Edit Offer
+                                                                    </h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <form id="editCategoryOfferForm<%= index %>"
+                                                                    role="form">
+                                                                    <div class="modal-body">
+                                                                        <div class="offerPercentageInput p-2">
+                                                                            <label for="categoryOfferPercentage"
+                                                                                class="mb-2">Category Offer
+                                                                                Percentage: </label>
+                                                                            <div class="input-group">
+                                                                                <input
+                                                                                    id="categoryOfferPercentage<%= index %>"
+                                                                                    name="categoryOfferPercentage"
+                                                                                    class="form-control"
+                                                                                    placeholder="Enter the offer percentage"
+                                                                                    value="<%= categoryOffer.categoryOfferPercentage %>">
+                                                                            </div>
+                                                                            <div class="form-text">Choose a percentage
+                                                                                to be
+                                                                                discounted.
+                                                                                Between 5% and 90%.</div>
+                                                                        </div>
+
+                                                                        <div class="startDateInput p-2">
+                                                                            <label for="startDate">Offer Start Date:
+                                                                            </label>
+                                                                            <div class="input-group">
+                                                                                <input id="startDate<%= index %>"
+                                                                                    name="startDate" type="date"
+                                                                                    class="form-control"
+                                                                                    value="<%= categoryOffer.startDate.toISOString().substring(0, 10) %>">
+                                                                            </div>
+                                                                            <div class="form-text">Choose a start date
+                                                                                for
+                                                                                the offer
+                                                                                to be
+                                                                                considered.</div>
+                                                                        </div>
+
+                                                                        <div class="endDateInput p-2">
+                                                                            <label for="endDate">Offer Expiry Date :
+                                                                            </label>
+                                                                            <div class="input-group">
+                                                                                <input id="endDate<%= index %>"
+                                                                                    name="endDate" type="date"
+                                                                                    class="form-control"
+                                                                                    value="<%= categoryOffer.endDate.toISOString().substring(0, 10) %>">
+                                                                            </div>
+                                                                            <div class="form-text">Choose an exipry date
+                                                                                for
+                                                                                offer
+                                                                                to end.
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Close</button>
+                                                                        <button id="editOfferBtn" type="submit"
+                                                                            class="btn btn-info">Save
+                                                                            changes</button>
+                                                                    </div>
+                                                                </form>
                                                             </div>
-                                                            <form id="editCategoryOfferForm<%= index %>" role="form">
-                                                                <div class="modal-body">
-                                                                    <div class="offerPercentageInput p-2">
-                                                                        <label for="categoryOfferPercentage"
-                                                                            class="mb-2">Category Offer
-                                                                            Percentage: </label>
-                                                                        <div class="input-group">
-                                                                            <input
-                                                                                id="categoryOfferPercentage<%= index %>"
-                                                                                name="categoryOfferPercentage"
-                                                                                class="form-control"
-                                                                                placeholder="Enter the offer percentage"
-                                                                                value="<%= categoryOffer.categoryOfferPercentage %>">
-                                                                        </div>
-                                                                        <div class="form-text">Choose a percentage to be
-                                                                            discounted.
-                                                                            Between 5% and 90%.</div>
-                                                                    </div>
-
-                                                                    <div class="startDateInput p-2">
-                                                                        <label for="startDate">Offer Start Date:
-                                                                        </label>
-                                                                        <div class="input-group">
-                                                                            <input id="startDate<%= index %>"
-                                                                                name="startDate" type="date"
-                                                                                class="form-control"
-                                                                                value="<%= categoryOffer.startDate.toISOString().substring(0, 10) %>">
-                                                                        </div>
-                                                                        <div class="form-text">Choose a start date for
-                                                                            the offer
-                                                                            to be
-                                                                            considered.</div>
-                                                                    </div>
-
-                                                                    <div class="endDateInput p-2">
-                                                                        <label for="endDate">Offer Expiry Date :
-                                                                        </label>
-                                                                        <div class="input-group">
-                                                                            <input id="endDate<%= index %>"
-                                                                                name="endDate" type="date"
-                                                                                class="form-control"
-                                                                                value="<%= categoryOffer.endDate.toISOString().substring(0, 10) %>">
-                                                                        </div>
-                                                                        <div class="form-text">Choose an exipry date for
-                                                                            offer
-                                                                            to end.
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">Close</button>
-                                                                    <button id="editOfferBtn" type="submit"
-                                                                        class="btn btn-info">Save
-                                                                        changes</button>
-                                                                </div>
-                                                            </form>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <% }); %>
-                                                    <script>
+                                                    <% }); %>
+                                                        <script>
 
-                                                        $('#categoryEdit<%=i%>').validate({
-                                                            rules: {
-                                                                'categoryNameEdit<%=i%>': {
-                                                                    required: true,
+                                                            $('#categoryEdit<%=i%>').validate({
+                                                                rules: {
+                                                                    'categoryNameEdit<%=i%>': {
+                                                                        required: true,
+                                                                    },
+                                                                    'categorydesEdit<%=i%>': {
+                                                                        required: true
+                                                                    }
                                                                 },
-                                                                'categorydesEdit<%=i%>': {
-                                                                    required: true
+                                                                submitHandler: async (form, event) => {
+                                                                    event.preventDefault()
+
+                                                                    let formData = {
+                                                                        categoryName: form.categoryNameEdit.value,
+                                                                        categoryDes: form.categorydesEdit.value,
+                                                                        categoryId: '<%=categoryOffersDet[i]._id%>'
+                                                                    }
+                                                                    let response = await fetch('/editCategory', {
+                                                                        method: 'POST',
+                                                                        headers: { 'Content-Type': 'application/json' },
+                                                                        body: JSON.stringify(formData)
+                                                                    })
+                                                                    let result = await response.json()
+                                                                    if (result.success) {
+                                                                        await Swal.fire({
+                                                                            icon: "success",
+                                                                            title: "Category Edited"
+
+                                                                        });
+                                                                        window.location.reload();
+                                                                    } if (result.exists) {
+                                                                        await Swal.fire({
+                                                                            icon: "error",
+                                                                            title: "Category Already Exists"
+
+                                                                        });
+                                                                        window.location.reload();
+                                                                    } if (result.noValue) {
+                                                                        await Swal.fire({
+                                                                            icon: "error",
+                                                                            title: "Give any value"
+
+                                                                        });
+                                                                        window.location.reload();
+                                                                    }
                                                                 }
-                                                            },
-                                                            submitHandler: async (form, event) => {
-                                                                event.preventDefault()
+                                                            })
+                                                        </script>
+                                                        <% } %>
 
-                                                                let formData = {
-                                                                    categoryName: form.categoryNameEdit.value,
-                                                                    categoryDes: form.categorydesEdit.value,
-                                                                    categoryId: '<%=categoryOffersDet[i]._id%>'
-                                                                }
-                                                                let response = await fetch('/editCategory', {
-                                                                    method: 'POST',
-                                                                    headers: { 'Content-Type': 'application/json' },
-                                                                    body: JSON.stringify(formData)
-                                                                })
-                                                                let result = await response.json()
-                                                                if (result.success) {
-                                                                    await Swal.fire({
-                                                                        icon: "success",
-                                                                        title: "Category Edited"
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div class="col-12">
 
-                                                                    });
-                                                                    window.location.reload();
-                                                                } if (result.exists) {
-                                                                    await Swal.fire({
-                                                                        icon: "error",
-                                                                        title: "Category Already Exists"
-
-                                                                    });
-                                                                    window.location.reload();
-                                                                } if (result.noValue) {
-                                                                    await Swal.fire({
-                                                                        icon: "error",
-                                                                        title: "Give any value"
-
-                                                                    });
-                                                                    window.location.reload();
-                                                                }
-                                                            }
-                                                        })
-                                                    </script>
-                                                    <% } %>
-
-                                    </tbody>
-                                </table>
-                            </section>
-                            <div class="row">
-                                <div class="col-12">
-
-                                    <nav id="pagination">
-                                        <ul class="pagination">
-                                            <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-                                                <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
-                                                    aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                </button>
-                                            </li>
-                                            <% for(let i=1; i <=pages; i++) { %>
-                                                <li class="page-item <%= page === i ? 'active' : '' %>">
-                                                    <button class="page-link" onclick="loadPage('<%= i %>')">
-                                                        <%= i %>
-                                                    </button>
-                                                </li>
-                                                <% } %>
-                                                    <% if (page < pages) { %>
-                                                        <li class="page-item">
-                                                            <button class="page-link"
-                                                                onclick="loadPage('<%= page + 1 %>')" aria-label="Next">
-                                                                <span aria-hidden="true">&raquo;</span>
+                                            <nav id="pagination">
+                                                <ul class="pagination">
+                                                    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+                                                        <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
+                                                            aria-label="Previous">
+                                                            <span aria-hidden="true">&laquo;</span>
+                                                        </button>
+                                                    </li>
+                                                    <% for(let i=1; i <=pages; i++) { %>
+                                                        <li class="page-item <%= page === i ? 'active' : '' %>">
+                                                            <button class="page-link" onclick="loadPage('<%= i %>')">
+                                                                <%= i %>
                                                             </button>
                                                         </li>
                                                         <% } %>
-                                        </ul>
-                                    </nav>
+                                                            <% if (page < pages) { %>
+                                                                <li class="page-item">
+                                                                    <button class="page-link"
+                                                                        onclick="loadPage('<%= page + 1 %>')"
+                                                                        aria-label="Next">
+                                                                        <span aria-hidden="true">&raquo;</span>
+                                                                    </button>
+                                                                </li>
+                                                                <% } %>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <% } %>
+                                <% } %>
+
+
+                    </section>
+                </div>
 
             </div>
         </div>

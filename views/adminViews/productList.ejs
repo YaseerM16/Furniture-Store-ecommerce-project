@@ -205,31 +205,55 @@
                         </a>
                     </div>
                     <!-- Logo -->
-                    <!-- Search Form -->
-                    <div class="search-form">
-                        <div class="search-form ml-3" style="width: 300px;">
-                            <form onsubmit="redirectToSearch(event)"
-                                class="d-flex align-items-center position-relative">
+                    <div class="d-flex align-items-center justify-content-center gap-3 bg-light border px-4 py-3 rounded-pill mx-auto shadow-sm"
+                        style="
+                         max-width: 100%;
+                         background-color: #F9F9F7;
+                         border-color: #E0DED9 !important;
+                         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                     ">
+                        <!-- Brand + Icon Container -->
+                        <div class="d-flex align-items-center gap-2" style="color: #A67C52;">
+                            <!-- Brand Name -->
+                            <div style="
+                              font-size: 16px;
+                              font-weight: 700;
+                              letter-spacing: 0.5px;
+                              font-family: 'Inter', sans-serif;
+                          ">
+                                Y-FURNS
+                            </div>
 
-                                <!-- Search Input -->
-                                <input type="text" name="searchQuery" id="searchInput" class="form-control me-2"
-                                    placeholder="Search for products..." autocomplete="off" oninput="toggleClearBtn()">
-
-                                <!-- Clear (×) Icon -->
-                                <span id="clearIcon" onclick="clearSearch()"
-                                    style="display: none; position: absolute; right: 70px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #888;">
-                                    &times;
-                                </span>
-
-                                <!-- Search Button -->
-                                <button type="submit" class="btn btn-outline-secondary">
-                                    <i class="fal fa-search"></i>
-                                </button>
-                            </form>
+                            <!-- Furniture Icon -->
+                            <div style="font-size: 18px;">
+                                <i class="fas fa-couch"></i>
+                            </div>
                         </div>
 
+                        <!-- Admin Title -->
+                        <div style="
+                          font-size: 15px;
+                          font-weight: 600;
+                          letter-spacing: 0.4px;
+                          font-family: 'Inter', sans-serif;
+                          text-transform: uppercase;
+                          color: #5C504A;
+                          position: relative;
+                          padding-left: 16px;
+                      ">
+                            ADMIN CONSOLE
+                            <!-- Subtle separator line -->
+                            <span style="
+                              position: absolute;
+                              left: 0;
+                              top: 50%;
+                              transform: translateY(-50%);
+                              height: 60%;
+                              width: 1px;
+                              background-color: #E0DED9;
+                          "></span>
+                        </div>
                     </div>
-                    <!-- Search Form -->
                     <!-- Header Action -->
                     <div class="header_action">
                         <ul>
@@ -373,6 +397,32 @@
 
                     <section class="section-padding">
                         <div class="container-fluid">
+                            <!-- Search Form -->
+                            <div style="display: flex;justify-content: center;" class="search-form">
+                                <div class="search-form ml-3" style="width: 300px;">
+                                    <form onsubmit="redirectToSearch(event)"
+                                        class="d-flex align-items-center position-relative">
+
+                                        <!-- Search Input -->
+                                        <input type="text" name="searchQuery" id="searchInput" class="form-control me-2"
+                                            placeholder="Search for products name..." autocomplete="off"
+                                            oninput="toggleClearBtn()">
+
+                                        <!-- Clear (×) Icon -->
+                                        <span id="clearIcon" onclick="clearSearch()"
+                                            style="display: none; position: absolute; right: 70px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #888;">
+                                            &times;
+                                        </span>
+
+                                        <!-- Search Button -->
+                                        <button type="submit" class="btn btn-outline-secondary">
+                                            <i class="fal fa-search"></i>
+                                        </button>
+                                    </form>
+                                </div>
+
+                            </div>
+                            <!-- Search Form -->
                             <div class="col-12">
                                 <div class="d-flex w-100 justify-content-between">
                                     <div class="section-header">

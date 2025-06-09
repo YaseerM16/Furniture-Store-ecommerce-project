@@ -238,31 +238,55 @@
                         </a>
                     </div>
                     <!-- Logo -->
-                    <!-- Search Form -->
-                    <div class="search-form">
-                        <div class="search-form ml-3" style="width: 300px;">
-                            <form onsubmit="redirectToSearch(event)"
-                                class="d-flex align-items-center position-relative">
+                    <div class="d-flex align-items-center justify-content-center gap-3 bg-light border px-4 py-3 rounded-pill mx-auto shadow-sm"
+                        style="
+                         max-width: 100%;
+                         background-color: #F9F9F7;
+                         border-color: #E0DED9 !important;
+                         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                     ">
+                        <!-- Brand + Icon Container -->
+                        <div class="d-flex align-items-center gap-2" style="color: #A67C52;">
+                            <!-- Brand Name -->
+                            <div style="
+                              font-size: 16px;
+                              font-weight: 700;
+                              letter-spacing: 0.5px;
+                              font-family: 'Inter', sans-serif;
+                          ">
+                                Y-FURNS
+                            </div>
 
-                                <!-- Search Input -->
-                                <input type="text" name="searchQuery" id="searchInput" class="form-control me-2"
-                                    placeholder="Search for products..." autocomplete="off" oninput="toggleClearBtn()">
-
-                                <!-- Clear (×) Icon -->
-                                <span id="clearIcon" onclick="clearSearch()"
-                                    style="display: none; position: absolute; right: 70px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #888;">
-                                    &times;
-                                </span>
-
-                                <!-- Search Button -->
-                                <button type="submit" class="btn btn-outline-secondary">
-                                    <i class="fal fa-search"></i>
-                                </button>
-                            </form>
+                            <!-- Furniture Icon -->
+                            <div style="font-size: 18px;">
+                                <i class="fas fa-couch"></i>
+                            </div>
                         </div>
 
+                        <!-- Admin Title -->
+                        <div style="
+                          font-size: 15px;
+                          font-weight: 600;
+                          letter-spacing: 0.4px;
+                          font-family: 'Inter', sans-serif;
+                          text-transform: uppercase;
+                          color: #5C504A;
+                          position: relative;
+                          padding-left: 16px;
+                      ">
+                            ADMIN CONSOLE
+                            <!-- Subtle separator line -->
+                            <span style="
+                              position: absolute;
+                              left: 0;
+                              top: 50%;
+                              transform: translateY(-50%);
+                              height: 60%;
+                              width: 1px;
+                              background-color: #E0DED9;
+                          "></span>
+                        </div>
                     </div>
-                    <!-- Search Form -->
                     <!-- Header Action -->
                     <div class="header_action">
                         <ul>
@@ -391,145 +415,174 @@
 
                     </div>
                 </div>
-                <% if (!productOfferData || productOfferData.length===0) { %>
-                    <div class="col-lg-6 mx-auto text-center p-5 mt-4">
-                        <!-- Discount tag icon with subtle gradient -->
-                        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" class="mb-4">
-                            <linearGradient id="offer-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#f8f9fa" />
-                                <stop offset="100%" stop-color="#e9ecef" />
-                            </linearGradient>
-                            <path d="M3 7l8.5-4.5L20 7l-8.5 4.5L3 7z" fill="url(#offer-gradient)" stroke="#adb5bd"
-                                stroke-width="1" />
-                            <path d="M20 7l-8.5 4.5V20M3 7l8.5 4.5V20" fill="none" stroke="#6c757d"
-                                stroke-width="1.5" />
-                            <path d="M10.5 4.5L16 7l-5.5 3" fill="none" stroke="#6c757d" stroke-width="1"
-                                stroke-dasharray="2,2" />
-                        </svg>
 
-                        <h5 class="text-dark mb-3 fw-semibold">
-                            No Matching Offers Found
-                        </h5>
 
-                        <p class="text-muted mb-4">
-                            No offers match your current search filters. Try adjusting your selection.
-                        </p>
 
-                        <div class="d-flex justify-content-center gap-3 mt-1">
+                <!-- Your offers listing code goes here -->
+                <div class="col-xl-9 col-lg-8">
 
-                            <button onclick="clearSearch()"
-                                class="thm-btn btn-rectangle btn-outline-secondary lh-normal btn-small">
-                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="me-2">
-                                    <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
-                                    <path
-                                        d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-                                </svg>
-                                Reset Search
+                    <section class="section-padding">
+                        <div class="container-fluid">
+                            <div class="col-12">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <div class="section-header">
+                                        <h3 class="title">Product Offers</h3>
+                                    </div>
+                                </div>
+                                <!-- Search Form -->
+                                <div style="display: flex;justify-content: center;" class="search-form">
+                                    <div class="search-form ml-3" style="width: 300px;">
+                                        <form onsubmit="redirectToSearch(event)"
+                                            class="d-flex align-items-center position-relative">
 
+                                            <!-- Search Input -->
+                                            <input type="text" name="searchQuery" id="searchInput"
+                                                class="form-control me-2" placeholder="Search for products name.."
+                                                autocomplete="off" oninput="toggleClearBtn()">
+
+                                            <!-- Clear (×) Icon -->
+                                            <span id="clearIcon" onclick="clearSearch()"
+                                                style="display: none; position: absolute; right: 70px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #888;">
+                                                &times;
+                                            </span>
+
+                                            <!-- Search Button -->
+                                            <button type="submit" class="btn btn-outline-secondary">
+                                                <i class="fal fa-search"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!-- Search Form -->
+                            </div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#addProductOfferModal" style="margin-bottom: 10px;">
+                                Add New Product Offer
                             </button>
 
-                        </div>
-                    </div>
-                    <% } else { %>
-                        <!-- Your offers listing code goes here -->
-                        <div class="col-xl-9 col-lg-8">
-
-                            <section class="section-padding">
-                                <div class="container-fluid">
-                                    <div class="col-12">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <div class="section-header">
-                                                <h3 class="title">Product Offers</h3>
-                                            </div>
+                            <!--Add Product Offer Modal -->
+                            <div class="modal fade" id="addProductOfferModal" tabindex="-1"
+                                aria-labelledby="addProductOfferModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addProductOfferModalLabel">Add New
+                                                Product Offer
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                         </div>
-                                    </div>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#addProductOfferModal" style="margin-bottom: 10px;">
-                                        Add New Product Offer
-                                    </button>
+                                        <form id="addProductOfferForm" role="form">
+                                            <div class="modal-body">
 
-                                    <!--Add Product Offer Modal -->
-                                    <div class="modal fade" id="addProductOfferModal" tabindex="-1"
-                                        aria-labelledby="addProductOfferModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="addProductOfferModalLabel">Add New
-                                                        Product Offer
-                                                    </h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
+                                                <div class="custom-select">
+                                                    <div class="select-selected">Select a Product</div>
+                                                    <div class="select-items">
+                                                        <% for(let i=0; i<productDet.length; i++){ %>
+                                                            <div class="select-item"
+                                                                data-value="<%=productDet[i]._id%>">
+                                                                <img src="/assets/uploadimages/uploads/<%=productDet[i].productImage[0]%>"
+                                                                    alt="<%=productDet[i].productName%>"
+                                                                    class="product-image">
+                                                                <%=productDet[i].productName%>
+                                                            </div>
+                                                            <% } %>
+                                                    </div>
                                                 </div>
-                                                <form id="addProductOfferForm" role="form">
-                                                    <div class="modal-body">
-
-                                                        <div class="custom-select">
-                                                            <div class="select-selected">Select a Product</div>
-                                                            <div class="select-items">
-                                                                <% for(let i=0; i<productDet.length; i++){ %>
-                                                                    <div class="select-item"
-                                                                        data-value="<%=productDet[i]._id%>">
-                                                                        <img src="/assets/uploadimages/uploads/<%=productDet[i].productImage[0]%>"
-                                                                            alt="<%=productDet[i].productName%>"
-                                                                            class="product-image">
-                                                                        <%=productDet[i].productName%>
-                                                                    </div>
-                                                                    <% } %>
-                                                            </div>
-                                                        </div>
-                                                        <input readonly id="selectedProductName"
-                                                            name="selectedProductName" style="border: none;">
+                                                <input readonly id="selectedProductName" name="selectedProductName"
+                                                    style="border: none;">
 
 
 
-                                                        <div class="offerPercentageInput p-2">
-                                                            <label for="productOfferPercentage" class="mb-2">Product
-                                                                Offer
-                                                                Percentage: </label>
-                                                            <div class="input-group">
-                                                                <input id="productOfferPercentage"
-                                                                    name="productOfferPercentage" class="form-control"
-                                                                    placeholder="Enter the offer percentage">
-                                                            </div>
-                                                            <div class="form-text">Choose a percentage to be discounted.
-                                                                Between
-                                                                5% and 90%.</div>
-                                                        </div>
-
-                                                        <div class="startDateInput p-2">
-                                                            <label for="startDate">Offer Start Date: </label>
-                                                            <div class="input-group">
-                                                                <input id="startDate" name="startDate" type="date"
-                                                                    class="form-control">
-                                                            </div>
-                                                            <div class="form-text">Choose a start date for the offer to
-                                                                be
-                                                                considered.</div>
-                                                        </div>
-
-                                                        <div class="endDateInput p-2">
-                                                            <label for="endDate">Offer Expiry Date : </label>
-                                                            <div class="input-group">
-                                                                <input id="endDate" name="endDate" type="date"
-                                                                    class="form-control">
-                                                            </div>
-                                                            <div class="form-text">Choose an exipry date for offer to
-                                                                end.</div>
-                                                        </div>
-
+                                                <div class="offerPercentageInput p-2">
+                                                    <label for="productOfferPercentage" class="mb-2">Product
+                                                        Offer
+                                                        Percentage: </label>
+                                                    <div class="input-group">
+                                                        <input id="productOfferPercentage" name="productOfferPercentage"
+                                                            class="form-control"
+                                                            placeholder="Enter the offer percentage">
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close</button>
-                                                        <button id="addCouponBtn" type="submit"
-                                                            class="btn btn-info">Save
-                                                            changes</button>
+                                                    <div class="form-text">Choose a percentage to be discounted.
+                                                        Between
+                                                        5% and 90%.</div>
+                                                </div>
+
+                                                <div class="startDateInput p-2">
+                                                    <label for="startDate">Offer Start Date: </label>
+                                                    <div class="input-group">
+                                                        <input id="startDate" name="startDate" type="date"
+                                                            class="form-control">
                                                     </div>
-                                                </form>
+                                                    <div class="form-text">Choose a start date for the offer to
+                                                        be
+                                                        considered.</div>
+                                                </div>
+
+                                                <div class="endDateInput p-2">
+                                                    <label for="endDate">Offer Expiry Date : </label>
+                                                    <div class="input-group">
+                                                        <input id="endDate" name="endDate" type="date"
+                                                            class="form-control">
+                                                    </div>
+                                                    <div class="form-text">Choose an exipry date for offer to
+                                                        end.</div>
+                                                </div>
+
                                             </div>
-                                        </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button id="addCouponBtn" type="submit" class="btn btn-info">Save
+                                                    changes</button>
+                                            </div>
+                                        </form>
                                     </div>
+                                </div>
+                            </div>
 
+                            <% if (!productOfferData || productOfferData.length===0) { %>
+                                <div class="col-lg-6 mx-auto text-center p-5 mt-4">
+                                    <!-- Discount tag icon with subtle gradient -->
+                                    <svg width="96" height="96" viewBox="0 0 24 24" fill="none" class="mb-4">
+                                        <linearGradient id="offer-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#f8f9fa" />
+                                            <stop offset="100%" stop-color="#e9ecef" />
+                                        </linearGradient>
+                                        <path d="M3 7l8.5-4.5L20 7l-8.5 4.5L3 7z" fill="url(#offer-gradient)"
+                                            stroke="#adb5bd" stroke-width="1" />
+                                        <path d="M20 7l-8.5 4.5V20M3 7l8.5 4.5V20" fill="none" stroke="#6c757d"
+                                            stroke-width="1.5" />
+                                        <path d="M10.5 4.5L16 7l-5.5 3" fill="none" stroke="#6c757d" stroke-width="1"
+                                            stroke-dasharray="2,2" />
+                                    </svg>
+
+                                    <h5 class="text-dark mb-3 fw-semibold">
+                                        No Matching Offers Found
+                                    </h5>
+
+                                    <p class="text-muted mb-4">
+                                        No offers match your current search filters. Try adjusting your selection.
+                                    </p>
+
+                                    <div class="d-flex justify-content-center gap-3 mt-1">
+
+                                        <button onclick="clearSearch()"
+                                            class="thm-btn btn-rectangle btn-outline-secondary lh-normal btn-small">
+                                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+                                                class="me-2">
+                                                <path
+                                                    d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                                                <path
+                                                    d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                                            </svg>
+                                            Reset Search
+
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <% } else { %>
                                     <div id="product-offers-table" class="row">
                                         <div class="col-12">
                                             <div class="table-responsive cart_table">
@@ -547,7 +600,8 @@
                                                                 </div>
                                                             </th>
                                                             <th scope="col">
-                                                                <div class="d-flex justify-content-center">Start Date
+                                                                <div class="d-flex justify-content-center">Start
+                                                                    Date
                                                                 </div>
                                                             </th>
                                                             <th scope="col">
@@ -559,7 +613,8 @@
                                                                     Status</div>
                                                             </th>
                                                             <th scope="col">
-                                                                <div class="d-flex justify-content-center">Action</div>
+                                                                <div class="d-flex justify-content-center">Action
+                                                                </div>
                                                             </th>
                                                         </tr>
                                                     </thead>
@@ -685,7 +740,8 @@
                                                                         type="date" class="form-control"
                                                                         value="<%= productOffer.startDateFormatted %>">
                                                                 </div>
-                                                                <div class="form-text">Choose a start date for the offer
+                                                                <div class="form-text">Choose a start date for the
+                                                                    offer
                                                                     to be
                                                                     considered.</div>
                                                             </div>
@@ -697,7 +753,8 @@
                                                                         type="date" class="form-control"
                                                                         value="<%= productOffer.endDateFormatted %>">
                                                                 </div>
-                                                                <div class="form-text">Choose an exipry date for offer
+                                                                <div class="form-text">Choose an exipry date for
+                                                                    offer
                                                                     to end.
                                                                 </div>
                                                             </div>
@@ -715,137 +772,142 @@
                                             </div>
                                         </div>
                                         <% }); %>
-                                </div>
-                            </section>
-                            <!-- Edit Product Script- form validation and submit  -->
+                                            <!-- Edit Product Script- form validation and submit  -->
 
-                            <script>
-                                console.log("Sdfrevevbv dsgtr");
-                                var today = new Date().toISOString().split('T')[0];
-                                const productOfferData = '<%- JSON.stringify(productOfferData) %>';
-                                const productDetData = '<%- JSON.stringify(productDet) %>';
-                                const parsedProdOffer = JSON.parse(productOfferData);
-                                const parsedProdDet = JSON.parse(productOfferData);
-                                console.log(parsedProdOffer);
-                                console.log(parsedProdDet);
+                                            <script>
+                                                console.log("Sdfrevevbv dsgtr");
+                                                var today = new Date().toISOString().split('T')[0];
+                                                const productOfferData = '<%- JSON.stringify(productOfferData) %>';
+                                                const productDetData = '<%- JSON.stringify(productDet) %>';
+                                                const parsedProdOffer = JSON.parse(productOfferData);
+                                                const parsedProdDet = JSON.parse(productOfferData);
+                                                console.log(parsedProdOffer);
+                                                console.log(parsedProdDet);
 
-                                $(document).ready(function () {
-                                    parsedProdOffer.forEach((productOffer, index) => {
-                                        const formId = `#editProductOfferForm${index}`;
-                                        const startDateSelector = `#startDate${index}`;
-                                        const endDateSelector = `#endDate${index}`;
-                                        const startDateElement = $(startDateSelector);
-                                        const endDateElement = $(endDateSelector);
+                                                $(document).ready(function () {
+                                                    parsedProdOffer.forEach((productOffer, index) => {
+                                                        const formId = `#editProductOfferForm${index}`;
+                                                        const startDateSelector = `#startDate${index}`;
+                                                        const endDateSelector = `#endDate${index}`;
+                                                        const startDateElement = $(startDateSelector);
+                                                        const endDateElement = $(endDateSelector);
 
-                                        $(formId).validate({
-                                            rules: {
-                                                productName: "required",
-                                                productOfferPercentage: {
-                                                    required: true,
-                                                    min: 5,
-                                                    max: 90
-                                                },
-                                                startDate: "required",
-                                                endDate: "required"
-                                            },
+                                                        $(formId).validate({
+                                                            rules: {
+                                                                productName: "required",
+                                                                productOfferPercentage: {
+                                                                    required: true,
+                                                                    min: 5,
+                                                                    max: 90
+                                                                },
+                                                                startDate: "required",
+                                                                endDate: "required"
+                                                            },
 
-                                            submitHandler: async function (form, event) {
-                                                event.preventDefault();
+                                                            submitHandler: async function (form, event) {
+                                                                event.preventDefault();
 
-                                                const formData = {
-                                                    productName: $(form.productName).val(),
-                                                    productOfferPercentage: $(form.productOfferPercentage).val(),
-                                                    startDate: $(form.startDate).val(),
-                                                    endDate: $(form.endDate).val()
-                                                };
+                                                                const formData = {
+                                                                    productName: $(form.productName).val(),
+                                                                    productOfferPercentage: $(form.productOfferPercentage).val(),
+                                                                    startDate: $(form.startDate).val(),
+                                                                    endDate: $(form.endDate).val()
+                                                                };
 
-                                                try {
-                                                    const response = await fetch(`/admin/productOfferManagement/editOffer/${productOffer._id}`, {
-                                                        method: 'PUT',
-                                                        headers: { "Content-Type": "application/json" },
-                                                        body: JSON.stringify(formData)
-                                                    });
+                                                                try {
+                                                                    const response = await fetch(`/admin/productOfferManagement/editOffer/${productOffer._id}`, {
+                                                                        method: 'PUT',
+                                                                        headers: { "Content-Type": "application/json" },
+                                                                        body: JSON.stringify(formData)
+                                                                    });
 
-                                                    const result = await response.json();
+                                                                    const result = await response.json();
 
-                                                    if (result.success) {
-                                                        Swal.fire({
-                                                            icon: "success",
-                                                            title: "Your Product Offer has been updated",
-                                                            showConfirmButton: true,
-                                                        }).then((result) => {
-                                                            if (result.isConfirmed) {
-                                                                const urlParams = new URLSearchParams(window.location.search);
-                                                                const currentPage = urlParams.get('page') || 1;
-                                                                const bySearch = urlParams.get('bySearch') || '';
+                                                                    if (result.success) {
+                                                                        Swal.fire({
+                                                                            icon: "success",
+                                                                            title: "Your Product Offer has been updated",
+                                                                            showConfirmButton: true,
+                                                                        }).then((result) => {
+                                                                            if (result.isConfirmed) {
+                                                                                const urlParams = new URLSearchParams(window.location.search);
+                                                                                const currentPage = urlParams.get('page') || 1;
+                                                                                const bySearch = urlParams.get('bySearch') || '';
 
-                                                                const queryString = new URLSearchParams({
-                                                                    page: currentPage,
-                                                                    ...(bySearch && { bySearch })  // include bySearch only if it exists
-                                                                }).toString();
+                                                                                const queryString = new URLSearchParams({
+                                                                                    page: currentPage,
+                                                                                    ...(bySearch && { bySearch })  // include bySearch only if it exists
+                                                                                }).toString();
 
-                                                                $('#product-offers-table').load(`/admin/productManagement/product-offers-page?${queryString} #product-offers-table`);
+                                                                                $('#product-offers-table').load(`/admin/productManagement/product-offers-page?${queryString} #product-offers-table`);
 
-                                                                // window.location.reload()
-                                                                const modalElement = document.getElementById(`editModal${index}`);
-                                                                const modalInstance = bootstrap.Modal.getInstance(modalElement);
-                                                                if (modalInstance) modalInstance.hide();
+                                                                                // window.location.reload()
+                                                                                const modalElement = document.getElementById(`editModal${index}`);
+                                                                                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                                                                if (modalInstance) modalInstance.hide();
+                                                                            }
+                                                                        });
+                                                                    } else {
+                                                                        Swal.fire({
+                                                                            icon: "error",
+                                                                            title: "Failed to update the product offer",
+                                                                            text: "Please try again"
+                                                                        });
+                                                                    }
+                                                                } catch (error) {
+                                                                    console.error(error);
+                                                                    Swal.fire({
+                                                                        icon: "error",
+                                                                        title: "Failed to update the product offer",
+                                                                        text: "Please try again"
+                                                                    });
+                                                                }
                                                             }
                                                         });
-                                                    } else {
-                                                        Swal.fire({
-                                                            icon: "error",
-                                                            title: "Failed to update the product offer",
-                                                            text: "Please try again"
-                                                        });
-                                                    }
-                                                } catch (error) {
-                                                    console.error(error);
-                                                    Swal.fire({
-                                                        icon: "error",
-                                                        title: "Failed to update the product offer",
-                                                        text: "Please try again"
                                                     });
-                                                }
-                                            }
-                                        });
-                                    });
-                                });
-                            </script>
+                                                });
+                                            </script>
 
-                            <div class="row">
-                                <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-12">
 
-                                    <nav id="pagination">
-                                        <ul class="pagination">
-                                            <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-                                                <button class="page-link" onclick="loadPage('<%= page - 1 %>')"
-                                                    aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                </button>
-                                            </li>
-                                            <% for(let i=1; i <=pages; i++) { %>
-                                                <li class="page-item <%= page === i ? 'active' : '' %>">
-                                                    <button class="page-link" onclick="loadPage('<%= i %>')">
-                                                        <%= i %>
-                                                    </button>
-                                                </li>
-                                                <% } %>
-                                                    <% if (page < pages) { %>
-                                                        <li class="page-item">
-                                                            <button class="page-link"
-                                                                onclick="loadPage('<%= page + 1 %>')" aria-label="Next">
-                                                                <span aria-hidden="true">&raquo;</span>
-                                                            </button>
-                                                        </li>
-                                                        <% } %>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+                                                    <nav id="pagination">
+                                                        <ul class="pagination">
+                                                            <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+                                                                <button class="page-link"
+                                                                    onclick="loadPage('<%= page - 1 %>')"
+                                                                    aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                </button>
+                                                            </li>
+                                                            <% for(let i=1; i <=pages; i++) { %>
+                                                                <li class="page-item <%= page === i ? 'active' : '' %>">
+                                                                    <button class="page-link"
+                                                                        onclick="loadPage('<%= i %>')">
+                                                                        <%= i %>
+                                                                    </button>
+                                                                </li>
+                                                                <% } %>
+                                                                    <% if (page < pages) { %>
+                                                                        <li class="page-item">
+                                                                            <button class="page-link"
+                                                                                onclick="loadPage('<%= page + 1 %>')"
+                                                                                aria-label="Next">
+                                                                                <span aria-hidden="true">&raquo;</span>
+                                                                            </button>
+                                                                        </li>
+                                                                        <% } %>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                            <% } %>
+
 
                         </div>
-                        <% } %>
+                    </section>
+
+                </div>
 
             </div>
         </div>
