@@ -668,7 +668,7 @@
                 const productStockVal = parseInt(productStock)
 
                 if (quantityInputVal + 1 > productStockVal - presentQty - 1) {
-                    quantityInput.value = productStockVal - presentQty - 2
+                    quantityInput.value = productStockVal - presentQty - 1
                     const outOfStockModal = new bootstrap.Modal(
                         document.getElementById("outOfStockModal")
                     )
