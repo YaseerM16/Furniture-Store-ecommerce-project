@@ -670,9 +670,6 @@ const havingSingleOffer = async (
   try {
     if (availOffer === "productOffer") {
       let prodOffer = await productOfferCollection.findOne({ productName });
-      console.log("Having Single Offer :");
-      console.log("Having Percent: ", prod.productOfferPercentage);
-      console.log("Incoming Percent: ", prodOffer.productOfferPercentage);
 
       if (prod.productOfferPercentage !== prodOffer.productOfferPercentage) {
         let productPrice = Math.round(

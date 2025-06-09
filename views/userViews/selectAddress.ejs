@@ -723,6 +723,8 @@
         const currentPath = window.location.pathname + window.location.search;
         // const encodedRedirect = encodeURIComponent(currentPath);
         console.log("Current Path: ", currentPath);
+        const decodedCurr = decodeURIComponent(currentPath)
+        console.log("Decoded Current Path: ", decodedCurr);
 
         function redirectToAddAddress() {
             const currentPath = window.location.pathname + window.location.search;

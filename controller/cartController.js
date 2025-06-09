@@ -23,8 +23,6 @@ const addToCart = async (req, res, next) => {
       const qty = parseInt(req.query.quantity);
 
       const productPrice = parseInt(req.query.productPrice);
-      console.log("The updated Qty: ", presentQty + qty);
-      console.log("The updated Prc: ", (presentQty + qty) * productPrice);
 
       await cartCollection.updateOne(
         { userId: req.session.currentUser._id, productId: req.query.pid },
@@ -37,7 +35,6 @@ const addToCart = async (req, res, next) => {
       );
     } else {
       const qty = parseInt(req.query.quantity);
-      console.log("New Prod Qty: ", req.query.quantity);
 
       const productPrice = parseInt(req.query.productPrice);
       const product = {
@@ -251,7 +248,6 @@ const addressCheckOutPage = async (req, res, next) => {
     const cartData = JSON.parse(cartDataRaw);
 
     req.session.cartData = cartData;
-    console.log("CART DATA: ", req.session.cartData);
     req.session.cartTotal = req.query.grandTotal;
 
     req.session.save();
